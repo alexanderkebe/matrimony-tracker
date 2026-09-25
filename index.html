@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#172338" />
+    <meta
+      name="description"
+      content="Matrimony By Hanna — a calm, clear wedding planning and service agreement workspace."
+    />
+    <title>Matrimony By Hanna · Event Planner</title>
+    <link rel="icon" type="image/png" href="./assets/matrimony-infinity-icon.png?v=2" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-lockup">
+          <img class="brand-logo brand-logo-dark" src="./assets/matrimony-logo-transparent.png" alt="Matrimony — Leading from wedding up to matrimony" />
+        </div>
+
+        <div class="sidebar-rule"></div>
+
+        <div class="workspace-label" data-i18n="workspaceLabel">Planning workspace</div>
+        <nav class="step-nav" aria-label="Planning steps">
+          <button class="step-link is-active" type="button" data-step-target="0">
+            <span class="step-index">01</span>
+            <span class="step-copy">
+              <strong data-i18n="navDetails">Couple & event</strong>
+              <small data-i18n="navDetailsHint">Set the foundation</small>
+            </span>
+            <span class="step-state" aria-hidden="true">•</span>
+          </button>
+          <button class="step-link" type="button" data-step-target="1">
+            <span class="step-index">02</span>
+            <span class="step-copy">
+              <strong data-i18n="navServices">Services</strong>
+              <small data-i18n="navServicesHint">Choose what is agreed</small>
+            </span>
+            <span class="step-state" aria-hidden="true">•</span>
+          </button>
+          <button class="step-link" type="button" data-step-target="2">
+            <span class="step-index">03</span>
+            <span class="step-copy">
+              <strong data-i18n="navReview">Review</strong>
+              <small data-i18n="navReviewHint">Check every detail</small>
+            </span>
+            <span class="step-state" aria-hidden="true">•</span>
+          </button>
+          <button class="step-link" type="button" data-step-target="3">
+            <span class="step-index">04</span>
+            <span class="step-copy">
+              <strong data-i18n="navAgreement">Agreement</strong>
+              <small data-i18n="navAgreementHint">Print or save as PDF</small>
+            </span>
+            <span class="step-state" aria-hidden="true">•</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="service-count-card">
+            <div class="tiny-label" data-i18n="catalogLabel">SERVICE CATALOG</div>
+            <div class="service-count-number">21</div>
+            <div class="service-count-copy" data-i18n="catalogCopy">spiritual, creative & practical details ready to shape.</div>
+          </div>
+          <button class="sidebar-action" type="button" id="resetDraftButton">
+            <span aria-hidden="true">↺</span>
+            <span data-i18n="startNew">Start a new plan</span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="main-shell">
+        <header class="topbar">
+          <div class="mobile-brand">
+            <img class="mobile-logo" src="./assets/matrimony-logo-transparent.png" alt="Matrimony — Leading from wedding up to matrimony" />
+          </div>
+          <div class="topbar-right">
+            <div class="save-state" id="saveState" aria-live="polite">
+              <span class="save-dot"></span>
+              <span data-i18n="savedLocally">Saved locally</span>
+            </div>
+            <div class="language-switcher" role="group" aria-label="Language">
+              <button class="language-button is-active" type="button" data-language="en">EN</button>
+              <button class="language-button" type="button" data-language="am">አማ</button>
+            </div>
+          </div>
+        </header>
+
+        <main class="content" id="appMain">
+          <section class="step-panel is-active" id="step-details" data-step="0">
+            <div class="section-intro intro-with-stamp">
+              <div>
+                <div class="eyebrow" data-i18n="detailsEyebrow">MATRIMONY BY HANNA · WEDDING PLANNING</div>
+                <h1 data-i18n="detailsTitle">Plan the ceremony with clarity.</h1>
+                <p data-i18n="detailsDescription">
+                  Start with the people, place, and promises. Every detail you add here flows into a ready-to-sign service agreement.
+                </p>
+              </div>
+              <div class="intro-stamp" aria-hidden="true">
+                <span>21</span>
+                <small data-i18n="stampServices">services</small>
+              </div>
+            </div>
+
+            <div class="notice-bar">
+              <span class="notice-icon" aria-hidden="true">✦</span>
+              <span data-i18n="detailsNotice">A calm plan starts with the essentials. You can return and refine this at any time.</span>
+            </div>
+
+            <div class="form-layout">
+              <div class="form-card">
+                <div class="card-heading">
+                  <div>
+                    <div class="eyebrow" data-i18n="coupleEyebrow">THE COUPLE</div>
+                    <h2 data-i18n="coupleHeading">Names & contact</h2>
+                  </div>
+                  <span class="card-number">01</span>
+                </div>
+                <div class="form-grid two-columns">
+                  <label class="field">
+                    <span data-i18n="brideName">Bride’s name</span>
+                    <input id="brideName" type="text" autocomplete="name" placeholder="e.g. Hanna Alemu" data-placeholder-en="e.g. Hanna Alemu" data-placeholder-am="ለምሳሌ ሀና አለሙ" />
+                  </label>
+                  <label class="field">
+                    <span data-i18n="groomName">Groom’s name</span>
+                    <input id="groomName" type="text" autocomplete="name" placeholder="e.g. Samuel Bekele" data-placeholder-en="e.g. Samuel Bekele" data-placeholder-am="ለምሳሌ ሳሙኤል በቀለ" />
+                  </label>
+                  <label class="field">
+                    <span data-i18n="bridePhone">Bride’s phone</span>
+                    <input id="bridePhone" type="tel" autocomplete="tel" placeholder="+251 9 …" />
+                  </label>
+                  <label class="field">
+                    <span data-i18n="groomPhone">Groom’s phone</span>
+                    <input id="groomPhone" type="tel" autocomplete="tel" placeholder="+251 9 …" />
+                  </label>
+                  <label class="field field-full">
+                    <span data-i18n="brideAddress">Bride’s address</span>
+                    <input id="brideAddress" type="text" placeholder="City, neighborhood or full address" data-placeholder-en="City, neighborhood or full address" data-placeholder-am="ከተማ፣ ሰፈር ወይም ሙሉ አድራሻ" />
+                  </label>
+                  <label class="field field-full">
+                    <span data-i18n="groomAddress">Groom’s address</span>
+                    <input id="groomAddress" type="text" placeholder="City, neighborhood or full address" data-placeholder-en="City, neighborhood or full address" data-placeholder-am="ከተማ፣ ሰፈር ወይም ሙሉ አድራሻ" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-card">
+                <div class="card-heading">
+                  <div>
+                    <div class="eyebrow" data-i18n="eventEyebrow">THE EVENT</div>
+                    <h2 data-i18n="eventHeading">When & where</h2>
+                  </div>
+                  <span class="card-number">02</span>
+                </div>
+                <div class="form-grid two-columns">
+                  <label class="field">
+                    <span data-i18n="weddingDate">Wedding date</span>
+                    <input id="weddingDate" type="date" />
+                  </label>
+                  <label class="field">
+                    <span data-i18n="weddingTime">Start time</span>
+                    <input id="weddingTime" type="time" />
+                  </label>
+                  <label class="field field-full">
+                    <span data-i18n="sacredVenue">Sacred venue</span>
+                    <input id="sacredVenue" type="text" placeholder="e.g. Holy Trinity Cathedral" data-placeholder-en="e.g. Holy Trinity Cathedral" data-placeholder-am="ለምሳሌ ቅድስት ሥላሴ ካቴድራል" />
+                  </label>
+                  <label class="field field-full">
+                    <span data-i18n="receptionVenue">Reception or hall</span>
+                    <input id="receptionVenue" type="text" placeholder="Optional — venue, hotel or hall" data-placeholder-en="Optional — venue, hotel or hall" data-placeholder-am="አማራጭ — አዳራሽ ወይም ሆቴል" />
+                  </label>
+                  <label class="field field-full">
+                    <span data-i18n="eventLocation">City / location</span>
+                    <input id="eventLocation" type="text" placeholder="e.g. Addis Ababa" data-placeholder-en="e.g. Addis Ababa" data-placeholder-am="ለምሳሌ አዲስ አበባ" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-card form-card-wide">
+                <div class="card-heading">
+                  <div>
+                    <div class="eyebrow" data-i18n="financialEyebrow">FINANCIAL COMMITMENT</div>
+                    <h2 data-i18n="financialHeading">Set the agreement amount</h2>
+                  </div>
+                  <span class="card-number">03</span>
+                </div>
+                <div class="financial-grid">
+                  <label class="field money-field">
+                    <span data-i18n="totalFee">Total professional fee</span>
+                    <div class="input-with-suffix"><input id="totalFee" type="number" min="0" step="100" placeholder="0" /><span>ETB</span></div>
+                  </label>
+                  <label class="field money-field">
+                    <span data-i18n="deposit">Non-refundable deposit</span>
+                    <div class="input-with-suffix"><input id="deposit" type="number" min="0" step="100" placeholder="0" /><span>ETB</span></div>
+                  </label>
+                  <div class="balance-card">
+                    <span data-i18n="finalBalance">Final balance</span>
+                    <strong id="balanceValue">0 ETB</strong>
+                    <small data-i18n="balanceHint">Due on the wedding day</small>
+                  </div>
+                </div>
+                <label class="field field-full notes-field">
+                  <span data-i18n="generalNotes">Planning notes</span>
+                  <textarea id="generalNotes" rows="3" placeholder="Anything Hanna should know about this celebration?" data-placeholder-en="Anything Hanna should know about this celebration?" data-placeholder-am="ስለዚህ ዝግጅት ሀና ማወቅ ያለባት ነገር አለ?" ></textarea>
+                </label>
+              </div>
+            </div>
+
+            <div class="step-footer">
+              <div class="footer-note"><span class="required-dot">*</span><span data-i18n="requiredHint">Date and couple names help us build the agreement.</span></div>
+              <button class="button button-primary" type="button" data-next-step="1"><span data-i18n="continueServices">Continue to services</span><span aria-hidden="true">↗</span></button>
+            </div>
+          </section>
+
+          <section class="step-panel" id="step-services" data-step="1">
+            <div class="section-intro">
+              <div>
+                <div class="eyebrow" data-i18n="servicesEyebrow">THE AGREED SCOPE</div>
+                <h1 data-i18n="servicesTitle">Choose what belongs in the promise.</h1>
+                <p data-i18n="servicesDescription">Select a service to reveal the choices that make it specific to this couple. The agreement will include only what is selected.</p>
+              </div>
+              <div class="selected-counter" aria-live="polite"><strong id="selectedCount">0</strong><span data-i18n="selectedOf">of 21 selected</span></div>
+            </div>
+
+            <div class="service-toolbar">
+              <label class="search-field">
+                <span aria-hidden="true">⌕</span>
+                <input id="serviceSearch" type="search" placeholder="Search services" data-placeholder-en="Search services" data-placeholder-am="አገልግሎቶችን ፈልግ" />
+              </label>
+              <label class="filter-field">
+                <span class="sr-only" data-i18n="filterLabel">Filter services</span>
+                <select id="serviceFilter">
+                  <option value="all" data-i18n="filterAll">All service areas</option>
+                  <option value="spiritual" data-i18n="filterSpiritual">Spiritual & church</option>
+                  <option value="venue" data-i18n="filterVenue">Venue & atmosphere</option>
+                  <option value="hospitality" data-i18n="filterHospitality">Hospitality</option>
+                  <option value="style" data-i18n="filterStyle">Style & people</option>
+                  <option value="logistics" data-i18n="filterLogistics">Logistics & readiness</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="services-grid" id="servicesGrid"></div>
+
+            <div class="step-footer">
+              <button class="button button-quiet" type="button" data-prev-step="0"><span aria-hidden="true">←</span><span data-i18n="back">Back</span></button>
+              <button class="button button-primary" type="button" data-next-step="2"><span data-i18n="reviewPlan">Review the plan</span><span aria-hidden="true">↗</span></button>
+            </div>
+          </section>
+
+          <section class="step-panel" id="step-review" data-step="2">
+            <div class="section-intro">
+              <div>
+                <div class="eyebrow" data-i18n="reviewEyebrow">A LAST LOOK</div>
+                <h1 data-i18n="reviewTitle">Does this feel like your plan?</h1>
+                <p data-i18n="reviewDescription">Review the couple, event, financial commitment, and the exact services that will appear in the agreement.</p>
+              </div>
+              <div class="review-seal" aria-hidden="true"><span>MH</span><small data-i18n="reviewReady">ready to sign</small></div>
+            </div>
+            <div class="review-grid">
+              <div class="review-card" id="reviewPeople"></div>
+              <div class="review-card" id="reviewEvent"></div>
+              <div class="review-card review-card-wide" id="reviewFinancial"></div>
+              <div class="review-card review-card-wide" id="reviewServices"></div>
+            </div>
+            <div class="step-footer">
+              <button class="button button-quiet" type="button" data-prev-step="1"><span aria-hidden="true">←</span><span data-i18n="editServices">Edit services</span></button>
+              <button class="button button-primary" type="button" data-next-step="3"><span data-i18n="generateAgreement">Generate agreement</span><span aria-hidden="true">↗</span></button>
+            </div>
+          </section>
+
+          <section class="step-panel" id="step-agreement" data-step="3">
+            <div class="agreement-toolbar no-print">
+              <div>
+                <div class="eyebrow" data-i18n="agreementEyebrow">THE DOCUMENT</div>
+                <h1 data-i18n="agreementTitle">Your service agreement.</h1>
+                <p data-i18n="agreementDescription">A clear record of what Matrimony By Hanna and the couple have agreed to.</p>
+              </div>
+              <div class="agreement-actions">
+                <button class="button button-quiet" type="button" data-prev-step="2"><span aria-hidden="true">←</span><span data-i18n="backToReview">Back to review</span></button>
+                <button class="button button-primary" type="button" id="printAgreementButton"><span aria-hidden="true">⤓</span><span data-i18n="printPdf">Print / save PDF</span></button>
+              </div>
+            </div>
+            <div id="agreementDocument" class="agreement-document"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
