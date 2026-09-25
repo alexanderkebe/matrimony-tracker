@@ -377,9 +377,10 @@ h2 { margin-bottom: 0; color: var(--ink); font-family: var(--serif); font-size: 
 /* Real image content is printed even when background graphics are disabled. */
 .agreement-document { overflow-x: auto; }
 .agreement-paper.letterhead-sheet { width: 794px; max-width: none; height: 1123px; min-height: 0; padding: 112px 56px 126px; margin: 0 auto 24px; isolation: isolate; }
-.letterhead-art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+.letterhead-art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.letterhead-values, .sheet-content, .sheet-number { z-index: 1; }
 .letterhead-values { position: absolute; top: 49px; left: 578px; width: 181px; display: grid; gap: 3px; font-size: 10px; line-height: 16px; color: #010101; }
-.sheet-content { height: 100%; display: flow-root; }
+.sheet-content { position: relative; height: 100%; display: flow-root; }
 .sheet-number { position: absolute; bottom: 34px; left: 56px; font-size: 9px; color: #666; }
 .sheet-content > :first-child { margin-top: 0; }
 .sheet-content .agreement-title { font-size: 34px; }
@@ -388,7 +389,8 @@ h2 { margin-bottom: 0; color: var(--ink); font-family: var(--serif); font-size: 
 .sheet-content .agreed-services { background: rgba(220,219,219,.22); border-color: #010101; }
 .sheet-content .agreement-kicker, .sheet-content .agreement-title span, .sheet-content li::marker { color: #010101; }
 @media print {
-  body.print-mode .agreement-paper.letterhead-sheet { width: 210mm !important; height: 297mm !important; padding: 29.63mm 14.81mm 33.33mm !important; margin: 0 !important; break-after: page; break-inside: avoid; overflow: hidden; }
+  body.print-mode .step-panel { animation: none !important; opacity: 1 !important; transform: none !important; }
+  body.print-mode .agreement-paper.letterhead-sheet { width: 210mm !important; height: 296.8mm !important; padding: 29.63mm 14.81mm 33.13mm !important; margin: 0 !important; break-after: page; break-inside: avoid; overflow: hidden; }
   body.print-mode .agreement-paper.letterhead-sheet:last-child { break-after: auto; }
   body.print-mode .agreement-document { overflow: visible; }
   body.print-mode .letterhead-art { display: block !important; }
