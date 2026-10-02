@@ -12,6 +12,19 @@ const copy = {
     navReviewHint: "Check every detail",
     navAgreement: "Agreement",
     navAgreementHint: "Print or save as PDF",
+    navRecords: "Records",
+    navRecordsHint: "Find saved couples",
+    recordsEyebrow: "THE COUPLES",
+    recordsTitle: "Saved records.",
+    recordsDescription: "Find a couple by first name and reopen their complete plan.",
+    searchRecords: "Search bride or groom",
+    saveRecord: "Save record",
+    openRecord: "Open plan",
+    recordsEmpty: "No saved records yet. Generate an agreement to add one.",
+    recordsNoMatches: "No couples match this search.",
+    recordSaved: "Couple record saved in SQLite.",
+    recordUnavailable: "Records are unavailable. Start the app with python server.py.",
+    recordOpened: "The couple’s plan is ready to edit.",
     catalogLabel: "SERVICE CATALOG",
     catalogCopy: "spiritual, creative & practical details ready to shape.",
     startNew: "Start a new plan",
@@ -143,6 +156,19 @@ const copy = {
     navReviewHint: "ሁሉንም ዝርዝር ይመልከቱ",
     navAgreement: "ስምምነት",
     navAgreementHint: "ለማተም ወይም PDF",
+    navRecords: "መዝገቦች",
+    navRecordsHint: "የተቀመጡ ጥንዶችን ፈልጉ",
+    recordsEyebrow: "ጥንዶቹ",
+    recordsTitle: "የተቀመጡ መዝገቦች።",
+    recordsDescription: "በስም ፈልጉ እና ሙሉ እቅዳቸውን ይክፈቱ።",
+    searchRecords: "የሙሽራዋን ወይም የሙሽራውን ስም ፈልጉ",
+    saveRecord: "መዝገብ አስቀምጥ",
+    openRecord: "እቅድ ክፈት",
+    recordsEmpty: "እስካሁን መዝገብ የለም። ስምምነት ፍጠሩ።",
+    recordsNoMatches: "ከፍለጋው ጋር የሚዛመድ መዝገብ የለም።",
+    recordSaved: "የጥንዶቹ መዝገብ በSQLite ተቀምጧል።",
+    recordUnavailable: "መዝገቦቹ አይገኙም። python server.py በማስኬድ ይጀምሩ።",
+    recordOpened: "የጥንዶቹ እቅድ ለማሻሻል ዝግጁ ነው።",
     catalogLabel: "የአገልግሎት ዝርዝር",
     catalogCopy: "መንፈሳዊ፣ የፈጠራ እና ተግባራዊ ዝርዝሮች።",
     startNew: "አዲስ እቅድ ይጀምሩ",
@@ -524,12 +550,15 @@ const state = {
   currentStep: 0,
   serviceSearch: "",
   serviceFilter: "all",
+  recordId: null,
+  records: [],
   details: {},
   services: {}
 };
 
 let saveTimer;
 let toastTimer;
+let savingRecord = false;
 
 function t(key) {
   return (copy[state.lang] && copy[state.lang][key]) || copy.en[key] || key;
@@ -608,6 +637,7 @@ function applyLocalization() {
   renderServices();
   renderReview();
   if (state.currentStep === 3) renderAgreement();
+  if (state.currentStep === 4) renderRecords();
   updateBalance();
 }
 
@@ -618,6 +648,7 @@ function loadDraft() {
     state.lang = saved.lang === "am" ? "am" : "en";
     state.details = saved.details || {};
     state.services = saved.services || {};
+    state.recordId = Number.isInteger(saved.recordId) ? saved.recordId : null;
     fieldIds.forEach((id) => {
       const element = document.getElementById(id);
       if (element && state.details[id] !== undefined) element.value = state.details[id];
@@ -634,7 +665,7 @@ function saveDraft() {
   saveState?.classList.add("is-saving");
   saveTimer = setTimeout(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ lang: state.lang, details: state.details, services: state.services, savedAt: new Date().toISOString() }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ lang: state.lang, details: state.details, services: state.services, recordId: state.recordId, savedAt: new Date().toISOString() }));
       saveState?.classList.remove("is-saving");
       if (saveState) saveState.querySelector("span:last-child").textContent = t("savedLocally");
     } catch (error) {
@@ -904,6 +935,85 @@ function paginateAgreement(container, reference, date) {
   }
 }
 
+async function recordsRequest(path, options) {
+  const response = await fetch(`/api/records${path}`, {
+    ...options,
+    headers: { "Content-Type": "application/json", ...(options?.headers || {}) }
+  });
+  let result;
+  try { result = await response.json(); } catch { throw new Error(t("recordUnavailable")); }
+  if (!response.ok) throw new Error(result.error || t("recordUnavailable"));
+  return result;
+}
+
+function renderRecords() {
+  const list = document.getElementById("recordsList");
+  if (!list) return;
+  document.getElementById("recordsCount").textContent = state.records.length;
+  const query = document.getElementById("recordsSearch")?.value.trim().toLocaleLowerCase() || "";
+  const matches = state.records.filter(record =>
+    `${record.bride_first_name} ${record.groom_first_name}`.toLocaleLowerCase().includes(query));
+  if (!matches.length) {
+    list.innerHTML = `<div class="records-empty">${escapeHtml(t(state.records.length ? "recordsNoMatches" : "recordsEmpty"))}</div>`;
+    return;
+  }
+  list.innerHTML = matches.map(record => `<article class="record-card">
+    <div class="record-mark" aria-hidden="true">∞</div>
+    <div class="record-main"><h2>${escapeHtml(record.bride_first_name)} <span>&amp;</span> ${escapeHtml(record.groom_first_name)}</h2>
+      <p>${escapeHtml(t("weddingDate"))}: ${escapeHtml(formatDate(record.wedding_date))}</p></div>
+    <button class="button button-quiet" type="button" data-open-record="${record.id}">${escapeHtml(t("openRecord"))} <span aria-hidden="true">↗</span></button>
+  </article>`).join("");
+}
+
+async function loadRecords() {
+  const list = document.getElementById("recordsList");
+  list.innerHTML = `<div class="records-empty">${escapeHtml(state.lang === "am" ? "በመጫን ላይ…" : "Loading records…")}</div>`;
+  try {
+    state.records = (await recordsRequest("")).records;
+    renderRecords();
+  } catch (error) {
+    list.innerHTML = `<div class="records-empty">${escapeHtml(t("recordUnavailable"))}</div>`;
+  }
+}
+
+async function saveRecord() {
+  if (savingRecord || !validateBeforeAgreement()) return;
+  savingRecord = true;
+  const button = document.getElementById("saveRecordButton");
+  button.disabled = true;
+  try {
+    const id = state.recordId;
+    const result = await recordsRequest(id ? `/${id}` : "", {
+      method: id ? "PUT" : "POST",
+      body: JSON.stringify({ lang: state.lang, details: state.details, services: state.services })
+    });
+    state.recordId = result.id;
+    saveDraft();
+    showToast(t("recordSaved"));
+  } catch (error) {
+    showToast(error.message || t("recordUnavailable"));
+  } finally {
+    button.disabled = false;
+    savingRecord = false;
+  }
+}
+
+async function openRecord(id) {
+  try {
+    const result = await recordsRequest(`/${id}`);
+    state.recordId = result.id;
+    state.lang = result.plan.lang === "am" ? "am" : "en";
+    state.details = result.plan.details || {};
+    state.services = result.plan.services || {};
+    fieldIds.forEach(field => { document.getElementById(field).value = state.details[field] ?? ""; });
+    applyLocalization();
+    setStep(0);
+    showToast(t("recordOpened"));
+  } catch (error) {
+    showToast(error.message || t("recordUnavailable"));
+  }
+}
+
 function setStep(step) {
   syncDetailsFromForm();
   state.currentStep = Number(step);
@@ -919,7 +1029,9 @@ function setStep(step) {
     renderReview();
     renderAgreement();
     showToast(t("agreementGenerated"));
+    saveRecord();
   }
+  if (state.currentStep === 4) loadRecords();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -971,6 +1083,7 @@ function clearDraft() {
   localStorage.removeItem(STORAGE_KEY);
   state.details = {};
   state.services = {};
+  state.recordId = null;
   fieldIds.forEach((id) => { const element = document.getElementById(id); if (element) element.value = ""; });
   updateBalance();
   renderServices();
@@ -996,6 +1109,11 @@ function bindEvents() {
       state.lang = languageButton.dataset.language === "am" ? "am" : "en";
       applyLocalization();
       saveDraft();
+      return;
+    }
+    const recordButton = event.target.closest("[data-open-record]");
+    if (recordButton) {
+      openRecord(Number(recordButton.dataset.openRecord));
       return;
     }
     const toggle = event.target.closest("[data-service-toggle]");
@@ -1028,6 +1146,11 @@ function bindEvents() {
     }
     if (event.target.closest("#printAgreementButton")) {
       printAgreement();
+      return;
+    }
+    if (event.target.closest("#saveRecordButton")) {
+      saveRecord();
+      return;
     }
   });
 
@@ -1036,6 +1159,10 @@ function bindEvents() {
     if (target.id === "serviceSearch") {
       state.serviceSearch = target.value;
       renderServices();
+      return;
+    }
+    if (target.id === "recordsSearch") {
+      renderRecords();
       return;
     }
     if (target.matches("[data-service-notes]")) {

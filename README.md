@@ -7,7 +7,8 @@ A standalone, bilingual wedding planning workspace for Matrimony By Hanna.
 - Collects couple details, contact information, event details, venue information, and ETB financial commitments.
 - Includes all 21 services from the provided planning list.
 - Lets the planner turn each service on or off and choose service-specific options for each couple.
-- Saves the current draft locally in the browser.
+- Saves the current draft locally in the browser and completed plans in SQLite.
+- Lists saved couples by the bride's and groom's first names, with search and reopening of the full plan.
 - Supports English and Amharic UI/content labels.
 - Generates a print-ready agreement containing only the chosen services and selections.
 - Uses the supplied Helvetica, Benaiah, Ethiopic Sadiss, and letterhead assets from `assets/`.
@@ -16,13 +17,15 @@ A standalone, bilingual wedding planning workspace for Matrimony By Hanna.
 
 ## Run locally
 
-The app has no build step and no package dependencies. Open `index.html` directly, or run a small local server from this folder:
+The app has no build step or third-party packages. Python 3 is required for SQLite records. Start it from this folder:
 
 ```powershell
-py -m http.server 4173
+py server.py --port 4173
 ```
 
 Then open `http://localhost:4173`.
+
+Generating an agreement saves or updates the couple's record. The **Records** tab shows each couple by first name; open one to edit its full details and services. **Save record** on the agreement screen also saves edits. Starting a new plan clears the working draft but keeps previous records. Records are stored in `data/matrimony.sqlite3` on this computer and are excluded from Git. Back up that file to preserve records. Opening `index.html` directly does not provide SQLite records.
 
 To create a PDF, complete the plan, select **Generate agreement**, then choose **Print / save PDF**. In the browser print dialog, choose **Save as PDF**, A4, and disable browser headers and footers. The supplied letterhead is embedded as a printable image on every page; background graphics are not required. Fonts and images finish loading before printing.
 

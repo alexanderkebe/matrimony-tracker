@@ -376,6 +376,19 @@ h2 { margin-bottom: 0; color: var(--ink); font-family: var(--serif); font-size: 
 
 /* Real image content is printed even when background graphics are disabled. */
 .agreement-document { overflow-x: auto; }
+.records-search-wrap { display: grid; gap: 9px; max-width: 410px; margin-bottom: 25px; }
+.records-search-wrap label { color: var(--muted); font-size: 11px; font-weight: 700; }
+.records-search-wrap input { width: 100%; padding: 13px 16px; border: 1px solid var(--line-dark); border-radius: 8px; background: #fff; color: var(--ink); }
+.records-count { display: grid; place-items: center; min-width: 68px; height: 68px; padding: 10px; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: #fff; font-family: var(--serif); font-size: 29px; }
+.records-list { display: grid; gap: 11px; }
+.record-card { display: flex; align-items: center; gap: 18px; padding: 20px 22px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: var(--shadow-soft); }
+.record-mark { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; color: #fff; background: var(--ink); font-size: 24px; line-height: 1; }
+.record-main { min-width: 0; flex: 1; }
+.record-main h2 { margin: 0 0 3px; overflow-wrap: anywhere; font-family: var(--serif); font-size: 23px; font-weight: 600; }
+.record-main h2 span { color: var(--muted); font-size: 16px; }
+.record-main p { margin: 0; color: var(--muted); font-size: 11px; }
+.records-empty { padding: 30px; border: 1px dashed var(--line-dark); border-radius: 10px; color: var(--muted); background: #fff; font-size: 12px; text-align: center; }
+@media (max-width: 700px) { .record-card { flex-wrap: wrap; } .record-card .button { width: 100%; justify-content: center; } }
 .agreement-paper.letterhead-sheet { width: 794px; max-width: none; height: 1123px; min-height: 0; padding: 112px 56px 126px; margin: 0 auto 24px; isolation: isolate; }
 .letterhead-art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
 .letterhead-values, .sheet-content, .sheet-number { z-index: 1; }

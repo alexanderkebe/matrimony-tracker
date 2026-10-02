@@ -61,6 +61,14 @@
             </span>
             <span class="step-state" aria-hidden="true">•</span>
           </button>
+          <button class="step-link" type="button" data-step-target="4">
+            <span class="step-index">05</span>
+            <span class="step-copy">
+              <strong data-i18n="navRecords">Records</strong>
+              <small data-i18n="navRecordsHint">Find saved couples</small>
+            </span>
+            <span class="step-state" aria-hidden="true">•</span>
+          </button>
         </nav>
 
         <div class="sidebar-bottom">
@@ -285,10 +293,26 @@
               </div>
               <div class="agreement-actions">
                 <button class="button button-quiet" type="button" data-prev-step="2"><span aria-hidden="true">←</span><span data-i18n="backToReview">Back to review</span></button>
+                <button class="button button-quiet" type="button" id="saveRecordButton"><span aria-hidden="true">✓</span><span data-i18n="saveRecord">Save record</span></button>
                 <button class="button button-primary" type="button" id="printAgreementButton"><span aria-hidden="true">⤓</span><span data-i18n="printPdf">Print / save PDF</span></button>
               </div>
             </div>
             <div id="agreementDocument" class="agreement-document"></div>
+          </section>
+          <section class="step-panel" id="step-records" data-step="4">
+            <div class="section-intro">
+              <div>
+                <div class="eyebrow" data-i18n="recordsEyebrow">THE COUPLES</div>
+                <h1 data-i18n="recordsTitle">Saved records.</h1>
+                <p data-i18n="recordsDescription">Find a couple by first name and reopen their complete plan.</p>
+              </div>
+              <div class="records-count" id="recordsCount">0</div>
+            </div>
+            <div class="records-search-wrap">
+              <label for="recordsSearch" data-i18n="searchRecords">Search bride or groom</label>
+              <input id="recordsSearch" type="search" autocomplete="off" data-placeholder-en="Search by first name" data-placeholder-am="በስም ፈልግ" placeholder="Search by first name" />
+            </div>
+            <div class="records-list" id="recordsList" aria-live="polite"></div>
           </section>
         </main>
       </div>
