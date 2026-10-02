@@ -12,6 +12,28 @@ const copy = {
     navReviewHint: "Check every detail",
     navAgreement: "Agreement",
     navAgreementHint: "Print or save as PDF",
+    navProforma: "Proforma",
+    navProformaHint: "Review the quotation",
+    eventDays: "Number of event days",
+    servicePrice: "Agreed price",
+    priceAutoHint: "Calculated from selected service prices once all are entered.",
+    viewProforma: "View proforma",
+    proformaEyebrow: "THE QUOTATION",
+    proformaTitle: "Your proforma.",
+    proformaDescription: "A clear, itemized quotation for the couple’s celebration.",
+    backToAgreement: "Agreement",
+    printProforma: "Print proforma PDF",
+    proformaDocumentTitle: "Proforma",
+    proformaPreparedFor: "Prepared for",
+    proformaScope: "Selected services",
+    proformaService: "Service and agreed details",
+    proformaAmount: "Price (ETB)",
+    proformaTotal: "Total quoted price",
+    proformaDeposit: "Planned deposit",
+    proformaBalance: "Balance after deposit",
+    proformaThanks: "Thank you for choosing Matrimony By Hanna. It is a privilege to be part of your celebration, and we look forward to caring for every detail with you.",
+    proformaNote: "This proforma summarizes the requested services and prices. The signed service agreement sets out the final terms.",
+    proformaDetailsRequired: "Enter the number of event days and an agreed price for every selected service before opening the proforma.",
     navRecords: "Records",
     navRecordsHint: "Find saved couples",
     recordsEyebrow: "THE COUPLES",
@@ -156,6 +178,28 @@ const copy = {
     navReviewHint: "ሁሉንም ዝርዝር ይመልከቱ",
     navAgreement: "ስምምነት",
     navAgreementHint: "ለማተም ወይም PDF",
+    navProforma: "ፕሮፎርማ",
+    navProformaHint: "የዋጋ ጥቅሱን ይመልከቱ",
+    eventDays: "የዝግጅቱ ቀናት ብዛት",
+    servicePrice: "የተስማሙበት ዋጋ",
+    priceAutoHint: "ለሁሉም የተመረጡ አገልግሎቶች ዋጋ ሲገባ ጠቅላላው በራሱ ይሰላል።",
+    viewProforma: "ፕሮፎርማን ይመልከቱ",
+    proformaEyebrow: "የዋጋ ጥቅስ",
+    proformaTitle: "የእርስዎ ፕሮፎርማ።",
+    proformaDescription: "ለጥንዶቹ ዝግጅት ዝርዝር የዋጋ ጥቅስ።",
+    backToAgreement: "ስምምነት",
+    printProforma: "ፕሮፎርማ PDF አትም",
+    proformaDocumentTitle: "ፕሮፎርማ",
+    proformaPreparedFor: "የተዘጋጀላቸው",
+    proformaScope: "የተመረጡ አገልግሎቶች",
+    proformaService: "አገልግሎት እና የተስማሙበት ዝርዝር",
+    proformaAmount: "ዋጋ (ETB)",
+    proformaTotal: "ጠቅላላ ዋጋ",
+    proformaDeposit: "የታቀደ ቅድመ ክፍያ",
+    proformaBalance: "ከቅድመ ክፍያ በኋላ ቀሪ",
+    proformaThanks: "ማትሪሞኒ በሀናን ስለመረጡ እናመሰግናለን። የደስታ ቀናችሁ አካል መሆን ለእኛ ክብር ነው፤ ሁሉንም ዝርዝር በጥንቃቄ እናስተባብራለን።",
+    proformaNote: "ይህ ፕሮፎርማ የተመረጡ አገልግሎቶችን እና ዋጋዎችን ያጠቃልላል። የመጨረሻ ውሎች በተፈረመው ስምምነት ይገለጻሉ።",
+    proformaDetailsRequired: "ፕሮፎርማውን ከመክፈትዎ በፊት የዝግጅቱን ቀናት እና የተመረጡ አገልግሎቶችን ዋጋ ያስገቡ።",
     navRecords: "መዝገቦች",
     navRecordsHint: "የተቀመጡ ጥንዶችን ፈልጉ",
     recordsEyebrow: "ጥንዶቹ",
@@ -543,7 +587,7 @@ const groupLabels = {
   am: { spiritual: "መንፈሳዊ እና ቤተ-ክርስቲያን", venue: "ቦታ እና ድባብ", hospitality: "እንግዳ አቀባበል", style: "ውበት እና ሰዎች", logistics: "ዝግጅት እና አስተዳደር" }
 };
 
-const fieldIds = ["brideName", "bridePhone", "brideAddress", "groomName", "groomPhone", "groomAddress", "weddingDate", "weddingTime", "sacredVenue", "receptionVenue", "eventLocation", "totalFee", "deposit", "generalNotes"];
+const fieldIds = ["brideName", "bridePhone", "brideAddress", "groomName", "groomPhone", "groomAddress", "weddingDate", "weddingTime", "eventDays", "sacredVenue", "receptionVenue", "eventLocation", "totalFee", "deposit", "generalNotes"];
 
 const state = {
   lang: "en",
@@ -580,7 +624,7 @@ function escapeHtml(value) {
 
 function formatMoney(value) {
   const amount = Number(value) || 0;
-  return `${new Intl.NumberFormat(state.lang === "am" ? "am-ET" : "en-ET", { maximumFractionDigits: 0 }).format(amount)} ETB`;
+  return `${new Intl.NumberFormat(state.lang === "am" ? "am-ET" : "en-ET", { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(amount)} ETB`;
 }
 
 function formatDate(value) {
@@ -605,8 +649,25 @@ function dateInputValue(date = new Date()) {
 }
 
 function getServiceState(serviceId) {
-  if (!state.services[serviceId]) state.services[serviceId] = { selected: false, options: {}, notes: "" };
+  if (!state.services[serviceId]) state.services[serviceId] = { selected: false, options: {}, notes: "", price: "" };
   return state.services[serviceId];
+}
+
+function hasValidPrice(value) {
+  return value !== "" && value !== null && value !== undefined && Number.isFinite(Number(value)) && Number(value) >= 0;
+}
+
+function reconcileServiceTotal() {
+  const selected = selectedServices();
+  const allPriced = selected.length > 0 && selected.every(service => hasValidPrice(getServiceState(service.id).price));
+  const totalInput = document.getElementById("totalFee");
+  if (totalInput) totalInput.readOnly = allPriced;
+  if (allPriced) {
+    const total = selected.reduce((sum, service) => sum + Math.round(Number(getServiceState(service.id).price) * 100), 0) / 100;
+    state.details.totalFee = String(total);
+    if (totalInput) totalInput.value = String(total);
+  }
+  updateBalance();
 }
 
 function defaultOptionValue(option) {
@@ -637,7 +698,8 @@ function applyLocalization() {
   renderServices();
   renderReview();
   if (state.currentStep === 3) renderAgreement();
-  if (state.currentStep === 4) renderRecords();
+  if (state.currentStep === 4) renderProforma();
+  if (state.currentStep === 5) renderRecords();
   updateBalance();
 }
 
@@ -647,6 +709,7 @@ function loadDraft() {
     if (!saved) return;
     state.lang = saved.lang === "am" ? "am" : "en";
     state.details = saved.details || {};
+    if (!state.details.eventDays) state.details.eventDays = "1";
     state.services = saved.services || {};
     state.recordId = Number.isInteger(saved.recordId) ? saved.recordId : null;
     fieldIds.forEach((id) => {
@@ -745,6 +808,7 @@ function renderServiceCard(service) {
     </div>
     <div class="service-options">
       <div class="options-grid">${options}</div>
+      <label class="service-option is-wide service-price-field"><span class="service-option-label">${escapeHtml(t("servicePrice"))} · ETB</span><input type="number" min="0" step="0.01" inputmode="decimal" data-service-price="${service.id}" value="${escapeHtml(serviceState.price ?? "")}" placeholder="0.00" /></label>
       <label class="service-option is-wide" style="margin-top:12px"><span class="service-option-label">${escapeHtml(t("serviceNotes"))}</span><textarea rows="2" data-service-notes="${service.id}" placeholder="${escapeHtml(t("serviceNotesPlaceholder"))}">${escapeHtml(serviceState.notes || "")}</textarea></label>
     </div>
   </article>`;
@@ -763,6 +827,7 @@ function renderServices() {
   const count = selectedServices().length;
   const selectedCount = document.getElementById("selectedCount");
   if (selectedCount) selectedCount.textContent = String(count);
+  reconcileServiceTotal();
 }
 
 function serviceOptionSummary(service) {
@@ -802,14 +867,15 @@ function renderReview() {
   const reviewServices = document.getElementById("reviewServices");
   if (!people || !event || !financial || !reviewServices) return;
   people.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("people"))}</h3><span>01</span></div><div class="review-lines">${reviewLine(t("brideName"), details.brideName)}${reviewLine(t("groomName"), details.groomName)}${reviewLine(t("bridePhone"), details.bridePhone)}${reviewLine(t("groomPhone"), details.groomPhone)}</div>`;
-  event.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("event"))}</h3><span>02</span></div><div class="review-lines">${reviewLine(t("weddingDate"), formatDate(details.weddingDate))}${reviewLine(t("weddingTime"), formatTime(details.weddingTime))}${reviewLine(t("sacredVenue"), details.sacredVenue)}${reviewLine(t("receptionVenue"), details.receptionVenue || t("notSet"))}${reviewLine(t("eventLocation"), details.eventLocation || t("notSet"))}</div>`;
+  event.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("event"))}</h3><span>02</span></div><div class="review-lines">${reviewLine(t("weddingDate"), formatDate(details.weddingDate))}${reviewLine(t("eventDays"), details.eventDays || "1")}${reviewLine(t("weddingTime"), formatTime(details.weddingTime))}${reviewLine(t("sacredVenue"), details.sacredVenue)}${reviewLine(t("receptionVenue"), details.receptionVenue || t("notSet"))}${reviewLine(t("eventLocation"), details.eventLocation || t("notSet"))}</div>`;
   const total = Number(details.totalFee) || 0;
   const deposit = Number(details.deposit) || 0;
   financial.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("financial"))}</h3><span>03</span></div><div class="review-financial"><div class="review-number"><span>${escapeHtml(t("total"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div><div class="review-number"><span>${escapeHtml(t("depositLabel"))}</span><strong>${escapeHtml(formatMoney(deposit))}</strong></div><div class="review-number"><span>${escapeHtml(t("balanceLabel"))}</span><strong>${escapeHtml(formatMoney(Math.max(total - deposit, 0)))}</strong></div></div>${details.generalNotes ? `<div class="review-lines" style="margin-top:14px">${reviewLine(t("reviewNotes"), details.generalNotes)}</div>` : ""}`;
   const selected = selectedServices();
   const serviceItems = selected.map((service) => {
     const summary = serviceOptionSummary(service);
-    return `<li><div><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}</div></li>`;
+    const price = getServiceState(service.id).price;
+    return `<li><div><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}${hasValidPrice(price) ? `<small>${escapeHtml(formatMoney(price))}</small>` : ""}</div></li>`;
   }).join("");
   reviewServices.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("agreedServices"))}</h3><span>${selected.length} / 21</span></div>${selected.length ? `<ul class="review-services-list">${serviceItems}</ul>` : `<div class="review-empty">${escapeHtml(t("noServices"))}</div>`}`;
 }
@@ -852,6 +918,7 @@ function renderAgreement() {
     <div class="agreement-meta">
       <div><div class="doc-label">${escapeHtml(t("agreementDate"))}</div><div class="doc-value">${escapeHtml(agreementDate)}</div></div>
       <div><div class="doc-label">${escapeHtml(t("weddingDateAgreement"))}</div><div class="doc-value">${escapeHtml(formatDate(d.weddingDate))}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("eventDays"))}</div><div class="doc-value">${escapeHtml(d.eventDays || "1")}</div></div>
     </div>
     <div class="party-grid">
       <div><div class="doc-label">${escapeHtml(t("brideName"))}</div><div class="doc-value">${detail(d.brideName, "____________________________")}</div></div>
@@ -889,24 +956,92 @@ function renderAgreement() {
   paginateAgreement(container, referenceNumber, agreementDate);
 }
 
+function renderProforma() {
+  const container = document.getElementById("proformaDocument");
+  if (!container) return;
+  const details = state.details;
+  const selected = selectedServices();
+  const total = selected.reduce((sum, service) => sum + Math.round((Number(getServiceState(service.id).price) || 0) * 100), 0) / 100;
+  const deposit = Math.min(Math.max(Number(details.deposit) || 0, 0), total);
+  const issueDate = formatDate(dateInputValue());
+  const reference = `MBH-PF-${state.recordId || (details.weddingDate || dateInputValue()).replace(/-/g, "")}`;
+  const serviceRows = selected.map((service) => {
+    const summary = serviceOptionSummary(service);
+    const price = getServiceState(service.id).price;
+    return `<li class="proforma-item"><div><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}</div><b>${hasValidPrice(price) ? escapeHtml(formatMoney(price)) : "—"}</b></li>`;
+  }).join("");
+  container.innerHTML = `<article class="agreement-paper proforma-paper">
+    <div class="agreement-kicker">MATRIMONY BY HANNA · ${escapeHtml(t("proformaEyebrow"))}</div>
+    <h2 class="agreement-title">${escapeHtml(t("proformaDocumentTitle"))}<span>${escapeHtml(t("proformaDescription"))}</span></h2>
+    <div class="proforma-couple"><div class="doc-label">${escapeHtml(t("proformaPreparedFor"))}</div><strong>${detail(details.brideName)} <span>&amp;</span> ${detail(details.groomName)}</strong></div>
+    <div class="proforma-facts">
+      <div><div class="doc-label">${escapeHtml(t("weddingDate"))}</div><div class="doc-value">${escapeHtml(formatDate(details.weddingDate))}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("eventDays"))}</div><div class="doc-value">${escapeHtml(details.eventDays || "1")}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("eventLocation"))}</div><div class="doc-value">${detail(details.eventLocation)}</div></div>
+    </div>
+    <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3><div class="proforma-table-head"><span>${escapeHtml(t("proformaService"))}</span><span>${escapeHtml(t("proformaAmount"))}</span></div><ul class="proforma-service-list">${serviceRows}</ul></section>
+    <section class="proforma-totals">
+      <div><span>${escapeHtml(t("proformaTotal"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div>
+      ${deposit ? `<div><span>${escapeHtml(t("proformaDeposit"))}</span><strong>${escapeHtml(formatMoney(deposit))}</strong></div><div><span>${escapeHtml(t("proformaBalance"))}</span><strong>${escapeHtml(formatMoney(total - deposit))}</strong></div>` : ""}
+    </section>
+    <section class="proforma-gratitude"><h3>${escapeHtml(state.lang === "am" ? "እናመሰግናለን" : "With gratitude")}</h3><p>${escapeHtml(t("proformaThanks"))}</p></section>
+    <p class="proforma-note">${escapeHtml(t("proformaNote"))}</p>
+  </article>`;
+  paginateAgreement(container, reference, issueDate);
+}
+
 function paginateAgreement(container, reference, date) {
   const source = container.querySelector('.agreement-paper');
+  const isProforma = source.classList.contains("proforma-paper");
   source.querySelectorAll('.contract-letterhead, .contract-rule, .agreement-footer').forEach(node => node.remove());
   const blocks = Array.from(source.children);
   container.replaceChildren();
+  const printLetterhead = document.createElement('div');
+  printLetterhead.className = 'print-letterhead-fixed';
+  printLetterhead.innerHTML = `<img src="./assets/letterhead-page1.png" alt="" /><div class="print-letterhead-values"><span>${escapeHtml(reference)}</span><span>${escapeHtml(date)}</span></div>`;
+  container.append(printLetterhead);
   let body;
+  let pageNumber = 0;
   const newPage = () => {
     const page = document.createElement('article');
-    page.className = 'agreement-paper letterhead-sheet';
+    page.className = `agreement-paper letterhead-sheet${source.classList.contains("proforma-paper") ? " proforma-paper" : ""}`;
     page.innerHTML = `<img class="letterhead-art" src="./assets/letterhead-page1.png" alt="Matrimony By Hanna letterhead" />
       <div class="letterhead-values"><span>${escapeHtml(reference)}</span><span>${escapeHtml(date)}</span></div>
-      <div class="sheet-content"></div><div class="sheet-number">${container.children.length + 1}</div>`;
+      <div class="sheet-content"></div><div class="sheet-number">${++pageNumber}</div>`;
     container.append(page);
     body = page.querySelector('.sheet-content');
   };
-  const fits = () => body.scrollHeight <= body.clientHeight + 1;
+  const fits = (reserve = 0) => {
+    if (!isProforma) return body.scrollHeight <= body.clientHeight + 1;
+    const last = body.lastElementChild;
+    return !last || last.getBoundingClientRect().bottom - body.getBoundingClientRect().top <= body.clientHeight - reserve;
+  };
   newPage();
   for (const block of blocks) {
+    if (isProforma && block.querySelector('ul.proforma-service-list')) {
+      const list = block.querySelector('ul.proforma-service-list');
+      const items = Array.from(list.children);
+      list.replaceChildren();
+      body.append(block);
+      if (!fits()) {
+        block.remove();
+        newPage();
+        body.append(block);
+      }
+      let currentList = list;
+      for (const item of items) {
+        currentList.append(item);
+        if (fits(135)) continue;
+        item.remove();
+        const continuation = block.cloneNode(true);
+        continuation.querySelector('ul.proforma-service-list').replaceChildren();
+        newPage();
+        body.append(continuation);
+        currentList = continuation.querySelector('ul.proforma-service-list');
+        currentList.append(item);
+      }
+      continue;
+    }
     body.append(block);
     if (fits()) continue;
     block.remove();
@@ -1004,6 +1139,7 @@ async function openRecord(id) {
     state.recordId = result.id;
     state.lang = result.plan.lang === "am" ? "am" : "en";
     state.details = result.plan.details || {};
+    if (!state.details.eventDays) state.details.eventDays = "1";
     state.services = result.plan.services || {};
     fieldIds.forEach(field => { document.getElementById(field).value = state.details[field] ?? ""; });
     applyLocalization();
@@ -1031,7 +1167,11 @@ function setStep(step) {
     showToast(t("agreementGenerated"));
     saveRecord();
   }
-  if (state.currentStep === 4) loadRecords();
+  if (state.currentStep === 4) {
+    renderProforma();
+    saveRecord();
+  }
+  if (state.currentStep === 5) loadRecords();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1051,11 +1191,35 @@ function validateBeforeAgreement() {
   return true;
 }
 
+function validateBeforeProforma() {
+  if (!validateBeforeAgreement()) return false;
+  const days = Number(state.details.eventDays);
+  if (!Number.isInteger(days) || days < 1 || days > 365) {
+    showToast(t("proformaDetailsRequired"));
+    setStep(0);
+    return false;
+  }
+  if (!selectedServices().every(service => hasValidPrice(getServiceState(service.id).price))) {
+    showToast(t("proformaDetailsRequired"));
+    setStep(1);
+    return false;
+  }
+  reconcileServiceTotal();
+  return true;
+}
+
 function toggleService(serviceId) {
   const serviceState = getServiceState(serviceId);
   serviceState.selected = !serviceState.selected;
   saveDraft();
   renderServices();
+  renderReview();
+}
+
+function updateServicePrice(target) {
+  getServiceState(target.dataset.servicePrice).price = target.value;
+  reconcileServiceTotal();
+  saveDraft();
   renderReview();
 }
 
@@ -1085,6 +1249,8 @@ function clearDraft() {
   state.services = {};
   state.recordId = null;
   fieldIds.forEach((id) => { const element = document.getElementById(id); if (element) element.value = ""; });
+  document.getElementById("eventDays").value = "1";
+  state.details.eventDays = "1";
   updateBalance();
   renderServices();
   renderReview();
@@ -1092,13 +1258,26 @@ function clearDraft() {
   showToast(t("draftReset"));
 }
 
-async function printAgreement() {
+async function printDocument(kind) {
+  if (kind === "proforma" && !validateBeforeProforma()) return;
   await document.fonts.ready;
-  renderAgreement();
-  await Promise.all(Array.from(document.querySelectorAll('#agreementDocument img')).map(img => img.decode()));
+  if (kind === "proforma") renderProforma(); else renderAgreement();
+  const panel = document.getElementById(kind === "proforma" ? "step-proforma" : "step-agreement");
+  await Promise.all(Array.from(panel.querySelectorAll('.agreement-document img')).map(img => img.decode()));
+  const printLetterhead = panel.querySelector('.print-letterhead-fixed');
+  document.body.prepend(printLetterhead);
+  panel.classList.add("is-print-target");
   document.body.classList.add("print-mode");
   showToast(t("printHint"));
-  window.addEventListener('afterprint', () => document.body.classList.remove('print-mode'), { once: true });
+  const previousTitle = document.title;
+  const couple = `${state.details.brideName || "Bride"} & ${state.details.groomName || "Groom"}`;
+  document.title = `${kind === "proforma" ? "Proforma" : "Service Agreement"} - ${couple} - Matrimony By Hanna`;
+  window.addEventListener('afterprint', () => {
+    document.body.classList.remove('print-mode');
+    panel.classList.remove('is-print-target');
+    panel.querySelector('.agreement-document').prepend(printLetterhead);
+    document.title = previousTitle;
+  }, { once: true });
   window.print();
 }
 
@@ -1125,6 +1304,7 @@ function bindEvents() {
     if (next) {
       const target = Number(next.dataset.nextStep);
       if (target === 3 && !validateBeforeAgreement()) return;
+      if (target === 4 && !validateBeforeProforma()) return;
       setStep(target);
       return;
     }
@@ -1137,6 +1317,7 @@ function bindEvents() {
     if (nav) {
       const target = Number(nav.dataset.stepTarget);
       if (target === 3 && !validateBeforeAgreement()) return;
+      if (target === 4 && !validateBeforeProforma()) return;
       setStep(target);
       return;
     }
@@ -1145,7 +1326,11 @@ function bindEvents() {
       return;
     }
     if (event.target.closest("#printAgreementButton")) {
-      printAgreement();
+      printDocument("agreement");
+      return;
+    }
+    if (event.target.closest("#printProformaButton")) {
+      printDocument("proforma");
       return;
     }
     if (event.target.closest("#saveRecordButton")) {
@@ -1169,6 +1354,10 @@ function bindEvents() {
       getServiceState(target.dataset.serviceNotes).notes = target.value;
       saveDraft();
       renderReview();
+      return;
+    }
+    if (target.matches("[data-service-price]")) {
+      updateServicePrice(target);
       return;
     }
     if (target.matches("[data-service-id][data-option-id]")) {

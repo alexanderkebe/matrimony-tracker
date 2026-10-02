@@ -36,8 +36,8 @@ class RecordApiTests(unittest.TestCase):
 
     def test_create_list_open_and_update_full_plan(self):
         plan = {"lang": "am", "details": {"brideName": "ሀና አለሙ",
-                "groomName": "ሳሙኤል በቀለ", "weddingDate": "2026-12-12"},
-                "services": {"venue": {"selected": True, "options": {"type": "church"}, "notes": "ማስታወሻ"}}}
+                "groomName": "ሳሙኤል በቀለ", "weddingDate": "2026-12-12", "eventDays": "3", "totalFee": "25000"},
+                "services": {"venue": {"selected": True, "price": "25000", "options": {"type": "church"}, "notes": "ማስታወሻ"}}}
         status, saved = self.request("/api/records", "POST", plan)
         self.assertEqual(status, 201)
         record_id = saved["id"]

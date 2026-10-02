@@ -64,6 +64,14 @@
           <button class="step-link" type="button" data-step-target="4">
             <span class="step-index">05</span>
             <span class="step-copy">
+              <strong data-i18n="navProforma">Proforma</strong>
+              <small data-i18n="navProformaHint">Review the quotation</small>
+            </span>
+            <span class="step-state" aria-hidden="true">•</span>
+          </button>
+          <button class="step-link" type="button" data-step-target="5">
+            <span class="step-index">06</span>
+            <span class="step-copy">
               <strong data-i18n="navRecords">Records</strong>
               <small data-i18n="navRecordsHint">Find saved couples</small>
             </span>
@@ -177,6 +185,10 @@
                     <input id="weddingTime" type="time" />
                   </label>
                   <label class="field field-full">
+                    <span data-i18n="eventDays">Number of event days</span>
+                    <input id="eventDays" type="number" min="1" max="365" step="1" value="1" inputmode="numeric" />
+                  </label>
+                  <label class="field field-full">
                     <span data-i18n="sacredVenue">Sacred venue</span>
                     <input id="sacredVenue" type="text" placeholder="e.g. Holy Trinity Cathedral" data-placeholder-en="e.g. Holy Trinity Cathedral" data-placeholder-am="ለምሳሌ ቅድስት ሥላሴ ካቴድራል" />
                   </label>
@@ -202,11 +214,12 @@
                 <div class="financial-grid">
                   <label class="field money-field">
                     <span data-i18n="totalFee">Total professional fee</span>
-                    <div class="input-with-suffix"><input id="totalFee" type="number" min="0" step="100" placeholder="0" /><span>ETB</span></div>
+                    <div class="input-with-suffix"><input id="totalFee" type="number" min="0" step="0.01" placeholder="0" /><span>ETB</span></div>
+                    <small class="field-hint" data-i18n="priceAutoHint">Calculated from selected service prices once all are entered.</small>
                   </label>
                   <label class="field money-field">
                     <span data-i18n="deposit">Non-refundable deposit</span>
-                    <div class="input-with-suffix"><input id="deposit" type="number" min="0" step="100" placeholder="0" /><span>ETB</span></div>
+                    <div class="input-with-suffix"><input id="deposit" type="number" min="0" step="0.01" placeholder="0" /><span>ETB</span></div>
                   </label>
                   <div class="balance-card">
                     <span data-i18n="finalBalance">Final balance</span>
@@ -294,12 +307,27 @@
               <div class="agreement-actions">
                 <button class="button button-quiet" type="button" data-prev-step="2"><span aria-hidden="true">←</span><span data-i18n="backToReview">Back to review</span></button>
                 <button class="button button-quiet" type="button" id="saveRecordButton"><span aria-hidden="true">✓</span><span data-i18n="saveRecord">Save record</span></button>
+                <button class="button button-quiet" type="button" data-next-step="4"><span data-i18n="viewProforma">View proforma</span><span aria-hidden="true">↗</span></button>
                 <button class="button button-primary" type="button" id="printAgreementButton"><span aria-hidden="true">⤓</span><span data-i18n="printPdf">Print / save PDF</span></button>
               </div>
             </div>
             <div id="agreementDocument" class="agreement-document"></div>
           </section>
-          <section class="step-panel" id="step-records" data-step="4">
+          <section class="step-panel" id="step-proforma" data-step="4">
+            <div class="agreement-toolbar no-print">
+              <div>
+                <div class="eyebrow" data-i18n="proformaEyebrow">THE QUOTATION</div>
+                <h1 data-i18n="proformaTitle">Your proforma.</h1>
+                <p data-i18n="proformaDescription">A clear, itemized quotation for the couple’s celebration.</p>
+              </div>
+              <div class="agreement-actions">
+                <button class="button button-quiet" type="button" data-prev-step="3"><span aria-hidden="true">←</span><span data-i18n="backToAgreement">Agreement</span></button>
+                <button class="button button-primary" type="button" id="printProformaButton"><span aria-hidden="true">⤓</span><span data-i18n="printProforma">Print proforma PDF</span></button>
+              </div>
+            </div>
+            <div id="proformaDocument" class="agreement-document"></div>
+          </section>
+          <section class="step-panel" id="step-records" data-step="5">
             <div class="section-intro">
               <div>
                 <div class="eyebrow" data-i18n="recordsEyebrow">THE COUPLES</div>
