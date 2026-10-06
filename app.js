@@ -1,5 +1,17 @@
 const STORAGE_KEY = "matrimony-by-hanna-planning-draft-v1";
 
+// Account-holder and contract-signatory names are intentionally kept as supplied.
+const SERVICE_PROVIDER = {
+  name: "Matrimony",
+  accountHolder: "Hanna Wendemagegn Zewde",
+  bankAccounts: [
+    { bank: "CBE", number: "1000262544428" },
+    { bank: "BOA", number: "45622053" }
+  ],
+  telebirr: "0953914487",
+  signatory: { en: "Hanna Woldemariam", am: "ሃና ወልደማርያም" }
+};
+
 const copy = {
   en: {
     brandCaption: "Ceremony, beautifully considered.",
@@ -355,36 +367,42 @@ Object.assign(copy.en, {
   mediaConsentHeading: "Media and photo consent",
   mediaConsentYes: "We consent to promotional use of wedding photos and videos.",
   mediaConsentNo: "Do not post images showing our faces.",
+  agreementDocumentTitle: "Wedding & Marriage Education Service Agreement",
+  agreementIntro: "This Agreement is entered into between Matrimony (hereafter the Service Provider / Contract Provider) and the Clients whose names and information appear below (hereafter the Contract Recipients / Clients).",
   agreementParties: "Parties & Contact Information", providerDetails: "Service Provider",
   providerOffice: "Office: Yeshi Building, in front of Bole Printing, 2nd Floor, Office No. 11",
   providerPhone: "Phone: +251 95 391 4487", providerEmail: "Email: Hanna@matrimonybyhanna.com",
   providerBank: "Bank details", bankName: "Bank", bankAccountNo: "Account No.", bankAccountHolder: "Account name",
+  providerTelebirr: "Telebirr (contact)", clientDetails: "Clients / Couple",
+  contractGroomName: "Groom’s full name", contractBrideName: "Bride’s full name",
   contractScopeTitle: "Selected Services & Scope", scopePremarital: "Premarital Course",
   otherAddons: "Other agreed add-ons", noAddons: "No other add-ons selected.",
-  termsHeading: "Terms, Conditions & Service Delivery", vendorHeading: "Vendor Coordination Scope",
+  termsHeading: "Terms, Conditions & Service Delivery", vendorHeading: "Service Delivery & Vendor Coordination",
   providerResponsibilityHeading: "Service Provider Responsibilities", clientResponsibilityHeading: "Client Responsibilities",
-  vendorScope: "Matrimony by Hanna does not directly provide physical wedding items (such as decor or catering) as an in-house vendor. Instead, the Service Provider coordinates suitable new and existing vendors, assists with pricing and booking, and follows up until their agreed work is complete. For items or services sourced directly by the Clients, the Provider’s role is limited to coordination and the Provider is not responsible for third-party quality or performance.",
-  providerResponsibility: "The Service Provider will deliver the agreed services professionally, maintain appropriate standards, and protect the Clients’ confidential information.",
-  clientResponsibility: "The Clients will provide necessary information and approvals on time, complete agreed tasks promptly, and follow the payment schedule.",
+  vendorScope: "Matrimony does not supply wedding services such as decor, photography, catering or similar vendor services directly using its own equipment. Instead, the Service Provider coordinates suitable new and established vendors of appropriate quality, helps negotiate prices and arrange bookings, and follows up until their agreed work is complete. For items supplied directly by the Clients, Matrimony provides coordination only and does not take responsibility for their quality.",
+  providerResponsibility: "The Service Provider will deliver the selected services to appropriate quality standards and with professional ethics, and will protect the Clients’ information and confidential matters with the utmost care.",
+  clientResponsibility: "The Clients will respond to requests for information needed for the work on time, complete agreed tasks promptly, and comply with the payment schedule.",
   paymentTerms: "Payment Terms & Bank Details", advancePayment: "40% advance payment", advanceDue: "Upon signing and commencement",
   midtermPayment: "40% mid-term payment", midtermDue: "At the midpoint of the work",
   finalPayment: "20% final payment", finalDue: "Within 24 hours after completion",
   advanceTerms: "A non-refundable 40% advance is due when this Agreement is signed and work begins.",
   midtermTerms: "A further 40% is due at the midpoint of the planning or service work.",
   finalTerms: "The remaining 20% is due within 24 hours after the agreed work is completed.",
-  bankOnly: "Payments are made only to the Service Provider’s official bank account shown below.",
+  bankOnly: "Payments must be made only to the Service Provider’s official bank accounts listed in Section 1.",
   changesHeading: "Cancellation & Changes", scopeChanges: "If services are added or removed, the fee will be adjusted by mutual agreement.",
-  forceMajeure: "If unforeseen natural disasters or national circumstances arise, the parties will discuss a reasonable resolution together.",
+  forceMajeure: "If unforeseen natural disasters or national circumstances arise, the matter will be resolved through discussion and consultation with the Clients.",
   cancellationTerms: "If the Clients cannot proceed with the wedding, the matter will be discussed and adjusted by mutual agreement. Advance payments and expenses already incurred are non-refundable.",
   mediaTermsHeading: "Media & Photo Consent",
-  mediaTermsYes: "The Clients consent to Matrimony by Hanna using wedding-day photos and videos for promotional social-media content.",
-  mediaTermsNo: "The Clients do not consent to posting images or videos that show their faces. Matrimony by Hanna may post general event setup or decor images only.",
+  selectedOption: "Selected", unselectedOption: "Not selected",
+  mediaTermsYes: "We consent: wedding-day photos and videos may be used for Matrimony by Hanna’s promotional social-media content.",
+  mediaTermsNo: "We do not consent: content showing the couple’s faces must not be posted. Matrimony by Hanna may post photos of its own work, wedding items and the surroundings only.",
   amendmentsHeading: "Amendments & Erasures",
   amendmentsTerms: "Any erasure or handwritten change without the signatures of both parties is invalid. Amendments take effect only when both parties agree to them.",
-  signatureHeading: "Authorization & Signatures",
-  signatureIntro: "By signing below, the parties confirm that they have read and agree to the terms of this Agreement.",
+  signatureHeading: "Signatures",
+  signatureIntro: "We have understood this Agreement and accept its terms voluntarily and of our own free will.",
   clientGroomSignature: "Groom’s name and signature", clientBrideSignature: "Bride’s name and signature",
-  providerSignature: "Matrimony by Hanna · Service Provider"
+  providerSignature: "Contract Provider · Matrimony by Hanna",
+  clientSignatures: "Contract Recipients · Clients / Couple", signatureLabel: "Signature"
 });
 Object.assign(copy.am, {
   currentCouple: "የአሁኑ ጥንዶች", nextCelebration: "ቀጣዩ ዝግጅት", newPlan: "አዲስ እቅድ",
@@ -403,39 +421,45 @@ Object.assign(copy.am, {
   totalFeeRequired: "የተስማሙበትን ጠቅላላ ዋጋ ያስገቡ።",
   contractScopeEyebrow: "የውሉ ወሰን", contractScopeHeading: "የእቅድ አገልግሎቱን ይምረጡ",
   contractScopeHint: "ቅድመ-ጋብቻ ትምህርት ከታች ባለው የአገልግሎት ዝርዝር ሲመረጥ በውሉ ይካተታል።",
-  scopeFullPlanning: "ሙሉ የሰርግ እቅድ እና ማስተባበሪያ", scopeDayOf: "በሰርጉ ቀን ብቻ ማስተባበሪያ",
+  scopeFullPlanning: "ሙሉ የሰርግ ፕላኒንግ እና ማስተባበሪያ", scopeDayOf: "የሰርግ ቀን ብቻ ማስተባበሪያ",
   mediaConsentHeading: "የሚዲያ እና ፎቶ አጠቃቀም ፈቃድ",
   mediaConsentYes: "የሰርግ ፎቶዎችና ቪዲዮዎች ለማስተዋወቂያ እንዲውሉ ፈቃደኛ ነን።",
   mediaConsentNo: "ፊታችንን የሚያሳይ ምስል እንዳይለጠፍ አንፈቅድም።",
+  agreementDocumentTitle: "የሰርግ እና የጋብቻ ትምህርት አገልግሎት ውል",
+  agreementIntro: "ይህ ውል በማትሪሞኒ (ከዚህ በኋላ \"አገልግሎት ሰጪ/ውል ሰጪ\" እየተባለ የሚጠራ) እና ከዚህ በታች ስማቸው እና መረጃቸው በተገለጸው ደንበኞች (ከዚህ በኋላ \"ውል ተቀባይ/ደንበኛ\" እየተባለ የሚጠራ) መካከል የተደረገ ስምምነት ነው።",
   agreementParties: "የውሉ አካላት እና አድራሻ", providerDetails: "አገልግሎት ሰጪ",
   providerOffice: "የቢሮ አድራሻ፦ የየሺ ህንፃ፣ ከቦሌ ማተሚያ ፊት ለፊት፣ 2ኛ ፎቅ፣ ቢሮ ቁጥር 11",
   providerPhone: "ስልክ፦ +251 95 391 4487", providerEmail: "ኢሜይል፦ Hanna@matrimonybyhanna.com",
   providerBank: "የባንክ መረጃ", bankName: "ባንክ", bankAccountNo: "የሂሳብ ቁጥር", bankAccountHolder: "የሂሳቡ ስም",
+  providerTelebirr: "Telebirr (ለመገናኛ)", clientDetails: "የደንበኛ (ሙሽሮቹ) መረጃ",
+  contractGroomName: "የሙሽራው ሙሉ ስም", contractBrideName: "የሙሽሪት ሙሉ ስም",
   contractScopeTitle: "የተመረጡ አገልግሎቶች እና ወሰን", scopePremarital: "ቅድመ-ጋብቻ ትምህርት",
   otherAddons: "ሌሎች የተስማሙባቸው ተጨማሪ ሥራዎች", noAddons: "ሌላ ተጨማሪ አገልግሎት አልተመረጠም።",
-  termsHeading: "የውል አንቀጾች እና የሥራ ሂደት", vendorHeading: "የቬንደሮች አስተባባሪነት",
-  providerResponsibilityHeading: "የአገልግሎት ሰጪው ኃላፊነቶች", clientResponsibilityHeading: "የደንበኞች ኃላፊነቶች",
-  vendorScope: "ማትሪሞኒ ባይ ሃና እንደ ዲኮር ወይም ምግብ ያሉ የሰርግ ዕቃዎችን በቀጥታ በራሱ አያቀርብም። በምትኩ ተስማሚ አቅራቢዎችን ያስተባብራል፣ ዋጋ እንዲስማማ እና ቡኪንግ እንዲፈጸም ይረዳል፣ እና የተስማሙበት ሥራ እስኪጠናቀቅ ይከታተላል። ደንበኞቹ በቀጥታ ላቀረቡት ዕቃ ወይም አገልግሎት የአገልግሎት ሰጪው ሚና ማስተባበር ብቻ ነው፤ ለሶስተኛ ወገን ጥራት ወይም አፈጻጸም ኃላፊነት አይወስድም።",
-  providerResponsibility: "አገልግሎት ሰጪው የተስማሙባቸውን አገልግሎቶች በሙያዊነት ያቀርባል፣ ተገቢውን ጥራት ይጠብቃል እና የደንበኞቹን ሚስጥራዊ መረጃ ይጠብቃል።",
-  clientResponsibility: "ደንበኞቹ አስፈላጊ መረጃዎችን እና ፈቃዶችን በጊዜው ያቀርባሉ፣ የተስማሙባቸውን ሥራዎች ያከናውናሉ እና የክፍያ መርሃ ግብሩን ይከተላሉ።",
+  termsHeading: "የውል አንቀጾች እና የሥራ ሂደት", vendorHeading: "የአገልግሎት አሰጣጥ እና የቬንደሮች አስተባባሪነት",
+  providerResponsibilityHeading: "የአገልግሎት ሰጪ (ማትሪሞኒ) ግዴታዎች", clientResponsibilityHeading: "የደንበኛ (ሙሽሮቹ) ግዴታዎች",
+  vendorScope: "ማትሪሞኒ ከላይ የተዘረዘሩትን የትኛውንም አይነት የሰርግ አገልግሎቶች (እንደ ዲኮር፣ ፎቶግራፍ፣ ምግብ እና መሰል ቬንደሮችን) በቀጥታ በራሱ እቃዎች የሚያቀርብ ድርጅት አይደለም። ይልቅስ ለዚህ ስራ የሚመጥኑ፣ ጥራታቸውን የጠበቁ አዲስ እና ነባር ቬንደሮችን በማስተባበር፣ ዋጋ እንዲያስተካክሉ በማድረግ፣ ቡክ እንዲያደርጉና ስራቸውን ሰርተው እስኪጨርሱ ድረስ የመከታተል ሃላፊነት አለበት። በሙሽሮቹ በኩል በቀጥታ የሚቀርቡ ነገሮች ካሉ ድርጅቱ የማስተባበር ስራ ብቻ ይሰራል እንጂ ለጥራታቸው ሃላፊነት አይወስድም።",
+  providerResponsibility: "የተመረጡትን ሰርቪሶች በተገቢው ጥራት፣ በባለሙያ ስነ-ምግባር ማቅረብ እና ከደንበኞች የሚሰጡ መረጃዎችን እና ሚስጥሮችን በከፍተኛ ጥንቃቄ መጠበቅ።",
+  clientResponsibility: "ለስራው ሂደት አስፈላጊ የሆኑ መረጃዎችን በተጠየቁበት ሰዓት ላይ መመለስ፣ ክንዋኔዎችን በጊዜ መፈጸም እና የክፍያ መርሃ ግብሮችን ማክበር።",
   paymentTerms: "የክፍያ ሁኔታዎች እና የባንክ ሂሳብ", advancePayment: "40% ቅድመ ክፍያ", advanceDue: "ውሉ ሲፈረም እና ሥራው ሲጀምር",
   midtermPayment: "40% መካከለኛ ክፍያ", midtermDue: "ሥራው መሃል ላይ ሲደርስ",
   finalPayment: "20% ቀሪ ክፍያ", finalDue: "ሥራው ከተጠናቀቀ በ24 ሰዓት ውስጥ",
   advanceTerms: "የማይመለስ 40% ቅድመ ክፍያ ውሉ ሲፈረም እና ሥራው ሲጀምር ይከፈላል።",
   midtermTerms: "ተጨማሪ 40% ክፍያ የእቅድ ወይም የአገልግሎት ሥራው መሃል ላይ ይከፈላል።",
   finalTerms: "የቀረው 20% ክፍያ የተስማሙበት ሥራ ከተጠናቀቀ በ24 ሰዓት ውስጥ ይከፈላል።",
-  bankOnly: "ሁሉም ክፍያዎች ከታች ወደተጠቀሰው የአገልግሎት ሰጪው ይፋዊ የባንክ ሂሳብ ብቻ ይፈጸማሉ።",
-  changesHeading: "ስረዛ እና ለውጦች", scopeChanges: "አገልግሎቶች ሲጨመሩ ወይም ሲቀነሱ ክፍያው በሁለቱም ወገኖች ስምምነት ይስተካከላል።",
-  forceMajeure: "ድንገተኛ የተፈጥሮ አደጋ ወይም ሀገራዊ ሁኔታ ቢያጋጥም፣ ወገኖቹ ተገቢ መፍትሔ ላይ በጋራ ይወያያሉ።",
-  cancellationTerms: "ደንበኞቹ ሰርጉን ማካሄድ ካልቻሉ ጉዳዩ በጋራ ውይይት ይስተካከላል። ቀድሞ የተከፈለ ቅድመ ክፍያ እና የወጡ ወጪዎች አይመለሱም።",
+  bankOnly: "ክፍያዎች በአንቀጽ 1 በተገለጹት የድርጅቱ ባንክ አካውንቶች ብቻ ይፈጸማሉ።",
+  changesHeading: "ስረዛ፣ ተጨማሪ ስራዎች እና ከአቅም በላይ ጉዳዮች", scopeChanges: "ስራዎች ሲጨመሩ ወይም ሲቀነሱ በሚደረጉ የጋራ ውይይቶች መሰረት ክፍያው ይስተካከላል።",
+  forceMajeure: "ድንገተኛ የተፈጥሮ አደጋዎች ወይም ሀገራዊ ጉዳዮች ቢያጋጥሙ ከሙሽሮች ጋር በመመካከር በንግግር የሚፈታ ይሆናል።",
+  cancellationTerms: "ሙሽሮቹ ሰርጉን ማካሄድ ባይችሉ ጉዳዩ በውይይት ይስተካከላል፤ ነገር ግን ቀድሞ የወጡ ወጪዎች እና ቅድመ ክፍያዎች አይመለሱም።",
   mediaTermsHeading: "የሚዲያ እና ፎቶ አጠቃቀም ፈቃድ",
-  mediaTermsYes: "ደንበኞቹ በሰርጉ ቀን የሚነሱ ፎቶዎችና ቪዲዮዎች ለማትሪሞኒ ባይ ሃና ማስተዋወቂያ ማህበራዊ ሚዲያ አጠቃቀም እንዲውሉ ፈቅደዋል።",
-  mediaTermsNo: "ደንበኞቹ ፊታቸውን የሚያሳይ ምስል ወይም ቪዲዮ እንዲለጠፍ አልፈቀዱም። ማትሪሞኒ ባይ ሃና የዝግጅቱን አጠቃላይ ዝግጅት ወይም ዲኮር ብቻ ሊያሳይ ይችላል።",
+  selectedOption: "ተመርጧል", unselectedOption: "አልተመረጠም",
+  mediaTermsYes: "ፈቃደኛ ነን፦ በሰርጉ ዕለት የሚነሱ ፎቶዎች እና ቪዲዮዎች ለ'ማትሪሞኒ ባይ ሃና' ማስተዋወቂያ ሶሻል ሚዲያ አገልግሎት ላይ እንዲውሉ ፈቃደኛ ነን።",
+  mediaTermsNo: "ፈቃደኛ አይደለንም፦ የሙሽሮቹን ፊት የሚያሳይ ይዘት ፖስት መደረግ የለበትም፤ ድርጅቱ የራሱን ስራ (የንዋያተ-ሰርግ/የከባቢ) ፎቶዎች ብቻ ፖስት ማድረግ ይችላል።",
   amendmentsHeading: "የውል ማሻሻያ እና ስርዝ-ድልዝ",
-  amendmentsTerms: "በሁለቱም ወገኖች ፊርማ ያልተደረገበት ስርዝ-ድልዝ ወይም በእጅ የተደረገ ለውጥ ተቀባይነት የለውም። ማንኛውም ማሻሻያ በሁለቱም ወገኖች ስምምነት ብቻ ይጸናል።",
-  signatureHeading: "ፈቃድ እና ፊርማ", signatureIntro: "ከታች በመፈረም ወገኖቹ የዚህን ውል ውሎች አንብበው እንደተስማሙ ያረጋግጣሉ።",
+  amendmentsTerms: "በሰነዱ ላይ ያለ የሁለቱም ወገኖች ፊርማ ያልተደረገበት ማንኛውም ስርዝ-ድልዝ ወይም በእጅ የተደረገ ማስተካከያ ህጋዊ ተቀባይነት የለውም፤ ማሻሻያዎች በሙሉ በሁለቱም አካል ስምምነት ብቻ ይጸናሉ።",
+  signatureHeading: "የፊርማ ማረጋገጫ", signatureIntro: "ይህንን ውል ተረድተን በባለቤትነት እና በፈቃደኝነት ተስማምተናል።",
   clientGroomSignature: "የሙሽራው ስም እና ፊርማ", clientBrideSignature: "የሙሽሪት ስም እና ፊርማ",
-  providerSignature: "ማትሪሞኒ ባይ ሃና · አገልግሎት ሰጪ"
+  providerSignature: "ውል ሰጪ (Matrimony by Hanna)",
+  clientSignatures: "ውል ተቀባይ (ደንበኛ / ሙሽሮቹ)", signatureLabel: "ፊርማ"
 });
 
 const services = [
@@ -1130,9 +1154,9 @@ function renderAgreement() {
   }).join("");
   const total = Number(d.totalFee) || 0;
   const schedule = paymentSchedule(total);
-  const weddingDate = d.weddingDate ? formatDate(d.weddingDate) : "____________________________";
   const eventVenueRows = selectedEventVenues().map((venue) => `<div class="event-venue-document-row"><strong>${escapeHtml(venue.label)}</strong><span>${detail(venue.name, t("notSet"))}</span></div>`).join("") || `<div class="doc-value">${escapeHtml(t("notSet"))}</div>`;
-  const intro = `${escapeHtml(t("introAgreement"))} <strong>${escapeHtml(weddingDate)}</strong>. ${escapeHtml(t("introAgreementEnd"))}`;
+  const bankRows = SERVICE_PROVIDER.bankAccounts.map(account => `<div class="bank-detail-row"><dt>${escapeHtml(account.bank)}</dt><dd>${escapeHtml(account.number)}</dd></div>`).join("");
+  const signatureLines = `<div class="signature-line"><span>${escapeHtml(t("signatureLabel"))}</span><i aria-hidden="true"></i></div><div class="signature-line"><span>${escapeHtml(t("date"))}</span><i aria-hidden="true"></i></div>`;
   const referenceNumber = documentReference("AG");
   const referenceLabel = state.lang === "am" ? "መዝገብ ቁጥር" : "Ref No:";
   const dateLabel = state.lang === "am" ? "ቀን" : "Date:";
@@ -1146,45 +1170,49 @@ function renderAgreement() {
     </div>
     <div class="contract-rule" aria-hidden="true"></div>
     <div class="agreement-kicker">MATRIMONY BY HANNA · ${escapeHtml(state.lang === "am" ? "የአገልግሎት ውል" : "SERVICE AGREEMENT")}</div>
-    <h2 class="agreement-title">${escapeHtml(state.lang === "am" ? "የሰርግ እና የቅድመ-ጋብቻ አገልግሎት ውል" : "Wedding & Premarital Service Agreement")}<span>${escapeHtml(state.lang === "am" ? "በማትሪሞኒ ባይ ሃና" : "By Matrimony by Hanna")}</span></h2>
+    <h2 class="agreement-title">${escapeHtml(t("agreementDocumentTitle"))}<span>${escapeHtml(state.lang === "am" ? "ማትሪሞኒ" : "Matrimony")}</span></h2>
     <div class="agreement-top-rule"></div>
     <div class="agreement-meta">
       <div><div class="doc-label">${escapeHtml(t("agreementDate"))}</div><div class="doc-value">${escapeHtml(agreementDate)}</div></div>
       <div><div class="doc-label">${escapeHtml(t("weddingDateAgreement"))}</div><div class="doc-value">${escapeHtml(formatDate(d.weddingDate))}</div></div>
       <div><div class="doc-label">${escapeHtml(t("eventDays"))}</div><div class="doc-value">${escapeHtml(d.eventDays || "1")}</div></div>
     </div>
-    <section><h3>${escapeHtml(t("agreementParties"))}</h3><div class="provider-details">
-      <div class="provider-details-card"><div class="doc-label">${escapeHtml(t("providerDetails"))}</div><strong>Matrimony by Hanna</strong><div class="provider-contact-lines"><p>${escapeHtml(t("providerPhone"))}</p><p>${escapeHtml(t("providerEmail"))}</p><p>${escapeHtml(t("providerOffice"))}</p></div></div>
-      <div class="bank-details-card"><div class="doc-label">${escapeHtml(t("providerBank"))}</div><div class="bank-detail-row"><span>${escapeHtml(t("bankName"))}</span><i aria-hidden="true"></i></div><div class="bank-detail-row"><span>${escapeHtml(t("bankAccountNo"))}</span><i aria-hidden="true"></i></div><div class="bank-detail-row"><span>${escapeHtml(t("bankAccountHolder"))}</span><i aria-hidden="true"></i></div></div>
-    </div><div class="party-grid">
-      <div><div class="doc-label">${escapeHtml(t("brideName"))}</div><div class="doc-value">${detail(d.brideName, "____________________________")}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("groomName"))}</div><div class="doc-value">${detail(d.groomName, "____________________________")}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("bridePhone"))}</div><div class="doc-value">${detail(d.bridePhone, "____________________________")}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("groomPhone"))}</div><div class="doc-value">${detail(d.groomPhone, "____________________________")}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("brideAddress"))}</div><div class="doc-value">${detail(d.brideAddress, "____________________________")}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("groomAddress"))}</div><div class="doc-value">${detail(d.groomAddress, "____________________________")}</div></div>
+    <p class="intro-paragraph">${escapeHtml(t("agreementIntro"))}</p>
+    <section class="agreement-parties"><h3>1. ${escapeHtml(t("agreementParties"))}</h3><div class="provider-details">
+      <div class="provider-details-card"><div class="doc-label">${escapeHtml(t("providerDetails"))}</div><strong>${escapeHtml(SERVICE_PROVIDER.name)}</strong><div class="provider-contact-lines"><p>${escapeHtml(t("providerOffice"))}</p><p>${escapeHtml(t("providerPhone"))}</p><p>${escapeHtml(t("providerEmail"))}</p><p>${escapeHtml(t("providerTelebirr"))}: <span class="account-number">${escapeHtml(SERVICE_PROVIDER.telebirr)}</span></p></div></div>
+      <dl class="bank-details-card"><dt class="doc-label">${escapeHtml(t("providerBank"))}</dt><dd class="bank-account-holder"><span class="doc-label">${escapeHtml(t("bankAccountHolder"))}</span><strong>${escapeHtml(SERVICE_PROVIDER.accountHolder)}</strong></dd>${bankRows}</dl>
     </div></section>
-    <p class="intro-paragraph">${intro}</p>
-    <section><h3>${escapeHtml(t("eventDetails"))}</h3><div class="agreement-details-grid">
+    <section class="agreement-clients"><h4>${escapeHtml(t("clientDetails"))}</h4><div class="party-grid">
+      <div><div class="doc-label">${escapeHtml(t("contractGroomName"))}</div><div class="doc-value">${detail(d.groomName, "____________________________")}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("contractBrideName"))}</div><div class="doc-value">${detail(d.brideName, "____________________________")}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("groomPhone"))}</div><div class="doc-value">${detail(d.groomPhone, "____________________________")}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("bridePhone"))}</div><div class="doc-value">${detail(d.bridePhone, "____________________________")}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("groomAddress"))}</div><div class="doc-value">${detail(d.groomAddress, "____________________________")}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("brideAddress"))}</div><div class="doc-value">${detail(d.brideAddress, "____________________________")}</div></div>
+    </div></section>
+    <section class="agreement-event"><h4>${escapeHtml(t("eventDetails"))}</h4><div class="agreement-details-grid">
       <div><div class="doc-label">${escapeHtml(t("weddingDateAgreement"))}</div><div class="doc-value">${escapeHtml(formatDate(d.weddingDate))}</div></div>
       <div><div class="doc-label">${escapeHtml(t("timeAgreement"))}</div><div class="doc-value">${escapeHtml(formatTime(d.weddingTime))}</div></div>
       <div class="event-venues-document"><div class="doc-label">${escapeHtml(t("eventVenuesAgreement"))}</div>${eventVenueRows}</div>
     </div></section>
-    <section class="agreed-services"><h3>${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><h4>${escapeHtml(t("otherAddons"))}</h4><ol class="agreed-services-list">${addOns || `<li>${escapeHtml(t("noAddons"))}</li>`}</ol></section>
-    <section><h3>${escapeHtml(t("termsHeading"))}</h3><h4>${escapeHtml(t("vendorHeading"))}</h4><p>${escapeHtml(t("vendorScope"))}</p><h4>${escapeHtml(t("providerResponsibilityHeading"))}</h4><p>${escapeHtml(t("providerResponsibility"))}</p><h4>${escapeHtml(t("clientResponsibilityHeading"))}</h4><p>${escapeHtml(t("clientResponsibility"))}</p></section>
-    <section><h3>${escapeHtml(t("paymentTerms"))}</h3><p>${escapeHtml(t("financialIntro"))} <strong>${escapeHtml(formatMoney(total))}</strong>.</p><div class="payment-stage-list">
+    <section class="agreed-services"><h3>2. ${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><h4>${escapeHtml(t("otherAddons"))}</h4><ol class="agreed-services-list">${addOns || `<li>${escapeHtml(t("noAddons"))}</li>`}</ol></section>
+    <section class="contract-clause" data-contract-clause="1"><h3>3. ${escapeHtml(t("termsHeading"))}</h3><h4>1. ${escapeHtml(t("vendorHeading"))}</h4><p>${escapeHtml(t("vendorScope"))}</p></section>
+    <section class="contract-clause" data-contract-clause="2"><h4>2. ${escapeHtml(t("providerResponsibilityHeading"))}</h4><p>${escapeHtml(t("providerResponsibility"))}</p></section>
+    <section class="contract-clause" data-contract-clause="3"><h4>3. ${escapeHtml(t("clientResponsibilityHeading"))}</h4><p>${escapeHtml(t("clientResponsibility"))}</p></section>
+    <section class="contract-clause" data-contract-clause="4"><h4>4. ${escapeHtml(t("paymentTerms"))}</h4><p>${escapeHtml(t("financialIntro"))} <strong>${escapeHtml(formatMoney(total))}</strong>.</p><div class="payment-stage-list">
       <div class="payment-stage"><div><strong>${escapeHtml(t("advancePayment"))}</strong><small>${escapeHtml(t("advanceTerms"))}</small></div><b>${escapeHtml(formatMoney(schedule.advance))}</b></div>
       <div class="payment-stage"><div><strong>${escapeHtml(t("midtermPayment"))}</strong><small>${escapeHtml(t("midtermTerms"))}</small></div><b>${escapeHtml(formatMoney(schedule.midterm))}</b></div>
       <div class="payment-stage"><div><strong>${escapeHtml(t("finalPayment"))}</strong><small>${escapeHtml(t("finalTerms"))}</small></div><b>${escapeHtml(formatMoney(schedule.final))}</b></div>
     </div><p>${escapeHtml(t("bankOnly"))}</p></section>
-    <section><h3>${escapeHtml(t("changesHeading"))}</h3><p>${escapeHtml(t("scopeChanges"))}</p><p>${escapeHtml(t("forceMajeure"))}</p><p>${escapeHtml(t("cancellationTerms"))}</p></section>
-    <section><h3>${escapeHtml(t("mediaTermsHeading"))}</h3><div class="agreement-consent"><span class="contract-checkbox${d.mediaConsent === "yes" ? " is-checked" : ""}" aria-hidden="true">${d.mediaConsent === "yes" ? "✓" : ""}</span><p>${escapeHtml(d.mediaConsent === "yes" ? t("mediaConsentYes") : t("mediaConsentNo"))}</p></div><p>${escapeHtml(d.mediaConsent === "yes" ? t("mediaTermsYes") : t("mediaTermsNo"))}</p></section>
-    <section><h3>${escapeHtml(t("amendmentsHeading"))}</h3><p>${escapeHtml(t("amendmentsTerms"))}</p></section>
+    <section class="contract-clause" data-contract-clause="5"><h4>5. ${escapeHtml(t("changesHeading"))}</h4><p>${escapeHtml(t("scopeChanges"))}</p><p>${escapeHtml(t("forceMajeure"))}</p><p>${escapeHtml(t("cancellationTerms"))}</p></section>
+    <section class="contract-clause" data-contract-clause="6"><h4>6. ${escapeHtml(t("mediaTermsHeading"))}</h4>${["yes", "no"].map(consent => `<div class="agreement-consent" data-consent-option="${consent}"><span class="contract-checkbox${d.mediaConsent === consent ? " is-checked" : ""}" role="img" aria-label="${escapeHtml(d.mediaConsent === consent ? t("selectedOption") : t("unselectedOption"))}">${d.mediaConsent === consent ? "✓" : ""}</span><p>${escapeHtml(t(consent === "yes" ? "mediaTermsYes" : "mediaTermsNo"))}</p></div>`).join("")}</section>
+    <section class="contract-clause" data-contract-clause="7"><h4>7. ${escapeHtml(t("amendmentsHeading"))}</h4><p>${escapeHtml(t("amendmentsTerms"))}</p></section>
     ${d.generalNotes ? `<section><h3>${escapeHtml(t("reviewNotes"))}</h3><p>${escapeHtml(d.generalNotes)}</p></section>` : ""}
-    <section><h3>${escapeHtml(t("signatureHeading"))}</h3><p>${escapeHtml(t("signatureIntro"))}</p><div class="signature-grid">
-      <div class="signature-block"><div class="signature-line">${detail(d.groomName, "____________________")} · ${escapeHtml(t("clientGroomSignature"))}</div><div class="signature-line">${escapeHtml(t("date"))}</div></div>
-      <div class="signature-block"><div class="signature-line">${detail(d.brideName, "____________________")} · ${escapeHtml(t("clientBrideSignature"))}</div><div class="signature-line">${escapeHtml(t("date"))}</div></div>
-      <div class="signature-block"><div class="signature-line">${escapeHtml(t("providerSignature"))}</div><div class="signature-line">${escapeHtml(t("date"))}</div></div>
+    <section class="agreement-signatures"><h3>4. ${escapeHtml(t("signatureHeading"))}</h3><p>${escapeHtml(t("signatureIntro"))}</p><div class="signature-grid">
+      <div class="signature-block signature-block-provider"><div class="doc-label">${escapeHtml(t("providerSignature"))}</div><strong class="signature-name">${escapeHtml(localized(SERVICE_PROVIDER.signatory))}</strong>${signatureLines}</div>
+      <div class="signature-clients-label doc-label">${escapeHtml(t("clientSignatures"))}</div>
+      <div class="signature-block"><div class="doc-label">${escapeHtml(t("contractGroomName"))}</div><strong class="signature-name">${detail(d.groomName, "____________________")}</strong>${signatureLines}</div>
+      <div class="signature-block"><div class="doc-label">${escapeHtml(t("contractBrideName"))}</div><strong class="signature-name">${detail(d.brideName, "____________________")}</strong>${signatureLines}</div>
     </div></section>
     <div class="agreement-footer"><strong>MATRIMONY BY HANNA</strong><div class="agreement-footer-contact">+251 95 391 4487 · www.matrimonybyhanna.com<br />Hanna@matrimonybyhanna.com<br />Yeshi Building, In Front Of Bole Printing, 2nd Floor, Office No 11<br />${escapeHtml(t("agreementFooter"))}</div></div>
   </article>`;
