@@ -10,7 +10,7 @@
     />
     <title>Matrimony By Hanna · Event Planner</title>
     <link rel="icon" type="image/png" href="./assets/matrimony-infinity-icon.png?v=2" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20261006-sidebar-2" />
   </head>
   <body>
     <svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -22,12 +22,13 @@
       <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></symbol>
       <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20 12H5m6 6-6-6 6-6" /></symbol>
       <symbol id="icon-open" viewBox="0 0 24 24"><path d="M13 5h6v6m0-6-9 9" /><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 3v4m8-4v4M4 10h16" /></symbol>
     </svg>
     <div class="app-shell">
       <aside class="sidebar">
         <div class="sidebar-header">
           <div class="brand-lockup">
-          <img class="brand-logo brand-logo-dark" src="./assets/matrimony-logo-transparent.png" alt="Matrimony — Leading from wedding up to matrimony" />
+            <img class="brand-logo brand-logo-dark" src="./assets/matrimony-logo-transparent.png" alt="Matrimony — Leading from wedding up to matrimony" />
           </div>
           <button class="sidebar-new-plan" type="button" id="resetDraftButton">
             <svg class="ui-icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
@@ -36,14 +37,19 @@
         </div>
 
         <div class="sidebar-main">
-          <section class="couple-context" aria-live="polite">
-            <span class="tiny-label" data-i18n="currentCouple">CURRENT COUPLE</span>
-            <div class="couple-context-row">
-              <span class="couple-context-mark" aria-hidden="true">∞</span>
-              <div class="couple-context-copy">
-                <strong id="sidebarCoupleName">Your next celebration</strong>
-                <span id="sidebarCoupleMeta">New plan</span>
-              </div>
+          <section class="couple-context" aria-labelledby="currentCoupleLabel" aria-live="polite">
+            <div class="couple-context-heading">
+              <span class="tiny-label" id="currentCoupleLabel" data-i18n="currentCouple">CURRENT COUPLE</span>
+              <span class="couple-record-id" id="sidebarRecordId" hidden></span>
+            </div>
+            <strong class="couple-context-name" id="sidebarCoupleName">Your next celebration</strong>
+            <div class="couple-context-status" id="sidebarCoupleStatus" data-status="newPlan">
+              <span class="couple-status-dot" aria-hidden="true"></span>
+              <span id="sidebarCoupleMeta">New plan</span>
+            </div>
+            <div class="couple-context-date" id="sidebarDateRow" hidden>
+              <svg class="ui-icon" aria-hidden="true"><use href="#icon-calendar"></use></svg>
+              <span id="sidebarCoupleDate"></span>
             </div>
             <button type="button" class="sidebar-action" data-save-record>
               <svg class="ui-icon" aria-hidden="true"><use href="#icon-save"></use></svg>
@@ -58,8 +64,8 @@
         </div>
 
         <div class="sidebar-footer">
-          <span class="sidebar-footer-mark" aria-hidden="true">∞</span>
-          <div><strong>Matrimony by Hanna</strong><small data-i18n="brandCaption">Ceremony, beautifully considered.</small></div>
+          <strong>Matrimony by Hanna</strong>
+          <small data-i18n="brandCaption">Ceremony, beautifully considered.</small>
         </div>
       </aside>
 
@@ -373,7 +379,7 @@
     <div id="pickerPopover" class="picker-popover" role="dialog" hidden></div>
     <script src="./assets/vendor/html2canvas.min.js"></script>
     <script src="./assets/vendor/jspdf.umd.min.js"></script>
-    <script src="./app.js"></script>
+    <script src="./app.js?v=20261006-sidebar-2"></script>
     <script src="./pickers.js?v=20261006-locations"></script>
   </body>
 </html>

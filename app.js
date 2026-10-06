@@ -960,7 +960,15 @@ function renderCoupleContext() {
   const title = names.length ? names.join(" & ") : t("nextCelebration");
   document.getElementById("sidebarCoupleName").textContent = title;
   document.getElementById("topbarCoupleName").textContent = names.length ? title : "";
-  document.getElementById("sidebarCoupleMeta").textContent = `${t(savingRecord ? "recordSaving" : recordStatus)}${state.recordId ? ` · #${state.recordId}` : ""}${state.details.weddingDate ? ` · ${formatDate(state.details.weddingDate)}` : ""}`;
+  const status = savingRecord ? "recordSaving" : recordStatus;
+  document.getElementById("sidebarCoupleMeta").textContent = t(status);
+  document.getElementById("sidebarCoupleStatus").dataset.status = status;
+  const recordId = document.getElementById("sidebarRecordId");
+  recordId.textContent = state.recordId ? `#${state.recordId}` : "";
+  recordId.hidden = !state.recordId;
+  const weddingDate = state.details.weddingDate;
+  document.getElementById("sidebarDateRow").hidden = !weddingDate;
+  document.getElementById("sidebarCoupleDate").textContent = weddingDate ? formatDate(weddingDate) : "";
   const recent = document.getElementById("recentCouples");
   recent.innerHTML = state.records.length ? state.records.slice(0, 5).map(record => `<button type="button" class="recent-couple ${record.id === state.recordId ? "is-current" : ""}" data-open-record="${record.id}"><strong>${escapeHtml(record.bride_first_name)} &amp; ${escapeHtml(record.groom_first_name)}</strong><small>${escapeHtml(formatDate(record.wedding_date))} · #${record.id}</small></button>`).join("") : `<p>${escapeHtml(t("recentEmpty"))}</p>`;
 }

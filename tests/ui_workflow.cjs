@@ -29,6 +29,25 @@ fs.mkdirSync(output, {recursive:true});
     return route.fulfill({json:{records:[...records].map(([id,plan]) => ({id,bride_first_name:plan.details.brideName.trim().split(/\s+/)[0],groom_first_name:plan.details.groomName.trim().split(/\s+/)[0],wedding_date:plan.details.weddingDate}))}});
   });
   async function nav(step) {await page.locator(`.workflow-nav [data-step-target="${step}"]`).click();}
+  async function checkSidebarLayout() {
+    const layout = await page.evaluate(() => {
+      const sidebar = document.querySelector('.sidebar');
+      if (getComputedStyle(sidebar).display === 'none') return {hidden:true};
+      const box = el => {const r=el.getBoundingClientRect(); return {left:r.left,right:r.right,top:r.top,bottom:r.bottom};};
+      const selectors = ['.couple-context-heading','#sidebarCoupleName','#sidebarCoupleStatus','#sidebarDateRow','.sidebar-action'];
+      const rows = selectors.map(selector => document.querySelector(selector)).filter(el => !el.hidden).map(box);
+      const footer = ['.sidebar-footer strong','.sidebar-footer small'].map(selector => box(document.querySelector(selector)));
+      const save = document.querySelector('.sidebar-action');
+      return {hidden:false,sidebar:box(sidebar),rows,footer,scrollWidth:sidebar.scrollWidth,clientWidth:sidebar.clientWidth,background:getComputedStyle(sidebar).backgroundColor,saveColor:getComputedStyle(save).color,saveBackground:getComputedStyle(save).backgroundColor};
+    });
+    if (layout.hidden) return;
+    assert.equal(layout.background,'rgb(32, 32, 32)','Sidebar keeps its black brand background');
+    assert.ok(layout.scrollWidth <= layout.clientWidth,'Long names must not cause horizontal sidebar overflow');
+    assert.ok(layout.rows.every(row => row.left >= layout.sidebar.left && row.right <= layout.sidebar.right));
+    assert.ok(layout.rows.every((row,index) => !index || row.top >= layout.rows[index-1].bottom),'Name, status, date and Save each occupy a separate row');
+    assert.ok(layout.footer[1].top >= layout.footer[0].bottom,'Footer brand and caption do not collide');
+    assert.notEqual(layout.saveColor,layout.saveBackground,'Save record must have visible text');
+  }
   async function ready(kind) {await page.waitForFunction(kind => document.querySelector(`#${kind}Document .letterhead-sheet`) && document.querySelector(`#${kind}Document`).getAttribute('aria-busy') !== 'true',kind);}
   async function download(kind, filename) {
     await ready(kind);
@@ -46,6 +65,8 @@ fs.mkdirSync(output, {recursive:true});
   }
   try {
     await page.goto(base);
+    assert.match(await page.locator('link[rel="stylesheet"]').getAttribute('href'),/\?v=/,'Versioned styles prevent old CSS from being reused with new markup');
+    assert.match(await page.locator('script[src^="./app.js"]').getAttribute('src'),/\?v=/);
     assert.equal(await page.locator('.workflow-nav [data-step-target]').count(),6,'All six destinations share one navigation bar');
     assert.equal(await page.locator('#workflowStepCount').innerText(),'01 / 06');
     for (const width of [1548,1440,1126,1024,768,390,320]) {
@@ -65,6 +86,7 @@ fs.mkdirSync(output, {recursive:true});
       assert.ok(layout.items.every(item => item.left >= layout.navLeft && item.right <= layout.navRight));
       assert.ok(layout.items.every(item => item.titleLeft >= item.left && item.titleRight <= item.right && !item.hasSubtitle), `Navigation step labels are contained and subtitle-free at ${width}px`);
       assert.ok(layout.items.every((item, index) => layout.items.slice(index + 1).every(other => item.right <= other.left || other.right <= item.left || item.bottom <= other.top || other.bottom <= item.top)), `Navigation buttons do not overlap at ${width}px`);
+      await checkSidebarLayout();
       if (width === 1126) await page.screenshot({path:`${output}/workflow-nav-1126.png`,fullPage:false});
     }
     await page.setViewportSize({width:1440,height:1000});
@@ -88,6 +110,19 @@ fs.mkdirSync(output, {recursive:true});
     await page.locator('[data-calendar="month"]').selectOption('11');
     await page.locator('[data-date="2026-12-12"]').click();
     assert.equal(await page.locator('#weddingDate').inputValue(),'2026-12-12');
+    assert.equal(await page.locator('#sidebarCoupleDate').innerText(),'December 12, 2026');
+    assert.equal(await page.locator('#sidebarCoupleMeta').innerText(),'New plan','Status is not concatenated with the date or record reference');
+    await page.locator('#brideName').fill('Alexandria-Catherine-Mariam Alemu');
+    await page.locator('#groomName').fill('Samuel-Alexander-Benyam Bekele');
+    await page.setViewportSize({width:768,height:480});
+    await checkSidebarLayout();
+    await page.locator('.sidebar-footer').scrollIntoViewIfNeeded();
+    const footerBounds = await page.locator('.sidebar-footer').boundingBox();
+    assert.ok(footerBounds.y >= 0 && footerBounds.y + footerBounds.height <= 480,'Short windows can scroll to the footer without overlap');
+    await page.locator('.sidebar-new-plan').scrollIntoViewIfNeeded();
+    await page.setViewportSize({width:1440,height:1000});
+    await page.locator('#brideName').fill('  Hanna   Alemu');
+    await page.locator('#groomName').fill('Samuel Bekele');
     await page.locator('#weddingTime').locator('..').locator('.picker-trigger').click();
     await page.locator('[data-time="hour"]').selectOption('11');
     await page.locator('[data-time="minute"]').selectOption('45');
@@ -159,6 +194,8 @@ fs.mkdirSync(output, {recursive:true});
     assert.match(await page.locator('#sidebarCoupleMeta').innerText(),/Unsaved changes/);
     await page.locator('.couple-context [data-save-record]').click();
     await page.waitForFunction(() => document.querySelector('#sidebarCoupleMeta').textContent.includes('Saved record'));
+    assert.equal(await page.locator('#sidebarRecordId').innerText(),'#1');
+    await checkSidebarLayout();
     await page.locator('.recent-couple').click();
     await page.waitForFunction(() => !openingRecord && !document.querySelector('.app-shell').inert);
     assert.equal(await page.locator('#bridePhone').inputValue(),'+251 900 000 001');
@@ -167,6 +204,7 @@ fs.mkdirSync(output, {recursive:true});
     assert.equal(await page.evaluate(() => state.details.locations.groomAddress.lat),9.0303);
     // Long, bilingual document and real download verification. Records are mocked, never live.
     await page.evaluate(() => { services.forEach(service => {getServiceState(service.id).selected=true;});state.details.totalFee='210000';state.details.brideName='ሀና አለሙ';state.details.groomName='ሳሙኤል በቀለ';state.details.mediaConsent='no';document.getElementById('totalFee').value='210000';document.getElementById('brideName').value=state.details.brideName;document.getElementById('groomName').value=state.details.groomName;syncContractChoicesToForm();state.lang='am';applyLocalization();saveDraft(); });
+    await checkSidebarLayout();
     await nav(3);
     assert.equal(await page.locator('#agreementDocument .agreed-services-list li').count(),20,'Every selected add-on must appear once across agreement pages');
     await download('agreement','agreement-am-all-services');
