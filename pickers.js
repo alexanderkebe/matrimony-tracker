@@ -3,25 +3,31 @@
   const labels = {
     en: { chooseDate:"Choose a date", chooseTime:"Choose a time", today:"Today", clear:"Clear", close:"Close",
       previous:"Previous month", next:"Next month", month:"Month", year:"Year", hour:"Hour", minute:"Minute",
-      apply:"Set time", clock:"12-hour clock · AM / PM", search:"Search map", searching:"Searching real places…",
-      noPlaces:"No matching places. Try a city or a more specific venue name, or enter the address manually.",
-      searchFailed:"Place search is unavailable. Retry, or keep a manually entered address.", searchShort:"Enter at least two characters to search.",
-      mapTitle:"Venue map", openMap:"Open map", directions:"Directions", nearMe:"Near me", pinSaved:"Map pin saved",
-      noPin:"No map pin selected. Search and choose a place, or enter a venue manually.",
-      privacy:"Searches send your search text and map center to Photon / OpenStreetMap. Your current location is requested only when you choose Near me.",
-      locationFailed:"Location access is unavailable or was declined. Search for your venue instead.", located:"Search is now biased near you. Choose a result to save a venue.",
-      mapHint:"Select a result to save its address and map pin.", mapLoad:"Map needs an internet connection. Use Open map if it does not load.", gregorian:"Gregorian"
+      apply:"Set time", clock:"12-hour clock · AM / PM", search:"Search locations", searching:"Searching real places…",
+      noPlaces:"No matching places. Try a more specific address or venue name, or enter the address manually.",
+      searchFailed:"Place search is unavailable. Retry or enter the address manually below.", searchShort:"Type at least three characters to see suggestions.",
+      mapTitle:"Location on Google Maps", openMap:"Open in Google Maps", directions:"Directions", nearMe:"Near me", pinSaved:"Address and map pin saved",
+      noPin:"No location selected yet", manualPin:"Manual entry · no confirmed map pin", selected:"Location selected", selectedVenue:"Selected location",
+      privacy:"Search text and map center go to Photon (OpenStreetMap data); the map loads from Google. Near me asks permission to use and save your current location. Couple details and prices are never sent.",
+      locationFailed:"Location access is unavailable or was declined. Search for the address instead.", locating:"Finding your location…", currentLocation:"Current location",
+      mapHint:"Choose a result to save its address and map pin. Ethiopian matches appear first.", mapLoad:"Maps need internet. If the preview does not load, use Open in Google Maps.", gregorian:"Gregorian",
+      searchPlaceholder:"Search an address, venue, hotel or landmark", searchCity:"Search an Addis Ababa address or landmark", searchResults:"Location suggestions",
+      mapEmpty:"Search above to choose a location", changeVenue:"Change location", removeVenue:"Remove location", manualEntry:"Enter a location manually", manualAddress:"Location name / address",
+      searchHelp:"Suggestions appear as you type. You can also press Enter to search.", dataCredit:"Search data: OpenStreetMap", addSearch:"Search for a location"
     },
     am: { chooseDate:"ቀን ይምረጡ", chooseTime:"ሰዓት ይምረጡ", today:"ዛሬ", clear:"አጥፋ", close:"ዝጋ",
       previous:"ያለፈው ወር", next:"ቀጣዩ ወር", month:"ወር", year:"ዓመት", hour:"ሰዓት", minute:"ደቂቃ",
-      apply:"ሰዓቱን አስቀምጥ", clock:"የ12 ሰዓት አቆጣጠር · AM / PM", search:"በካርታ ፈልግ", searching:"ቦታዎችን በመፈለግ ላይ…",
-      noPlaces:"ተዛማጅ ቦታ አልተገኘም። ከተማ ወይም ዝርዝር ስም ይሞክሩ፣ ወይም አድራሻውን በእጅ ያስገቡ።",
-      searchFailed:"የቦታ ፍለጋ አይገኝም። እንደገና ይሞክሩ ወይም አድራሻውን በእጅ ያስገቡ።", searchShort:"ለፍለጋ ቢያንስ ሁለት ፊደላት ያስገቡ።",
-      mapTitle:"የቦታው ካርታ", openMap:"ካርታውን ክፈት", directions:"አቅጣጫ", nearMe:"በአቅራቢያዬ", pinSaved:"የካርታ ነጥብ ተቀምጧል",
-      noPin:"በካርታ የተመረጠ ቦታ የለም። ቦታ ፈልገው ይምረጡ ወይም በእጅ ያስገቡ።",
-      privacy:"የፍለጋ ጽሑፍዎ እና የካርታው ማዕከል ለPhoton / OpenStreetMap ይላካሉ። ያሉበት ቦታ የሚጠየቀው በአቅራቢያዬን ሲመርጡ ብቻ ነው።",
-      locationFailed:"ያሉበትን ቦታ ማግኘት አልተቻለም። የዝግጅቱን ቦታ ይፈልጉ።", located:"ካርታው በአቅራቢያዎ ተቀምጧል። የዝግጅቱን ቦታ ይፈልጉ።",
-      mapHint:"አድራሻውን እና ነጥቡን ለማስቀመጥ ውጤት ይምረጡ።", mapLoad:"ካርታው ኢንተርኔት ይፈልጋል። ካልተጫነ ካርታውን ክፈትን ይጠቀሙ።", gregorian:"ጎርጎርዮሳዊ"
+      apply:"ሰዓቱን አስቀምጥ", clock:"የ12 ሰዓት አቆጣጠር · AM / PM", search:"ቦታ ፈልግ", searching:"ቦታዎችን በመፈለግ ላይ…",
+      noPlaces:"ተዛማጅ ቦታ አልተገኘም። የበለጠ ዝርዝር አድራሻ ወይም የቦታ ስም ይሞክሩ፣ ወይም አድራሻውን በእጅ ያስገቡ።",
+      searchFailed:"የቦታ ፍለጋ አይገኝም። እንደገና ይሞክሩ ወይም ከታች አድራሻውን በእጅ ያስገቡ።", searchShort:"ውጤቶችን ለማየት ቢያንስ ሦስት ፊደላት ያስገቡ።",
+      mapTitle:"ቦታው በGoogle Maps", openMap:"በGoogle Maps ክፈት", directions:"አቅጣጫ", nearMe:"በአቅራቢያዬ", pinSaved:"አድራሻው እና የካርታ ነጥቡ ተቀምጠዋል",
+      noPin:"እስካሁን ቦታ አልተመረጠም", manualPin:"በእጅ የገባ · የካርታ ነጥብ አልተረጋገጠም", selected:"ቦታው ተመርጧል", selectedVenue:"የተመረጠ ቦታ",
+      privacy:"የፍለጋ ጽሑፍዎ እና የካርታው ማዕከል ለPhoton (OpenStreetMap መረጃ) ይላካሉ፤ ካርታው ከGoogle ይጫናል። በአቅራቢያዬ ያሉበትን ቦታ ለመጠቀም እና ለማስቀመጥ ፈቃድ ይጠይቃል። የጥንዶቹ መረጃ እና ዋጋዎች አይላኩም።",
+      locationFailed:"ያሉበትን ቦታ ማግኘት አልተቻለም። አድራሻውን ይፈልጉ።", locating:"ያሉበትን ቦታ በማግኘት ላይ…", currentLocation:"አሁን ያሉበት ቦታ",
+      mapHint:"አድራሻውን እና ነጥቡን ለማስቀመጥ ውጤት ይምረጡ። የኢትዮጵያ ውጤቶች በቅድሚያ ይታያሉ።", mapLoad:"ካርታው ኢንተርኔት ይፈልጋል። ካልተጫነ በGoogle Maps ክፈትን ይጠቀሙ።", gregorian:"ጎርጎርዮሳዊ",
+      searchPlaceholder:"አድራሻ፣ ቦታ፣ ሆቴል ወይም ታዋቂ ስፍራ ይፈልጉ", searchCity:"የአዲስ አበባ አድራሻ ወይም ታዋቂ ስፍራ ይፈልጉ", searchResults:"የቦታ ፍለጋ ውጤቶች",
+      mapEmpty:"ቦታ ለመምረጥ ከላይ ይፈልጉ", changeVenue:"ቦታ ቀይር", removeVenue:"ቦታውን አጥፋ", manualEntry:"ቦታውን በእጅ ያስገቡ", manualAddress:"የቦታው ስም / አድራሻ",
+      searchHelp:"ሲጽፉ ውጤቶች ይታያሉ። Enterን በመጫንም መፈለግ ይችላሉ።", dataCredit:"የፍለጋ መረጃ፦ OpenStreetMap", addSearch:"ቦታ ፈልግ"
     }
   };
   const text = key => labels[state.lang][key];
@@ -184,144 +190,292 @@
   window.addEventListener("scroll", positionPopup, true);
   window.addEventListener("plan-step-change", () => closePicker(false));
 
-  function mapUrl(lat, lon, marker = true) {
-    const radius = marker ? 0.012 : 0.1;
-    const parameters = new URLSearchParams({bbox:[Math.max(-180,lon-radius), Math.max(-90,lat-radius), Math.min(180,lon+radius), Math.min(90,lat+radius)].join(","), layer:"mapnik"});
-    if (marker) parameters.set("marker", `${lat},${lon}`);
-    return `https://www.openstreetmap.org/export/embed.html?${parameters}`;
+  const venueIcon = kind => {
+    const paths = {
+      search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/>',
+      pin:'<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
+      locate:'<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 1v4m0 14v4M1 12h4m14 0h4"/>',
+      external:'<path d="M14 3h7v7m0-7L10 14M10 3H3v18h18v-7"/>',
+      directions:'<path d="m12 2 10 10-10 10L2 12 10 2Z"/><path d="M8 15v-5h8m-3-3 3 3-3 3"/>',
+      remove:'<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/>',
+      check:'<path d="m5 12 4 4L19 6"/>',
+      plus:'<path d="M12 5v14M5 12h14"/>'
+    };
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[kind]}</svg>`;
+  };
+  const validPlace = place => Boolean(place && Number.isFinite(place.lat) && Number.isFinite(place.lon) && Math.abs(place.lat) <= 90 && Math.abs(place.lon) <= 180);
+  const placeValue = place => [place.name, place.address].filter(Boolean).join(", ");
+  const mapsLink = query => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+
+  function hideSuggestions(ui) {
+    ui.results.hidden = true;
+    ui.query.setAttribute("aria-expanded", "false");
+    ui.query.removeAttribute("aria-activedescendant");
+    ui.activeOption = -1;
+  }
+
+  function cancelVenueWork(ui) {
+    if (ui.busy || ui.nearButton.disabled) ui.status.textContent = "";
+    clearTimeout(ui.timer);
+    ui.sequence++;
+    ui.controller?.abort();
+    ui.controller = null;
+    ui.queued = false;
+    ui.busy = false;
+    ui.nearButton.disabled = false;
+    ui.root.classList.remove("is-searching");
+    ui.query.setAttribute("aria-busy", "false");
+    hideSuggestions(ui);
   }
 
   function updateMap(id) {
     const ui = mapState.get(id);
     if (!ui) return;
     const place = state.details.locations?.[id];
-    const valid = Boolean(place && Number.isFinite(place.lat) && Number.isFinite(place.lon) && Math.abs(place.lat) <= 90 && Math.abs(place.lon) <= 180);
-    const [lat, lon] = valid ? [place.lat, place.lon] : (ui.near || [9.03, 38.75]);
-    const mapLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=${valid ? 16 : 12}/${lat}/${lon}`;
-    ui.map.querySelector(".map-place").innerHTML = `<div><strong>${escapeHtml(valid ? place.name : "Addis Ababa")}</strong><small>${escapeHtml(valid ? place.address : "Ethiopia")}</small></div><a href="${mapLink}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(text("openMap"))}">↗</a>${valid ? `<a href="https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(text("directions"))}">➜</a>` : ""}`;
-    ui.map.querySelector("iframe").title = text("mapTitle");
-    const url = mapUrl(lat, lon, valid);
-    if (ui.map.querySelector("iframe").getAttribute("src") !== url) ui.map.querySelector("iframe").src = url;
-    ui.root.querySelector(".map-selection").textContent = valid ? `${text("pinSaved")} · ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}` : text("noPin");
+    const valid = validPlace(place);
+    const manual = ui.input.value.trim();
+    const hasVenue = valid || Boolean(manual);
+    // Use stored coordinates for an exact pin, rather than Google's interpretation
+    // of a same-named venue. Legacy/manual names are never invented coordinates.
+    const mapQuery = valid ? `${place.lat},${place.lon}` : manual || "Addis Ababa, Ethiopia";
+    const link = mapsLink(mapQuery);
+    const url = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&z=${hasVenue ? 17 : 11}&output=embed`;
+    ui.map.title = text("mapTitle");
+    if (ui.map.getAttribute("src") !== url) ui.map.src = url;
+    ui.root.querySelector(".map-hint").hidden = hasVenue;
+    ui.root.querySelector(".map-hint span").textContent = text("mapEmpty");
+    ui.root.querySelector(".map-selection").textContent = valid ? `${text("pinSaved")} · ${place.lat.toFixed(5)}, ${place.lon.toFixed(5)}` : manual ? text("manualPin") : text("noPin");
     ui.root.querySelector(".map-privacy").textContent = text("privacy");
     ui.root.querySelector(".map-load-note").textContent = text("mapLoad");
-    ui.searchButton.textContent = text("search");
-    ui.nearButton.textContent = text("nearMe");
-    ui.details.querySelector("summary").textContent = text("mapTitle");
+    ui.query.placeholder = text("searchPlaceholder");
+    ui.searchButton.setAttribute("aria-label", text("search"));
+    ui.searchButton.title = text("search");
+    ui.results.setAttribute("aria-label", text("searchResults"));
+    ui.nearButton.innerHTML = `${venueIcon("locate")}<span>${escapeHtml(text("nearMe"))}</span>`;
+    ui.root.querySelector(".venue-search-help").textContent = text("searchHelp");
+    ui.root.querySelector(".venue-manual summary").textContent = text("manualEntry");
+    ui.root.querySelector(".venue-manual-label").textContent = text("manualAddress");
+    ui.root.querySelector(".venue-search-action").innerHTML = `${venueIcon(hasVenue ? "search" : "plus")}<span>${escapeHtml(text(hasVenue ? "changeVenue" : "addSearch"))}</span>`;
+    ui.root.querySelector(".map-data-credit").textContent = text("dataCredit");
+    const openLink = ui.root.querySelector(".map-open-link");
+    openLink.href = link;
+    openLink.textContent = text("openMap");
+    ui.card.hidden = !hasVenue;
+    ui.card.innerHTML = hasVenue ? `<div class="selected-venue-info"><i>${venueIcon(valid ? "check" : "pin")}</i><div><span>${escapeHtml(text("selectedVenue"))}</span><strong>${escapeHtml(valid ? place.name : manual)}</strong>${valid && place.address ? `<small>${escapeHtml(place.address)}</small>` : ""}</div></div><div class="selected-venue-tools"><a href="${link}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(text("openMap"))}" title="${escapeHtml(text("openMap"))}">${venueIcon("external")}</a><a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(text("directions"))}" title="${escapeHtml(text("directions"))}">${venueIcon("directions")}</a><button type="button" class="remove-venue" aria-label="${escapeHtml(text("removeVenue"))}" title="${escapeHtml(text("removeVenue"))}">${venueIcon("remove")}</button></div>` : "";
   }
 
   function selectPlace(id, place) {
+    if (!validPlace(place)) return;
     const ui = mapState.get(id);
+    cancelVenueWork(ui);
     state.details.locations ||= {};
-    state.details.locations[id] = place;
-    ui.input.value = [place.name, place.address].filter(Boolean).join(", ");
+    state.details.locations[id] = {name:String(place.name || ""),address:String(place.address || ""),lat:place.lat,lon:place.lon};
+    ui.input.value = placeValue(state.details.locations[id]);
     ui.input.dispatchEvent(new Event("input", {bubbles:true}));
+    ui.query.value = "";
     ui.results.replaceChildren();
-    ui.results.hidden = true;
-    ui.input.setAttribute("aria-expanded", "false");
-    ui.status.textContent = text("mapHint");
-    ui.details.open = true;
+    ui.manual.open = false;
+    ui.status.textContent = text("selected");
     updateMap(id);
-    ui.input.focus({preventScroll:true});
+    ui.query.focus({preventScroll:true});
+  }
+
+  function highlightSuggestion(ui, index) {
+    const options = [...ui.results.querySelectorAll(".place-result")];
+    if (!options.length) return;
+    ui.activeOption = (index + options.length) % options.length;
+    options.forEach((option, i) => option.setAttribute("aria-selected", String(i === ui.activeOption)));
+    ui.query.setAttribute("aria-activedescendant", options[ui.activeOption].id);
+    options[ui.activeOption].scrollIntoView({block:"nearest"});
   }
 
   async function search(id) {
     const ui = mapState.get(id);
-    const query = ui.input.value.trim();
-    if (query.length < 2) {ui.status.textContent = text("searchShort"); return;}
-    ui.controller?.abort();
+    if (ui.nearButton.disabled) cancelVenueWork(ui);
+    clearTimeout(ui.timer);
+    const query = ui.query.value.trim();
+    if (query.length < 3) {ui.status.textContent = text("searchShort"); return;}
+    // Only one lookup per field can be in flight. If the user keeps typing, run
+    // just the latest settled query afterwards, rather than flood the provider.
+    if (ui.busy) {ui.queued = true; return;}
+    const sequence = ++ui.sequence;
     const controller = new AbortController();
     ui.controller = controller;
-    ui.searchButton.disabled = true;
+    ui.busy = true;
+    ui.queued = false;
+    ui.root.classList.add("is-searching");
+    ui.query.setAttribute("aria-busy", "true");
     ui.status.textContent = text("searching");
-    ui.results.replaceChildren();
-    ui.results.hidden = true;
-    ui.input.setAttribute("aria-expanded", "false");
+    hideSuggestions(ui);
+    const timeout = setTimeout(() => controller.abort(), 25000);
     try {
       const bias = ui.near || [9.03,38.75];
       const params = new URLSearchParams({q:query,lat:bias[0],lon:bias[1]});
       const response = await fetch(`/api/places?${params}`, {signal:controller.signal});
       if (!response.ok) throw new Error("Places unavailable");
       const result = await response.json();
-      if (ui.input.value.trim() !== query) return;
-      if (!result.places.length) {ui.status.textContent = text("noPlaces"); return;}
-      ui.results.hidden = false;
-      ui.input.setAttribute("aria-expanded", "true");
-      result.places.forEach(place => {
+      if (sequence !== ui.sequence || ui.query.value.trim() !== query) return;
+      const places = Array.isArray(result.places) ? result.places.filter(validPlace).slice(0,6) : [];
+      ui.results.replaceChildren();
+      if (!places.length) {ui.status.textContent = text("noPlaces"); return;}
+      places.forEach((place, index) => {
         const option = document.createElement("button");
         option.type = "button";
+        option.id = `${id}-result-${index}`;
         option.className = "place-result";
-        option.innerHTML = `<span aria-hidden="true">⌖</span><span><strong>${escapeHtml(place.name)}</strong><small>${escapeHtml(place.address)}</small></span>`;
+        option.setAttribute("role", "option");
+        option.setAttribute("aria-selected", "false");
+        option.tabIndex = -1;
+        option.innerHTML = `${venueIcon("pin")}<span><strong>${escapeHtml(place.name)}</strong><small>${escapeHtml(place.address)}</small></span>`;
+        option.addEventListener("pointerdown", event => event.preventDefault());
         option.addEventListener("click", () => selectPlace(id, place));
         ui.results.append(option);
       });
+      ui.results.hidden = false;
+      ui.query.setAttribute("aria-expanded", "true");
       ui.status.textContent = text("mapHint");
-    } catch (error) {
-      if (error.name !== "AbortError") ui.status.textContent = text("searchFailed");
-    } finally {if (ui.controller === controller) ui.searchButton.disabled = false;}
+    } catch {
+      if (sequence === ui.sequence && ui.query.value.trim() === query) ui.status.textContent = text("searchFailed");
+    } finally {
+      clearTimeout(timeout);
+      if (sequence === ui.sequence) {
+        ui.busy = false;
+        ui.controller = null;
+        ui.root.classList.remove("is-searching");
+        ui.query.setAttribute("aria-busy", "false");
+        if (ui.queued && ui.query.value.trim() !== query && ui.query.value.trim().length >= 3) search(id);
+      }
+    }
+  }
+
+  function useCurrentLocation(id) {
+    const ui = mapState.get(id);
+    if (!navigator.geolocation) {ui.status.textContent = text("locationFailed"); return;}
+    cancelVenueWork(ui);
+    const sequence = ui.sequence;
+    ui.nearButton.disabled = true;
+    ui.status.textContent = text("locating");
+    navigator.geolocation.getCurrentPosition(async position => {
+      if (sequence !== ui.sequence) return;
+      const {latitude:lat,longitude:lon} = position.coords;
+      ui.near = [lat,lon];
+      const controller = new AbortController();
+      ui.controller = controller;
+      const timeout = setTimeout(() => controller.abort(), 12000);
+      let place = {name:text("currentLocation"),address:`${lat.toFixed(5)}, ${lon.toFixed(5)}`,lat,lon};
+      try {
+        const response = await fetch(`/api/places/reverse?${new URLSearchParams({lat,lon})}`, {signal:controller.signal});
+        const result = response.ok ? await response.json() : null;
+        if (validPlace(result?.place)) place = {...result.place,lat,lon};
+      } catch { /* A permitted GPS position still works when reverse lookup is offline. */ }
+      finally {clearTimeout(timeout);}
+      if (sequence === ui.sequence) selectPlace(id, place);
+    }, () => {
+      if (sequence !== ui.sequence) return;
+      ui.nearButton.disabled = false;
+      ui.status.textContent = text("locationFailed");
+    }, {enableHighAccuracy:true,timeout:10000,maximumAge:60000});
   }
 
   function enhanceLocations() {
-    for (const id of ["sacredVenue", "receptionVenue", "eventLocation"]) {
-      if (mapState.has(id)) {updateMap(id); continue;}
-      const input = document.getElementById(id);
+    const inputs = [...document.querySelectorAll("input[data-map-location]")];
+    const activeInputs = new Map(inputs.map(input => [input.id, input]));
+    for (const [id, ui] of mapState) {
+      if (activeInputs.get(id) === ui.input) continue;
+      cancelVenueWork(ui);
+      mapState.delete(id);
+    }
+    for (const input of inputs) {
+      const id = input.id;
+      if (!id) continue;
+      if (mapState.has(id)) {
+        const ui = mapState.get(id);
+        cancelVenueWork(ui);
+        ui.query.value = "";
+        ui.status.textContent = "";
+        updateMap(id);
+        continue;
+      }
       const root = document.createElement("div");
       root.className = "location-picker";
       const label = input.closest("label");
+      if (!label) continue;
+      root.dataset.mapKind = input.hasAttribute("data-venue-location") ? "event-venue" : "address";
       // A label must not wrap a map, links, or multiple interactive controls.
       const field = document.createElement("div");
       field.className = label.className;
       const caption = document.createElement("label");
-      caption.htmlFor = id;
-      caption.innerHTML = label.querySelector("span").outerHTML;
+      caption.htmlFor = `${id}-search`;
+      caption.id = `${id}-label`;
+      caption.innerHTML = label.querySelector("span")?.outerHTML || "";
       label.before(field);
       field.append(caption, root);
-      root.innerHTML = `<div class="location-search"></div><div id="${id}-results" class="place-results" hidden></div><p class="map-status" role="status"></p><details class="location-map" ${id === "eventLocation" ? "open" : ""}><summary></summary><div class="map-frame"><iframe loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe><div class="map-place"></div></div><div class="map-tools"><button type="button" class="near-me"></button><span>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a></span></div><p class="map-load-note"></p></details><small class="map-selection"></small><small class="map-privacy"></small>`;
-      const searchRow = root.querySelector(".location-search");
-      searchRow.append(input);
-      const searchButton = document.createElement("button");
-      searchButton.type = "button";
-      searchRow.append(searchButton);
+      root.innerHTML = `<div class="location-search">${venueIcon("search")}<input id="${id}-search" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="${id}-results" aria-expanded="false" aria-labelledby="${id}-label" aria-describedby="${id}-help" autocomplete="off" maxlength="160" spellcheck="false"><span class="venue-search-spinner" aria-hidden="true"></span><button type="button" class="venue-search-submit">${venueIcon("search")}</button></div><small id="${id}-help" class="venue-search-help"></small><div id="${id}-results" class="place-results" role="listbox" hidden></div><div class="location-map"><div class="map-frame"><iframe loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe><div class="map-hint">${venueIcon("pin")}<span></span></div><button type="button" class="near-me"></button></div><div class="map-links"><a class="map-open-link" target="_blank" rel="noopener noreferrer"></a><a class="map-data-credit" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer"></a></div></div><p class="map-status" role="status" aria-live="polite"></p><div class="selected-venue-card" hidden></div><small class="map-selection"></small><button class="venue-search-action" type="button"></button><details class="venue-manual"><summary></summary><label for="${id}" class="venue-manual-label"></label><div class="venue-manual-input"></div></details><small class="map-load-note"></small><small class="map-privacy"></small>`;
+      root.querySelector(".venue-manual-input").append(input);
       label.remove();
       input.autocomplete = "off";
-      input.setAttribute("aria-controls", `${id}-results`);
-      input.setAttribute("aria-expanded", "false");
-      const ui = {root,input,searchButton,details:root.querySelector("details"),map:root.querySelector(".map-frame"),results:root.querySelector(".place-results"),status:root.querySelector(".map-status"),nearButton:root.querySelector(".near-me")};
+      const ui = {root,input,query:root.querySelector('[role="combobox"]'),searchButton:root.querySelector(".venue-search-submit"),map:root.querySelector("iframe"),results:root.querySelector(".place-results"),status:root.querySelector(".map-status"),nearButton:root.querySelector(".near-me"),card:root.querySelector(".selected-venue-card"),manual:root.querySelector(".venue-manual"),sequence:0,activeOption:-1,busy:false};
       mapState.set(id, ui);
-      searchButton.addEventListener("click", () => search(id));
-      input.addEventListener("keydown", event => {
-        if (event.key === "Enter") {event.preventDefault(); search(id);}
-        if (event.key === "ArrowDown" && !ui.results.hidden) {event.preventDefault(); ui.results.querySelector("button")?.focus();}
-        if (event.key === "Escape") {ui.results.hidden = true; input.setAttribute("aria-expanded", "false");}
+      ui.searchButton.addEventListener("click", () => search(id));
+      ui.query.addEventListener("keydown", event => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          if (!ui.results.hidden && ui.activeOption >= 0) ui.results.children[ui.activeOption]?.click();
+          else search(id);
+        }
+        if ((event.key === "ArrowDown" || event.key === "ArrowUp") && !ui.results.hidden) {
+          event.preventDefault();
+          highlightSuggestion(ui, ui.activeOption < 0 ? (event.key === "ArrowDown" ? 0 : -1) : ui.activeOption + (event.key === "ArrowDown" ? 1 : -1));
+        }
+        if (event.key === "Escape") cancelVenueWork(ui);
+        if (event.key === "Tab") hideSuggestions(ui);
       });
-      ui.results.addEventListener("keydown", event => {
-        const options = [...ui.results.querySelectorAll("button")];
-        const index = options.indexOf(event.target);
-        if (event.key === "ArrowDown" || event.key === "ArrowUp") {event.preventDefault(); options[(index + (event.key === "ArrowDown" ? 1 : -1) + options.length) % options.length]?.focus();}
-        if (event.key === "Escape") {ui.results.hidden = true; input.setAttribute("aria-expanded", "false"); input.focus();}
+      ui.query.addEventListener("input", event => {
+        if (ui.nearButton.disabled) cancelVenueWork(ui);
+        clearTimeout(ui.timer);
+        hideSuggestions(ui);
+        ui.status.textContent = ui.query.value.trim().length < 3 ? text("searchShort") : "";
+        if (!event.isComposing && ui.query.value.trim().length >= 3) ui.timer = setTimeout(() => search(id), 300);
       });
+      ui.query.addEventListener("compositionend", () => {clearTimeout(ui.timer); ui.timer = setTimeout(() => search(id), 300);});
       input.addEventListener("input", () => {
-        ui.controller?.abort();
-        ui.searchButton.disabled = false;
-        ui.results.hidden = true;
-        input.setAttribute("aria-expanded", "false");
+        cancelVenueWork(ui);
         const place = state.details.locations?.[id];
-        if (place && input.value !== [place.name,place.address].filter(Boolean).join(", ")) {delete state.details.locations[id]; saveDraft(); updateMap(id);}
+        if (place && input.value !== placeValue(place)) delete state.details.locations[id];
+        updateMap(id);
+        // Pin deletion must be included before the normal form handler saves.
+        saveDraft();
       });
-      ui.nearButton.addEventListener("click", () => {
-        if (!navigator.geolocation) {ui.status.textContent = text("locationFailed"); return;}
-        ui.nearButton.disabled = true;
-        navigator.geolocation.getCurrentPosition(position => {
-          ui.near = [position.coords.latitude, position.coords.longitude];
-          ui.details.open = true;
-          updateMap(id);
-          ui.status.textContent = text("located");
-          ui.nearButton.disabled = false;
-        }, () => {ui.status.textContent = text("locationFailed"); ui.nearButton.disabled = false;}, {timeout:10000, maximumAge:60000});
+      ui.card.addEventListener("click", event => {
+        if (!event.target.closest(".remove-venue")) return;
+        cancelVenueWork(ui);
+        if (state.details.locations) delete state.details.locations[id];
+        ui.input.value = "";
+        ui.input.dispatchEvent(new Event("input", {bubbles:true}));
+        ui.status.textContent = text("noPin");
+        ui.query.focus({preventScroll:true});
       });
+      root.querySelector(".venue-search-action").addEventListener("click", () => {
+        ui.query.focus({preventScroll:true});
+        ui.query.scrollIntoView({block:"center",behavior:"smooth"});
+        ui.query.select();
+      });
+      ui.nearButton.addEventListener("click", () => useCurrentLocation(id));
       updateMap(id);
     }
   }
+
+  document.addEventListener("focusin", event => {
+    mapState.forEach(ui => {
+      if (!ui.root.contains(event.target)) cancelVenueWork(ui);
+    });
+  });
+  document.addEventListener("pointerdown", event => {
+    mapState.forEach(ui => {
+      if (!ui.root.contains(event.target)) cancelVenueWork(ui);
+    });
+  });
+  window.addEventListener("plan-step-change", () => mapState.forEach(cancelVenueWork));
 
   document.addEventListener("input", event => {if (event.target.matches('.picker-native')) updateTrigger(event.target);});
   document.addEventListener("change", event => {if (event.target.matches('.picker-native')) updateTrigger(event.target);});

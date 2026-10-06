@@ -5,22 +5,17 @@ const copy = {
     brandCaption: "Ceremony, beautifully considered.",
     workspaceLabel: "Planning workspace",
     navDetails: "Couple & event",
-    navDetailsHint: "Set the foundation",
     navServices: "Services",
-    navServicesHint: "Choose what is agreed",
     navReview: "Review",
-    navReviewHint: "Check every detail",
     navAgreement: "Agreement",
-    navAgreementHint: "Print or save as PDF",
     navProforma: "Proforma",
-    navProformaHint: "Review the quotation",
     eventDays: "Number of event days",
     servicePrice: "Agreed price",
-    priceAutoHint: "Calculated from selected service prices once all are entered.",
+    priceAutoHint: "Enter one agreed overall fee. The proforma will show a single general price.",
     viewProforma: "View proforma",
     proformaEyebrow: "THE QUOTATION",
     proformaTitle: "Your proforma.",
-    proformaDescription: "A clear, itemized quotation for the couple’s celebration.",
+    proformaDescription: "A clear summary of selected services and one agreed total.",
     backToAgreement: "Agreement",
     printProforma: "Print proforma PDF",
     proformaDocumentTitle: "Proforma",
@@ -28,14 +23,13 @@ const copy = {
     proformaScope: "Selected services",
     proformaService: "Service and agreed details",
     proformaAmount: "Price (ETB)",
-    proformaTotal: "Total quoted price",
+    proformaTotal: "General agreed price",
     proformaDeposit: "Planned deposit",
     proformaBalance: "Balance after deposit",
     proformaThanks: "Thank you for choosing Matrimony By Hanna. It is a privilege to be part of your celebration, and we look forward to caring for every detail with you.",
-    proformaNote: "This proforma summarizes the requested services and prices. The signed service agreement sets out the final terms.",
-    proformaDetailsRequired: "Enter the number of event days and an agreed price for every selected service before opening the proforma.",
+    proformaNote: "The selected services are listed for reference; pricing is shown as one overall fee. The signed agreement sets out the payment terms.",
+    proformaDetailsRequired: "Enter the event days and overall agreed fee before opening the proforma.",
     navRecords: "Records",
-    navRecordsHint: "Find saved couples",
     recordsEyebrow: "THE COUPLES",
     recordsTitle: "Saved records.",
     recordsDescription: "Find a couple by first name and reopen their complete plan.",
@@ -68,9 +62,16 @@ const copy = {
     eventHeading: "When & where",
     weddingDate: "Wedding date",
     weddingTime: "Start time",
-    sacredVenue: "Sacred venue",
-    receptionVenue: "Reception or hall",
-    eventLocation: "City / location",
+    eventVenueTypesHeading: "Where will the wedding events take place?",
+    eventVenueTypesHint: "Select every venue type you need, then choose its location on the map.",
+    venueTypeChurch: "Church / religious venue",
+    venueTypeHall: "Wedding or reception hall",
+    venueTypeHotel: "Hotel / banquet venue",
+    venueTypeOutdoor: "Garden / park / outdoor venue",
+    venueTypeHome: "Home / private residence",
+    venueTypeRestaurant: "Restaurant",
+    venueTypeOther: "Other venue",
+    eventVenues: "Event venues",
     financialEyebrow: "FINANCIAL COMMITMENT",
     financialHeading: "Set the agreement amount",
     totalFee: "Total professional fee",
@@ -122,11 +123,9 @@ const copy = {
     agreementDate: "Agreement date",
     weddingDateAgreement: "Wedding date",
     timeAgreement: "Time",
-    sacredVenueAgreement: "Sacred venue",
-    receptionAgreement: "Reception / hall",
-    cityAgreement: "City / location",
-    introAgreement: "This Agreement is entered into by Matrimony By Hanna and the Clients for the spiritual coordination and planning of the wedding event scheduled for",
-    introAgreementEnd: "This document confirms that the Client has retained the Planner as a professional consultant and wedding day coordinator.",
+    eventVenuesAgreement: "Selected event venues",
+    introAgreement: "This Agreement is made by and between Matrimony by Hanna (the “Service Provider”) and the Clients identified below for the wedding event scheduled for",
+    introAgreementEnd: "The Clients retain Matrimony by Hanna to coordinate the services selected in this Agreement.",
     eventDetails: "Event Details",
     professionalServices: "Professional Services",
     professionalIntro: "Matrimony By Hanna agrees to provide comprehensive support to ensure the spiritual and logistical success of the union:",
@@ -171,22 +170,17 @@ const copy = {
     brandCaption: "ሥነ-ስርዓት፣ በጥንቃቄ የታሰበ።",
     workspaceLabel: "የእቅድ ቦታ",
     navDetails: "ጥንዶቹ እና ዝግጅቱ",
-    navDetailsHint: "መሠረቱን ያዘጋጁ",
     navServices: "አገልግሎቶች",
-    navServicesHint: "የተስማሙበትን ይምረጡ",
     navReview: "ግምገማ",
-    navReviewHint: "ሁሉንም ዝርዝር ይመልከቱ",
     navAgreement: "ስምምነት",
-    navAgreementHint: "ለማተም ወይም PDF",
     navProforma: "ፕሮፎርማ",
-    navProformaHint: "የዋጋ ጥቅሱን ይመልከቱ",
     eventDays: "የዝግጅቱ ቀናት ብዛት",
     servicePrice: "የተስማሙበት ዋጋ",
-    priceAutoHint: "ለሁሉም የተመረጡ አገልግሎቶች ዋጋ ሲገባ ጠቅላላው በራሱ ይሰላል።",
+    priceAutoHint: "አንድ ጠቅላላ የተስማሙበትን ዋጋ ያስገቡ። ፕሮፎርማው አንድ ጠቅላላ ዋጋ ብቻ ያሳያል።",
     viewProforma: "ፕሮፎርማን ይመልከቱ",
     proformaEyebrow: "የዋጋ ጥቅስ",
     proformaTitle: "የእርስዎ ፕሮፎርማ።",
-    proformaDescription: "ለጥንዶቹ ዝግጅት ዝርዝር የዋጋ ጥቅስ።",
+    proformaDescription: "የተመረጡ አገልግሎቶች ማጠቃለያ እና አንድ ጠቅላላ የተስማሙበት ዋጋ።",
     backToAgreement: "ስምምነት",
     printProforma: "ፕሮፎርማ PDF አትም",
     proformaDocumentTitle: "ፕሮፎርማ",
@@ -194,14 +188,13 @@ const copy = {
     proformaScope: "የተመረጡ አገልግሎቶች",
     proformaService: "አገልግሎት እና የተስማሙበት ዝርዝር",
     proformaAmount: "ዋጋ (ETB)",
-    proformaTotal: "ጠቅላላ ዋጋ",
+    proformaTotal: "ጠቅላላ የተስማሙበት ዋጋ",
     proformaDeposit: "የታቀደ ቅድመ ክፍያ",
     proformaBalance: "ከቅድመ ክፍያ በኋላ ቀሪ",
     proformaThanks: "ማትሪሞኒ በሀናን ስለመረጡ እናመሰግናለን። የደስታ ቀናችሁ አካል መሆን ለእኛ ክብር ነው፤ ሁሉንም ዝርዝር በጥንቃቄ እናስተባብራለን።",
-    proformaNote: "ይህ ፕሮፎርማ የተመረጡ አገልግሎቶችን እና ዋጋዎችን ያጠቃልላል። የመጨረሻ ውሎች በተፈረመው ስምምነት ይገለጻሉ።",
-    proformaDetailsRequired: "ፕሮፎርማውን ከመክፈትዎ በፊት የዝግጅቱን ቀናት እና የተመረጡ አገልግሎቶችን ዋጋ ያስገቡ።",
+    proformaNote: "የተመረጡ አገልግሎቶች ለማጣቀሻ ተዘርዝረዋል፤ ዋጋው በአንድ ጠቅላላ መጠን ቀርቧል። የክፍያ ውሎች በተፈረመው ስምምነት ይገለጻሉ።",
+    proformaDetailsRequired: "ፕሮፎርማውን ከመክፈትዎ በፊት የዝግጅቱን ቀናት እና ጠቅላላ የተስማሙበትን ዋጋ ያስገቡ።",
     navRecords: "መዝገቦች",
-    navRecordsHint: "የተቀመጡ ጥንዶችን ፈልጉ",
     recordsEyebrow: "ጥንዶቹ",
     recordsTitle: "የተቀመጡ መዝገቦች።",
     recordsDescription: "በስም ፈልጉ እና ሙሉ እቅዳቸውን ይክፈቱ።",
@@ -234,9 +227,16 @@ const copy = {
     eventHeading: "መቼ እና የት",
     weddingDate: "የሰርግ ቀን",
     weddingTime: "የመጀመሪያ ሰዓት",
-    sacredVenue: "የቤተ-ክርስቲያን ቦታ",
-    receptionVenue: "የድግስ አዳራሽ",
-    eventLocation: "ከተማ / ቦታ",
+    eventVenueTypesHeading: "የሰርጉ ዝግጅቶች የት ይካሄዳሉ?",
+    eventVenueTypesHint: "የሚያስፈልጉዎትን ቦታዎች ሁሉ ይምረጡ፤ ለእያንዳንዱም በካርታው ላይ ቦታ ያስቀምጡ።",
+    venueTypeChurch: "ቤተ-ክርስቲያን / ሃይማኖታዊ ቦታ",
+    venueTypeHall: "የሰርግ ወይም የድግስ አዳራሽ",
+    venueTypeHotel: "ሆቴል / የድግስ ቦታ",
+    venueTypeOutdoor: "አትክልት ስፍራ / ፓርክ / ከቤት ውጭ",
+    venueTypeHome: "ቤት / የግል መኖሪያ",
+    venueTypeRestaurant: "ምግብ ቤት",
+    venueTypeOther: "ሌላ ቦታ",
+    eventVenues: "የዝግጅት ቦታዎች",
     financialEyebrow: "የገንዘብ ስምምነት",
     financialHeading: "የስምምነቱን መጠን ያስገቡ",
     totalFee: "ጠቅላላ የሙያ ክፍያ",
@@ -288,11 +288,9 @@ const copy = {
     agreementDate: "የስምምነት ቀን",
     weddingDateAgreement: "የሰርግ ቀን",
     timeAgreement: "ሰዓት",
-    sacredVenueAgreement: "የቤተ-ክርስቲያን ቦታ",
-    receptionAgreement: "የድግስ / አዳራሽ",
-    cityAgreement: "ከተማ / ቦታ",
-    introAgreement: "ይህ ስምምነት በማትሪሞኒ በሀና እና በደንበኞቹ መካከል ለሰርግ ዝግጅቱ መንፈሳዊ አስተባባሪነት እና እቅድ የተደረገ ነው።",
-    introAgreementEnd: "ይህ ሰነድ ደንበኛው እቅድ አውጪውን እንደ ሙያዊ አማካሪ እና የሰርግ ቀን አስተባባሪ መቅጠሩን ያረጋግጣል።",
+    eventVenuesAgreement: "የተመረጡ የዝግጅት ቦታዎች",
+    introAgreement: "ይህ ውል በማትሪሞኒ ባይ ሃና (ከዚህ በኋላ “አገልግሎት ሰጪ” ተብሎ የሚጠራ) እና ከታች በመረጃቸው በተገለጹት ደንበኞች መካከል የተደረገ ስምምነት ነው። ዝግጅቱም በሚከተለው ቀን ይካሄዳል፦",
+    introAgreementEnd: "ደንበኞቹ በዚህ ውል የተመረጡትን አገልግሎቶች ለማስተባበር ማትሪሞኒ ባይ ሃናን ቀጥረዋል።",
     eventDetails: "የዝግጅት ዝርዝር",
     professionalServices: "የሙያ አገልግሎቶች",
     professionalIntro: "ማትሪሞኒ በሀና የጋብቻውን መንፈሳዊ እና ተግባራዊ ስኬት ለማረጋገጥ አጠቃላይ ድጋፍ ለመስጠት ተስማምቷል፦",
@@ -346,10 +344,47 @@ Object.assign(copy.en, {
   pdfFailed: "PDF export failed. Please retry or use Print to save a PDF.",
   fixFields: "Please complete the highlighted fields.", nameRequired: "Enter a name.",
   dateRequired: "Choose a valid wedding date.", daysRequired: "Enter a whole number from 1 to 365.",
+  totalFeeRequired: "Enter the agreed overall fee.",
   priceRequired: "Enter this service’s price in ETB (0 is allowed).", depositInvalid: "Deposit cannot exceed the total fee.",
   amountInvalid: "Enter a valid amount of 0 or more.", missingPriceHint: "Each selected service needs a price for the proforma.",
   generating: "Preparing the document…", documentFailed: "Could not prepare the document. Please try again.",
-  documentTooLong: "One item is too long to fit safely on the letterhead. Shorten the longest service instructions or planning notes, then try again."
+  documentTooLong: "One item is too long to fit safely on the letterhead. Shorten the longest service instructions or planning notes, then try again.",
+  contractScopeEyebrow: "AGREEMENT SCOPE", contractScopeHeading: "Choose the planning engagement",
+  contractScopeHint: "Premarital education is included when selected in the service list below.",
+  scopeFullPlanning: "Full wedding planning & coordination", scopeDayOf: "Day-of coordination",
+  mediaConsentHeading: "Media and photo consent",
+  mediaConsentYes: "We consent to promotional use of wedding photos and videos.",
+  mediaConsentNo: "Do not post images showing our faces.",
+  agreementParties: "Parties & Contact Information", providerDetails: "Service Provider",
+  providerOffice: "Office: Yeshi Building, in front of Bole Printing, 2nd Floor, Office No. 11",
+  providerPhone: "Phone: +251 95 391 4487", providerEmail: "Email: Hanna@matrimonybyhanna.com",
+  providerBank: "Bank details", bankName: "Bank", bankAccountNo: "Account No.", bankAccountHolder: "Account name",
+  contractScopeTitle: "Selected Services & Scope", scopePremarital: "Premarital Course",
+  otherAddons: "Other agreed add-ons", noAddons: "No other add-ons selected.",
+  termsHeading: "Terms, Conditions & Service Delivery", vendorHeading: "Vendor Coordination Scope",
+  providerResponsibilityHeading: "Service Provider Responsibilities", clientResponsibilityHeading: "Client Responsibilities",
+  vendorScope: "Matrimony by Hanna does not directly provide physical wedding items (such as decor or catering) as an in-house vendor. Instead, the Service Provider coordinates suitable new and existing vendors, assists with pricing and booking, and follows up until their agreed work is complete. For items or services sourced directly by the Clients, the Provider’s role is limited to coordination and the Provider is not responsible for third-party quality or performance.",
+  providerResponsibility: "The Service Provider will deliver the agreed services professionally, maintain appropriate standards, and protect the Clients’ confidential information.",
+  clientResponsibility: "The Clients will provide necessary information and approvals on time, complete agreed tasks promptly, and follow the payment schedule.",
+  paymentTerms: "Payment Terms & Bank Details", advancePayment: "40% advance payment", advanceDue: "Upon signing and commencement",
+  midtermPayment: "40% mid-term payment", midtermDue: "At the midpoint of the work",
+  finalPayment: "20% final payment", finalDue: "Within 24 hours after completion",
+  advanceTerms: "A non-refundable 40% advance is due when this Agreement is signed and work begins.",
+  midtermTerms: "A further 40% is due at the midpoint of the planning or service work.",
+  finalTerms: "The remaining 20% is due within 24 hours after the agreed work is completed.",
+  bankOnly: "Payments are made only to the Service Provider’s official bank account shown below.",
+  changesHeading: "Cancellation & Changes", scopeChanges: "If services are added or removed, the fee will be adjusted by mutual agreement.",
+  forceMajeure: "If unforeseen natural disasters or national circumstances arise, the parties will discuss a reasonable resolution together.",
+  cancellationTerms: "If the Clients cannot proceed with the wedding, the matter will be discussed and adjusted by mutual agreement. Advance payments and expenses already incurred are non-refundable.",
+  mediaTermsHeading: "Media & Photo Consent",
+  mediaTermsYes: "The Clients consent to Matrimony by Hanna using wedding-day photos and videos for promotional social-media content.",
+  mediaTermsNo: "The Clients do not consent to posting images or videos that show their faces. Matrimony by Hanna may post general event setup or decor images only.",
+  amendmentsHeading: "Amendments & Erasures",
+  amendmentsTerms: "Any erasure or handwritten change without the signatures of both parties is invalid. Amendments take effect only when both parties agree to them.",
+  signatureHeading: "Authorization & Signatures",
+  signatureIntro: "By signing below, the parties confirm that they have read and agree to the terms of this Agreement.",
+  clientGroomSignature: "Groom’s name and signature", clientBrideSignature: "Bride’s name and signature",
+  providerSignature: "Matrimony by Hanna · Service Provider"
 });
 Object.assign(copy.am, {
   currentCouple: "የአሁኑ ጥንዶች", nextCelebration: "ቀጣዩ ዝግጅት", newPlan: "አዲስ እቅድ",
@@ -364,7 +399,43 @@ Object.assign(copy.am, {
   priceRequired: "የዚህን አገልግሎት ዋጋ በብር ያስገቡ (0 ይፈቀዳል)።", depositInvalid: "ቅድመ ክፍያው ከጠቅላላ ዋጋው መብለጥ የለበትም።",
   amountInvalid: "0 ወይም ከዚያ በላይ ትክክለኛ ዋጋ ያስገቡ።", missingPriceHint: "ለፕሮፎርማው ሁሉም የተመረጡ አገልግሎቶች ዋጋ ያስፈልጋቸዋል።",
   generating: "ሰነዱን በማዘጋጀት ላይ…", documentFailed: "ሰነዱን ማዘጋጀት አልተቻለም። እንደገና ይሞክሩ።",
-  documentTooLong: "አንድ ዝርዝር በደብዳቤ ራስጌው ገጽ ላይ ለመግጠም በጣም ረጅም ነው። ረጅም የአገልግሎት መመሪያዎችን ወይም ማስታወሻዎችን ያሳጥሩ።"
+  documentTooLong: "አንድ ዝርዝር በደብዳቤ ራስጌው ገጽ ላይ ለመግጠም በጣም ረጅም ነው። ረጅም የአገልግሎት መመሪያዎችን ወይም ማስታወሻዎችን ያሳጥሩ።",
+  totalFeeRequired: "የተስማሙበትን ጠቅላላ ዋጋ ያስገቡ።",
+  contractScopeEyebrow: "የውሉ ወሰን", contractScopeHeading: "የእቅድ አገልግሎቱን ይምረጡ",
+  contractScopeHint: "ቅድመ-ጋብቻ ትምህርት ከታች ባለው የአገልግሎት ዝርዝር ሲመረጥ በውሉ ይካተታል።",
+  scopeFullPlanning: "ሙሉ የሰርግ እቅድ እና ማስተባበሪያ", scopeDayOf: "በሰርጉ ቀን ብቻ ማስተባበሪያ",
+  mediaConsentHeading: "የሚዲያ እና ፎቶ አጠቃቀም ፈቃድ",
+  mediaConsentYes: "የሰርግ ፎቶዎችና ቪዲዮዎች ለማስተዋወቂያ እንዲውሉ ፈቃደኛ ነን።",
+  mediaConsentNo: "ፊታችንን የሚያሳይ ምስል እንዳይለጠፍ አንፈቅድም።",
+  agreementParties: "የውሉ አካላት እና አድራሻ", providerDetails: "አገልግሎት ሰጪ",
+  providerOffice: "የቢሮ አድራሻ፦ የየሺ ህንፃ፣ ከቦሌ ማተሚያ ፊት ለፊት፣ 2ኛ ፎቅ፣ ቢሮ ቁጥር 11",
+  providerPhone: "ስልክ፦ +251 95 391 4487", providerEmail: "ኢሜይል፦ Hanna@matrimonybyhanna.com",
+  providerBank: "የባንክ መረጃ", bankName: "ባንክ", bankAccountNo: "የሂሳብ ቁጥር", bankAccountHolder: "የሂሳቡ ስም",
+  contractScopeTitle: "የተመረጡ አገልግሎቶች እና ወሰን", scopePremarital: "ቅድመ-ጋብቻ ትምህርት",
+  otherAddons: "ሌሎች የተስማሙባቸው ተጨማሪ ሥራዎች", noAddons: "ሌላ ተጨማሪ አገልግሎት አልተመረጠም።",
+  termsHeading: "የውል አንቀጾች እና የሥራ ሂደት", vendorHeading: "የቬንደሮች አስተባባሪነት",
+  providerResponsibilityHeading: "የአገልግሎት ሰጪው ኃላፊነቶች", clientResponsibilityHeading: "የደንበኞች ኃላፊነቶች",
+  vendorScope: "ማትሪሞኒ ባይ ሃና እንደ ዲኮር ወይም ምግብ ያሉ የሰርግ ዕቃዎችን በቀጥታ በራሱ አያቀርብም። በምትኩ ተስማሚ አቅራቢዎችን ያስተባብራል፣ ዋጋ እንዲስማማ እና ቡኪንግ እንዲፈጸም ይረዳል፣ እና የተስማሙበት ሥራ እስኪጠናቀቅ ይከታተላል። ደንበኞቹ በቀጥታ ላቀረቡት ዕቃ ወይም አገልግሎት የአገልግሎት ሰጪው ሚና ማስተባበር ብቻ ነው፤ ለሶስተኛ ወገን ጥራት ወይም አፈጻጸም ኃላፊነት አይወስድም።",
+  providerResponsibility: "አገልግሎት ሰጪው የተስማሙባቸውን አገልግሎቶች በሙያዊነት ያቀርባል፣ ተገቢውን ጥራት ይጠብቃል እና የደንበኞቹን ሚስጥራዊ መረጃ ይጠብቃል።",
+  clientResponsibility: "ደንበኞቹ አስፈላጊ መረጃዎችን እና ፈቃዶችን በጊዜው ያቀርባሉ፣ የተስማሙባቸውን ሥራዎች ያከናውናሉ እና የክፍያ መርሃ ግብሩን ይከተላሉ።",
+  paymentTerms: "የክፍያ ሁኔታዎች እና የባንክ ሂሳብ", advancePayment: "40% ቅድመ ክፍያ", advanceDue: "ውሉ ሲፈረም እና ሥራው ሲጀምር",
+  midtermPayment: "40% መካከለኛ ክፍያ", midtermDue: "ሥራው መሃል ላይ ሲደርስ",
+  finalPayment: "20% ቀሪ ክፍያ", finalDue: "ሥራው ከተጠናቀቀ በ24 ሰዓት ውስጥ",
+  advanceTerms: "የማይመለስ 40% ቅድመ ክፍያ ውሉ ሲፈረም እና ሥራው ሲጀምር ይከፈላል።",
+  midtermTerms: "ተጨማሪ 40% ክፍያ የእቅድ ወይም የአገልግሎት ሥራው መሃል ላይ ይከፈላል።",
+  finalTerms: "የቀረው 20% ክፍያ የተስማሙበት ሥራ ከተጠናቀቀ በ24 ሰዓት ውስጥ ይከፈላል።",
+  bankOnly: "ሁሉም ክፍያዎች ከታች ወደተጠቀሰው የአገልግሎት ሰጪው ይፋዊ የባንክ ሂሳብ ብቻ ይፈጸማሉ።",
+  changesHeading: "ስረዛ እና ለውጦች", scopeChanges: "አገልግሎቶች ሲጨመሩ ወይም ሲቀነሱ ክፍያው በሁለቱም ወገኖች ስምምነት ይስተካከላል።",
+  forceMajeure: "ድንገተኛ የተፈጥሮ አደጋ ወይም ሀገራዊ ሁኔታ ቢያጋጥም፣ ወገኖቹ ተገቢ መፍትሔ ላይ በጋራ ይወያያሉ።",
+  cancellationTerms: "ደንበኞቹ ሰርጉን ማካሄድ ካልቻሉ ጉዳዩ በጋራ ውይይት ይስተካከላል። ቀድሞ የተከፈለ ቅድመ ክፍያ እና የወጡ ወጪዎች አይመለሱም።",
+  mediaTermsHeading: "የሚዲያ እና ፎቶ አጠቃቀም ፈቃድ",
+  mediaTermsYes: "ደንበኞቹ በሰርጉ ቀን የሚነሱ ፎቶዎችና ቪዲዮዎች ለማትሪሞኒ ባይ ሃና ማስተዋወቂያ ማህበራዊ ሚዲያ አጠቃቀም እንዲውሉ ፈቅደዋል።",
+  mediaTermsNo: "ደንበኞቹ ፊታቸውን የሚያሳይ ምስል ወይም ቪዲዮ እንዲለጠፍ አልፈቀዱም። ማትሪሞኒ ባይ ሃና የዝግጅቱን አጠቃላይ ዝግጅት ወይም ዲኮር ብቻ ሊያሳይ ይችላል።",
+  amendmentsHeading: "የውል ማሻሻያ እና ስርዝ-ድልዝ",
+  amendmentsTerms: "በሁለቱም ወገኖች ፊርማ ያልተደረገበት ስርዝ-ድልዝ ወይም በእጅ የተደረገ ለውጥ ተቀባይነት የለውም። ማንኛውም ማሻሻያ በሁለቱም ወገኖች ስምምነት ብቻ ይጸናል።",
+  signatureHeading: "ፈቃድ እና ፊርማ", signatureIntro: "ከታች በመፈረም ወገኖቹ የዚህን ውል ውሎች አንብበው እንደተስማሙ ያረጋግጣሉ።",
+  clientGroomSignature: "የሙሽራው ስም እና ፊርማ", clientBrideSignature: "የሙሽሪት ስም እና ፊርማ",
+  providerSignature: "ማትሪሞኒ ባይ ሃና · አገልግሎት ሰጪ"
 });
 
 const services = [
@@ -619,7 +690,16 @@ const groupLabels = {
   am: { spiritual: "መንፈሳዊ እና ቤተ-ክርስቲያን", venue: "ቦታ እና ድባብ", hospitality: "እንግዳ አቀባበል", style: "ውበት እና ሰዎች", logistics: "ዝግጅት እና አስተዳደር" }
 };
 
-const fieldIds = ["brideName", "bridePhone", "brideAddress", "groomName", "groomPhone", "groomAddress", "weddingDate", "weddingTime", "eventDays", "sacredVenue", "receptionVenue", "eventLocation", "totalFee", "deposit", "generalNotes"];
+const fieldIds = ["brideName", "bridePhone", "brideAddress", "groomName", "groomPhone", "groomAddress", "weddingDate", "weddingTime", "eventDays", "totalFee", "generalNotes"];
+const eventVenueCatalog = [
+  { id: "church", label: "venueTypeChurch", legacy: "sacredVenue" },
+  { id: "hall", label: "venueTypeHall", legacy: "receptionVenue" },
+  { id: "hotel", label: "venueTypeHotel" },
+  { id: "outdoor", label: "venueTypeOutdoor" },
+  { id: "home", label: "venueTypeHome" },
+  { id: "restaurant", label: "venueTypeRestaurant" },
+  { id: "other", label: "venueTypeOther" }
+];
 
 const state = {
   lang: "en",
@@ -631,6 +711,58 @@ const state = {
   details: {},
   services: {}
 };
+
+function normalizeEventVenues() {
+  state.details ||= {};
+  const details = state.details;
+  const hasVenueSelection = Array.isArray(details.eventVenueTypes);
+  const chosen = new Set(hasVenueSelection ? details.eventVenueTypes : []);
+  details.venues ||= {};
+  details.locations ||= {};
+  eventVenueCatalog.forEach((venue) => {
+    // Import legacy fields once; subsequent edits must not restore old names or pins.
+    if (hasVenueSelection || !venue.legacy || !details[venue.legacy]) return;
+    if (!details.venues[venue.id]) details.venues[venue.id] = details[venue.legacy];
+    const oldPin = details.locations[venue.legacy];
+    if (oldPin && !details.locations[`venue-${venue.id}`]) details.locations[`venue-${venue.id}`] = { ...oldPin };
+    chosen.add(venue.id);
+  });
+  details.eventVenueTypes = [...chosen].filter((id) => eventVenueCatalog.some((venue) => venue.id === id));
+}
+
+function syncEventVenueChoicesToForm() {
+  normalizeEventVenues();
+  const chosen = new Set(state.details.eventVenueTypes);
+  document.querySelectorAll("[data-event-venue-type]").forEach((input) => { input.checked = chosen.has(input.dataset.eventVenueType); });
+  renderEventVenueFields();
+}
+
+function renderEventVenueFields() {
+  const container = document.getElementById("eventVenueFields");
+  if (!container) return;
+  normalizeEventVenues();
+  const chosen = new Set(state.details.eventVenueTypes);
+  container.innerHTML = eventVenueCatalog.filter((venue) => chosen.has(venue.id)).map((venue) => {
+    const inputId = `venue-${venue.id}`;
+    const name = state.details.venues[venue.id] || "";
+    return `<label class="field field-full venue-location-field"><span data-i18n="${venue.label}">${escapeHtml(t(venue.label))}</span><input id="${inputId}" type="text" data-map-location data-venue-location="${venue.id}" value="${escapeHtml(name)}" autocomplete="off" /></label>`;
+  }).join("");
+  window.dispatchEvent(new Event("plan-ui-update"));
+}
+
+function selectedEventVenues() {
+  normalizeEventVenues();
+  const chosen = new Set(state.details.eventVenueTypes);
+  return eventVenueCatalog.filter((venue) => chosen.has(venue.id)).map((venue) => ({
+    id: venue.id,
+    label: t(venue.label),
+    name: state.details.venues[venue.id] || ""
+  }));
+}
+
+function eventVenueSummary() {
+  return selectedEventVenues().map((venue) => venue.name ? `${venue.label}: ${venue.name}` : venue.label).join(" · ") || t("notSet");
+}
 
 let saveTimer;
 let toastTimer;
@@ -657,6 +789,10 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function iconUse(name) {
+  return `<svg class="ui-icon" aria-hidden="true"><use href="#icon-${name}"></use></svg>`;
 }
 
 function formatMoney(value) {
@@ -696,16 +832,23 @@ function hasValidPrice(value) {
 }
 
 function reconcileServiceTotal() {
-  const selected = selectedServices();
-  const allPriced = selected.length > 0 && selected.every(service => hasValidPrice(getServiceState(service.id).price));
-  const totalInput = document.getElementById("totalFee");
-  if (totalInput) totalInput.readOnly = allPriced;
-  if (allPriced) {
-    const total = selected.reduce((sum, service) => sum + Math.round(Number(getServiceState(service.id).price) * 100), 0) / 100;
-    state.details.totalFee = String(total);
-    if (totalInput) totalInput.value = String(total);
-  }
   updateBalance();
+}
+
+function paymentSchedule(total) {
+  const totalCents = Math.max(0, Math.round((Number(total) || 0) * 100));
+  const advanceCents = Math.round(totalCents * 0.4);
+  const midtermCents = Math.round(totalCents * 0.4);
+  return { advance: advanceCents / 100, midterm: midtermCents / 100, final: (totalCents - advanceCents - midtermCents) / 100 };
+}
+
+function syncContractChoicesToForm() {
+  const full = document.getElementById("scopeFullPlanning");
+  const dayOf = document.getElementById("scopeDayOf");
+  if (full) full.checked = Boolean(state.details.scopeFullPlanning);
+  if (dayOf) dayOf.checked = Boolean(state.details.scopeDayOfCoordination);
+  const consent = state.details.mediaConsent === "yes" ? "yes" : "no";
+  document.querySelectorAll('input[name="mediaConsent"]').forEach(input => { input.checked = input.value === consent; });
 }
 
 function defaultOptionValue(option) {
@@ -750,6 +893,8 @@ function loadDraft() {
     state.lang = saved.lang === "am" ? "am" : "en";
     state.details = saved.details || {};
     if (!state.details.eventDays) state.details.eventDays = "1";
+    if (!state.details.mediaConsent) state.details.mediaConsent = "no";
+    normalizeEventVenues();
     state.services = saved.services || {};
     state.recordId = Number.isInteger(saved.recordId) ? saved.recordId : null;
     recordStatus = state.recordId ? "recordDirty" : "newPlan";
@@ -757,6 +902,7 @@ function loadDraft() {
       const element = document.getElementById(id);
       if (element && state.details[id] !== undefined) element.value = state.details[id];
     });
+    syncContractChoicesToForm();
     updateBalance();
   } catch (error) {
     console.warn("Unable to load local draft", error);
@@ -787,7 +933,17 @@ function syncDetailsFromForm() {
     const element = document.getElementById(id);
     if (element) state.details[id] = element.value;
   });
+  normalizeEventVenues();
+  state.details.eventVenueTypes = [...document.querySelectorAll("[data-event-venue-type]:checked")].map((input) => input.dataset.eventVenueType);
+  document.querySelectorAll("[data-venue-location]").forEach((input) => {
+    state.details.venues[input.dataset.venueLocation] = input.value;
+  });
+  state.details.scopeFullPlanning = Boolean(document.getElementById("scopeFullPlanning")?.checked);
+  state.details.scopeDayOfCoordination = Boolean(document.getElementById("scopeDayOf")?.checked);
+  const consent = document.querySelector('input[name="mediaConsent"]:checked');
+  if (consent) state.details.mediaConsent = consent.value;
   updateBalance();
+  renderReview();
   saveDraft();
 }
 
@@ -811,10 +967,11 @@ function renderCoupleContext() {
 
 function updateBalance() {
   const total = Number(document.getElementById("totalFee")?.value ?? state.details.totalFee) || 0;
-  const deposit = Number(document.getElementById("deposit")?.value ?? state.details.deposit) || 0;
-  const balance = Math.max(total - deposit, 0);
-  const balanceValue = document.getElementById("balanceValue");
-  if (balanceValue) balanceValue.textContent = formatMoney(balance);
+  const schedule = paymentSchedule(total);
+  for (const [id, amount] of [["advanceValue", schedule.advance], ["midtermValue", schedule.midterm], ["finalPaymentValue", schedule.final]]) {
+    const output = document.getElementById(id);
+    if (output) output.textContent = formatMoney(amount);
+  }
 }
 
 function showToast(message) {
@@ -871,7 +1028,6 @@ function renderServiceCard(service) {
     </div>
     <div class="service-options">
       <div class="options-grid">${options}</div>
-      <label class="service-option is-wide service-price-field"><span class="service-option-label">${escapeHtml(t("servicePrice"))} · ETB</span><input type="number" min="0" step="0.01" inputmode="decimal" data-service-price="${service.id}" value="${escapeHtml(serviceState.price ?? "")}" placeholder="0.00" /></label>
       <label class="service-option is-wide" style="margin-top:12px"><span class="service-option-label">${escapeHtml(t("serviceNotes"))}</span><textarea rows="2" data-service-notes="${service.id}" placeholder="${escapeHtml(t("serviceNotesPlaceholder"))}">${escapeHtml(serviceState.notes || "")}</textarea></label>
     </div>
   </article>`;
@@ -930,17 +1086,17 @@ function renderReview() {
   const reviewServices = document.getElementById("reviewServices");
   if (!people || !event || !financial || !reviewServices) return;
   people.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("people"))}</h3><span>01</span></div><div class="review-lines">${reviewLine(t("brideName"), details.brideName)}${reviewLine(t("groomName"), details.groomName)}${reviewLine(t("bridePhone"), details.bridePhone)}${reviewLine(t("groomPhone"), details.groomPhone)}</div>`;
-  event.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("event"))}</h3><span>02</span></div><div class="review-lines">${reviewLine(t("weddingDate"), formatDate(details.weddingDate))}${reviewLine(t("eventDays"), details.eventDays || "1")}${reviewLine(t("weddingTime"), formatTime(details.weddingTime))}${reviewLine(t("sacredVenue"), details.sacredVenue)}${reviewLine(t("receptionVenue"), details.receptionVenue || t("notSet"))}${reviewLine(t("eventLocation"), details.eventLocation || t("notSet"))}</div>`;
+  event.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("event"))}</h3><span>02</span></div><div class="review-lines">${reviewLine(t("weddingDate"), formatDate(details.weddingDate))}${reviewLine(t("eventDays"), details.eventDays || "1")}${reviewLine(t("weddingTime"), formatTime(details.weddingTime))}${reviewLine(t("eventVenues"), eventVenueSummary())}</div>`;
   const total = Number(details.totalFee) || 0;
-  const deposit = Number(details.deposit) || 0;
-  financial.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("financial"))}</h3><span>03</span></div><div class="review-financial"><div class="review-number"><span>${escapeHtml(t("total"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div><div class="review-number"><span>${escapeHtml(t("depositLabel"))}</span><strong>${escapeHtml(formatMoney(deposit))}</strong></div><div class="review-number"><span>${escapeHtml(t("balanceLabel"))}</span><strong>${escapeHtml(formatMoney(Math.max(total - deposit, 0)))}</strong></div></div>${details.generalNotes ? `<div class="review-lines" style="margin-top:14px">${reviewLine(t("reviewNotes"), details.generalNotes)}</div>` : ""}`;
+  const schedule = paymentSchedule(total);
+  financial.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("financial"))}</h3><span>03</span></div><div class="review-financial"><div class="review-number"><span>${escapeHtml(t("total"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div><div class="review-number"><span>${escapeHtml(t("advancePayment"))}</span><strong>${escapeHtml(formatMoney(schedule.advance))}</strong></div><div class="review-number"><span>${escapeHtml(t("midtermPayment"))}</span><strong>${escapeHtml(formatMoney(schedule.midterm))}</strong></div><div class="review-number"><span>${escapeHtml(t("finalPayment"))}</span><strong>${escapeHtml(formatMoney(schedule.final))}</strong></div></div>${details.generalNotes ? `<div class="review-lines" style="margin-top:14px">${reviewLine(t("reviewNotes"), details.generalNotes)}</div>` : ""}`;
   const selected = selectedServices();
   const serviceItems = selected.map((service) => {
     const summary = serviceOptionSummary(service);
-    const price = getServiceState(service.id).price;
-    return `<li><div><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}${hasValidPrice(price) ? `<small>${escapeHtml(formatMoney(price))}</small>` : ""}</div></li>`;
+    return `<li><div><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}</div></li>`;
   }).join("");
-  reviewServices.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("agreedServices"))}</h3><span>${selected.length} / 21</span></div>${selected.length ? `<ul class="review-services-list">${serviceItems}</ul>` : `<div class="review-empty">${escapeHtml(t("noServices"))}</div>`}`;
+  const scope = [details.scopeFullPlanning && t("scopeFullPlanning"), details.scopeDayOfCoordination && t("scopeDayOf")].filter(Boolean);
+  reviewServices.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("agreedServices"))}</h3><span>${selected.length} / 21</span></div>${scope.length ? `<div class="review-scope-line">${scope.map(escapeHtml).join(" · ")}</div>` : ""}${selected.length ? `<ul class="review-services-list">${serviceItems}</ul>` : `<div class="review-empty">${escapeHtml(t("noServices"))}</div>`}`;
 }
 
 function detail(value, fallback = "") {
@@ -953,15 +1109,21 @@ function renderAgreement() {
   const d = state.details;
   const selected = selectedServices();
   const agreementDate = formatDate(dateInputValue());
-  const agreedList = selected.length ? selected.map((service) => {
+  const premarital = services.find(service => service.id === "premarital");
+  const premaritalSummary = premarital && getServiceState("premarital").selected ? serviceOptionSummary(premarital) : [];
+  const packageRows = [
+    [t("scopePremarital"), Boolean(getServiceState("premarital").selected), premaritalSummary],
+    [t("scopeFullPlanning"), Boolean(d.scopeFullPlanning), []],
+    [t("scopeDayOf"), Boolean(d.scopeDayOfCoordination), []]
+  ].map(([label, checked, summary]) => `<li class="agreement-check-row"><span class="contract-checkbox${checked ? " is-checked" : ""}" aria-hidden="true">${checked ? "✓" : ""}</span><div><strong>${escapeHtml(label)}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}</div></li>`).join("");
+  const addOns = selected.filter(service => service.id !== "premarital").map((service) => {
     const summary = serviceOptionSummary(service);
     return `<li><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<div class="service-selection-detail">${escapeHtml(summary.join(" · "))}</div>` : ""}</li>`;
-  }).join("") : `<li>${escapeHtml(t("noServices"))}</li>`;
+  }).join("");
   const total = Number(d.totalFee) || 0;
-  const deposit = Number(d.deposit) || 0;
-  const balance = Math.max(total - deposit, 0);
+  const schedule = paymentSchedule(total);
   const weddingDate = d.weddingDate ? formatDate(d.weddingDate) : "____________________________";
-  const clientAddress = d.brideAddress || d.groomAddress || "____________________________";
+  const eventVenueRows = selectedEventVenues().map((venue) => `<div class="event-venue-document-row"><strong>${escapeHtml(venue.label)}</strong><span>${detail(venue.name, t("notSet"))}</span></div>`).join("") || `<div class="doc-value">${escapeHtml(t("notSet"))}</div>`;
   const intro = `${escapeHtml(t("introAgreement"))} <strong>${escapeHtml(weddingDate)}</strong>. ${escapeHtml(t("introAgreementEnd"))}`;
   const referenceNumber = documentReference("AG");
   const referenceLabel = state.lang === "am" ? "መዝገብ ቁጥር" : "Ref No:";
@@ -976,43 +1138,45 @@ function renderAgreement() {
     </div>
     <div class="contract-rule" aria-hidden="true"></div>
     <div class="agreement-kicker">MATRIMONY BY HANNA · ${escapeHtml(state.lang === "am" ? "የአገልግሎት ውል" : "SERVICE AGREEMENT")}</div>
-    <h2 class="agreement-title">${escapeHtml(state.lang === "am" ? "የአገልግሎት ስምምነት" : "Service Agreement")}<span>${escapeHtml(state.lang === "am" ? "በማትሪሞኒ በሀና" : "By Matrimony By Hanna")}</span></h2>
+    <h2 class="agreement-title">${escapeHtml(state.lang === "am" ? "የሰርግ እና የቅድመ-ጋብቻ አገልግሎት ውል" : "Wedding & Premarital Service Agreement")}<span>${escapeHtml(state.lang === "am" ? "በማትሪሞኒ ባይ ሃና" : "By Matrimony by Hanna")}</span></h2>
     <div class="agreement-top-rule"></div>
     <div class="agreement-meta">
       <div><div class="doc-label">${escapeHtml(t("agreementDate"))}</div><div class="doc-value">${escapeHtml(agreementDate)}</div></div>
       <div><div class="doc-label">${escapeHtml(t("weddingDateAgreement"))}</div><div class="doc-value">${escapeHtml(formatDate(d.weddingDate))}</div></div>
       <div><div class="doc-label">${escapeHtml(t("eventDays"))}</div><div class="doc-value">${escapeHtml(d.eventDays || "1")}</div></div>
     </div>
-    <div class="party-grid">
+    <section><h3>${escapeHtml(t("agreementParties"))}</h3><div class="provider-details">
+      <div class="provider-details-card"><div class="doc-label">${escapeHtml(t("providerDetails"))}</div><strong>Matrimony by Hanna</strong><div class="provider-contact-lines"><p>${escapeHtml(t("providerPhone"))}</p><p>${escapeHtml(t("providerEmail"))}</p><p>${escapeHtml(t("providerOffice"))}</p></div></div>
+      <div class="bank-details-card"><div class="doc-label">${escapeHtml(t("providerBank"))}</div><div class="bank-detail-row"><span>${escapeHtml(t("bankName"))}</span><i aria-hidden="true"></i></div><div class="bank-detail-row"><span>${escapeHtml(t("bankAccountNo"))}</span><i aria-hidden="true"></i></div><div class="bank-detail-row"><span>${escapeHtml(t("bankAccountHolder"))}</span><i aria-hidden="true"></i></div></div>
+    </div><div class="party-grid">
       <div><div class="doc-label">${escapeHtml(t("brideName"))}</div><div class="doc-value">${detail(d.brideName, "____________________________")}</div></div>
       <div><div class="doc-label">${escapeHtml(t("groomName"))}</div><div class="doc-value">${detail(d.groomName, "____________________________")}</div></div>
       <div><div class="doc-label">${escapeHtml(t("bridePhone"))}</div><div class="doc-value">${detail(d.bridePhone, "____________________________")}</div></div>
       <div><div class="doc-label">${escapeHtml(t("groomPhone"))}</div><div class="doc-value">${detail(d.groomPhone, "____________________________")}</div></div>
       <div><div class="doc-label">${escapeHtml(t("brideAddress"))}</div><div class="doc-value">${detail(d.brideAddress, "____________________________")}</div></div>
       <div><div class="doc-label">${escapeHtml(t("groomAddress"))}</div><div class="doc-value">${detail(d.groomAddress, "____________________________")}</div></div>
-    </div>
+    </div></section>
     <p class="intro-paragraph">${intro}</p>
     <section><h3>${escapeHtml(t("eventDetails"))}</h3><div class="agreement-details-grid">
       <div><div class="doc-label">${escapeHtml(t("weddingDateAgreement"))}</div><div class="doc-value">${escapeHtml(formatDate(d.weddingDate))}</div></div>
       <div><div class="doc-label">${escapeHtml(t("timeAgreement"))}</div><div class="doc-value">${escapeHtml(formatTime(d.weddingTime))}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("sacredVenueAgreement"))}</div><div class="doc-value">${detail(d.sacredVenue)}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("receptionAgreement"))}</div><div class="doc-value">${detail(d.receptionVenue)}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("cityAgreement"))}</div><div class="doc-value">${detail(d.eventLocation)}</div></div>
+      <div class="event-venues-document"><div class="doc-label">${escapeHtml(t("eventVenuesAgreement"))}</div>${eventVenueRows}</div>
     </div></section>
-    <section><h3>${escapeHtml(t("professionalServices"))}</h3><p>${escapeHtml(t("professionalIntro"))}</p><ul class="agreement-list">
-      <li>${escapeHtml(t("vision"))}</li><li>${escapeHtml(t("vendor"))}</li><li>${escapeHtml(t("preparation"))}</li><li>${escapeHtml(t("onsite"))}</li><li>${escapeHtml(t("logistics"))}</li><li>${escapeHtml(t("rehearsal"))}</li><li>${escapeHtml(t("postCeremony"))}</li><li>${escapeHtml(t("problem"))}</li>
-    </ul></section>
-    <section class="agreed-services"><h3>${escapeHtml(t("agreedServices"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ol class="agreed-services-list">${agreedList}</ol></section>
-    <section><h3>${escapeHtml(t("financialCommitment"))}</h3><p>${escapeHtml(t("financialIntro"))} <strong>${escapeHtml(formatMoney(total))}</strong>.</p><p>${escapeHtml(t("depositIntro"))} <strong>${escapeHtml(formatMoney(deposit))}</strong> ${escapeHtml(t("depositEnd").replace(/^ETB\s*/, ""))}</p><p>${escapeHtml(t("finalIntro"))} <strong>${escapeHtml(formatMoney(balance))}</strong> ${escapeHtml(t("finalEnd").replace(/^ETB\s*/, ""))}</p><div class="financial-table">
-      <div class="financial-row"><span>${escapeHtml(t("depositLabel"))}</span><strong>${escapeHtml(formatMoney(deposit))}</strong></div>
-      <div class="financial-row"><span>${escapeHtml(t("balanceLabel"))}</span><strong>${escapeHtml(formatMoney(balance))}</strong></div>
-      <div class="financial-row"><span>${escapeHtml(t("total"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div>
-    </div></section>
-    <section><h3>${escapeHtml(t("policies"))}</h3><ul class="policy-list"><li>${escapeHtml(t("cancellation"))}</li><li>${escapeHtml(t("cooperation"))}</li><li>${escapeHtml(t("confidentiality"))}</li></ul></section>
+    <section class="agreed-services"><h3>${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><h4>${escapeHtml(t("otherAddons"))}</h4><ol class="agreed-services-list">${addOns || `<li>${escapeHtml(t("noAddons"))}</li>`}</ol></section>
+    <section><h3>${escapeHtml(t("termsHeading"))}</h3><h4>${escapeHtml(t("vendorHeading"))}</h4><p>${escapeHtml(t("vendorScope"))}</p><h4>${escapeHtml(t("providerResponsibilityHeading"))}</h4><p>${escapeHtml(t("providerResponsibility"))}</p><h4>${escapeHtml(t("clientResponsibilityHeading"))}</h4><p>${escapeHtml(t("clientResponsibility"))}</p></section>
+    <section><h3>${escapeHtml(t("paymentTerms"))}</h3><p>${escapeHtml(t("financialIntro"))} <strong>${escapeHtml(formatMoney(total))}</strong>.</p><div class="payment-stage-list">
+      <div class="payment-stage"><div><strong>${escapeHtml(t("advancePayment"))}</strong><small>${escapeHtml(t("advanceTerms"))}</small></div><b>${escapeHtml(formatMoney(schedule.advance))}</b></div>
+      <div class="payment-stage"><div><strong>${escapeHtml(t("midtermPayment"))}</strong><small>${escapeHtml(t("midtermTerms"))}</small></div><b>${escapeHtml(formatMoney(schedule.midterm))}</b></div>
+      <div class="payment-stage"><div><strong>${escapeHtml(t("finalPayment"))}</strong><small>${escapeHtml(t("finalTerms"))}</small></div><b>${escapeHtml(formatMoney(schedule.final))}</b></div>
+    </div><p>${escapeHtml(t("bankOnly"))}</p></section>
+    <section><h3>${escapeHtml(t("changesHeading"))}</h3><p>${escapeHtml(t("scopeChanges"))}</p><p>${escapeHtml(t("forceMajeure"))}</p><p>${escapeHtml(t("cancellationTerms"))}</p></section>
+    <section><h3>${escapeHtml(t("mediaTermsHeading"))}</h3><div class="agreement-consent"><span class="contract-checkbox${d.mediaConsent === "yes" ? " is-checked" : ""}" aria-hidden="true">${d.mediaConsent === "yes" ? "✓" : ""}</span><p>${escapeHtml(d.mediaConsent === "yes" ? t("mediaConsentYes") : t("mediaConsentNo"))}</p></div><p>${escapeHtml(d.mediaConsent === "yes" ? t("mediaTermsYes") : t("mediaTermsNo"))}</p></section>
+    <section><h3>${escapeHtml(t("amendmentsHeading"))}</h3><p>${escapeHtml(t("amendmentsTerms"))}</p></section>
     ${d.generalNotes ? `<section><h3>${escapeHtml(t("reviewNotes"))}</h3><p>${escapeHtml(d.generalNotes)}</p></section>` : ""}
-    <section><h3>${escapeHtml(t("authorization"))}</h3><p>${escapeHtml(t("authorizationIntro"))}</p><div class="signature-grid">
-      <div class="signature-block"><div class="signature-line">${escapeHtml(t("clientSignature"))}</div><div class="signature-line">${escapeHtml(t("date"))}</div></div>
-      <div class="signature-block"><div class="signature-line">${escapeHtml(t("plannerSignature"))}</div><div class="signature-line">${escapeHtml(t("date"))}</div></div>
+    <section><h3>${escapeHtml(t("signatureHeading"))}</h3><p>${escapeHtml(t("signatureIntro"))}</p><div class="signature-grid">
+      <div class="signature-block"><div class="signature-line">${detail(d.groomName, "____________________")} · ${escapeHtml(t("clientGroomSignature"))}</div><div class="signature-line">${escapeHtml(t("date"))}</div></div>
+      <div class="signature-block"><div class="signature-line">${detail(d.brideName, "____________________")} · ${escapeHtml(t("clientBrideSignature"))}</div><div class="signature-line">${escapeHtml(t("date"))}</div></div>
+      <div class="signature-block"><div class="signature-line">${escapeHtml(t("providerSignature"))}</div><div class="signature-line">${escapeHtml(t("date"))}</div></div>
     </div></section>
     <div class="agreement-footer"><strong>MATRIMONY BY HANNA</strong><div class="agreement-footer-contact">+251 95 391 4487 · www.matrimonybyhanna.com<br />Hanna@matrimonybyhanna.com<br />Yeshi Building, In Front Of Bole Printing, 2nd Floor, Office No 11<br />${escapeHtml(t("agreementFooter"))}</div></div>
   </article>`;
@@ -1024,29 +1188,26 @@ function renderProforma() {
   if (!container) return;
   const details = state.details;
   const selected = selectedServices();
-  const total = selected.reduce((sum, service) => sum + Math.round((Number(getServiceState(service.id).price) || 0) * 100), 0) / 100;
-  const deposit = Math.min(Math.max(Number(details.deposit) || 0, 0), total);
+  const total = Number(details.totalFee) || 0;
   const issueDate = formatDate(dateInputValue());
   const reference = documentReference("PF");
   const serviceRows = selected.map((service) => {
     const summary = serviceOptionSummary(service);
-    const price = getServiceState(service.id).price;
-    return `<li class="proforma-item"><div><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}</div><b>${hasValidPrice(price) ? escapeHtml(formatMoney(price)) : "—"}</b></li>`;
+    return `<li class="proforma-item"><div><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}</div></li>`;
   }).join("");
   container.innerHTML = `<article class="agreement-paper proforma-paper">
-    <div class="agreement-kicker">MATRIMONY BY HANNA · ${escapeHtml(t("proformaEyebrow"))}</div>
+    <div class="agreement-kicker">MATRIMONY BY HANNA <span aria-hidden="true">·</span> ${escapeHtml(t("proformaEyebrow"))}</div>
     <h2 class="agreement-title">${escapeHtml(t("proformaDocumentTitle"))}<span>${escapeHtml(t("proformaDescription"))}</span></h2>
     <div class="proforma-couple"><div class="doc-label">${escapeHtml(t("proformaPreparedFor"))}</div><strong>${detail(details.brideName)} <span>&amp;</span> ${detail(details.groomName)}</strong></div>
     <div class="proforma-facts">
       <div><div class="doc-label">${escapeHtml(t("weddingDate"))}</div><div class="doc-value">${escapeHtml(formatDate(details.weddingDate))}</div></div>
       <div><div class="doc-label">${escapeHtml(t("eventDays"))}</div><div class="doc-value">${escapeHtml(details.eventDays || "1")}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("eventLocation"))}</div><div class="doc-value">${detail(details.eventLocation)}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("eventVenues"))}</div><div class="doc-value">${escapeHtml(eventVenueSummary())}</div></div>
     </div>
-    <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3><div class="proforma-table-head"><span>${escapeHtml(t("proformaService"))}</span><span>${escapeHtml(t("proformaAmount"))}</span></div><ul class="proforma-service-list">${serviceRows}</ul></section>
+    <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3><ul class="proforma-service-list">${serviceRows}</ul></section>
     <div class="proforma-closing">
-    <section class="proforma-totals">
-      <div><span>${escapeHtml(t("proformaTotal"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div>
-      ${deposit ? `<div><span>${escapeHtml(t("proformaDeposit"))}</span><strong>${escapeHtml(formatMoney(deposit))}</strong></div><div><span>${escapeHtml(t("proformaBalance"))}</span><strong>${escapeHtml(formatMoney(total - deposit))}</strong></div>` : ""}
+    <section class="proforma-totals" aria-label="${escapeHtml(t("proformaTotal"))}">
+      <div class="proforma-total-banner"><span>${escapeHtml(t("proformaTotal"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div>
     </section>
     <section class="proforma-gratitude"><h3>${escapeHtml(state.lang === "am" ? "እናመሰግናለን" : "With gratitude")}</h3><p>${escapeHtml(t("proformaThanks"))}</p></section>
     <p class="proforma-note">${escapeHtml(t("proformaNote"))}</p>
@@ -1114,8 +1275,12 @@ function paginateAgreement(container, reference, date) {
     body.append(block);
     if (fits()) continue;
     // Long service lists can span pages; keep each individual selection intact.
-    const list = block.querySelector('ol, ul');
+    const lists = Array.from(block.querySelectorAll('ol, ul'));
+    const list = lists.sort((a, b) => b.children.length - a.children.length)[0];
     if (!list) continue;
+    const listSelector = list.matches('.agreed-services-list')
+      ? '.agreed-services-list'
+      : `${list.tagName.toLowerCase()}${list.classList.length ? `.${Array.from(list.classList).join('.')}` : ''}`;
     const items = Array.from(list.children);
     list.replaceChildren();
     let currentList = list;
@@ -1124,11 +1289,13 @@ function paginateAgreement(container, reference, date) {
       if (fits()) continue;
       item.remove();
       const continuation = block.cloneNode(true);
-      continuation.querySelector('ol, ul').replaceChildren();
+      const continuationList = continuation.querySelector(listSelector);
+      continuationList?.replaceChildren();
+      if (list.matches('.agreed-services-list')) continuation.querySelector('.contract-package-list')?.remove();
       continuation.querySelectorAll('p').forEach(node => node.remove());
       newPage();
       body.append(continuation);
-      currentList = continuation.querySelector('ol, ul');
+      currentList = continuationList;
       if (currentList.tagName === 'OL') currentList.start = items.indexOf(item) + 1;
       currentList.append(item);
     }
@@ -1198,7 +1365,7 @@ function renderRecords() {
     <div class="record-mark" aria-hidden="true">∞</div>
     <div class="record-main"><h2>${escapeHtml(record.bride_first_name)} <span>&amp;</span> ${escapeHtml(record.groom_first_name)}</h2>
       <p>${escapeHtml(t("weddingDate"))}: ${escapeHtml(formatDate(record.wedding_date))}</p></div>
-    <button class="button button-quiet" type="button" data-open-record="${record.id}">${escapeHtml(t("openRecord"))} <span aria-hidden="true">↗</span></button>
+    <button class="button button-quiet" type="button" data-open-record="${record.id}">${escapeHtml(t("openRecord"))}${iconUse("open")}</button>
   </article>`).join("");
 }
 
@@ -1259,10 +1426,14 @@ async function openRecord(id) {
     state.lang = result.plan.lang === "am" ? "am" : "en";
     state.details = result.plan.details || {};
     if (!state.details.eventDays) state.details.eventDays = "1";
+    if (!state.details.mediaConsent) state.details.mediaConsent = "no";
+    normalizeEventVenues();
     state.services = result.plan.services || {};
     savedPlanSignature = planSignature();
     recordStatus = "recordReady";
     fieldIds.forEach(field => { document.getElementById(field).value = state.details[field] ?? ""; });
+    syncEventVenueChoicesToForm();
+    syncContractChoicesToForm();
     applyLocalization();
     clearValidation();
     setStep(0);
@@ -1287,7 +1458,14 @@ function setStep(step) {
     link.classList.toggle("is-active", target === state.currentStep);
     link.classList.toggle("is-complete", target < state.currentStep);
   });
-  document.querySelectorAll(".mobile-nav [data-step-target]").forEach(button => button.classList.toggle("is-active", Number(button.dataset.stepTarget) === state.currentStep));
+  document.querySelectorAll(".workflow-nav [data-step-target]").forEach(button => {
+    const active = Number(button.dataset.stepTarget) === state.currentStep;
+    button.classList.toggle("is-active", active);
+    if (active) button.setAttribute("aria-current", "step");
+    else button.removeAttribute("aria-current");
+  });
+  const stepCount = document.getElementById("workflowStepCount");
+  if (stepCount) stepCount.textContent = `${String(state.currentStep + 1).padStart(2, "0")} / 06`;
   window.dispatchEvent(new Event("plan-step-change"));
   if (state.currentStep === 1) renderServices();
   if (state.currentStep === 2) renderReview();
@@ -1326,7 +1504,7 @@ function showValidation(errors, step) {
   summary.innerHTML = `<strong>${escapeHtml(t("fixFields"))}</strong><ul>${errors.map(error => `<li>${escapeHtml(error.label || (error.id ? t(error.id) : ""))}${error.label || error.id ? ": " : ""}${escapeHtml(error.message)}</li>`).join("")}</ul>`;
   let first;
   errors.forEach((error, index) => {
-    const input = error.id ? document.getElementById(error.id) : document.querySelector(`[data-service-price="${error.serviceId}"]`);
+    const input = error.id ? document.getElementById(error.id) : null;
     if (!input) return;
     input.setAttribute("aria-invalid", "true");
     const message = document.createElement("small");
@@ -1334,7 +1512,7 @@ function showValidation(errors, step) {
     message.className = "field-error";
     message.textContent = error.message;
     input.setAttribute("aria-describedby", message.id);
-    input.closest(".field, .service-price-field").append(message);
+    input.closest(".field")?.append(message);
     first ||= input;
   });
   window.dispatchEvent(new Event("plan-ui-update"));
@@ -1354,8 +1532,11 @@ function validateBeforeAgreement() {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(state.details.weddingDate || "") || Number.isNaN(new Date(`${state.details.weddingDate}T12:00:00`).getTime())) errors.push({ id:"weddingDate", message:t("dateRequired") });
   const days = Number(state.details.eventDays);
   if (!Number.isInteger(days) || days < 1 || days > 365) errors.push({ id:"eventDays", message:t("daysRequired") });
-  for (const id of ["totalFee", "deposit"]) if (state.details[id] && !hasValidPrice(state.details[id])) errors.push({id, message:t("amountInvalid")});
-  if (Number(state.details.deposit) > Number(state.details.totalFee || 0)) errors.push({ id:"deposit", message:t("depositInvalid") });
+  if (state.details.totalFee === "" || state.details.totalFee === undefined || state.details.totalFee === null) {
+    errors.push({ id:"totalFee", message:t("totalFeeRequired") });
+  } else if (!hasValidPrice(state.details.totalFee)) {
+    errors.push({ id:"totalFee", message:t("amountInvalid") });
+  }
   if (errors.length) return showValidation(errors, 0);
   if (!selectedServices().length) {
     return showValidation([{message:t("noServicesWarning")}], 1);
@@ -1364,11 +1545,7 @@ function validateBeforeAgreement() {
 }
 
 function validateBeforeProforma() {
-  if (!validateBeforeAgreement()) return false;
-  const missingPrices = selectedServices().filter(service => !hasValidPrice(getServiceState(service.id).price));
-  if (missingPrices.length) return showValidation(missingPrices.map(service => ({ serviceId:service.id, label:localized(service.title), message:t("priceRequired") })), 1);
-  reconcileServiceTotal();
-  return true;
+  return validateBeforeAgreement();
 }
 
 function toggleService(serviceId) {
@@ -1377,18 +1554,6 @@ function toggleService(serviceId) {
   saveDraft();
   renderServices();
   renderReview();
-}
-
-function updateServicePrice(target) {
-  getServiceState(target.dataset.servicePrice).price = target.value;
-  reconcileServiceTotal();
-  saveDraft();
-  renderReview();
-  if (hasValidPrice(target.value)) {
-    target.removeAttribute("aria-invalid");
-    target.removeAttribute("aria-describedby");
-    target.closest(".service-price-field")?.querySelector(".field-error")?.remove();
-  }
 }
 
 function updateServiceOption(target) {
@@ -1415,6 +1580,7 @@ function clearDraft() {
   if (!window.confirm(state.lang === "am" ? "ይህን ረቂቅ ማጥፋት ይፈልጋሉ?" : "Clear this plan and start a new one?")) return;
   localStorage.removeItem(STORAGE_KEY);
   state.details = {};
+  normalizeEventVenues();
   state.services = {};
   state.recordId = null;
   savedPlanSignature = "";
@@ -1422,6 +1588,9 @@ function clearDraft() {
   fieldIds.forEach((id) => { const element = document.getElementById(id); if (element) element.value = ""; });
   document.getElementById("eventDays").value = "1";
   state.details.eventDays = "1";
+  state.details.mediaConsent = "no";
+  syncEventVenueChoicesToForm();
+  syncContractChoicesToForm();
   updateBalance();
   renderServices();
   renderReview();
@@ -1584,15 +1753,11 @@ function bindEvents() {
       renderReview();
       return;
     }
-    if (target.matches("[data-service-price]")) {
-      updateServicePrice(target);
-      return;
-    }
     if (target.matches("[data-service-id][data-option-id]")) {
       updateServiceOption(target);
       return;
     }
-    if (fieldIds.includes(target.id)) syncDetailsFromForm();
+    if (fieldIds.includes(target.id) || target.matches("[data-venue-location], [data-contract-scope]") || target.name === "mediaConsent") syncDetailsFromForm();
     if (target.hasAttribute("aria-invalid")) {
       target.removeAttribute("aria-invalid");
       target.removeAttribute("aria-describedby");
@@ -1602,6 +1767,12 @@ function bindEvents() {
 
   document.addEventListener("change", (event) => {
     const target = event.target;
+    if (target.matches("[data-event-venue-type]")) {
+      syncDetailsFromForm();
+      renderEventVenueFields();
+      saveDraft();
+      return;
+    }
     if (target.id === "serviceFilter") {
       state.serviceFilter = target.value;
       renderServices();
@@ -1611,12 +1782,16 @@ function bindEvents() {
       updateServiceOption(target);
       return;
     }
-    if (fieldIds.includes(target.id)) syncDetailsFromForm();
+    if (fieldIds.includes(target.id) || target.matches("[data-venue-location], [data-contract-scope]") || target.name === "mediaConsent") syncDetailsFromForm();
   });
 }
 
 function init() {
   loadDraft();
+  normalizeEventVenues();
+  if (!state.details.mediaConsent) state.details.mediaConsent = "no";
+  syncEventVenueChoicesToForm();
+  syncContractChoicesToForm();
   bindEvents();
   applyLocalization();
   renderServices();

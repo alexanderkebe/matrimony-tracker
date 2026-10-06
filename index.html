@@ -13,88 +13,53 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="icon-save" viewBox="0 0 24 24"><path d="M5 4h12l3 3v13H4V4h1Z" /><path d="M8 4v6h8V4M8 20v-6h8v6" /></symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 20h14" /></symbol>
+      <symbol id="icon-printer" viewBox="0 0 24 24"><path d="M7 8V4h10v4M7 17H4V9h16v8h-3" /><path d="M7 14h10v6H7zM17 11h.01" /></symbol>
+      <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.7" /></symbol>
+      <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></symbol>
+      <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20 12H5m6 6-6-6 6-6" /></symbol>
+      <symbol id="icon-open" viewBox="0 0 24 24"><path d="M13 5h6v6m0-6-9 9" /><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></symbol>
+    </svg>
     <div class="app-shell">
       <aside class="sidebar">
-        <div class="brand-lockup">
+        <div class="sidebar-header">
+          <div class="brand-lockup">
           <img class="brand-logo brand-logo-dark" src="./assets/matrimony-logo-transparent.png" alt="Matrimony — Leading from wedding up to matrimony" />
-        </div>
-
-        <div class="sidebar-rule"></div>
-
-        <div class="couple-context" aria-live="polite">
-          <span class="tiny-label" data-i18n="currentCouple">CURRENT COUPLE</span>
-          <strong id="sidebarCoupleName">Your next celebration</strong>
-          <span id="sidebarCoupleMeta">New plan</span>
-          <button type="button" class="sidebar-action" data-save-record><span aria-hidden="true">↗</span><span data-i18n="saveRecord">Save record</span></button>
-        </div>
-
-        <div class="workspace-label" data-i18n="workspaceLabel">Planning workspace</div>
-        <nav class="step-nav" aria-label="Planning steps">
-          <button class="step-link is-active" type="button" data-step-target="0">
-            <span class="step-index">01</span>
-            <span class="step-copy">
-              <strong data-i18n="navDetails">Couple & event</strong>
-              <small data-i18n="navDetailsHint">Set the foundation</small>
-            </span>
-            <span class="step-state" aria-hidden="true">•</span>
-          </button>
-          <button class="step-link" type="button" data-step-target="1">
-            <span class="step-index">02</span>
-            <span class="step-copy">
-              <strong data-i18n="navServices">Services</strong>
-              <small data-i18n="navServicesHint">Choose what is agreed</small>
-            </span>
-            <span class="step-state" aria-hidden="true">•</span>
-          </button>
-          <button class="step-link" type="button" data-step-target="2">
-            <span class="step-index">03</span>
-            <span class="step-copy">
-              <strong data-i18n="navReview">Review</strong>
-              <small data-i18n="navReviewHint">Check every detail</small>
-            </span>
-            <span class="step-state" aria-hidden="true">•</span>
-          </button>
-          <button class="step-link" type="button" data-step-target="3">
-            <span class="step-index">04</span>
-            <span class="step-copy">
-              <strong data-i18n="navAgreement">Agreement</strong>
-              <small data-i18n="navAgreementHint">Print or save as PDF</small>
-            </span>
-            <span class="step-state" aria-hidden="true">•</span>
-          </button>
-          <button class="step-link" type="button" data-step-target="4">
-            <span class="step-index">05</span>
-            <span class="step-copy">
-              <strong data-i18n="navProforma">Proforma</strong>
-              <small data-i18n="navProformaHint">Review the quotation</small>
-            </span>
-            <span class="step-state" aria-hidden="true">•</span>
-          </button>
-          <button class="step-link" type="button" data-step-target="5">
-            <span class="step-index">06</span>
-            <span class="step-copy">
-              <strong data-i18n="navRecords">Records</strong>
-              <small data-i18n="navRecordsHint">Find saved couples</small>
-            </span>
-            <span class="step-state" aria-hidden="true">•</span>
-          </button>
-        </nav>
-
-        <div class="recent-couples">
-          <div class="recent-heading"><span class="tiny-label" data-i18n="recentCouples">RECENT COUPLES</span><button type="button" data-step-target="5" data-i18n="viewAll">View all</button></div>
-          <div id="recentCouples" aria-live="polite"></div>
-        </div>
-
-        <div class="sidebar-bottom">
-          <div class="service-count-card">
-            <div class="tiny-label" data-i18n="catalogLabel">SERVICE CATALOG</div>
-            <div class="service-count-number">21</div>
-            <div class="service-count-copy" data-i18n="catalogCopy">spiritual, creative & practical details ready to shape.</div>
           </div>
-          <button class="sidebar-action" type="button" id="resetDraftButton">
-            <span aria-hidden="true">↺</span>
+          <button class="sidebar-new-plan" type="button" id="resetDraftButton">
+            <svg class="ui-icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
             <span data-i18n="startNew">Start a new plan</span>
           </button>
+        </div>
+
+        <div class="sidebar-main">
+          <section class="couple-context" aria-live="polite">
+            <span class="tiny-label" data-i18n="currentCouple">CURRENT COUPLE</span>
+            <div class="couple-context-row">
+              <span class="couple-context-mark" aria-hidden="true">∞</span>
+              <div class="couple-context-copy">
+                <strong id="sidebarCoupleName">Your next celebration</strong>
+                <span id="sidebarCoupleMeta">New plan</span>
+              </div>
+            </div>
+            <button type="button" class="sidebar-action" data-save-record>
+              <svg class="ui-icon" aria-hidden="true"><use href="#icon-save"></use></svg>
+              <span data-i18n="saveRecord">Save record</span>
+            </button>
+          </section>
+
+          <section class="recent-couples">
+            <div class="recent-heading"><span class="tiny-label" data-i18n="recentCouples">RECENT COUPLES</span><button type="button" data-step-target="5" data-i18n="viewAll">View all</button></div>
+            <div id="recentCouples" aria-live="polite"></div>
+          </section>
+        </div>
+
+        <div class="sidebar-footer">
+          <span class="sidebar-footer-mark" aria-hidden="true">∞</span>
+          <div><strong>Matrimony by Hanna</strong><small data-i18n="brandCaption">Ceremony, beautifully considered.</small></div>
         </div>
       </aside>
 
@@ -116,15 +81,40 @@
           </div>
         </header>
 
-        <main class="content" id="appMain">
-          <nav class="mobile-nav" aria-label="Planning steps">
-            <button type="button" data-step-target="0" data-i18n="navDetails">Couple & event</button>
-            <button type="button" data-step-target="1" data-i18n="navServices">Services</button>
-            <button type="button" data-step-target="2" data-i18n="navReview">Review</button>
-            <button type="button" data-step-target="3" data-i18n="navAgreement">Agreement</button>
-            <button type="button" data-step-target="4" data-i18n="navProforma">Proforma</button>
-            <button type="button" data-step-target="5" data-i18n="navRecords">Records</button>
+        <div class="workflow-nav-shell">
+          <div class="workflow-nav-heading">
+            <span class="workspace-label" data-i18n="workspaceLabel">Planning workspace</span>
+            <span class="workflow-step-count" id="workflowStepCount" aria-live="polite">01 / 06</span>
+          </div>
+          <nav class="workflow-nav" aria-label="Planning workspace">
+            <button class="step-link is-active" type="button" data-step-target="0" aria-current="step">
+              <span class="step-index" aria-hidden="true">01</span>
+              <span class="step-copy"><strong data-i18n="navDetails">Couple & event</strong></span>
+            </button>
+            <button class="step-link" type="button" data-step-target="1">
+              <span class="step-index" aria-hidden="true">02</span>
+              <span class="step-copy"><strong data-i18n="navServices">Services</strong></span>
+            </button>
+            <button class="step-link" type="button" data-step-target="2">
+              <span class="step-index" aria-hidden="true">03</span>
+              <span class="step-copy"><strong data-i18n="navReview">Review</strong></span>
+            </button>
+            <button class="step-link" type="button" data-step-target="3">
+              <span class="step-index" aria-hidden="true">04</span>
+              <span class="step-copy"><strong data-i18n="navAgreement">Agreement</strong></span>
+            </button>
+            <button class="step-link" type="button" data-step-target="4">
+              <span class="step-index" aria-hidden="true">05</span>
+              <span class="step-copy"><strong data-i18n="navProforma">Proforma</strong></span>
+            </button>
+            <button class="step-link" type="button" data-step-target="5">
+              <span class="step-index" aria-hidden="true">06</span>
+              <span class="step-copy"><strong data-i18n="navRecords">Records</strong></span>
+            </button>
           </nav>
+        </div>
+
+        <main class="content" id="appMain">
           <div id="validationSummary" class="validation-summary" role="alert" hidden></div>
           <section class="step-panel is-active" id="step-details" data-step="0">
             <div class="section-intro intro-with-stamp">
@@ -174,11 +164,11 @@
                   </label>
                   <label class="field field-full">
                     <span data-i18n="brideAddress">Bride’s address</span>
-                    <input id="brideAddress" type="text" placeholder="City, neighborhood or full address" data-placeholder-en="City, neighborhood or full address" data-placeholder-am="ከተማ፣ ሰፈር ወይም ሙሉ አድራሻ" />
+                    <input id="brideAddress" type="text" data-map-location placeholder="Search bride’s address" data-placeholder-en="Search bride’s address" data-placeholder-am="የሙሽራዋን አድራሻ ይፈልጉ" />
                   </label>
                   <label class="field field-full">
                     <span data-i18n="groomAddress">Groom’s address</span>
-                    <input id="groomAddress" type="text" placeholder="City, neighborhood or full address" data-placeholder-en="City, neighborhood or full address" data-placeholder-am="ከተማ፣ ሰፈር ወይም ሙሉ አድራሻ" />
+                    <input id="groomAddress" type="text" data-map-location placeholder="Search groom’s address" data-placeholder-en="Search groom’s address" data-placeholder-am="የሙሽራውን አድራሻ ይፈልጉ" />
                   </label>
                 </div>
               </div>
@@ -204,18 +194,27 @@
                     <span data-i18n="eventDays">Number of event days</span>
                     <input id="eventDays" type="number" min="1" max="365" step="1" value="1" inputmode="numeric" />
                   </label>
-                  <label class="field field-full">
-                    <span data-i18n="sacredVenue">Sacred venue</span>
-                    <input id="sacredVenue" type="text" placeholder="e.g. Holy Trinity Cathedral" data-placeholder-en="e.g. Holy Trinity Cathedral" data-placeholder-am="ለምሳሌ ቅድስት ሥላሴ ካቴድራል" />
-                  </label>
-                  <label class="field field-full">
-                    <span data-i18n="receptionVenue">Reception or hall</span>
-                    <input id="receptionVenue" type="text" placeholder="Optional — venue, hotel or hall" data-placeholder-en="Optional — venue, hotel or hall" data-placeholder-am="አማራጭ — አዳራሽ ወይም ሆቴል" />
-                  </label>
-                  <label class="field field-full">
-                    <span data-i18n="eventLocation">City / location</span>
-                    <input id="eventLocation" type="text" placeholder="e.g. Addis Ababa" data-placeholder-en="e.g. Addis Ababa" data-placeholder-am="ለምሳሌ አዲስ አበባ" />
-                  </label>
+                  <fieldset class="field field-full event-venue-fieldset">
+                    <legend data-i18n="eventVenueTypesHeading">Where will the wedding events take place?</legend>
+                    <p class="field-help" data-i18n="eventVenueTypesHint">Select every venue type you need, then choose its location on the map.</p>
+                    <div class="event-venue-type-grid">
+                      <label class="multi-choice"><input type="checkbox" data-event-venue-type="church" /><span data-i18n="venueTypeChurch">Church / religious venue</span></label>
+                      <label class="multi-choice"><input type="checkbox" data-event-venue-type="hall" /><span data-i18n="venueTypeHall">Wedding or reception hall</span></label>
+                      <label class="multi-choice"><input type="checkbox" data-event-venue-type="hotel" /><span data-i18n="venueTypeHotel">Hotel / banquet venue</span></label>
+                      <label class="multi-choice"><input type="checkbox" data-event-venue-type="outdoor" /><span data-i18n="venueTypeOutdoor">Garden / park / outdoor venue</span></label>
+                      <label class="multi-choice"><input type="checkbox" data-event-venue-type="home" /><span data-i18n="venueTypeHome">Home / private residence</span></label>
+                      <label class="multi-choice"><input type="checkbox" data-event-venue-type="restaurant" /><span data-i18n="venueTypeRestaurant">Restaurant</span></label>
+                      <label class="multi-choice"><input type="checkbox" data-event-venue-type="other" /><span data-i18n="venueTypeOther">Other venue</span></label>
+                    </div>
+                    <div id="eventVenueFields" class="event-venue-fields"></div>
+                  </fieldset>
+                  <fieldset class="field field-full media-consent-field">
+                    <legend data-i18n="mediaConsentHeading">Media and photo consent</legend>
+                    <div class="consent-choice-grid">
+                      <label class="multi-choice"><input type="radio" name="mediaConsent" value="yes" /><span data-i18n="mediaConsentYes">We consent to promotional use of wedding photos and videos.</span></label>
+                      <label class="multi-choice"><input type="radio" name="mediaConsent" value="no" checked /><span data-i18n="mediaConsentNo">Do not post images showing our faces.</span></label>
+                    </div>
+                  </fieldset>
                 </div>
               </div>
 
@@ -231,17 +230,11 @@
                   <label class="field money-field">
                     <span data-i18n="totalFee">Total professional fee</span>
                     <div class="input-with-suffix"><input id="totalFee" type="number" min="0" step="0.01" placeholder="0" /><span>ETB</span></div>
-                    <small class="field-hint" data-i18n="priceAutoHint">Calculated from selected service prices once all are entered.</small>
+                    <small class="field-hint" data-i18n="priceAutoHint">Enter the agreed overall fee. The proforma will show one general price.</small>
                   </label>
-                  <label class="field money-field">
-                    <span data-i18n="deposit">Non-refundable deposit</span>
-                    <div class="input-with-suffix"><input id="deposit" type="number" min="0" step="0.01" placeholder="0" /><span>ETB</span></div>
-                  </label>
-                  <div class="balance-card">
-                    <span data-i18n="finalBalance">Final balance</span>
-                    <strong id="balanceValue">0 ETB</strong>
-                    <small data-i18n="balanceHint">Due on the wedding day</small>
-                  </div>
+                  <div class="balance-card"><span data-i18n="advancePayment">40% advance</span><strong id="advanceValue">0 ETB</strong><small data-i18n="advanceDue">Upon signing and commencement</small></div>
+                  <div class="balance-card"><span data-i18n="midtermPayment">40% mid-term</span><strong id="midtermValue">0 ETB</strong><small data-i18n="midtermDue">At the midpoint of the work</small></div>
+                  <div class="balance-card"><span data-i18n="finalPayment">20% final payment</span><strong id="finalPaymentValue">0 ETB</strong><small data-i18n="finalDue">Within 24 hours of completion</small></div>
                 </div>
                 <label class="field field-full notes-field">
                   <span data-i18n="generalNotes">Planning notes</span>
@@ -252,7 +245,7 @@
 
             <div class="step-footer">
               <div class="footer-note"><span class="required-dot">*</span><span data-i18n="requiredHint">Date and couple names help us build the agreement.</span></div>
-              <button class="button button-primary" type="button" data-next-step="1"><span data-i18n="continueServices">Continue to services</span><span aria-hidden="true">↗</span></button>
+              <button class="button button-primary" type="button" data-next-step="1"><span data-i18n="continueServices">Continue to services</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
             </div>
           </section>
 
@@ -284,11 +277,23 @@
               </label>
             </div>
 
+            <div class="contract-scope-card">
+              <div>
+                <div class="eyebrow" data-i18n="contractScopeEyebrow">AGREEMENT SCOPE</div>
+                <h2 data-i18n="contractScopeHeading">Choose the planning engagement</h2>
+                <p data-i18n="contractScopeHint">Premarital education is included when selected in the service list below.</p>
+              </div>
+              <div class="contract-scope-options">
+                <label class="multi-choice"><input type="checkbox" id="scopeFullPlanning" data-contract-scope="fullPlanning" /><span data-i18n="scopeFullPlanning">Full wedding planning & coordination</span></label>
+                <label class="multi-choice"><input type="checkbox" id="scopeDayOf" data-contract-scope="dayOfCoordination" /><span data-i18n="scopeDayOf">Day-of coordination</span></label>
+              </div>
+            </div>
+
             <div class="services-grid" id="servicesGrid"></div>
 
             <div class="step-footer">
-              <button class="button button-quiet" type="button" data-prev-step="0"><span aria-hidden="true">←</span><span data-i18n="back">Back</span></button>
-              <button class="button button-primary" type="button" data-next-step="2"><span data-i18n="reviewPlan">Review the plan</span><span aria-hidden="true">↗</span></button>
+              <button class="button button-quiet" type="button" data-prev-step="0"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="back">Back</span></button>
+              <button class="button button-primary" type="button" data-next-step="2"><span data-i18n="reviewPlan">Review the plan</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
             </div>
           </section>
 
@@ -308,8 +313,8 @@
               <div class="review-card review-card-wide" id="reviewServices"></div>
             </div>
             <div class="step-footer">
-              <button class="button button-quiet" type="button" data-prev-step="1"><span aria-hidden="true">←</span><span data-i18n="editServices">Edit services</span></button>
-              <button class="button button-primary" type="button" data-next-step="3"><span data-i18n="generateAgreement">Generate agreement</span><span aria-hidden="true">↗</span></button>
+              <button class="button button-quiet" type="button" data-prev-step="1"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="editServices">Edit services</span></button>
+              <button class="button button-primary" type="button" data-next-step="3"><span data-i18n="generateAgreement">Generate agreement</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
             </div>
           </section>
 
@@ -321,11 +326,11 @@
                 <p data-i18n="agreementDescription">A clear record of what Matrimony By Hanna and the couple have agreed to.</p>
               </div>
               <div class="agreement-actions">
-                <button class="button button-quiet" type="button" data-prev-step="2"><span aria-hidden="true">←</span><span data-i18n="backToReview">Back to review</span></button>
-                <button class="button button-quiet" type="button" id="saveRecordButton" data-save-record><span aria-hidden="true">✓</span><span data-i18n="saveRecord">Save record</span></button>
-                <button class="button button-quiet" type="button" data-next-step="4"><span data-i18n="viewProforma">View proforma</span><span aria-hidden="true">↗</span></button>
-                <button class="button button-quiet" type="button" id="printAgreementButton"><span data-i18n="printDocument">Print</span></button>
-                <button class="button button-primary" type="button" data-download-pdf="agreement"><span aria-hidden="true">↓</span><span data-i18n="downloadAgreement">Download agreement PDF</span></button>
+                <button class="button button-quiet" type="button" data-prev-step="2"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="backToReview">Back to review</span></button>
+                <button class="button button-quiet" type="button" id="saveRecordButton" data-save-record><svg class="ui-icon" aria-hidden="true"><use href="#icon-save"></use></svg><span data-i18n="saveRecord">Save record</span></button>
+                <button class="button button-quiet" type="button" data-next-step="4"><svg class="ui-icon" aria-hidden="true"><use href="#icon-eye"></use></svg><span data-i18n="viewProforma">View proforma</span></button>
+                <button class="button button-quiet" type="button" id="printAgreementButton"><svg class="ui-icon" aria-hidden="true"><use href="#icon-printer"></use></svg><span data-i18n="printDocument">Print</span></button>
+                <button class="button button-primary" type="button" data-download-pdf="agreement"><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg><span data-i18n="downloadAgreement">Download agreement PDF</span></button>
               </div>
             </div>
             <div id="agreementDocument" class="agreement-document"></div>
@@ -338,9 +343,9 @@
                 <p data-i18n="proformaDescription">A clear, itemized quotation for the couple’s celebration.</p>
               </div>
               <div class="agreement-actions">
-                <button class="button button-quiet" type="button" data-prev-step="3"><span aria-hidden="true">←</span><span data-i18n="backToAgreement">Agreement</span></button>
-                <button class="button button-quiet" type="button" id="printProformaButton"><span data-i18n="printDocument">Print</span></button>
-                <button class="button button-primary" type="button" data-download-pdf="proforma"><span aria-hidden="true">↓</span><span data-i18n="downloadProforma">Download proforma PDF</span></button>
+                <button class="button button-quiet" type="button" data-prev-step="3"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="backToAgreement">Agreement</span></button>
+                <button class="button button-quiet" type="button" id="printProformaButton"><svg class="ui-icon" aria-hidden="true"><use href="#icon-printer"></use></svg><span data-i18n="printDocument">Print</span></button>
+                <button class="button button-primary" type="button" data-download-pdf="proforma"><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg><span data-i18n="downloadProforma">Download proforma PDF</span></button>
               </div>
             </div>
             <div id="proformaDocument" class="agreement-document"></div>
@@ -369,6 +374,6 @@
     <script src="./assets/vendor/html2canvas.min.js"></script>
     <script src="./assets/vendor/jspdf.umd.min.js"></script>
     <script src="./app.js"></script>
-    <script src="./pickers.js"></script>
+    <script src="./pickers.js?v=20261006-locations"></script>
   </body>
 </html>
