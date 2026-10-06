@@ -2,17 +2,68 @@
 
 import argparse
 import json
+import math
+import os
 import sqlite3
+import time
+from collections import OrderedDict
 from contextlib import closing
 from datetime import datetime, timezone
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlparse
+from threading import Lock
+from urllib.error import URLError
+from urllib.parse import parse_qs, unquote, urlencode, urlparse
+from urllib.request import Request, urlopen
 
 
 ROOT = Path(__file__).resolve().parent
 DB_PATH = ROOT / "data" / "matrimony.sqlite3"
 MAX_BODY = 1_000_000
+PHOTON_URL = os.environ.get("MATRIMONY_PHOTON_URL", "https://photon.komoot.io/api/")
+PLACE_CACHE = OrderedDict()
+PLACE_LOCK = Lock()
+PLACE_LAST_REQUEST = 0.0
+
+
+def search_places(query, lat=9.03, lon=38.75):
+    """Small, bounded proxy: no browser keys, no arbitrary upstream URLs."""
+    global PLACE_LAST_REQUEST
+    query = query.strip()
+    if not 2 <= len(query) <= 160:
+        raise ValueError("Search must contain between 2 and 160 characters.")
+    if not all(math.isfinite(value) for value in (lat, lon)) or not -90 <= lat <= 90 or not -180 <= lon <= 180:
+        raise ValueError("Invalid coordinates.")
+    key = (query.casefold(), round(lat, 2), round(lon, 2))
+    with PLACE_LOCK:
+        cached = PLACE_CACHE.get(key)
+        if cached and time.monotonic() - cached[0] < 300:
+            return cached[1]
+        # The public demo is rate-limited. Search only on submission and cache results.
+        elapsed = time.monotonic() - PLACE_LAST_REQUEST
+        if elapsed < 1:
+            time.sleep(1 - elapsed)
+        PLACE_LAST_REQUEST = time.monotonic()
+        parameters = urlencode({"q": query, "lat": lat, "lon": lon, "limit": 6})
+        request = Request(f"{PHOTON_URL}?{parameters}", headers={"User-Agent": "MatrimonyPlanner/1.0 (local venue search)", "Accept": "application/json"})
+        with urlopen(request, timeout=10) as response:
+            raw = json.loads(response.read(1_000_001))
+        places = []
+        for feature in raw.get("features", [])[:6]:
+            properties = feature.get("properties", {})
+            coordinates = feature.get("geometry", {}).get("coordinates", [])
+            if len(coordinates) < 2 or not all(isinstance(value, (int, float)) and math.isfinite(value) for value in coordinates[:2]):
+                continue
+            if not -180 <= coordinates[0] <= 180 or not -90 <= coordinates[1] <= 90:
+                continue
+            name = properties.get("name") or properties.get("street") or properties.get("city") or query
+            parts = [properties.get("housenumber"), properties.get("street"), properties.get("district"), properties.get("city"), properties.get("state"), properties.get("country")]
+            address = ", ".join(dict.fromkeys(str(part) for part in parts if part and str(part) != str(name)))
+            places.append({"name": str(name), "address": address, "lat": coordinates[1], "lon": coordinates[0]})
+        PLACE_CACHE[key] = (time.monotonic(), places)
+        if len(PLACE_CACHE) > 100:
+            PLACE_CACHE.popitem(last=False)
+        return places
 
 
 def connect():
@@ -84,7 +135,7 @@ class Handler(SimpleHTTPRequestHandler):
         if request_path == "/":
             return True
         target = (ROOT / request_path.lstrip("/")).resolve()
-        return target in {ROOT / "index.html", ROOT / "app.js", ROOT / "styles.css"} or target.is_relative_to(ROOT / "assets")
+        return target in {ROOT / name for name in ("index.html", "app.js", "styles.css", "pickers.js")} or target.is_relative_to(ROOT / "assets")
 
     def route_id(self):
         path = urlparse(self.path).path
@@ -97,6 +148,15 @@ class Handler(SimpleHTTPRequestHandler):
         raise ValueError("Record not found.")
 
     def do_GET(self):
+        if urlparse(self.path).path == "/api/places":
+            query = parse_qs(urlparse(self.path).query)
+            try:
+                places = search_places(query.get("q", [""])[0], float(query.get("lat", [9.03])[0]), float(query.get("lon", [38.75])[0]))
+            except (ValueError, TypeError):
+                return self.send_json(400, {"error": "Enter a valid place search."})
+            except (URLError, TimeoutError, OSError, KeyError):
+                return self.send_json(503, {"error": "Place search is temporarily unavailable. You can still enter the venue manually."})
+            return self.send_json(200, {"places": places, "attribution": "© OpenStreetMap contributors"})
         if not urlparse(self.path).path.startswith("/api/"):
             if not self.public_file():
                 self.send_error(404)
@@ -176,5 +236,6 @@ if __name__ == "__main__":
     parser.add_argument("--port", type=int, default=4173)
     args = parser.parse_args()
     initialize()
+    http = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
     print(f"Matrimony planner: http://127.0.0.1:{args.port}", flush=True)
-    ThreadingHTTPServer(("127.0.0.1", args.port), Handler).serve_forever()
+    http.serve_forever()

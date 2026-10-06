@@ -335,6 +335,38 @@ const copy = {
   }
 };
 
+// New workflow copy stays paired so every control has an English and Amharic label.
+Object.assign(copy.en, {
+  currentCouple: "CURRENT COUPLE", nextCelebration: "Your next celebration", newPlan: "New plan",
+  recentCouples: "RECENT COUPLES", viewAll: "View all", recentEmpty: "Saved couples will appear here.",
+  recordDirty: "Unsaved changes", recordSaving: "Saving record…", recordReady: "Saved record",
+  localOnly: "Local draft only", localSaveFailed: "Draft could not be saved on this browser.",
+  downloadAgreement: "Download agreement PDF", downloadProforma: "Download proforma PDF",
+  printDocument: "Print", pdfPreparing: "Preparing your PDF…", pdfReady: "PDF downloaded with your letterhead.",
+  pdfFailed: "PDF export failed. Please retry or use Print to save a PDF.",
+  fixFields: "Please complete the highlighted fields.", nameRequired: "Enter a name.",
+  dateRequired: "Choose a valid wedding date.", daysRequired: "Enter a whole number from 1 to 365.",
+  priceRequired: "Enter this service’s price in ETB (0 is allowed).", depositInvalid: "Deposit cannot exceed the total fee.",
+  amountInvalid: "Enter a valid amount of 0 or more.", missingPriceHint: "Each selected service needs a price for the proforma.",
+  generating: "Preparing the document…", documentFailed: "Could not prepare the document. Please try again.",
+  documentTooLong: "One item is too long to fit safely on the letterhead. Shorten the longest service instructions or planning notes, then try again."
+});
+Object.assign(copy.am, {
+  currentCouple: "የአሁኑ ጥንዶች", nextCelebration: "ቀጣዩ ዝግጅት", newPlan: "አዲስ እቅድ",
+  recentCouples: "የቅርብ ጥንዶች", viewAll: "ሁሉንም አሳይ", recentEmpty: "የተቀመጡ ጥንዶች እዚህ ይታያሉ።",
+  recordDirty: "ያልተቀመጡ ለውጦች", recordSaving: "መዝገቡን በማስቀመጥ ላይ…", recordReady: "የተቀመጠ መዝገብ",
+  localOnly: "በአሳሹ ላይ ብቻ የተቀመጠ ረቂቅ", localSaveFailed: "ረቂቁን በዚህ አሳሽ ማስቀመጥ አልተቻለም።",
+  downloadAgreement: "የስምምነት PDF አውርድ", downloadProforma: "የፕሮፎርማ PDF አውርድ",
+  printDocument: "አትም", pdfPreparing: "PDF በማዘጋጀት ላይ…", pdfReady: "PDF ከደብዳቤ ራስጌው ጋር ወርዷል።",
+  pdfFailed: "PDF ማውረድ አልተቻለም። እንደገና ይሞክሩ ወይም በማተም PDF ያስቀምጡ።",
+  fixFields: "እባክዎ የተጠቆሙትን መስኮች ይሙሉ።", nameRequired: "ስም ያስገቡ።",
+  dateRequired: "ትክክለኛ የሰርግ ቀን ይምረጡ።", daysRequired: "ከ1 እስከ365 ሙሉ ቁጥር ያስገቡ።",
+  priceRequired: "የዚህን አገልግሎት ዋጋ በብር ያስገቡ (0 ይፈቀዳል)።", depositInvalid: "ቅድመ ክፍያው ከጠቅላላ ዋጋው መብለጥ የለበትም።",
+  amountInvalid: "0 ወይም ከዚያ በላይ ትክክለኛ ዋጋ ያስገቡ።", missingPriceHint: "ለፕሮፎርማው ሁሉም የተመረጡ አገልግሎቶች ዋጋ ያስፈልጋቸዋል።",
+  generating: "ሰነዱን በማዘጋጀት ላይ…", documentFailed: "ሰነዱን ማዘጋጀት አልተቻለም። እንደገና ይሞክሩ።",
+  documentTooLong: "አንድ ዝርዝር በደብዳቤ ራስጌው ገጽ ላይ ለመግጠም በጣም ረጅም ነው። ረጅም የአገልግሎት መመሪያዎችን ወይም ማስታወሻዎችን ያሳጥሩ።"
+});
+
 const services = [
   {
     id: "premarital",
@@ -603,6 +635,11 @@ const state = {
 let saveTimer;
 let toastTimer;
 let savingRecord = false;
+let recordStatus = "newPlan";
+let savedPlanSignature = "";
+let documentJob = 0;
+let exportingPdf = false;
+let openingRecord = false;
 
 function t(key) {
   return (copy[state.lang] && copy[state.lang][key]) || copy.en[key] || key;
@@ -650,6 +687,7 @@ function dateInputValue(date = new Date()) {
 
 function getServiceState(serviceId) {
   if (!state.services[serviceId]) state.services[serviceId] = { selected: false, options: {}, notes: "", price: "" };
+  if (!state.services[serviceId].options) state.services[serviceId].options = {};
   return state.services[serviceId];
 }
 
@@ -701,6 +739,8 @@ function applyLocalization() {
   if (state.currentStep === 4) renderProforma();
   if (state.currentStep === 5) renderRecords();
   updateBalance();
+  renderCoupleContext();
+  window.dispatchEvent(new Event("plan-ui-update"));
 }
 
 function loadDraft() {
@@ -712,6 +752,7 @@ function loadDraft() {
     if (!state.details.eventDays) state.details.eventDays = "1";
     state.services = saved.services || {};
     state.recordId = Number.isInteger(saved.recordId) ? saved.recordId : null;
+    recordStatus = state.recordId ? "recordDirty" : "newPlan";
     fieldIds.forEach((id) => {
       const element = document.getElementById(id);
       if (element && state.details[id] !== undefined) element.value = state.details[id];
@@ -722,7 +763,9 @@ function loadDraft() {
   }
 }
 
-function saveDraft() {
+function saveDraft(markDirty = true) {
+  if (markDirty && state.recordId && planSignature() !== savedPlanSignature) recordStatus = "recordDirty";
+  renderCoupleContext();
   clearTimeout(saveTimer);
   const saveState = document.getElementById("saveState");
   saveState?.classList.add("is-saving");
@@ -732,6 +775,8 @@ function saveDraft() {
       saveState?.classList.remove("is-saving");
       if (saveState) saveState.querySelector("span:last-child").textContent = t("savedLocally");
     } catch (error) {
+      saveState?.classList.remove("is-saving");
+      if (saveState) saveState.querySelector("span:last-child").textContent = t("localSaveFailed");
       console.warn("Unable to save local draft", error);
     }
   }, 250);
@@ -744,6 +789,24 @@ function syncDetailsFromForm() {
   });
   updateBalance();
   saveDraft();
+}
+
+function planSignature() {
+  return JSON.stringify({ lang: state.lang, details: state.details, services: state.services });
+}
+
+function firstName(value) {
+  return String(value || "").trim().split(/\s+/)[0] || "";
+}
+
+function renderCoupleContext() {
+  const names = [firstName(state.details.brideName), firstName(state.details.groomName)].filter(Boolean);
+  const title = names.length ? names.join(" & ") : t("nextCelebration");
+  document.getElementById("sidebarCoupleName").textContent = title;
+  document.getElementById("topbarCoupleName").textContent = names.length ? title : "";
+  document.getElementById("sidebarCoupleMeta").textContent = `${t(savingRecord ? "recordSaving" : recordStatus)}${state.recordId ? ` · #${state.recordId}` : ""}${state.details.weddingDate ? ` · ${formatDate(state.details.weddingDate)}` : ""}`;
+  const recent = document.getElementById("recentCouples");
+  recent.innerHTML = state.records.length ? state.records.slice(0, 5).map(record => `<button type="button" class="recent-couple ${record.id === state.recordId ? "is-current" : ""}" data-open-record="${record.id}"><strong>${escapeHtml(record.bride_first_name)} &amp; ${escapeHtml(record.groom_first_name)}</strong><small>${escapeHtml(formatDate(record.wedding_date))} · #${record.id}</small></button>`).join("") : `<p>${escapeHtml(t("recentEmpty"))}</p>`;
 }
 
 function updateBalance() {
@@ -900,7 +963,7 @@ function renderAgreement() {
   const weddingDate = d.weddingDate ? formatDate(d.weddingDate) : "____________________________";
   const clientAddress = d.brideAddress || d.groomAddress || "____________________________";
   const intro = `${escapeHtml(t("introAgreement"))} <strong>${escapeHtml(weddingDate)}</strong>. ${escapeHtml(t("introAgreementEnd"))}`;
-  const referenceNumber = `MBH-${(d.weddingDate || dateInputValue()).replace(/-/g, "")}`;
+  const referenceNumber = documentReference("AG");
   const referenceLabel = state.lang === "am" ? "መዝገብ ቁጥር" : "Ref No:";
   const dateLabel = state.lang === "am" ? "ቀን" : "Date:";
   container.innerHTML = `<article class="agreement-paper">
@@ -940,7 +1003,7 @@ function renderAgreement() {
       <li>${escapeHtml(t("vision"))}</li><li>${escapeHtml(t("vendor"))}</li><li>${escapeHtml(t("preparation"))}</li><li>${escapeHtml(t("onsite"))}</li><li>${escapeHtml(t("logistics"))}</li><li>${escapeHtml(t("rehearsal"))}</li><li>${escapeHtml(t("postCeremony"))}</li><li>${escapeHtml(t("problem"))}</li>
     </ul></section>
     <section class="agreed-services"><h3>${escapeHtml(t("agreedServices"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ol class="agreed-services-list">${agreedList}</ol></section>
-    <section><h3>${escapeHtml(t("financialCommitment"))}</h3><p>${escapeHtml(t("financialIntro"))} <strong>${escapeHtml(formatMoney(total))}</strong>.</p><div class="financial-table">
+    <section><h3>${escapeHtml(t("financialCommitment"))}</h3><p>${escapeHtml(t("financialIntro"))} <strong>${escapeHtml(formatMoney(total))}</strong>.</p><p>${escapeHtml(t("depositIntro"))} <strong>${escapeHtml(formatMoney(deposit))}</strong> ${escapeHtml(t("depositEnd").replace(/^ETB\s*/, ""))}</p><p>${escapeHtml(t("finalIntro"))} <strong>${escapeHtml(formatMoney(balance))}</strong> ${escapeHtml(t("finalEnd").replace(/^ETB\s*/, ""))}</p><div class="financial-table">
       <div class="financial-row"><span>${escapeHtml(t("depositLabel"))}</span><strong>${escapeHtml(formatMoney(deposit))}</strong></div>
       <div class="financial-row"><span>${escapeHtml(t("balanceLabel"))}</span><strong>${escapeHtml(formatMoney(balance))}</strong></div>
       <div class="financial-row"><span>${escapeHtml(t("total"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div>
@@ -964,7 +1027,7 @@ function renderProforma() {
   const total = selected.reduce((sum, service) => sum + Math.round((Number(getServiceState(service.id).price) || 0) * 100), 0) / 100;
   const deposit = Math.min(Math.max(Number(details.deposit) || 0, 0), total);
   const issueDate = formatDate(dateInputValue());
-  const reference = `MBH-PF-${state.recordId || (details.weddingDate || dateInputValue()).replace(/-/g, "")}`;
+  const reference = documentReference("PF");
   const serviceRows = selected.map((service) => {
     const summary = serviceOptionSummary(service);
     const price = getServiceState(service.id).price;
@@ -980,12 +1043,14 @@ function renderProforma() {
       <div><div class="doc-label">${escapeHtml(t("eventLocation"))}</div><div class="doc-value">${detail(details.eventLocation)}</div></div>
     </div>
     <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3><div class="proforma-table-head"><span>${escapeHtml(t("proformaService"))}</span><span>${escapeHtml(t("proformaAmount"))}</span></div><ul class="proforma-service-list">${serviceRows}</ul></section>
+    <div class="proforma-closing">
     <section class="proforma-totals">
       <div><span>${escapeHtml(t("proformaTotal"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div>
       ${deposit ? `<div><span>${escapeHtml(t("proformaDeposit"))}</span><strong>${escapeHtml(formatMoney(deposit))}</strong></div><div><span>${escapeHtml(t("proformaBalance"))}</span><strong>${escapeHtml(formatMoney(total - deposit))}</strong></div>` : ""}
     </section>
     <section class="proforma-gratitude"><h3>${escapeHtml(state.lang === "am" ? "እናመሰግናለን" : "With gratitude")}</h3><p>${escapeHtml(t("proformaThanks"))}</p></section>
     <p class="proforma-note">${escapeHtml(t("proformaNote"))}</p>
+    </div>
   </article>`;
   paginateAgreement(container, reference, issueDate);
 }
@@ -1068,11 +1133,48 @@ function paginateAgreement(container, reference, date) {
       currentList.append(item);
     }
   }
+  container.querySelectorAll('.sheet-number').forEach(number => number.textContent = `${number.textContent} / ${pageNumber}`);
+}
+
+function documentReference(kind) {
+  const key = `${state.details.brideName || ""}|${state.details.groomName || ""}`;
+  let hash = 0;
+  for (const character of key) hash = ((hash << 5) - hash + character.codePointAt(0)) >>> 0;
+  return `MBH-${kind}-${state.recordId || hash.toString(36).toUpperCase().slice(0, 6)}-${(state.details.weddingDate || dateInputValue()).replace(/-/g, "")}`;
+}
+
+async function prepareDocument(kind) {
+  const job = ++documentJob;
+  const container = document.getElementById(kind === "proforma" ? "proformaDocument" : "agreementDocument");
+  container.setAttribute("aria-busy", "true");
+  try {
+    await Promise.all([document.fonts.load('14px "Matrimony Helvetica"'), document.fonts.load('14px "Ethiopic Sadiss"', "ሀና"), document.fonts.load('700 20px "Benaiah"', "ሀና")]);
+    await document.fonts.ready;
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    if (job !== documentJob) return null;
+    if (kind === "proforma") renderProforma(); else renderAgreement();
+    await Promise.all(Array.from(container.querySelectorAll("img")).map(img => img.decode()));
+    const overflow = Array.from(container.querySelectorAll('.sheet-content')).some(body => body.scrollHeight > body.clientHeight + 3);
+    if (overflow) {
+      const summary = document.getElementById('validationSummary');
+      summary.textContent = t('documentTooLong');
+      summary.hidden = false;
+      return null;
+    }
+    return container;
+  } catch (error) {
+    console.error("Document preparation failed", error);
+    showToast(t("documentFailed"));
+    return null;
+  } finally {
+    container.removeAttribute("aria-busy");
+  }
 }
 
 async function recordsRequest(path, options) {
   const response = await fetch(`/api/records${path}`, {
     ...options,
+    signal: AbortSignal.timeout(12000),
     headers: { "Content-Type": "application/json", ...(options?.headers || {}) }
   });
   let result;
@@ -1106,34 +1208,51 @@ async function loadRecords() {
   try {
     state.records = (await recordsRequest("")).records;
     renderRecords();
+    renderCoupleContext();
   } catch (error) {
     list.innerHTML = `<div class="records-empty">${escapeHtml(t("recordUnavailable"))}</div>`;
   }
 }
 
-async function saveRecord() {
-  if (savingRecord || !validateBeforeAgreement()) return;
+async function saveRecord({ silent = false } = {}) {
+  if (savingRecord) return;
+  syncDetailsFromForm();
+  if (!state.details.brideName?.trim() || !state.details.groomName?.trim()) {
+    if (!silent) showValidation([{id:"brideName", message:t("nameRequired")}, {id:"groomName", message:t("nameRequired")}].filter(error => !state.details[error.id]?.trim()), 0);
+    return;
+  }
   savingRecord = true;
-  const button = document.getElementById("saveRecordButton");
-  button.disabled = true;
+  recordStatus = "recordSaving";
+  renderCoupleContext();
+  document.querySelectorAll("[data-save-record], [data-open-record], #resetDraftButton").forEach(button => button.disabled = true);
+  const signature = planSignature();
+  const id = state.recordId;
   try {
-    const id = state.recordId;
     const result = await recordsRequest(id ? `/${id}` : "", {
       method: id ? "PUT" : "POST",
-      body: JSON.stringify({ lang: state.lang, details: state.details, services: state.services })
+      body: signature
     });
     state.recordId = result.id;
-    saveDraft();
-    showToast(t("recordSaved"));
+    savedPlanSignature = signature;
+    recordStatus = planSignature() === signature ? "recordReady" : "recordDirty";
+    saveDraft(false);
+    try { state.records = (await recordsRequest("")).records; } catch { /* The record was saved even if refreshing the list fails. */ }
+    renderRecords();
+    if (!silent) showToast(t("recordSaved"));
   } catch (error) {
-    showToast(error.message || t("recordUnavailable"));
+    recordStatus = "localOnly";
+    if (!silent) showToast(error.message || t("recordUnavailable"));
   } finally {
-    button.disabled = false;
     savingRecord = false;
+    document.querySelectorAll("[data-save-record], [data-open-record], #resetDraftButton").forEach(button => button.disabled = false);
+    renderCoupleContext();
   }
 }
 
 async function openRecord(id) {
+  if (savingRecord || exportingPdf || openingRecord) return;
+  openingRecord = true;
+  document.querySelector('.app-shell').inert = true;
   try {
     const result = await recordsRequest(`/${id}`);
     state.recordId = result.id;
@@ -1141,16 +1260,25 @@ async function openRecord(id) {
     state.details = result.plan.details || {};
     if (!state.details.eventDays) state.details.eventDays = "1";
     state.services = result.plan.services || {};
+    savedPlanSignature = planSignature();
+    recordStatus = "recordReady";
     fieldIds.forEach(field => { document.getElementById(field).value = state.details[field] ?? ""; });
     applyLocalization();
+    clearValidation();
     setStep(0);
+    window.dispatchEvent(new Event("plan-ui-update"));
     showToast(t("recordOpened"));
   } catch (error) {
     showToast(error.message || t("recordUnavailable"));
+  } finally {
+    openingRecord = false;
+    document.querySelector('.app-shell').inert = false;
   }
 }
 
 function setStep(step) {
+  if (exportingPdf) return;
+  clearValidation();
   syncDetailsFromForm();
   state.currentStep = Number(step);
   document.querySelectorAll(".step-panel").forEach((panel) => panel.classList.toggle("is-active", Number(panel.dataset.step) === state.currentStep));
@@ -1159,51 +1287,86 @@ function setStep(step) {
     link.classList.toggle("is-active", target === state.currentStep);
     link.classList.toggle("is-complete", target < state.currentStep);
   });
+  document.querySelectorAll(".mobile-nav [data-step-target]").forEach(button => button.classList.toggle("is-active", Number(button.dataset.stepTarget) === state.currentStep));
+  window.dispatchEvent(new Event("plan-step-change"));
   if (state.currentStep === 1) renderServices();
   if (state.currentStep === 2) renderReview();
   if (state.currentStep === 3) {
     renderReview();
-    renderAgreement();
-    showToast(t("agreementGenerated"));
-    saveRecord();
+    prepareDocument("agreement");
+    saveRecord({ silent: true });
   }
   if (state.currentStep === 4) {
-    renderProforma();
-    saveRecord();
+    prepareDocument("proforma");
+    saveRecord({ silent: true });
   }
   if (state.currentStep === 5) loadRecords();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+function clearValidation() {
+  document.querySelectorAll(".field-error").forEach(error => error.remove());
+  document.querySelectorAll('[aria-invalid="true"]').forEach(input => {
+    input.removeAttribute("aria-invalid");
+    input.removeAttribute("aria-describedby");
+  });
+  document.getElementById("validationSummary").hidden = true;
+}
+
+function showValidation(errors, step) {
+  if (step === 1) {
+    state.serviceSearch = "";
+    state.serviceFilter = "all";
+    document.getElementById("serviceSearch").value = "";
+    document.getElementById("serviceFilter").value = "all";
+  }
+  setStep(step);
+  const summary = document.getElementById("validationSummary");
+  summary.hidden = false;
+  summary.innerHTML = `<strong>${escapeHtml(t("fixFields"))}</strong><ul>${errors.map(error => `<li>${escapeHtml(error.label || (error.id ? t(error.id) : ""))}${error.label || error.id ? ": " : ""}${escapeHtml(error.message)}</li>`).join("")}</ul>`;
+  let first;
+  errors.forEach((error, index) => {
+    const input = error.id ? document.getElementById(error.id) : document.querySelector(`[data-service-price="${error.serviceId}"]`);
+    if (!input) return;
+    input.setAttribute("aria-invalid", "true");
+    const message = document.createElement("small");
+    message.id = `field-error-${index}`;
+    message.className = "field-error";
+    message.textContent = error.message;
+    input.setAttribute("aria-describedby", message.id);
+    input.closest(".field, .service-price-field").append(message);
+    first ||= input;
+  });
+  window.dispatchEvent(new Event("plan-ui-update"));
+  requestAnimationFrame(() => {
+    const focusTarget = first?.closest(".picker-control")?.querySelector(".picker-trigger") || first;
+    focusTarget?.focus({ preventScroll: true });
+    summary.scrollIntoView({ block: "start", behavior: "smooth" });
+  });
+  return false;
+}
+
 function validateBeforeAgreement() {
   syncDetailsFromForm();
-  const missing = !state.details.brideName?.trim() || !state.details.groomName?.trim() || !state.details.weddingDate;
-  if (missing) {
-    showToast(t("detailsRequired"));
-    setStep(0);
-    return false;
-  }
+  clearValidation();
+  const errors = [];
+  for (const id of ["brideName", "groomName"]) if (!state.details[id]?.trim()) errors.push({ id, message: t("nameRequired") });
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(state.details.weddingDate || "") || Number.isNaN(new Date(`${state.details.weddingDate}T12:00:00`).getTime())) errors.push({ id:"weddingDate", message:t("dateRequired") });
+  const days = Number(state.details.eventDays);
+  if (!Number.isInteger(days) || days < 1 || days > 365) errors.push({ id:"eventDays", message:t("daysRequired") });
+  for (const id of ["totalFee", "deposit"]) if (state.details[id] && !hasValidPrice(state.details[id])) errors.push({id, message:t("amountInvalid")});
+  if (Number(state.details.deposit) > Number(state.details.totalFee || 0)) errors.push({ id:"deposit", message:t("depositInvalid") });
+  if (errors.length) return showValidation(errors, 0);
   if (!selectedServices().length) {
-    showToast(t("noServicesWarning"));
-    setStep(1);
-    return false;
+    return showValidation([{message:t("noServicesWarning")}], 1);
   }
   return true;
 }
 
 function validateBeforeProforma() {
   if (!validateBeforeAgreement()) return false;
-  const days = Number(state.details.eventDays);
-  if (!Number.isInteger(days) || days < 1 || days > 365) {
-    showToast(t("proformaDetailsRequired"));
-    setStep(0);
-    return false;
-  }
-  if (!selectedServices().every(service => hasValidPrice(getServiceState(service.id).price))) {
-    showToast(t("proformaDetailsRequired"));
-    setStep(1);
-    return false;
-  }
+  const missingPrices = selectedServices().filter(service => !hasValidPrice(getServiceState(service.id).price));
+  if (missingPrices.length) return showValidation(missingPrices.map(service => ({ serviceId:service.id, label:localized(service.title), message:t("priceRequired") })), 1);
   reconcileServiceTotal();
   return true;
 }
@@ -1221,6 +1384,11 @@ function updateServicePrice(target) {
   reconcileServiceTotal();
   saveDraft();
   renderReview();
+  if (hasValidPrice(target.value)) {
+    target.removeAttribute("aria-invalid");
+    target.removeAttribute("aria-describedby");
+    target.closest(".service-price-field")?.querySelector(".field-error")?.remove();
+  }
 }
 
 function updateServiceOption(target) {
@@ -1243,27 +1411,31 @@ function updateServiceOption(target) {
 }
 
 function clearDraft() {
+  if (savingRecord || exportingPdf) return;
   if (!window.confirm(state.lang === "am" ? "ይህን ረቂቅ ማጥፋት ይፈልጋሉ?" : "Clear this plan and start a new one?")) return;
   localStorage.removeItem(STORAGE_KEY);
   state.details = {};
   state.services = {};
   state.recordId = null;
+  savedPlanSignature = "";
+  recordStatus = "newPlan";
   fieldIds.forEach((id) => { const element = document.getElementById(id); if (element) element.value = ""; });
   document.getElementById("eventDays").value = "1";
   state.details.eventDays = "1";
   updateBalance();
   renderServices();
   renderReview();
+  clearValidation();
   setStep(0);
+  window.dispatchEvent(new Event("plan-ui-update"));
   showToast(t("draftReset"));
 }
 
 async function printDocument(kind) {
-  if (kind === "proforma" && !validateBeforeProforma()) return;
-  await document.fonts.ready;
-  if (kind === "proforma") renderProforma(); else renderAgreement();
+  if (exportingPdf || !(kind === "proforma" ? validateBeforeProforma() : validateBeforeAgreement())) return;
+  const container = await prepareDocument(kind);
+  if (!container) return;
   const panel = document.getElementById(kind === "proforma" ? "step-proforma" : "step-agreement");
-  await Promise.all(Array.from(panel.querySelectorAll('.agreement-document img')).map(img => img.decode()));
   const printLetterhead = panel.querySelector('.print-letterhead-fixed');
   document.body.prepend(printLetterhead);
   panel.classList.add("is-print-target");
@@ -1281,8 +1453,64 @@ async function printDocument(kind) {
   window.print();
 }
 
+async function downloadDocument(kind) {
+  if (exportingPdf || !(kind === "proforma" ? validateBeforeProforma() : validateBeforeAgreement())) return;
+  exportingPdf = true;
+  const buttons = document.querySelectorAll("[data-download-pdf], #printAgreementButton, #printProformaButton");
+  buttons.forEach(button => button.disabled = true);
+  const trigger = document.querySelector(`[data-download-pdf="${kind}"] span:last-child`);
+  const previousLabel = trigger.textContent;
+  trigger.textContent = t("pdfPreparing");
+  let stage;
+  try {
+    if (!window.html2canvas || !window.jspdf?.jsPDF) throw new Error("PDF libraries unavailable");
+    const container = await prepareDocument(kind);
+    if (!container) throw new Error("Document preparation failed");
+    // A desktop-sized snapshot isolates export from mobile layout and later form edits.
+    stage = document.createElement("div");
+    stage.className = "pdf-export-stage";
+    const pages = Array.from(container.querySelectorAll(".letterhead-sheet"), sheet => sheet.cloneNode(true));
+    const letterhead = container.querySelector('.letterhead-art');
+    document.body.append(stage);
+    const pdf = new window.jspdf.jsPDF({ orientation:"portrait", unit:"mm", format:"a4", compress:true });
+    const couple = `${firstName(state.details.brideName)} & ${firstName(state.details.groomName)}`;
+    pdf.setProperties({ title:`${kind === "proforma" ? "Proforma" : "Service Agreement"} - ${couple}`, author:"Matrimony By Hanna", subject:documentReference(kind === "proforma" ? "PF" : "AG") });
+    for (let index = 0; index < pages.length; index++) {
+      // Isolate each sheet at the same origin. Off-viewport sibling sheets can
+      // cause a DOM renderer to clip image layers on intermediate pages.
+      stage.replaceChildren(pages[index]);
+      pages[index].querySelector('.letterhead-art').remove();
+      pages[index].style.background = 'transparent';
+      const content = pages[index].querySelector(".sheet-content");
+      if (content.scrollHeight > content.clientHeight + 3) throw new Error("Document content exceeds the letterhead safe area. Shorten the longest notes and retry.");
+      const canvas = await window.html2canvas(pages[index], { scale:3, backgroundColor:null, logging:false, windowWidth:1280, windowHeight:1200, scrollX:0, scrollY:0 });
+      if (index) pdf.addPage("a4", "portrait");
+      // The brand layer is embedded explicitly, never dependent on print settings
+      // or the DOM screenshot renderer. Reuse the full-resolution source image.
+      pdf.addImage(letterhead, "PNG", 0, 0, 210, 297, "matrimony-letterhead", "FAST");
+      pdf.addImage(canvas, "PNG", 0, 0, 210, 297, `content-${index}`, "FAST");
+      canvas.width = canvas.height = 1;
+    }
+    const filename = `Matrimony-${kind === "proforma" ? "Proforma" : "Agreement"}-${couple.replace(/[<>:"/\\|?*]/g, "").trim()}-${state.details.weddingDate}.pdf`;
+    pdf.save(filename);
+    showToast(t("pdfReady"));
+  } catch (error) {
+    console.error("PDF download failed", error);
+    showToast(t("pdfFailed"));
+  } finally {
+    stage?.remove();
+    exportingPdf = false;
+    buttons.forEach(button => button.disabled = false);
+    trigger.textContent = previousLabel;
+  }
+}
+
 function bindEvents() {
   document.addEventListener("click", (event) => {
+    if (exportingPdf) return;
+    const download = event.target.closest("[data-download-pdf]");
+    if (download) { downloadDocument(download.dataset.downloadPdf); return; }
+    if (event.target.closest("[data-save-record]")) { saveRecord(); return; }
     const languageButton = event.target.closest("[data-language]");
     if (languageButton) {
       state.lang = languageButton.dataset.language === "am" ? "am" : "en";
@@ -1365,6 +1593,11 @@ function bindEvents() {
       return;
     }
     if (fieldIds.includes(target.id)) syncDetailsFromForm();
+    if (target.hasAttribute("aria-invalid")) {
+      target.removeAttribute("aria-invalid");
+      target.removeAttribute("aria-describedby");
+      target.closest(".field, .service-price-field")?.querySelector(".field-error")?.remove();
+    }
   });
 
   document.addEventListener("change", (event) => {
@@ -1388,6 +1621,7 @@ function init() {
   applyLocalization();
   renderServices();
   renderReview();
+  loadRecords();
 }
 
 init();

@@ -3,19 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#172338" />
+    <meta name="theme-color" content="#010101" />
     <meta
       name="description"
       content="Matrimony By Hanna — a calm, clear wedding planning and service agreement workspace."
     />
     <title>Matrimony By Hanna · Event Planner</title>
     <link rel="icon" type="image/png" href="./assets/matrimony-infinity-icon.png?v=2" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -26,6 +20,13 @@
         </div>
 
         <div class="sidebar-rule"></div>
+
+        <div class="couple-context" aria-live="polite">
+          <span class="tiny-label" data-i18n="currentCouple">CURRENT COUPLE</span>
+          <strong id="sidebarCoupleName">Your next celebration</strong>
+          <span id="sidebarCoupleMeta">New plan</span>
+          <button type="button" class="sidebar-action" data-save-record><span aria-hidden="true">↗</span><span data-i18n="saveRecord">Save record</span></button>
+        </div>
 
         <div class="workspace-label" data-i18n="workspaceLabel">Planning workspace</div>
         <nav class="step-nav" aria-label="Planning steps">
@@ -79,6 +80,11 @@
           </button>
         </nav>
 
+        <div class="recent-couples">
+          <div class="recent-heading"><span class="tiny-label" data-i18n="recentCouples">RECENT COUPLES</span><button type="button" data-step-target="5" data-i18n="viewAll">View all</button></div>
+          <div id="recentCouples" aria-live="polite"></div>
+        </div>
+
         <div class="sidebar-bottom">
           <div class="service-count-card">
             <div class="tiny-label" data-i18n="catalogLabel">SERVICE CATALOG</div>
@@ -97,6 +103,7 @@
           <div class="mobile-brand">
             <img class="mobile-logo" src="./assets/matrimony-logo-transparent.png" alt="Matrimony — Leading from wedding up to matrimony" />
           </div>
+          <div class="topbar-couple" id="topbarCoupleName"></div>
           <div class="topbar-right">
             <div class="save-state" id="saveState" aria-live="polite">
               <span class="save-dot"></span>
@@ -110,6 +117,15 @@
         </header>
 
         <main class="content" id="appMain">
+          <nav class="mobile-nav" aria-label="Planning steps">
+            <button type="button" data-step-target="0" data-i18n="navDetails">Couple & event</button>
+            <button type="button" data-step-target="1" data-i18n="navServices">Services</button>
+            <button type="button" data-step-target="2" data-i18n="navReview">Review</button>
+            <button type="button" data-step-target="3" data-i18n="navAgreement">Agreement</button>
+            <button type="button" data-step-target="4" data-i18n="navProforma">Proforma</button>
+            <button type="button" data-step-target="5" data-i18n="navRecords">Records</button>
+          </nav>
+          <div id="validationSummary" class="validation-summary" role="alert" hidden></div>
           <section class="step-panel is-active" id="step-details" data-step="0">
             <div class="section-intro intro-with-stamp">
               <div>
@@ -306,9 +322,10 @@
               </div>
               <div class="agreement-actions">
                 <button class="button button-quiet" type="button" data-prev-step="2"><span aria-hidden="true">←</span><span data-i18n="backToReview">Back to review</span></button>
-                <button class="button button-quiet" type="button" id="saveRecordButton"><span aria-hidden="true">✓</span><span data-i18n="saveRecord">Save record</span></button>
+                <button class="button button-quiet" type="button" id="saveRecordButton" data-save-record><span aria-hidden="true">✓</span><span data-i18n="saveRecord">Save record</span></button>
                 <button class="button button-quiet" type="button" data-next-step="4"><span data-i18n="viewProforma">View proforma</span><span aria-hidden="true">↗</span></button>
-                <button class="button button-primary" type="button" id="printAgreementButton"><span aria-hidden="true">⤓</span><span data-i18n="printPdf">Print / save PDF</span></button>
+                <button class="button button-quiet" type="button" id="printAgreementButton"><span data-i18n="printDocument">Print</span></button>
+                <button class="button button-primary" type="button" data-download-pdf="agreement"><span aria-hidden="true">↓</span><span data-i18n="downloadAgreement">Download agreement PDF</span></button>
               </div>
             </div>
             <div id="agreementDocument" class="agreement-document"></div>
@@ -322,7 +339,8 @@
               </div>
               <div class="agreement-actions">
                 <button class="button button-quiet" type="button" data-prev-step="3"><span aria-hidden="true">←</span><span data-i18n="backToAgreement">Agreement</span></button>
-                <button class="button button-primary" type="button" id="printProformaButton"><span aria-hidden="true">⤓</span><span data-i18n="printProforma">Print proforma PDF</span></button>
+                <button class="button button-quiet" type="button" id="printProformaButton"><span data-i18n="printDocument">Print</span></button>
+                <button class="button button-primary" type="button" data-download-pdf="proforma"><span aria-hidden="true">↓</span><span data-i18n="downloadProforma">Download proforma PDF</span></button>
               </div>
             </div>
             <div id="proformaDocument" class="agreement-document"></div>
@@ -347,6 +365,10 @@
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div id="pickerPopover" class="picker-popover" role="dialog" hidden></div>
+    <script src="./assets/vendor/html2canvas.min.js"></script>
+    <script src="./assets/vendor/jspdf.umd.min.js"></script>
     <script src="./app.js"></script>
+    <script src="./pickers.js"></script>
   </body>
 </html>
