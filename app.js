@@ -901,10 +901,9 @@ function applyLocalization() {
   document.querySelectorAll(".language-button").forEach((button) => button.classList.toggle("is-active", button.dataset.language === state.lang));
   document.title = state.lang === "am" ? "ማትሪሞኒ በሀና · የዝግጅት እቅድ" : "Matrimony By Hanna · Event Planner";
   renderServices();
-  renderReview();
-  if (state.currentStep === 3) renderAgreement();
-  if (state.currentStep === 4) renderProforma();
-  if (state.currentStep === 5) renderRecords();
+  if (state.currentStep === 2) renderAgreement();
+  if (state.currentStep === 3) renderProforma();
+  if (state.currentStep === 4) renderRecords();
   updateBalance();
   renderCoupleContext();
   window.dispatchEvent(new Event("plan-ui-update"));
@@ -967,7 +966,6 @@ function syncDetailsFromForm() {
   const consent = document.querySelector('input[name="mediaConsent"]:checked');
   if (consent) state.details.mediaConsent = consent.value;
   updateBalance();
-  renderReview();
   saveDraft();
 }
 
@@ -1106,30 +1104,6 @@ function serviceOptionSummary(service) {
   return parts;
 }
 
-function reviewLine(label, value) {
-  return `<div class="review-line"><span>${escapeHtml(label)}</span><span>${escapeHtml(value || t("notProvided"))}</span></div>`;
-}
-
-function renderReview() {
-  const details = state.details;
-  const people = document.getElementById("reviewPeople");
-  const event = document.getElementById("reviewEvent");
-  const financial = document.getElementById("reviewFinancial");
-  const reviewServices = document.getElementById("reviewServices");
-  if (!people || !event || !financial || !reviewServices) return;
-  people.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("people"))}</h3><span>01</span></div><div class="review-lines">${reviewLine(t("brideName"), details.brideName)}${reviewLine(t("groomName"), details.groomName)}${reviewLine(t("bridePhone"), details.bridePhone)}${reviewLine(t("groomPhone"), details.groomPhone)}</div>`;
-  event.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("event"))}</h3><span>02</span></div><div class="review-lines">${reviewLine(t("weddingDate"), formatDate(details.weddingDate))}${reviewLine(t("eventDays"), details.eventDays || "1")}${reviewLine(t("weddingTime"), formatTime(details.weddingTime))}${reviewLine(t("eventVenues"), eventVenueSummary())}</div>`;
-  const total = Number(details.totalFee) || 0;
-  const schedule = paymentSchedule(total);
-  financial.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("financial"))}</h3><span>03</span></div><div class="review-financial"><div class="review-number"><span>${escapeHtml(t("total"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div><div class="review-number"><span>${escapeHtml(t("advancePayment"))}</span><strong>${escapeHtml(formatMoney(schedule.advance))}</strong></div><div class="review-number"><span>${escapeHtml(t("midtermPayment"))}</span><strong>${escapeHtml(formatMoney(schedule.midterm))}</strong></div><div class="review-number"><span>${escapeHtml(t("finalPayment"))}</span><strong>${escapeHtml(formatMoney(schedule.final))}</strong></div></div>${details.generalNotes ? `<div class="review-lines" style="margin-top:14px">${reviewLine(t("reviewNotes"), details.generalNotes)}</div>` : ""}`;
-  const selected = selectedServices();
-  const serviceItems = selected.map((service) => {
-    const summary = serviceOptionSummary(service);
-    return `<li><div><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}</div></li>`;
-  }).join("");
-  const scope = [details.scopeFullPlanning && t("scopeFullPlanning"), details.scopeDayOfCoordination && t("scopeDayOf")].filter(Boolean);
-  reviewServices.innerHTML = `<div class="review-card-heading"><h3>${escapeHtml(t("agreedServices"))}</h3><span>${selected.length} / 21</span></div>${scope.length ? `<div class="review-scope-line">${scope.map(escapeHtml).join(" · ")}</div>` : ""}${selected.length ? `<ul class="review-services-list">${serviceItems}</ul>` : `<div class="review-empty">${escapeHtml(t("noServices"))}</div>`}`;
-}
 
 function detail(value, fallback = "") {
   return escapeHtml(value || fallback || t("notProvided"));
@@ -1501,20 +1475,18 @@ function setStep(step) {
     else button.removeAttribute("aria-current");
   });
   const stepCount = document.getElementById("workflowStepCount");
-  if (stepCount) stepCount.textContent = `${String(state.currentStep + 1).padStart(2, "0")} / 06`;
+  if (stepCount) stepCount.textContent = `${String(state.currentStep + 1).padStart(2, "0")} / 05`;
   window.dispatchEvent(new Event("plan-step-change"));
   if (state.currentStep === 1) renderServices();
-  if (state.currentStep === 2) renderReview();
-  if (state.currentStep === 3) {
-    renderReview();
+  if (state.currentStep === 2) {
     prepareDocument("agreement");
     saveRecord({ silent: true });
   }
-  if (state.currentStep === 4) {
+  if (state.currentStep === 3) {
     prepareDocument("proforma");
     saveRecord({ silent: true });
   }
-  if (state.currentStep === 5) loadRecords();
+  if (state.currentStep === 4) loadRecords();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1589,7 +1561,6 @@ function toggleService(serviceId) {
   serviceState.selected = !serviceState.selected;
   saveDraft();
   renderServices();
-  renderReview();
 }
 
 function updateServiceOption(target) {
@@ -1608,7 +1579,6 @@ function updateServiceOption(target) {
     serviceState.options[optionId] = target.value;
   }
   saveDraft();
-  renderReview();
 }
 
 function clearDraft() {
@@ -1629,7 +1599,6 @@ function clearDraft() {
   syncContractChoicesToForm();
   updateBalance();
   renderServices();
-  renderReview();
   clearValidation();
   setStep(0);
   window.dispatchEvent(new Event("plan-ui-update"));
@@ -1736,8 +1705,8 @@ function bindEvents() {
     const next = event.target.closest("[data-next-step]");
     if (next) {
       const target = Number(next.dataset.nextStep);
-      if (target === 3 && !validateBeforeAgreement()) return;
-      if (target === 4 && !validateBeforeProforma()) return;
+      if (target === 2 && !validateBeforeAgreement()) return;
+      if (target === 3 && !validateBeforeProforma()) return;
       setStep(target);
       return;
     }
@@ -1749,8 +1718,8 @@ function bindEvents() {
     const nav = event.target.closest("[data-step-target]");
     if (nav) {
       const target = Number(nav.dataset.stepTarget);
-      if (target === 3 && !validateBeforeAgreement()) return;
-      if (target === 4 && !validateBeforeProforma()) return;
+      if (target === 2 && !validateBeforeAgreement()) return;
+      if (target === 3 && !validateBeforeProforma()) return;
       setStep(target);
       return;
     }
@@ -1786,7 +1755,6 @@ function bindEvents() {
     if (target.matches("[data-service-notes]")) {
       getServiceState(target.dataset.serviceNotes).notes = target.value;
       saveDraft();
-      renderReview();
       return;
     }
     if (target.matches("[data-service-id][data-option-id]")) {
@@ -1831,7 +1799,6 @@ function init() {
   bindEvents();
   applyLocalization();
   renderServices();
-  renderReview();
   loadRecords();
 }
 

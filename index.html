@@ -58,7 +58,7 @@
           </section>
 
           <section class="recent-couples">
-            <div class="recent-heading"><span class="tiny-label" data-i18n="recentCouples">RECENT COUPLES</span><button type="button" data-step-target="5" data-i18n="viewAll">View all</button></div>
+            <div class="recent-heading"><span class="tiny-label" data-i18n="recentCouples">RECENT COUPLES</span><button type="button" data-step-target="4" data-i18n="viewAll">View all</button></div>
             <div id="recentCouples" aria-live="polite"></div>
           </section>
         </div>
@@ -90,7 +90,7 @@
         <div class="workflow-nav-shell">
           <div class="workflow-nav-heading">
             <span class="workspace-label" data-i18n="workspaceLabel">Planning workspace</span>
-            <span class="workflow-step-count" id="workflowStepCount" aria-live="polite">01 / 06</span>
+            <span class="workflow-step-count" id="workflowStepCount" aria-live="polite">01 / 05</span>
           </div>
           <nav class="workflow-nav" aria-label="Planning workspace">
             <button class="step-link is-active" type="button" data-step-target="0" aria-current="step">
@@ -103,18 +103,14 @@
             </button>
             <button class="step-link" type="button" data-step-target="2">
               <span class="step-index" aria-hidden="true">03</span>
-              <span class="step-copy"><strong data-i18n="navReview">Review</strong></span>
+              <span class="step-copy"><strong data-i18n="navAgreement">Agreement</strong></span>
             </button>
             <button class="step-link" type="button" data-step-target="3">
               <span class="step-index" aria-hidden="true">04</span>
-              <span class="step-copy"><strong data-i18n="navAgreement">Agreement</strong></span>
+              <span class="step-copy"><strong data-i18n="navProforma">Proforma</strong></span>
             </button>
             <button class="step-link" type="button" data-step-target="4">
               <span class="step-index" aria-hidden="true">05</span>
-              <span class="step-copy"><strong data-i18n="navProforma">Proforma</strong></span>
-            </button>
-            <button class="step-link" type="button" data-step-target="5">
-              <span class="step-index" aria-hidden="true">06</span>
               <span class="step-copy"><strong data-i18n="navRecords">Records</strong></span>
             </button>
           </nav>
@@ -299,32 +295,11 @@
 
             <div class="step-footer">
               <button class="button button-quiet" type="button" data-prev-step="0"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="back">Back</span></button>
-              <button class="button button-primary" type="button" data-next-step="2"><span data-i18n="reviewPlan">Review the plan</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+              <button class="button button-primary" type="button" data-next-step="2"><span data-i18n="generateAgreement">Generate agreement</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
             </div>
           </section>
 
-          <section class="step-panel" id="step-review" data-step="2">
-            <div class="section-intro">
-              <div>
-                <div class="eyebrow" data-i18n="reviewEyebrow">A LAST LOOK</div>
-                <h1 data-i18n="reviewTitle">Does this feel like your plan?</h1>
-                <p data-i18n="reviewDescription">Review the couple, event, financial commitment, and the exact services that will appear in the agreement.</p>
-              </div>
-              <div class="review-seal" aria-hidden="true"><span>MH</span><small data-i18n="reviewReady">ready to sign</small></div>
-            </div>
-            <div class="review-grid">
-              <div class="review-card" id="reviewPeople"></div>
-              <div class="review-card" id="reviewEvent"></div>
-              <div class="review-card review-card-wide" id="reviewFinancial"></div>
-              <div class="review-card review-card-wide" id="reviewServices"></div>
-            </div>
-            <div class="step-footer">
-              <button class="button button-quiet" type="button" data-prev-step="1"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="editServices">Edit services</span></button>
-              <button class="button button-primary" type="button" data-next-step="3"><span data-i18n="generateAgreement">Generate agreement</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
-            </div>
-          </section>
-
-          <section class="step-panel" id="step-agreement" data-step="3">
+          <section class="step-panel" id="step-agreement" data-step="2">
             <div class="agreement-toolbar no-print">
               <div>
                 <div class="eyebrow" data-i18n="agreementEyebrow">THE DOCUMENT</div>
@@ -332,16 +307,16 @@
                 <p data-i18n="agreementDescription">A clear record of what Matrimony By Hanna and the couple have agreed to.</p>
               </div>
               <div class="agreement-actions">
-                <button class="button button-quiet" type="button" data-prev-step="2"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="backToReview">Back to review</span></button>
+                <button class="button button-quiet" type="button" data-prev-step="1"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="editServices">Edit services</span></button>
                 <button class="button button-quiet" type="button" id="saveRecordButton" data-save-record><svg class="ui-icon" aria-hidden="true"><use href="#icon-save"></use></svg><span data-i18n="saveRecord">Save record</span></button>
-                <button class="button button-quiet" type="button" data-next-step="4"><svg class="ui-icon" aria-hidden="true"><use href="#icon-eye"></use></svg><span data-i18n="viewProforma">View proforma</span></button>
+                <button class="button button-quiet" type="button" data-next-step="3"><svg class="ui-icon" aria-hidden="true"><use href="#icon-eye"></use></svg><span data-i18n="viewProforma">View proforma</span></button>
                 <button class="button button-quiet" type="button" id="printAgreementButton"><svg class="ui-icon" aria-hidden="true"><use href="#icon-printer"></use></svg><span data-i18n="printDocument">Print</span></button>
                 <button class="button button-primary" type="button" data-download-pdf="agreement"><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg><span data-i18n="downloadAgreement">Download agreement PDF</span></button>
               </div>
             </div>
             <div id="agreementDocument" class="agreement-document"></div>
           </section>
-          <section class="step-panel" id="step-proforma" data-step="4">
+          <section class="step-panel" id="step-proforma" data-step="3">
             <div class="agreement-toolbar no-print">
               <div>
                 <div class="eyebrow" data-i18n="proformaEyebrow">THE QUOTATION</div>
@@ -349,14 +324,14 @@
                 <p data-i18n="proformaDescription">A clear, itemized quotation for the couple’s celebration.</p>
               </div>
               <div class="agreement-actions">
-                <button class="button button-quiet" type="button" data-prev-step="3"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="backToAgreement">Agreement</span></button>
+                <button class="button button-quiet" type="button" data-prev-step="2"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="backToAgreement">Agreement</span></button>
                 <button class="button button-quiet" type="button" id="printProformaButton"><svg class="ui-icon" aria-hidden="true"><use href="#icon-printer"></use></svg><span data-i18n="printDocument">Print</span></button>
                 <button class="button button-primary" type="button" data-download-pdf="proforma"><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg><span data-i18n="downloadProforma">Download proforma PDF</span></button>
               </div>
             </div>
             <div id="proformaDocument" class="agreement-document"></div>
           </section>
-          <section class="step-panel" id="step-records" data-step="5">
+          <section class="step-panel" id="step-records" data-step="4">
             <div class="section-intro">
               <div>
                 <div class="eyebrow" data-i18n="recordsEyebrow">THE COUPLES</div>

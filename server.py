@@ -14,11 +14,18 @@ from pathlib import Path
 from threading import Lock
 from urllib.error import URLError
 from urllib.parse import parse_qs, unquote, urlencode, urlparse
+
+try:
+    import pg8000.dbapi
+    HAS_PG = True
+except ImportError:
+    HAS_PG = False
 from urllib.request import Request, urlopen
 
 
 ROOT = Path(__file__).resolve().parent
-DB_PATH = ROOT / "data" / "matrimony.sqlite3"
+DEFAULT_DB_PATH = ROOT / "data" / "matrimony.sqlite3"
+DB_PATH = DEFAULT_DB_PATH
 MAX_BODY = 1_000_000
 PHOTON_URL = os.environ.get("MATRIMONY_PHOTON_URL", "https://photon.komoot.io/api/")
 PHOTON_REVERSE_URL = os.environ.get("MATRIMONY_PHOTON_REVERSE_URL", PHOTON_URL.rstrip("/").rsplit("/", 1)[0] + "/reverse")
@@ -158,28 +165,156 @@ def reverse_place(lat, lon):
         return cache_places(key, place)
 
 
+def get_database_url():
+    if DB_PATH != DEFAULT_DB_PATH:
+        return None
+    url = os.environ.get("DATABASE_URL")
+    if url:
+        return url
+    for env_name in (".env.local", ".env"):
+        env_file = ROOT / env_name
+        if env_file.exists():
+            try:
+                with open(env_file, encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line.startswith("DATABASE_URL="):
+                            return line.split("=", 1)[1].strip("\"'")
+            except OSError:
+                pass
+    return None
+
+
+class SqliteDB:
+    def __init__(self, path):
+        self.path = path
+        self.conn = None
+
+    def __enter__(self):
+        self.path.parent.mkdir(exist_ok=True)
+        self.conn = sqlite3.connect(self.path, timeout=10)
+        self.conn.row_factory = sqlite3.Row
+        self.conn.execute("PRAGMA busy_timeout = 10000")
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type is None:
+            self.conn.commit()
+        else:
+            self.conn.rollback()
+        self.conn.close()
+
+    def query(self, sql, params=()):
+        cur = self.conn.execute(sql, params)
+        return [dict(row) for row in cur.fetchall()]
+
+    def query_one(self, sql, params=()):
+        cur = self.conn.execute(sql, params)
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+    def execute(self, sql, params=()):
+        cur = self.conn.execute(sql, params)
+        return cur.rowcount
+
+    def insert(self, sql, params=()):
+        cur = self.conn.execute(sql, params)
+        return cur.lastrowid
+
+
+class PostgresDB:
+    def __init__(self, url):
+        self.url = url
+        self.conn = None
+
+    def __enter__(self):
+        parsed = urlparse(self.url)
+        self.conn = pg8000.dbapi.connect(
+            user=parsed.username,
+            password=parsed.password,
+            host=parsed.hostname,
+            port=parsed.port or 5432,
+            database=parsed.path.lstrip("/"),
+            ssl_context=True,
+            timeout=15
+        )
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.conn:
+            if exc_type is None:
+                self.conn.commit()
+            else:
+                self.conn.rollback()
+            self.conn.close()
+
+    def query(self, sql, params=()):
+        sql = sql.replace("?", "%s")
+        cur = self.conn.cursor()
+        cur.execute(sql, params)
+        cols = [desc[0] for desc in cur.description] if cur.description else []
+        rows = cur.fetchall() if cur.description else []
+        return [dict(zip(cols, row)) for row in rows]
+
+    def query_one(self, sql, params=()):
+        rows = self.query(sql, params)
+        return rows[0] if rows else None
+
+    def execute(self, sql, params=()):
+        sql = sql.replace("?", "%s")
+        cur = self.conn.cursor()
+        cur.execute(sql, params)
+        return cur.rowcount
+
+    def insert(self, sql, params=()):
+        sql = sql.replace("?", "%s") + " RETURNING id"
+        cur = self.conn.cursor()
+        cur.execute(sql, params)
+        row = cur.fetchone()
+        return row[0] if row else None
+
+
+def get_db():
+    database_url = get_database_url()
+    if database_url and HAS_PG:
+        return PostgresDB(database_url)
+    return SqliteDB(DB_PATH)
+
+
 def connect():
-    DB_PATH.parent.mkdir(exist_ok=True)
-    database = sqlite3.connect(DB_PATH, timeout=10)
-    database.row_factory = sqlite3.Row
-    database.execute("PRAGMA busy_timeout = 10000")
-    return database
+    return get_db()
 
 
 def initialize():
-    with closing(connect()) as database, database:
-        database.execute("""CREATE TABLE IF NOT EXISTS records (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            bride_name TEXT NOT NULL,
-            groom_name TEXT NOT NULL,
-            bride_first_name TEXT NOT NULL,
-            groom_first_name TEXT NOT NULL,
-            wedding_date TEXT NOT NULL,
-            language TEXT NOT NULL,
-            plan_json TEXT NOT NULL,
-            created_at TEXT NOT NULL,
-            updated_at TEXT NOT NULL
-        )""")
+    database_url = get_database_url()
+    if database_url and HAS_PG:
+        with get_db() as db:
+            db.execute("""CREATE TABLE IF NOT EXISTS records (
+                id SERIAL PRIMARY KEY,
+                bride_name TEXT NOT NULL,
+                groom_name TEXT NOT NULL,
+                bride_first_name TEXT NOT NULL,
+                groom_first_name TEXT NOT NULL,
+                wedding_date TEXT NOT NULL,
+                language TEXT NOT NULL,
+                plan_json TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )""")
+    else:
+        with get_db() as db:
+            db.execute("""CREATE TABLE IF NOT EXISTS records (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                bride_name TEXT NOT NULL,
+                groom_name TEXT NOT NULL,
+                bride_first_name TEXT NOT NULL,
+                groom_first_name TEXT NOT NULL,
+                wedding_date TEXT NOT NULL,
+                language TEXT NOT NULL,
+                plan_json TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )""")
 
 
 def first_name(value):
@@ -273,12 +408,12 @@ class Handler(SimpleHTTPRequestHandler):
             record_id = self.route_id()
         except ValueError:
             return self.send_json(404, {"error": "Record not found."})
-        with closing(connect()) as database, database:
+        with get_db() as db:
             if record_id is None:
-                rows = database.execute("""SELECT id, bride_first_name, groom_first_name,
-                    wedding_date, created_at, updated_at FROM records ORDER BY updated_at DESC, id DESC""").fetchall()
-                return self.send_json(200, {"records": [dict(row) for row in rows]})
-            row = database.execute("SELECT id, plan_json FROM records WHERE id = ?", (record_id,)).fetchone()
+                rows = db.query("""SELECT id, bride_first_name, groom_first_name,
+                    wedding_date, created_at, updated_at FROM records ORDER BY updated_at DESC, id DESC""")
+                return self.send_json(200, {"records": rows})
+            row = db.query_one("SELECT id, plan_json FROM records WHERE id = ?", (record_id,))
         if row is None:
             return self.send_json(404, {"error": "Record not found."})
         self.send_json(200, {"id": row["id"], "plan": json.loads(row["plan_json"])})
@@ -304,19 +439,18 @@ class Handler(SimpleHTTPRequestHandler):
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         fields = (bride, groom, first_name(bride), first_name(groom), wedding_date,
                   language, json.dumps(payload, ensure_ascii=False), now)
-        with closing(connect()) as database, database:
+        with get_db() as db:
             if update:
-                cursor = database.execute("""UPDATE records SET bride_name=?, groom_name=?,
+                rowcount = db.execute("""UPDATE records SET bride_name=?, groom_name=?,
                     bride_first_name=?, groom_first_name=?, wedding_date=?, language=?,
                     plan_json=?, updated_at=? WHERE id=?""", (*fields, record_id))
-                if not cursor.rowcount:
+                if not rowcount:
                     return self.send_json(404, {"error": "Record not found."})
             else:
-                cursor = database.execute("""INSERT INTO records
+                record_id = db.insert("""INSERT INTO records
                     (bride_name, groom_name, bride_first_name, groom_first_name,
                      wedding_date, language, plan_json, created_at, updated_at)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (*fields, now))
-                record_id = cursor.lastrowid
         self.send_json(200 if update else 201, {"id": record_id})
 
     def do_POST(self):
@@ -332,10 +466,10 @@ class Handler(SimpleHTTPRequestHandler):
                 raise ValueError()
         except ValueError:
             return self.send_json(404, {"error": "Record not found."})
-        with closing(connect()) as database, database:
-            cursor = database.execute("DELETE FROM records WHERE id = ?", (record_id,))
-        self.send_json(200 if cursor.rowcount else 404,
-                       {"deleted": bool(cursor.rowcount)} if cursor.rowcount else {"error": "Record not found."})
+        with get_db() as db:
+            rowcount = db.execute("DELETE FROM records WHERE id = ?", (record_id,))
+        self.send_json(200 if rowcount else 404,
+                       {"deleted": bool(rowcount)} if rowcount else {"error": "Record not found."})
 
 
 if __name__ == "__main__":
