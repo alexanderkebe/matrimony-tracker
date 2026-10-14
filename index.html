@@ -10,7 +10,7 @@
     />
     <title>Matrimony By Hanna · Event Planner</title>
     <link rel="icon" type="image/png" href="./assets/matrimony-infinity-icon.png?v=2" />
-    <link rel="stylesheet" href="./styles.css?v=20261006-agreement-3" />
+    <link rel="stylesheet" href="./styles.css?v=20261014-gpt-sidebar" />
   </head>
   <body>
     <svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -23,6 +23,9 @@
       <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20 12H5m6 6-6-6 6-6" /></symbol>
       <symbol id="icon-open" viewBox="0 0 24 24"><path d="M13 5h6v6m0-6-9 9" /><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></symbol>
       <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 3v4m8-4v4M4 10h16" /></symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></symbol>
+      <symbol id="icon-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z" /></symbol>
     </svg>
     <div class="app-shell">
       <aside class="sidebar">
@@ -32,8 +35,13 @@
           </div>
           <button class="sidebar-new-plan" type="button" id="resetDraftButton">
             <svg class="ui-icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
-            <span data-i18n="startNew">Start a new plan</span>
+            <span data-i18n="startNew">New wedding</span>
           </button>
+          <div class="sidebar-search">
+            <svg class="ui-icon sidebar-search-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+            <input type="search" id="sidebarSearch" class="sidebar-search-input" data-placeholder-en="Search weddings..." data-placeholder-am="ሰርግ ፈልግ..." placeholder="Search weddings..." autocomplete="off" />
+            <button type="button" id="sidebarSearchClear" class="sidebar-search-clear" aria-label="Clear search" hidden>×</button>
+          </div>
         </div>
 
         <div class="sidebar-main">
@@ -58,14 +66,17 @@
           </section>
 
           <section class="recent-couples">
-            <div class="recent-heading"><span class="tiny-label" data-i18n="recentCouples">RECENT COUPLES</span><button type="button" data-step-target="4" data-i18n="viewAll">View all</button></div>
+            <div class="recent-heading"><span class="tiny-label" data-i18n="weddingsHeading">WEDDINGS</span><button type="button" data-step-target="4" data-i18n="viewAll">View all</button></div>
             <div id="recentCouples" aria-live="polite"></div>
           </section>
         </div>
 
         <div class="sidebar-footer">
-          <strong>Matrimony by Hanna</strong>
-          <small data-i18n="brandCaption">Ceremony, beautifully considered.</small>
+          <div class="sidebar-user-avatar" aria-hidden="true">MH</div>
+          <div class="sidebar-user-meta">
+            <strong>Matrimony by Hanna</strong>
+            <small data-i18n="brandCaption">Ceremony, beautifully considered.</small>
+          </div>
         </div>
       </aside>
 
@@ -354,7 +365,7 @@
     <div id="pickerPopover" class="picker-popover" role="dialog" hidden></div>
     <script src="./assets/vendor/html2canvas.min.js"></script>
     <script src="./assets/vendor/jspdf.umd.min.js"></script>
-    <script src="./app.js?v=20261006-agreement-3"></script>
+    <script src="./app.js?v=20261014-gpt-sidebar"></script>
     <script src="./pickers.js?v=20261006-locations"></script>
   </body>
 </html>

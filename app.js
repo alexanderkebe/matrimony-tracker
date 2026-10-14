@@ -55,7 +55,7 @@ const copy = {
     recordOpened: "The couple’s plan is ready to edit.",
     catalogLabel: "SERVICE CATALOG",
     catalogCopy: "spiritual, creative & practical details ready to shape.",
-    startNew: "Start a new plan",
+    startNew: "New wedding",
     savedLocally: "Saved locally",
     detailsEyebrow: "MATRIMONY BY HANNA · WEDDING PLANNING",
     detailsTitle: "Plan the ceremony with clarity.",
@@ -220,7 +220,7 @@ const copy = {
     recordOpened: "የጥንዶቹ እቅድ ለማሻሻል ዝግጁ ነው።",
     catalogLabel: "የአገልግሎት ዝርዝር",
     catalogCopy: "መንፈሳዊ፣ የፈጠራ እና ተግባራዊ ዝርዝሮች።",
-    startNew: "አዲስ እቅድ ይጀምሩ",
+    startNew: "አዲስ ሰርግ",
     savedLocally: "በመሣሪያው ተቀምጧል",
     detailsEyebrow: "ማትሪሞኒ በሀና · የሰርግ እቅድ",
     detailsTitle: "ሥነ-ስርዓቱን በግልጽ ያቅዱ።",
@@ -348,7 +348,7 @@ const copy = {
 // New workflow copy stays paired so every control has an English and Amharic label.
 Object.assign(copy.en, {
   currentCouple: "CURRENT COUPLE", nextCelebration: "Your next celebration", newPlan: "New plan",
-  recentCouples: "RECENT COUPLES", viewAll: "View all", recentEmpty: "Saved couples will appear here.",
+  recentCouples: "RECENT COUPLES", weddingsHeading: "WEDDINGS", viewAll: "View all", recentEmpty: "Saved couples will appear here.", noWeddingsFound: "No weddings match search.",
   recordDirty: "Unsaved changes", recordSaving: "Saving record…", recordReady: "Saved record",
   localOnly: "Local draft only", localSaveFailed: "Draft could not be saved on this browser.",
   downloadAgreement: "Download agreement PDF", downloadProforma: "Download proforma PDF",
@@ -406,7 +406,7 @@ Object.assign(copy.en, {
 });
 Object.assign(copy.am, {
   currentCouple: "የአሁኑ ጥንዶች", nextCelebration: "ቀጣዩ ዝግጅት", newPlan: "አዲስ እቅድ",
-  recentCouples: "የቅርብ ጥንዶች", viewAll: "ሁሉንም አሳይ", recentEmpty: "የተቀመጡ ጥንዶች እዚህ ይታያሉ።",
+  recentCouples: "የቅርብ ጥንዶች", weddingsHeading: "ሰርጎች", viewAll: "ሁሉንም አሳይ", recentEmpty: "የተቀመጡ ጥንዶች እዚህ ይታያሉ።", noWeddingsFound: "ምንም የሚዛመድ ሰርግ የለም።",
   recordDirty: "ያልተቀመጡ ለውጦች", recordSaving: "መዝገቡን በማስቀመጥ ላይ…", recordReady: "የተቀመጠ መዝገብ",
   localOnly: "በአሳሹ ላይ ብቻ የተቀመጠ ረቂቅ", localSaveFailed: "ረቂቁን በዚህ አሳሽ ማስቀመጥ አልተቻለም።",
   downloadAgreement: "የስምምነት PDF አውርድ", downloadProforma: "የፕሮፎርማ PDF አውርድ",
@@ -730,6 +730,7 @@ const state = {
   currentStep: 0,
   serviceSearch: "",
   serviceFilter: "all",
+  sidebarSearchQuery: "",
   recordId: null,
   records: [],
   details: {},
@@ -992,7 +993,33 @@ function renderCoupleContext() {
   document.getElementById("sidebarDateRow").hidden = !weddingDate;
   document.getElementById("sidebarCoupleDate").textContent = weddingDate ? formatDate(weddingDate) : "";
   const recent = document.getElementById("recentCouples");
-  recent.innerHTML = state.records.length ? state.records.slice(0, 5).map(record => `<button type="button" class="recent-couple ${record.id === state.recordId ? "is-current" : ""}" data-open-record="${record.id}"><strong>${escapeHtml(record.bride_first_name)} &amp; ${escapeHtml(record.groom_first_name)}</strong><small>${escapeHtml(formatDate(record.wedding_date))} · #${record.id}</small></button>`).join("") : `<p>${escapeHtml(t("recentEmpty"))}</p>`;
+  const query = (state.sidebarSearchQuery || "").trim().toLowerCase();
+  const records = state.records || [];
+  const filtered = query
+    ? records.filter((r) => {
+        const bride = (r.bride_first_name || "").toLowerCase();
+        const groom = (r.groom_first_name || "").toLowerCase();
+        const bFull = (r.bride_name || "").toLowerCase();
+        const gFull = (r.groom_name || "").toLowerCase();
+        const date = (r.wedding_date || "").toLowerCase();
+        const id = String(r.id);
+        return bride.includes(query) || groom.includes(query) || bFull.includes(query) || gFull.includes(query) || date.includes(query) || id.includes(query);
+      })
+    : records.slice(0, 15);
+
+  if (!records.length) {
+    recent.innerHTML = `<p>${escapeHtml(t("recentEmpty"))}</p>`;
+  } else if (!filtered.length) {
+    recent.innerHTML = `<p class="sidebar-no-results">${escapeHtml(t("noWeddingsFound"))}</p>`;
+  } else {
+    recent.innerHTML = filtered.map((record) => {
+      const isCurrent = record.id === state.recordId;
+      const bName = escapeHtml(record.bride_first_name || "");
+      const gName = escapeHtml(record.groom_first_name || "");
+      const dateText = escapeHtml(formatDate(record.wedding_date));
+      return `<div class="recent-couple-item"><button type="button" class="recent-couple ${isCurrent ? "is-current" : ""}" data-open-record="${record.id}" title="${bName} &amp; ${gName}"><svg class="ui-icon recent-couple-icon" aria-hidden="true"><use href="#icon-chat"></use></svg><span class="recent-couple-text"><strong>${bName} &amp; ${gName}</strong><small>${dateText} · #${record.id}</small></span></button></div>`;
+    }).join("");
+  }
 }
 
 function updateBalance() {
@@ -1727,6 +1754,17 @@ function bindEvents() {
       clearDraft();
       return;
     }
+    if (event.target.closest("#sidebarSearchClear")) {
+      const searchInput = document.getElementById("sidebarSearch");
+      if (searchInput) {
+        searchInput.value = "";
+        searchInput.focus();
+      }
+      state.sidebarSearchQuery = "";
+      event.target.closest("#sidebarSearchClear").hidden = true;
+      renderCoupleContext();
+      return;
+    }
     if (event.target.closest("#printAgreementButton")) {
       printDocument("agreement");
       return;
@@ -1743,6 +1781,13 @@ function bindEvents() {
 
   document.addEventListener("input", (event) => {
     const target = event.target;
+    if (target.id === "sidebarSearch") {
+      state.sidebarSearchQuery = target.value;
+      const clearBtn = document.getElementById("sidebarSearchClear");
+      if (clearBtn) clearBtn.hidden = !target.value;
+      renderCoupleContext();
+      return;
+    }
     if (target.id === "serviceSearch") {
       state.serviceSearch = target.value;
       renderServices();
