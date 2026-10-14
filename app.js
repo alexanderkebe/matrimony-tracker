@@ -1375,12 +1375,66 @@ async function prepareDocument(kind) {
   }
 }
 
+const LOCAL_RECORDS_KEY = "matrimony-saved-records-v1";
+function getLocalRecords() {
+  try { return JSON.parse(localStorage.getItem(LOCAL_RECORDS_KEY) || "[]"); } catch { return []; }
+}
+function setLocalRecords(list) {
+  try { localStorage.setItem(LOCAL_RECORDS_KEY, JSON.stringify(list)); } catch {}
+}
+
 async function recordsRequest(path, options) {
-  const response = await fetch(`/api/records${path}`, {
-    ...options,
-    signal: AbortSignal.timeout(12000),
-    headers: { "Content-Type": "application/json", ...(options?.headers || {}) }
-  });
+  let response;
+  let networkFailed = false;
+  try {
+    response = await fetch(`/api/records${path}`, {
+      ...options,
+      signal: AbortSignal.timeout(12000),
+      headers: { "Content-Type": "application/json", ...(options?.headers || {}) }
+    });
+    if (response.status === 404) networkFailed = true;
+  } catch (err) {
+    networkFailed = true;
+  }
+
+  if (networkFailed) {
+    const local = getLocalRecords();
+    const id = path ? Number(path.replace(/^\//, "")) : null;
+    const method = options?.method || "GET";
+    if (method === "GET") {
+      if (id) {
+        const item = local.find(r => r.id === id);
+        if (!item) throw new Error(t("recordUnavailable"));
+        return { id: item.id, plan: item };
+      }
+      return {
+        records: local.map(r => ({
+          id: r.id,
+          bride_name: r.details?.brideName || "",
+          groom_name: r.details?.groomName || "",
+          bride_first_name: firstName(r.details?.brideName),
+          groom_first_name: firstName(r.details?.groomName),
+          wedding_date: r.details?.weddingDate || ""
+        }))
+      };
+    }
+    if (method === "POST" || method === "PUT") {
+      const plan = JSON.parse(options.body);
+      const savedId = id || (local.length ? Math.max(...local.map(r => r.id)) + 1 : 1);
+      const existingIdx = local.findIndex(r => r.id === savedId);
+      const record = { ...plan, id: savedId, updatedAt: new Date().toISOString() };
+      if (existingIdx >= 0) local[existingIdx] = record;
+      else local.unshift(record);
+      setLocalRecords(local);
+      return { id: savedId };
+    }
+    if (method === "DELETE") {
+      const next = local.filter(r => r.id !== id);
+      setLocalRecords(next);
+      return { deleted: true };
+    }
+  }
+
   let result;
   try { result = await response.json(); } catch { throw new Error(t("recordUnavailable")); }
   if (!response.ok) throw new Error(result.error || t("recordUnavailable"));

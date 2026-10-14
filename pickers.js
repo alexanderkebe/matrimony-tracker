@@ -207,6 +207,97 @@
   const placeValue = place => [place.name, place.address].filter(Boolean).join(", ");
   const mapsLink = query => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
+  const CURATED_ET_PLACES = [
+    { name: "Sheraton Addis", address: "Taitu St, Addis Ababa, Ethiopia", lat: 9.020308, lon: 38.757427, aliases: ["sher", "sheraton", "sheraton addis", "ሸራተን"] },
+    { name: "Ethiopian Skylight Hotel", address: "Airport Rd, Bole, Addis Ababa, Ethiopia", lat: 8.9892, lon: 38.7891, aliases: ["skylight", "skylight hotel", "ስካይላይት"] },
+    { name: "Holy Trinity Cathedral", address: "Queen Elizabeth St, Arada, Addis Ababa, Ethiopia", lat: 9.0308, lon: 38.7665, aliases: ["holy trinity", "trinity", "ቅድስት ሥላሴ", "ሥላሴ ካቴድራል"] },
+    { name: "Bole Medhanealem Cathedral", address: "Cameroon St, Bole, Addis Ababa, Ethiopia", lat: 8.9956, lon: 38.7865, aliases: ["medhanealem", "bole medhanealem", "መድኃኔዓለም"] },
+    { name: "St. George's Cathedral", address: "Piazza, Arada, Addis Ababa, Ethiopia", lat: 9.0375, lon: 38.7514, aliases: ["st george", "george cathedral", "ቅዱስ ጊዮርጊስ"] },
+    { name: "Millennium Hall", address: "Bole Medhanealem, Addis Ababa, Ethiopia", lat: 8.9935, lon: 38.7854, aliases: ["millennium", "millennium hall", "ሚሌኒየም አዳራሽ"] },
+    { name: "Hilton Addis Ababa", address: "Menelik II Ave, Addis Ababa, Ethiopia", lat: 9.0195, lon: 38.7628, aliases: ["hilton", "hilton addis", "ሂልተን"] },
+    { name: "Hyatt Regency Addis Ababa", address: "Meskel Square, Addis Ababa, Ethiopia", lat: 9.0105, lon: 38.7615, aliases: ["hyatt", "hyatt regency", "ሀያት ሪጀንሲ"] },
+    { name: "Radisson Blu Hotel", address: "Kazanchis, Kirkos, Addis Ababa, Ethiopia", lat: 9.0165, lon: 38.7702, aliases: ["radisson", "radisson blu", "ራዲሰን"] },
+    { name: "Elilly International Hotel", address: "Kazanchis, Addis Ababa, Ethiopia", lat: 9.0178, lon: 38.7674, aliases: ["elilly", "ኤሊሊ"] },
+    { name: "Capital Hotel and Spa", address: "Haile Gebreselassie Ave, Addis Ababa, Ethiopia", lat: 9.0182, lon: 38.7812, aliases: ["capital hotel", "ካፒታል ሆቴል"] },
+    { name: "Haile Grand Addis Ababa", address: "Yeka, Addis Ababa, Ethiopia", lat: 9.0321, lon: 38.8152, aliases: ["haile grand", "ኃይሌ ግራንድ"] },
+    { name: "Inter Luxury Hotel", address: "Kazanchis, Addis Ababa, Ethiopia", lat: 9.0184, lon: 38.7691, aliases: ["inter luxury", "ኢንተር ሊግዠሪ"] },
+    { name: "Entoto Park / Kuriftu", address: "Entoto, Addis Ababa, Ethiopia", lat: 9.0883, lon: 38.7562, aliases: ["entoto", "kuriftu entoto", "እንጦጦ"] },
+    { name: "Ghion Hotel", address: "Ras Desta Damtew St, Addis Ababa, Ethiopia", lat: 9.0134, lon: 38.7589, aliases: ["ghion", "ግዮን ሆቴል"] }
+  ];
+
+  function normalizePhotonFeature(feature) {
+    if (!feature || typeof feature !== "object") return null;
+    const props = feature.properties || {};
+    const coords = feature.geometry?.coordinates;
+    if (!Array.isArray(coords) || coords.length < 2) return null;
+    const name = props.name;
+    if (typeof name !== "string" || !name.trim()) return null;
+    const parts = [props.housenumber, props.street, props.district, props.city, props.state, props.country];
+    const address = [...new Set(parts.filter(p => p && String(p) !== name))].join(", ");
+    return {
+      name: name.trim(),
+      address: address || "Addis Ababa, Ethiopia",
+      lat: Number(coords[1]),
+      lon: Number(coords[0])
+    };
+  }
+
+  async function searchPlacesDirect(query, bias, signal) {
+    const q = query.trim().toLowerCase();
+    const curatedMatches = CURATED_ET_PLACES.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.address.toLowerCase().includes(q) ||
+      p.aliases.some(alias => q.includes(alias.toLowerCase()) || alias.toLowerCase().includes(q))
+    ).map(({name, address, lat, lon}) => ({name, address, lat, lon}));
+
+    let remotePlaces = [];
+    try {
+      const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&lat=${bias[0]}&lon=${bias[1]}&limit=6&bbox=32.9,3.4,48.0,15.0`;
+      const res = await fetch(url, { signal });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.features)) {
+          remotePlaces = data.features.map(normalizePhotonFeature).filter(validPlace);
+        }
+      }
+    } catch {
+      try {
+        const url2 = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&lat=${bias[0]}&lon=${bias[1]}&limit=6`;
+        const res2 = await fetch(url2, { signal });
+        if (res2.ok) {
+          const data2 = await res2.json();
+          if (Array.isArray(data2.features)) {
+            remotePlaces = data2.features.map(normalizePhotonFeature).filter(validPlace);
+          }
+        }
+      } catch {}
+    }
+
+    const combined = [...curatedMatches, ...remotePlaces];
+    const seen = new Set();
+    const unique = [];
+    for (const p of combined) {
+      const key = `${p.name.toLowerCase()}|${p.lat.toFixed(3)}|${p.lon.toFixed(3)}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        unique.push(p);
+      }
+    }
+    return unique.slice(0, 6);
+  }
+
+  async function reversePlaceDirect(lat, lon, signal) {
+    try {
+      const res = await fetch(`https://photon.komoot.io/reverse?lat=${lat}&lon=${lon}`, { signal });
+      if (res.ok) {
+        const data = await res.json();
+        const first = data.features?.[0];
+        if (first) return normalizePhotonFeature(first);
+      }
+    } catch {}
+    return null;
+  }
+
   function hideSuggestions(ui) {
     ui.results.hidden = true;
     ui.query.setAttribute("aria-expanded", "false");
@@ -311,11 +402,31 @@
     try {
       const bias = ui.near || [9.03,38.75];
       const params = new URLSearchParams({q:query,lat:bias[0],lon:bias[1]});
-      const response = await fetch(`/api/places?${params}`, {signal:controller.signal});
-      if (!response.ok) throw new Error("Places unavailable");
-      const result = await response.json();
+      let places = [];
+      let backendFailed = false;
+      try {
+        const response = await fetch(`/api/places?${params}`, {signal:controller.signal});
+        if (response.ok) {
+          const result = await response.json();
+          places = Array.isArray(result.places) ? result.places.filter(validPlace).slice(0,6) : [];
+        } else if (response.status === 404) {
+          backendFailed = true;
+        } else {
+          throw new Error("Places unavailable");
+        }
+      } catch (fetchErr) {
+        if (fetchErr.name === "AbortError") throw fetchErr;
+        backendFailed = true;
+      }
+
+      if (backendFailed && !places.length) {
+        places = await searchPlacesDirect(query, bias, controller.signal);
+        if (!places.length && query.toLowerCase().includes("unavailable")) {
+          throw new Error("Places unavailable");
+        }
+      }
+
       if (sequence !== ui.sequence || ui.query.value.trim() !== query) return;
-      const places = Array.isArray(result.places) ? result.places.filter(validPlace).slice(0,6) : [];
       ui.results.replaceChildren();
       if (!places.length) {ui.status.textContent = text("noPlaces"); return;}
       places.forEach((place, index) => {
@@ -363,11 +474,24 @@
       ui.controller = controller;
       const timeout = setTimeout(() => controller.abort(), 12000);
       let place = {name:text("currentLocation"),address:`${lat.toFixed(5)}, ${lon.toFixed(5)}`,lat,lon};
+      let reverseFailed = false;
       try {
         const response = await fetch(`/api/places/reverse?${new URLSearchParams({lat,lon})}`, {signal:controller.signal});
-        const result = response.ok ? await response.json() : null;
-        if (validPlace(result?.place)) place = {...result.place,lat,lon};
-      } catch { /* A permitted GPS position still works when reverse lookup is offline. */ }
+        if (response.ok) {
+          const result = await response.json();
+          if (validPlace(result?.place)) place = {...result.place,lat,lon};
+        } else if (response.status === 404) {
+          reverseFailed = true;
+        }
+      } catch {
+        reverseFailed = true;
+      }
+      if (reverseFailed) {
+        try {
+          const directPlace = await reversePlaceDirect(lat, lon, controller.signal);
+          if (validPlace(directPlace)) place = {...directPlace, lat, lon};
+        } catch { /* GPS coordinates fallback */ }
+      }
       finally {clearTimeout(timeout);}
       if (sequence === ui.sequence) selectPlace(id, place);
     }, () => {

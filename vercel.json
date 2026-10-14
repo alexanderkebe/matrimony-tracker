@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/places/reverse", "destination": "/api/reverse.js" },
+    { "source": "/api/places", "destination": "/api/places.js" },
+    { "source": "/api/records/:id", "destination": "/api/records.js?id=:id" },
+    { "source": "/api/records", "destination": "/api/records.js" }
+  ]
+}
