@@ -73,7 +73,15 @@ const copy = {
     eventEyebrow: "THE EVENT",
     eventHeading: "When & where",
     weddingDate: "Wedding date",
-    weddingTime: "Start time",
+    mealProgram: "Meal program",
+    mealProgramHint: "Select the meals included in the event.",
+    mealBreakfast: "Breakfast",
+    mealLunch: "Lunch",
+    mealDinner: "Dinner",
+    mealBreakfastHint: "Morning", mealLunchHint: "Midday", mealDinnerHint: "Evening",
+    mealFullDay: "3 Course Full Day Program",
+    mealProgramAgreement: "Meal Program",
+    mealNotSet: "No meals selected",
     eventVenueTypesHeading: "Where will the wedding events take place?",
     eventVenueTypesHint: "Select every venue type you need, then choose its location on the map.",
     venueTypeChurch: "Church / religious venue",
@@ -95,7 +103,8 @@ const copy = {
     continueServices: "Continue to services",
     servicesEyebrow: "THE AGREED SCOPE",
     servicesTitle: "Choose what belongs in the promise.",
-    servicesDescription: "Select a service to reveal the choices that make it specific to this couple. The agreement will include only what is selected.",
+    servicesDescription: "Choose the services for this wedding. Your selections carry into the planner, where you can arrange the details later.",
+    continuePlanning: "Continue to planner",
     selectedOf: "of 21 selected",
     filterLabel: "Filter services",
     filterAll: "All service areas",
@@ -124,7 +133,6 @@ const copy = {
     noServices: "No services selected yet.",
     notProvided: "Not provided",
     dateNotSet: "Date not set",
-    timeNotSet: "Time not set",
     notSet: "Not set",
     notes: "Notes",
     noNotes: "No additional notes",
@@ -134,7 +142,7 @@ const copy = {
     serviceDetails: "Selected details",
     agreementDate: "Agreement date",
     weddingDateAgreement: "Wedding date",
-    timeAgreement: "Time",
+    mealProgramAgreement: "Meal Program",
     eventVenuesAgreement: "Selected event venues",
     introAgreement: "This Agreement is made by and between Matrimony by Hanna (the “Service Provider”) and the Clients identified below for the wedding event scheduled for",
     introAgreementEnd: "The Clients retain Matrimony by Hanna to coordinate the services selected in this Agreement.",
@@ -238,7 +246,15 @@ const copy = {
     eventEyebrow: "ዝግጅቱ",
     eventHeading: "መቼ እና የት",
     weddingDate: "የሰርግ ቀን",
-    weddingTime: "የመጀመሪያ ሰዓት",
+    mealProgram: "የምግብ ፕሮግራም",
+    mealProgramHint: "ለዝግጅቱ የተካተቱ ምግቦችን ይምረጡ።",
+    mealBreakfast: "ቁርስ",
+    mealLunch: "ምሳ",
+    mealDinner: "እራት",
+    mealBreakfastHint: "ጠዋት", mealLunchHint: "ቀትር", mealDinnerHint: "ምሽት",
+    mealFullDay: "የ3 ኮርስ ሙሉ ቀን ፕሮግራም",
+    mealProgramAgreement: "የምግብ ፕሮግራም",
+    mealNotSet: "ምግብ አልተመረጠም",
     eventVenueTypesHeading: "የሰርጉ ዝግጅቶች የት ይካሄዳሉ?",
     eventVenueTypesHint: "የሚያስፈልጉዎትን ቦታዎች ሁሉ ይምረጡ፤ ለእያንዳንዱም በካርታው ላይ ቦታ ያስቀምጡ።",
     venueTypeChurch: "ቤተ-ክርስቲያን / ሃይማኖታዊ ቦታ",
@@ -260,7 +276,8 @@ const copy = {
     continueServices: "ወደ አገልግሎቶች ይቀጥሉ",
     servicesEyebrow: "የተስማሙበት ወሰን",
     servicesTitle: "በቃል ኪዳኑ ውስጥ የሚገባውን ይምረጡ።",
-    servicesDescription: "አገልግሎት ሲመርጡ ለዚህ ጥንድ የሚስማማውን ምርጫ ያሳያል። በስምምነቱ የሚገባው የተመረጠው ብቻ ነው።",
+    servicesDescription: "ለዚህ ሰርግ አገልግሎቶችን ይምረጡ። ምርጫዎችዎ ወደ ዕቅዱ ይተላለፋሉ፤ ዝርዝሮቹን በኋላ ያዘጋጃሉ።",
+    continuePlanning: "ወደ ዕቅዱ ቀጥል",
     selectedOf: "ከ21 ተመርጠዋል",
     filterLabel: "አገልግሎቶችን ይለዩ",
     filterAll: "ሁሉም የአገልግሎት ዘርፎች",
@@ -289,7 +306,6 @@ const copy = {
     noServices: "እስካሁን አገልግሎት አልተመረጠም።",
     notProvided: "አልተሰጠም",
     dateNotSet: "ቀን አልተወሰነም",
-    timeNotSet: "ሰዓት አልተወሰነም",
     notSet: "አልተወሰነም",
     notes: "ማስታወሻ",
     noNotes: "ተጨማሪ ማስታወሻ የለም",
@@ -299,7 +315,7 @@ const copy = {
     serviceDetails: "የተመረጡ ዝርዝሮች",
     agreementDate: "የስምምነት ቀን",
     weddingDateAgreement: "የሰርግ ቀን",
-    timeAgreement: "ሰዓት",
+    mealProgramAgreement: "የምግብ ፕሮግራም",
     eventVenuesAgreement: "የተመረጡ የዝግጅት ቦታዎች",
     introAgreement: "ይህ ውል በማትሪሞኒ ባይ ሃና (ከዚህ በኋላ “አገልግሎት ሰጪ” ተብሎ የሚጠራ) እና ከታች በመረጃቸው በተገለጹት ደንበኞች መካከል የተደረገ ስምምነት ነው። ዝግጅቱም በሚከተለው ቀን ይካሄዳል፦",
     introAgreementEnd: "ደንበኞቹ በዚህ ውል የተመረጡትን አገልግሎቶች ለማስተባበር ማትሪሞኒ ባይ ሃናን ቀጥረዋል።",
@@ -348,7 +364,7 @@ const copy = {
 // New workflow copy stays paired so every control has an English and Amharic label.
 Object.assign(copy.en, {
   currentCouple: "CURRENT COUPLE", nextCelebration: "Your next celebration", newPlan: "New plan",
-  recentCouples: "RECENT COUPLES", weddingsHeading: "WEDDINGS", viewAll: "View all", recentEmpty: "Saved couples will appear here.", noWeddingsFound: "No weddings match search.",
+  recentCouples: "RECENT COUPLES", weddingsHeading: "WEDDINGS", viewAll: "View all", recentEmpty: "Saved couples will appear here.", noWeddingsFound: "No weddings match search.", recentWeddings: "Recent weddings", searchResults: "Results",
   recordDirty: "Unsaved changes", recordSaving: "Saving record…", recordReady: "Saved record",
   localOnly: "Local draft only", localSaveFailed: "Draft could not be saved on this browser.",
   downloadAgreement: "Download agreement PDF", downloadProforma: "Download proforma PDF",
@@ -406,7 +422,7 @@ Object.assign(copy.en, {
 });
 Object.assign(copy.am, {
   currentCouple: "የአሁኑ ጥንዶች", nextCelebration: "ቀጣዩ ዝግጅት", newPlan: "አዲስ እቅድ",
-  recentCouples: "የቅርብ ጥንዶች", weddingsHeading: "ሰርጎች", viewAll: "ሁሉንም አሳይ", recentEmpty: "የተቀመጡ ጥንዶች እዚህ ይታያሉ።", noWeddingsFound: "ምንም የሚዛመድ ሰርግ የለም።",
+  recentCouples: "የቅርብ ጥንዶች", weddingsHeading: "ሰርጎች", viewAll: "ሁሉንም አሳይ", recentEmpty: "የተቀመጡ ጥንዶች እዚህ ይታያሉ።", noWeddingsFound: "ምንም የሚዛመድ ሰርግ የለም።", recentWeddings: "የቅርብ ጊዜ ሰርጎች", searchResults: "ውጤቶች",
   recordDirty: "ያልተቀመጡ ለውጦች", recordSaving: "መዝገቡን በማስቀመጥ ላይ…", recordReady: "የተቀመጠ መዝገብ",
   localOnly: "በአሳሹ ላይ ብቻ የተቀመጠ ረቂቅ", localSaveFailed: "ረቂቁን በዚህ አሳሽ ማስቀመጥ አልተቻለም።",
   downloadAgreement: "የስምምነት PDF አውርድ", downloadProforma: "የፕሮፎርማ PDF አውርድ",
@@ -714,7 +730,7 @@ const groupLabels = {
   am: { spiritual: "መንፈሳዊ እና ቤተ-ክርስቲያን", venue: "ቦታ እና ድባብ", hospitality: "እንግዳ አቀባበል", style: "ውበት እና ሰዎች", logistics: "ዝግጅት እና አስተዳደር" }
 };
 
-const fieldIds = ["brideName", "bridePhone", "brideAddress", "groomName", "groomPhone", "groomAddress", "weddingDate", "weddingTime", "eventDays", "totalFee", "generalNotes"];
+const fieldIds = ["brideName", "bridePhone", "brideAddress", "groomName", "groomPhone", "groomAddress", "weddingDate", "eventDays", "totalFee", "generalNotes"];
 const eventVenueCatalog = [
   { id: "church", label: "venueTypeChurch", legacy: "sacredVenue" },
   { id: "hall", label: "venueTypeHall", legacy: "receptionVenue" },
@@ -730,7 +746,6 @@ const state = {
   currentStep: 0,
   serviceSearch: "",
   serviceFilter: "all",
-  sidebarSearchQuery: "",
   recordId: null,
   records: [],
   details: {},
@@ -790,8 +805,10 @@ function eventVenueSummary() {
 }
 
 let saveTimer;
+let autoSaveTimer;
 let toastTimer;
 let savingRecord = false;
+let recordSavePromise = Promise.resolve();
 let recordStatus = "newPlan";
 let savedPlanSignature = "";
 let documentJob = 0;
@@ -825,20 +842,106 @@ function formatMoney(value) {
   return `${new Intl.NumberFormat(state.lang === "am" ? "am-ET" : "en-ET", { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(amount)} ETB`;
 }
 
+/* ── Ethiopian Calendar Converter ─────────────────────────────────── */
+const EC_MONTHS_AM = ["መስከረም","ጥቅምት","ኅዳር","ታኅሣሥ","ጥር","የካቲት","መጋቢት","ሚያዝያ","ግንቦት","ሰኔ","ሐምሌ","ነሐሴ","ጳጉሜ"];
+const EC_MONTHS_EN = ["Meskerem","Tikimt","Hidar","Tahsas","Tir","Yekatit","Megabit","Miyazya","Ginbot","Sene","Hamle","Nehase","Pagume"];
+
+// Julian Day Number of Meskerem 1, 1 EC. Pagume has 6 days in EC years where year % 4 === 3.
+const ETHIOPIAN_EPOCH = 1724221;
+const ethiopianYearStart = year => ETHIOPIAN_EPOCH + 365 * (year - 1) + Math.floor(year / 4);
+
+function gregorianToEthiopian(year, month, day) {
+  const a = Math.floor((14 - month) / 12);
+  const y = year + 4800 - a;
+  const m = month + 12 * a - 3;
+  const jdn = day + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+  const ecYear = Math.floor((4 * (jdn - ETHIOPIAN_EPOCH) + 1463) / 1461);
+  const n = jdn - ethiopianYearStart(ecYear);
+  return { year: ecYear, month: Math.floor(n / 30) + 1, day: n % 30 + 1 };
+}
+
+function ethiopianToGregorian(year, month, day) {
+  const jdn = ethiopianYearStart(year) + 30 * (month - 1) + day - 1;
+  const a = jdn + 32044;
+  const b = Math.floor((4 * a + 3) / 146097);
+  const c = a - Math.floor(146097 * b / 4);
+  const d = Math.floor((4 * c + 3) / 1461);
+  const e = c - Math.floor(1461 * d / 4);
+  const m = Math.floor((5 * e + 2) / 153);
+  return { year: 100 * b + d - 4800 + Math.floor(m / 10), month: m + 3 - 12 * Math.floor(m / 10), day: e - Math.floor((153 * m + 2) / 5) + 1 };
+}
+
+const ethiopianMonthLength = (year, month) => month < 13 ? 30 : (year % 4 === 3 ? 6 : 5);
+
+function formatEthiopianDate(value) {
+  if (!value) return t("dateNotSet");
+  const date = new Date(`${value}T12:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
+  const ec = gregorianToEthiopian(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  const monthName = state.lang === "am" ? EC_MONTHS_AM[ec.month - 1] : EC_MONTHS_EN[ec.month - 1];
+  return `${monthName} ${ec.day}, ${ec.year}${state.lang === "am" ? " ዓ.ም." : " EC"}`;
+}
+
+function formatGregorianDate(value) {
+  const date = new Date(`${value}T12:00:00`);
+  return new Intl.DateTimeFormat(state.lang === "am" ? "am-ET" : "en-GB", { year: "numeric", month: "long", day: "numeric", calendar: "gregory" }).format(date);
+}
+
 function formatDate(value) {
   if (!value) return t("dateNotSet");
   const date = new Date(`${value}T12:00:00`);
   if (Number.isNaN(date.getTime())) return value;
-  return new Intl.DateTimeFormat(state.lang === "am" ? "am-ET" : "en-ET", { year: "numeric", month: "long", day: "numeric" }).format(date);
+  // On screen the Ethiopian calendar leads; English also shows the Gregorian equivalent.
+  if (state.lang === "am") return formatEthiopianDate(value);
+  return `${formatEthiopianDate(value)} (${formatGregorianDate(value)})`;
 }
 
-function formatTime(value) {
-  if (!value) return t("timeNotSet");
-  const [hours, minutes] = value.split(":").map(Number);
-  if (Number.isNaN(hours)) return value;
-  const date = new Date();
-  date.setHours(hours, minutes || 0, 0, 0);
-  return new Intl.DateTimeFormat(state.lang === "am" ? "am-ET" : "en-ET", { hour: "numeric", minute: "2-digit" }).format(date);
+function formatDateForDocument(value) {
+  // In documents: Amharic → EC, English → Gregorian
+  if (!value) return t("dateNotSet");
+  const date = new Date(`${value}T12:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
+  return state.lang === "am" ? formatEthiopianDate(value) : formatGregorianDate(value);
+}
+
+/* ── Meal Program Helpers ─────────────────────────────────────────── */
+function getMealProgram() {
+  const meals = state.details.mealProgram || [];
+  return meals;
+}
+
+function formatMealProgram() {
+  const meals = getMealProgram();
+  if (!meals.length) return t("mealNotSet");
+  if (meals.length === 3 && meals.includes("breakfast") && meals.includes("lunch") && meals.includes("dinner")) {
+    return t("mealFullDay");
+  }
+  return meals.map(meal => t("meal" + meal.charAt(0).toUpperCase() + meal.slice(1))).join(" · ");
+}
+
+function syncMealChoicesToForm() {
+  const meals = new Set(state.details.mealProgram || []);
+  document.querySelectorAll("[data-meal-program]").forEach(input => {
+    input.checked = meals.has(input.dataset.mealProgram);
+  });
+  updateMealSummary();
+}
+
+function updateMealSummary() {
+  const summary = document.getElementById("mealSummary");
+  if (!summary) return;
+  const meals = getMealProgram();
+  if (meals.length === 3 && meals.includes("breakfast") && meals.includes("lunch") && meals.includes("dinner")) {
+    summary.hidden = false;
+    summary.textContent = "✦ " + t("mealFullDay");
+    summary.className = "meal-summary meal-full-day";
+  } else if (meals.length > 0) {
+    summary.hidden = false;
+    summary.textContent = formatMealProgram();
+    summary.className = "meal-summary";
+  } else {
+    summary.hidden = true;
+  }
 }
 
 function dateInputValue(date = new Date()) {
@@ -933,8 +1036,19 @@ function loadDraft() {
   }
 }
 
+function scheduleAutoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    if (openingRecord || exportingPdf) return scheduleAutoSave();
+    if (!state.details.brideName?.trim() || !state.details.groomName?.trim()) return;
+    if (state.recordId && planSignature() === savedPlanSignature) return;
+    saveRecord({ silent: true });
+  }, 1200);
+}
+
 function saveDraft(markDirty = true) {
   if (markDirty && state.recordId && planSignature() !== savedPlanSignature) recordStatus = "recordDirty";
+  if (markDirty) scheduleAutoSave();
   renderCoupleContext();
   clearTimeout(saveTimer);
   const saveState = document.getElementById("saveState");
@@ -943,7 +1057,7 @@ function saveDraft(markDirty = true) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ lang: state.lang, details: state.details, services: state.services, recordId: state.recordId, savedAt: new Date().toISOString() }));
       saveState?.classList.remove("is-saving");
-      if (saveState) saveState.querySelector("span:last-child").textContent = t("savedLocally");
+      if (saveState) saveState.querySelector("span:last-child").textContent = state.recordId ? t(savingRecord ? "recordSaving" : recordStatus) : t("savedLocally");
     } catch (error) {
       saveState?.classList.remove("is-saving");
       if (saveState) saveState.querySelector("span:last-child").textContent = t("localSaveFailed");
@@ -959,6 +1073,7 @@ function syncDetailsFromForm() {
   });
   normalizeEventVenues();
   state.details.eventVenueTypes = [...document.querySelectorAll("[data-event-venue-type]:checked")].map((input) => input.dataset.eventVenueType);
+  state.details.mealProgram = [...document.querySelectorAll("[data-meal-program]:checked")].map((input) => input.dataset.mealProgram);
   document.querySelectorAll("[data-venue-location]").forEach((input) => {
     state.details.venues[input.dataset.venueLocation] = input.value;
   });
@@ -966,6 +1081,7 @@ function syncDetailsFromForm() {
   state.details.scopeDayOfCoordination = Boolean(document.getElementById("scopeDayOf")?.checked);
   const consent = document.querySelector('input[name="mediaConsent"]:checked');
   if (consent) state.details.mediaConsent = consent.value;
+  updateMealSummary();
   updateBalance();
   saveDraft();
 }
@@ -981,36 +1097,16 @@ function firstName(value) {
 function renderCoupleContext() {
   const names = [firstName(state.details.brideName), firstName(state.details.groomName)].filter(Boolean);
   const title = names.length ? names.join(" & ") : t("nextCelebration");
-  document.getElementById("sidebarCoupleName").textContent = title;
   document.getElementById("topbarCoupleName").textContent = names.length ? title : "";
   const status = savingRecord ? "recordSaving" : recordStatus;
-  document.getElementById("sidebarCoupleMeta").textContent = t(status);
-  document.getElementById("sidebarCoupleStatus").dataset.status = status;
-  const recordId = document.getElementById("sidebarRecordId");
-  recordId.textContent = state.recordId ? `#${state.recordId}` : "";
-  recordId.hidden = !state.recordId;
-  const weddingDate = state.details.weddingDate;
-  document.getElementById("sidebarDateRow").hidden = !weddingDate;
-  document.getElementById("sidebarCoupleDate").textContent = weddingDate ? formatDate(weddingDate) : "";
+  const saveStateLabel = document.querySelector("#saveState span:last-child");
+  if (saveStateLabel && state.currentStep !== 5 && (state.recordId || savingRecord)) saveStateLabel.textContent = t(status);
   const recent = document.getElementById("recentCouples");
-  const query = (state.sidebarSearchQuery || "").trim().toLowerCase();
   const records = state.records || [];
-  const filtered = query
-    ? records.filter((r) => {
-        const bride = (r.bride_first_name || "").toLowerCase();
-        const groom = (r.groom_first_name || "").toLowerCase();
-        const bFull = (r.bride_name || "").toLowerCase();
-        const gFull = (r.groom_name || "").toLowerCase();
-        const date = (r.wedding_date || "").toLowerCase();
-        const id = String(r.id);
-        return bride.includes(query) || groom.includes(query) || bFull.includes(query) || gFull.includes(query) || date.includes(query) || id.includes(query);
-      })
-    : records.slice(0, 15);
+  const filtered = records.slice(0, 15);
 
   if (!records.length) {
     recent.innerHTML = `<p>${escapeHtml(t("recentEmpty"))}</p>`;
-  } else if (!filtered.length) {
-    recent.innerHTML = `<p class="sidebar-no-results">${escapeHtml(t("noWeddingsFound"))}</p>`;
   } else {
     recent.innerHTML = filtered.map((record) => {
       const isCurrent = record.id === state.recordId;
@@ -1072,7 +1168,6 @@ function renderServiceCard(service) {
   const serviceState = getServiceState(service.id);
   const title = localized(service.title);
   const description = localized(service.description);
-  const options = service.options.map((option) => renderOption(service, option, serviceState)).join("");
   return `<article class="service-card ${serviceState.selected ? "is-selected" : ""}" data-service-card="${service.id}">
     <div class="service-main">
       <div class="service-icon" aria-hidden="true">${service.number}</div>
@@ -1082,10 +1177,6 @@ function renderServiceCard(service) {
         <p class="service-description">${escapeHtml(description)}</p>
       </div>
       <button class="service-toggle" type="button" data-service-toggle="${service.id}" aria-label="${escapeHtml(title)}" aria-pressed="${serviceState.selected ? "true" : "false"}"></button>
-    </div>
-    <div class="service-options">
-      <div class="options-grid">${options}</div>
-      <label class="service-option is-wide" style="margin-top:12px"><span class="service-option-label">${escapeHtml(t("serviceNotes"))}</span><textarea rows="2" data-service-notes="${service.id}" placeholder="${escapeHtml(t("serviceNotesPlaceholder"))}">${escapeHtml(serviceState.notes || "")}</textarea></label>
     </div>
   </article>`;
 }
@@ -1141,7 +1232,7 @@ function renderAgreement() {
   if (!container) return;
   const d = state.details;
   const selected = selectedServices();
-  const agreementDate = formatDate(dateInputValue());
+  const agreementDate = formatDateForDocument(dateInputValue());
   const premarital = services.find(service => service.id === "premarital");
   const premaritalSummary = premarital && getServiceState("premarital").selected ? serviceOptionSummary(premarital) : [];
   const packageRows = [
@@ -1175,8 +1266,9 @@ function renderAgreement() {
     <div class="agreement-top-rule"></div>
     <div class="agreement-meta">
       <div><div class="doc-label">${escapeHtml(t("agreementDate"))}</div><div class="doc-value">${escapeHtml(agreementDate)}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("weddingDateAgreement"))}</div><div class="doc-value">${escapeHtml(formatDate(d.weddingDate))}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("weddingDateAgreement"))}</div><div class="doc-value">${escapeHtml(formatDateForDocument(d.weddingDate))}</div></div>
       <div><div class="doc-label">${escapeHtml(t("eventDays"))}</div><div class="doc-value">${escapeHtml(d.eventDays || "1")}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("mealProgramAgreement"))}</div><div class="doc-value">${escapeHtml(formatMealProgram())}</div></div>
     </div>
     <p class="intro-paragraph">${escapeHtml(t("agreementIntro"))}</p>
     <section class="agreement-parties"><h3>1. ${escapeHtml(t("agreementParties"))}</h3><div class="provider-details">
@@ -1192,8 +1284,8 @@ function renderAgreement() {
       <div><div class="doc-label">${escapeHtml(t("brideAddress"))}</div><div class="doc-value">${detail(d.brideAddress, "____________________________")}</div></div>
     </div></section>
     <section class="agreement-event"><h4>${escapeHtml(t("eventDetails"))}</h4><div class="agreement-details-grid">
-      <div><div class="doc-label">${escapeHtml(t("weddingDateAgreement"))}</div><div class="doc-value">${escapeHtml(formatDate(d.weddingDate))}</div></div>
-      <div><div class="doc-label">${escapeHtml(t("timeAgreement"))}</div><div class="doc-value">${escapeHtml(formatTime(d.weddingTime))}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("weddingDateAgreement"))}</div><div class="doc-value">${escapeHtml(formatDateForDocument(d.weddingDate))}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("mealProgramAgreement"))}</div><div class="doc-value">${escapeHtml(formatMealProgram())}</div></div>
       <div class="event-venues-document"><div class="doc-label">${escapeHtml(t("eventVenuesAgreement"))}</div>${eventVenueRows}</div>
     </div></section>
     <section class="agreed-services"><h3>2. ${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><h4>${escapeHtml(t("otherAddons"))}</h4><ol class="agreed-services-list">${addOns || `<li>${escapeHtml(t("noAddons"))}</li>`}</ol></section>
@@ -1226,7 +1318,7 @@ function renderProforma() {
   const details = state.details;
   const selected = selectedServices();
   const total = Number(details.totalFee) || 0;
-  const issueDate = formatDate(dateInputValue());
+  const issueDate = formatDateForDocument(dateInputValue());
   const reference = documentReference("PF");
   const serviceRows = selected.map((service) => {
     const summary = serviceOptionSummary(service);
@@ -1237,8 +1329,9 @@ function renderProforma() {
     <h2 class="agreement-title">${escapeHtml(t("proformaDocumentTitle"))}<span>${escapeHtml(t("proformaDescription"))}</span></h2>
     <div class="proforma-couple"><div class="doc-label">${escapeHtml(t("proformaPreparedFor"))}</div><strong>${detail(details.brideName)} <span>&amp;</span> ${detail(details.groomName)}</strong></div>
     <div class="proforma-facts">
-      <div><div class="doc-label">${escapeHtml(t("weddingDate"))}</div><div class="doc-value">${escapeHtml(formatDate(details.weddingDate))}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("weddingDate"))}</div><div class="doc-value">${escapeHtml(formatDateForDocument(details.weddingDate))}</div></div>
       <div><div class="doc-label">${escapeHtml(t("eventDays"))}</div><div class="doc-value">${escapeHtml(details.eventDays || "1")}</div></div>
+      <div><div class="doc-label">${escapeHtml(t("mealProgramAgreement"))}</div><div class="doc-value">${escapeHtml(formatMealProgram())}</div></div>
       <div><div class="doc-label">${escapeHtml(t("eventVenues"))}</div><div class="doc-value">${escapeHtml(eventVenueSummary())}</div></div>
     </div>
     <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3><ul class="proforma-service-list">${serviceRows}</ul></section>
@@ -1384,11 +1477,12 @@ function setLocalRecords(list) {
 }
 
 async function recordsRequest(path, options) {
+  const { requireRemote = false, ...requestOptions } = options || {};
   let response;
   let networkFailed = false;
   try {
     response = await fetch(`/api/records${path}`, {
-      ...options,
+      ...requestOptions,
       signal: AbortSignal.timeout(12000),
       headers: { "Content-Type": "application/json", ...(options?.headers || {}) }
     });
@@ -1398,6 +1492,7 @@ async function recordsRequest(path, options) {
   }
 
   if (networkFailed) {
+    if (requireRemote) throw new Error(state.lang === "am" ? "ወደ ዕቅዱ ለመቀጠል መዝገቡ በአገልጋዩ መቀመጥ አለበት። እንደገና ይሞክሩ።" : "The questionnaire could not be saved to the server. Try again to continue to the planner.");
     const local = getLocalRecords();
     const id = path ? Number(path.replace(/^\//, "")) : null;
     const method = options?.method || "GET";
@@ -1472,7 +1567,12 @@ async function loadRecords() {
   }
 }
 
-async function saveRecord({ silent = false } = {}) {
+function saveRecord(options = {}) {
+  recordSavePromise = recordSavePromise.then(() => persistRecord(options), () => persistRecord(options));
+  return recordSavePromise;
+}
+
+async function persistRecord({ silent = false, requireRemote = false } = {}) {
   if (savingRecord) return;
   syncDetailsFromForm();
   if (!state.details.brideName?.trim() || !state.details.groomName?.trim()) {
@@ -1482,13 +1582,14 @@ async function saveRecord({ silent = false } = {}) {
   savingRecord = true;
   recordStatus = "recordSaving";
   renderCoupleContext();
-  document.querySelectorAll("[data-save-record], [data-open-record], #resetDraftButton").forEach(button => button.disabled = true);
+  document.querySelectorAll("[data-open-record], #resetDraftButton").forEach(button => button.disabled = true);
   const signature = planSignature();
   const id = state.recordId;
   try {
     const result = await recordsRequest(id ? `/${id}` : "", {
       method: id ? "PUT" : "POST",
-      body: signature
+      body: signature,
+      requireRemote
     });
     state.recordId = result.id;
     savedPlanSignature = signature;
@@ -1497,17 +1598,20 @@ async function saveRecord({ silent = false } = {}) {
     try { state.records = (await recordsRequest("")).records; } catch { /* The record was saved even if refreshing the list fails. */ }
     renderRecords();
     if (!silent) showToast(t("recordSaved"));
+    return result;
   } catch (error) {
     recordStatus = "localOnly";
     if (!silent) showToast(error.message || t("recordUnavailable"));
+    if (requireRemote) throw error;
   } finally {
     savingRecord = false;
-    document.querySelectorAll("[data-save-record], [data-open-record], #resetDraftButton").forEach(button => button.disabled = false);
+    document.querySelectorAll("[data-open-record], #resetDraftButton").forEach(button => button.disabled = false);
     renderCoupleContext();
+    if (recordStatus === "recordDirty") scheduleAutoSave();
   }
 }
 
-async function openRecord(id) {
+async function openRecord(id, { step = 0 } = {}) {
   if (savingRecord || exportingPdf || openingRecord) return;
   openingRecord = true;
   document.querySelector('.app-shell').inert = true;
@@ -1525,11 +1629,14 @@ async function openRecord(id) {
     fieldIds.forEach(field => { document.getElementById(field).value = state.details[field] ?? ""; });
     syncEventVenueChoicesToForm();
     syncContractChoicesToForm();
+    syncMealChoicesToForm();
     applyLocalization();
     clearValidation();
-    setStep(0);
+    setStep(step);
+    saveDraft(false);
     window.dispatchEvent(new Event("plan-ui-update"));
     showToast(t("recordOpened"));
+    return result;
   } catch (error) {
     showToast(error.message || t("recordUnavailable"));
   } finally {
@@ -1547,7 +1654,7 @@ function setStep(step) {
   document.querySelectorAll(".step-link").forEach((link) => {
     const target = Number(link.dataset.stepTarget);
     link.classList.toggle("is-active", target === state.currentStep);
-    link.classList.toggle("is-complete", target < state.currentStep);
+    link.classList.toggle("is-complete", state.currentStep < 5 && target < state.currentStep);
   });
   document.querySelectorAll(".workflow-nav [data-step-target]").forEach(button => {
     const active = Number(button.dataset.stepTarget) === state.currentStep;
@@ -1556,7 +1663,7 @@ function setStep(step) {
     else button.removeAttribute("aria-current");
   });
   const stepCount = document.getElementById("workflowStepCount");
-  if (stepCount) stepCount.textContent = `${String(state.currentStep + 1).padStart(2, "0")} / 05`;
+  if (stepCount) stepCount.textContent = state.currentStep === 5 ? (state.lang === "am" ? "የሰርግ ዕቅድ" : "Wedding Planning") : `${String(state.currentStep + 1).padStart(2, "0")} / 05`;
   window.dispatchEvent(new Event("plan-step-change"));
   if (state.currentStep === 1) renderServices();
   if (state.currentStep === 2) {
@@ -1662,9 +1769,12 @@ function updateServiceOption(target) {
   saveDraft();
 }
 
-function clearDraft() {
+async function clearDraft() {
   if (savingRecord || exportingPdf) return;
   if (!window.confirm(state.lang === "am" ? "ይህን ረቂቅ ማጥፋት ይፈልጋሉ?" : "Clear this plan and start a new one?")) return;
+  clearTimeout(autoSaveTimer);
+  syncDetailsFromForm();
+  if (state.details.brideName?.trim() && state.details.groomName?.trim() && planSignature() !== savedPlanSignature) await saveRecord({ silent: true });
   localStorage.removeItem(STORAGE_KEY);
   state.details = {};
   normalizeEventVenues();
@@ -1760,12 +1870,100 @@ async function downloadDocument(kind) {
   }
 }
 
+/* ── Wedding Search Dialog ────────────────────────────────────────── */
+let searchActiveIndex = 0;
+
+function searchMatches(query) {
+  const records = state.records || [];
+  if (!query) return records.slice(0, 8);
+  return records.filter((r) => [r.bride_first_name, r.groom_first_name, r.bride_name, r.groom_name, r.wedding_date, formatDate(r.wedding_date), `#${r.id}`]
+    .some((value) => String(value || "").toLowerCase().includes(query)));
+}
+
+function renderWeddingSearch() {
+  const input = document.getElementById("weddingSearchInput");
+  const results = document.getElementById("weddingSearchResults");
+  const query = input.value.trim().toLowerCase();
+  const matches = searchMatches(query);
+  document.getElementById("searchDialogHeading").textContent = t(query ? "searchResults" : "recentWeddings");
+  searchActiveIndex = Math.min(searchActiveIndex, Math.max(matches.length - 1, 0));
+  if (!matches.length) {
+    results.innerHTML = `<p class="search-dialog-empty">${escapeHtml(t((state.records || []).length ? "noWeddingsFound" : "recentEmpty"))}</p>`;
+    input.removeAttribute("aria-activedescendant");
+    return;
+  }
+  results.innerHTML = matches.map((record, index) => {
+    const names = `${escapeHtml(record.bride_first_name || "")} &amp; ${escapeHtml(record.groom_first_name || "")}`;
+    return `<button type="button" class="search-result ${index === searchActiveIndex ? "is-active" : ""}" id="search-result-${record.id}" role="option" aria-selected="${index === searchActiveIndex}" data-search-record="${record.id}"><svg class="ui-icon" aria-hidden="true"><use href="#icon-chat"></use></svg><span class="search-result-name">${names}</span><span class="search-result-date">${escapeHtml(formatDate(record.wedding_date))}</span></button>`;
+  }).join("");
+  const active = results.querySelector(".search-result.is-active");
+  if (active) {
+    input.setAttribute("aria-activedescendant", active.id);
+    active.scrollIntoView({ block: "nearest" });
+  }
+}
+
+async function openWeddingSearch() {
+  const dialog = document.getElementById("searchDialog");
+  if (dialog.open) return;
+  const input = document.getElementById("weddingSearchInput");
+  input.value = "";
+  searchActiveIndex = 0;
+  dialog.showModal();
+  input.focus();
+  renderWeddingSearch();
+  try {
+    state.records = (await recordsRequest("")).records;
+    if (dialog.open) renderWeddingSearch();
+  } catch { /* Keep showing the records already loaded. */ }
+}
+
+function closeWeddingSearch() {
+  const dialog = document.getElementById("searchDialog");
+  if (dialog.open) dialog.close();
+}
+
+function chooseSearchResult(id) {
+  closeWeddingSearch();
+  openRecord(Number(id));
+}
+
+function bindWeddingSearch() {
+  const dialog = document.getElementById("searchDialog");
+  const input = document.getElementById("weddingSearchInput");
+  document.getElementById("openSearchButton").addEventListener("click", openWeddingSearch);
+  document.getElementById("closeSearchButton").addEventListener("click", closeWeddingSearch);
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) { closeWeddingSearch(); return; }
+    const result = event.target.closest("[data-search-record]");
+    if (result) chooseSearchResult(result.dataset.searchRecord);
+  });
+  input.addEventListener("input", () => { searchActiveIndex = 0; renderWeddingSearch(); });
+  input.addEventListener("keydown", (event) => {
+    const results = [...document.querySelectorAll("#weddingSearchResults [data-search-record]")];
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!results.length) return;
+      searchActiveIndex = (searchActiveIndex + (event.key === "ArrowDown" ? 1 : -1) + results.length) % results.length;
+      renderWeddingSearch();
+    } else if (event.key === "Enter" && results[searchActiveIndex]) {
+      event.preventDefault();
+      chooseSearchResult(results[searchActiveIndex].dataset.searchRecord);
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k" && !document.getElementById("openSearchButton").hidden) {
+      event.preventDefault();
+      openWeddingSearch();
+    }
+  });
+}
+
 function bindEvents() {
   document.addEventListener("click", (event) => {
     if (exportingPdf) return;
     const download = event.target.closest("[data-download-pdf]");
     if (download) { downloadDocument(download.dataset.downloadPdf); return; }
-    if (event.target.closest("[data-save-record]")) { saveRecord(); return; }
     const languageButton = event.target.closest("[data-language]");
     if (languageButton) {
       state.lang = languageButton.dataset.language === "am" ? "am" : "en";
@@ -1808,17 +2006,6 @@ function bindEvents() {
       clearDraft();
       return;
     }
-    if (event.target.closest("#sidebarSearchClear")) {
-      const searchInput = document.getElementById("sidebarSearch");
-      if (searchInput) {
-        searchInput.value = "";
-        searchInput.focus();
-      }
-      state.sidebarSearchQuery = "";
-      event.target.closest("#sidebarSearchClear").hidden = true;
-      renderCoupleContext();
-      return;
-    }
     if (event.target.closest("#printAgreementButton")) {
       printDocument("agreement");
       return;
@@ -1827,21 +2014,10 @@ function bindEvents() {
       printDocument("proforma");
       return;
     }
-    if (event.target.closest("#saveRecordButton")) {
-      saveRecord();
-      return;
-    }
   });
 
   document.addEventListener("input", (event) => {
     const target = event.target;
-    if (target.id === "sidebarSearch") {
-      state.sidebarSearchQuery = target.value;
-      const clearBtn = document.getElementById("sidebarSearchClear");
-      if (clearBtn) clearBtn.hidden = !target.value;
-      renderCoupleContext();
-      return;
-    }
     if (target.id === "serviceSearch") {
       state.serviceSearch = target.value;
       renderServices();
@@ -1876,6 +2052,11 @@ function bindEvents() {
       saveDraft();
       return;
     }
+    if (target.matches("[data-meal-program]")) {
+      syncDetailsFromForm();
+      saveDraft();
+      return;
+    }
     if (target.id === "serviceFilter") {
       state.serviceFilter = target.value;
       renderServices();
@@ -1896,6 +2077,7 @@ function init() {
   syncEventVenueChoicesToForm();
   syncContractChoicesToForm();
   bindEvents();
+  bindWeddingSearch();
   applyLocalization();
   renderServices();
   loadRecords();

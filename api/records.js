@@ -1,16 +1,27 @@
-const DEFAULT_DATABASE_URL = "postgresql://neondb_owner:npg_9AExHC5MVOgT@ep-round-waterfall-b4qf4eu0-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require";
+import { createHmac, timingSafeEqual } from "node:crypto";
+
+function requireStaff(req) {
+  const secret = process.env.MATRIMONY_SESSION_SECRET;
+  if (!secret) return true; // Preserve the existing standalone app until host sign-in is connected.
+  if (secret.length < 32) return false;
+  try {
+    const cookie = String(req.headers.cookie || "").split(";").map(s => s.trim()).find(s => s.startsWith("matrimony_session="));
+    const token = String(req.headers.authorization || "").startsWith("Bearer ") ? req.headers.authorization.slice(7) : cookie?.slice("matrimony_session=".length);
+    const [payload, signature, extra] = String(token || "").split(".");
+    if (extra !== undefined || !/^[a-f0-9]{64}$/.test(signature || "")) return false;
+    const expected = createHmac("sha256", secret).update(payload).digest();
+    if (!timingSafeEqual(expected, Buffer.from(signature, "hex"))) return false;
+    const claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
+    const clock = Date.now() / 1000;
+    const tenantAllowed = claims.organizationId === (process.env.MATRIMONY_LEGACY_ORGANIZATION_ID || "local") || (Array.isArray(claims.permissions) && claims.permissions.includes("legacy_records"));
+    return tenantAllowed && typeof claims.userId === "string" && typeof claims.organizationId === "string" && typeof claims.exp === "number" && claims.exp > clock && claims.exp <= clock + 86400 && Array.isArray(claims.roles) && claims.roles.some(role => ["admin", "planner"].includes(role));
+  } catch { return false; }
+}
 
 function getDatabaseConfig() {
-  const connStr = process.env.DATABASE_URL || DEFAULT_DATABASE_URL;
-  let host = "ep-round-waterfall-b4qf4eu0-pooler.c-6.us-east-2.aws.neon.tech";
-  try {
-    const parsed = new URL(connStr);
-    host = parsed.hostname;
-  } catch {}
-  return {
-    connectionString: connStr,
-    sqlEndpoint: `https://${host}/sql`
-  };
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) throw new Error("Configure DATABASE_URL on the server.");
+  return { connectionString, sqlEndpoint: `https://${new URL(connectionString).hostname}/sql` };
 }
 
 async function queryNeon(sql, params = []) {
@@ -40,6 +51,11 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.status(200).end();
 
+  if (!requireStaff(req)) return res.status(403).json({ error: "Couple records require a staff session." });
+  if (!["GET", "OPTIONS"].includes(req.method) && req.headers.origin) {
+    try { if (new URL(req.headers.origin).host !== req.headers.host) return res.status(403).json({ error: "Cross-origin changes are not allowed." }); }
+    catch { return res.status(403).json({ error: "Cross-origin changes are not allowed." }); }
+  }
   const url = new URL(req.url, `https://${req.headers.host || "localhost"}`);
   const idFromPath = url.pathname.split("/").filter(Boolean).pop();
   const recordId = req.query.id || (idFromPath && !isNaN(Number(idFromPath)) ? idFromPath : null);
@@ -118,7 +134,7 @@ export default async function handler(req, res) {
 
     return res.status(405).json({ error: "Method not allowed." });
   } catch (err) {
-    console.error("API error:", err);
-    return res.status(500).json({ error: err.message || "Internal server error" });
+    console.error("Record API request failed");
+    return res.status(500).json({ error: "Records are temporarily unavailable." });
   }
 }

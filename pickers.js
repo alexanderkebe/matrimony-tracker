@@ -10,7 +10,7 @@
       noPin:"No location selected yet", manualPin:"Manual entry · no confirmed map pin", selected:"Location selected", selectedVenue:"Selected location",
       privacy:"Search text and map center go to Photon (OpenStreetMap data); the map loads from Google. Near me asks permission to use and save your current location. Couple details and prices are never sent.",
       locationFailed:"Location access is unavailable or was declined. Search for the address instead.", locating:"Finding your location…", currentLocation:"Current location",
-      mapHint:"Choose a result to save its address and map pin. Ethiopian matches appear first.", mapLoad:"Maps need internet. If the preview does not load, use Open in Google Maps.", gregorian:"Gregorian",
+      mapHint:"Choose a result to save its address and map pin. Ethiopian matches appear first.", mapLoad:"Maps need internet. If the preview does not load, use Open in Google Maps.", gregorian:"Gregorian", ethiopian:"Ethiopian", calendarSystem:"Calendar",
       searchPlaceholder:"Search an address, venue, hotel or landmark", searchCity:"Search an Addis Ababa address or landmark", searchResults:"Location suggestions",
       mapEmpty:"Search above to choose a location", changeVenue:"Change location", removeVenue:"Remove location", manualEntry:"Enter a location manually", manualAddress:"Location name / address",
       searchHelp:"Suggestions appear as you type. You can also press Enter to search.", dataCredit:"Search data: OpenStreetMap", addSearch:"Search for a location"
@@ -24,7 +24,7 @@
       noPin:"እስካሁን ቦታ አልተመረጠም", manualPin:"በእጅ የገባ · የካርታ ነጥብ አልተረጋገጠም", selected:"ቦታው ተመርጧል", selectedVenue:"የተመረጠ ቦታ",
       privacy:"የፍለጋ ጽሑፍዎ እና የካርታው ማዕከል ለPhoton (OpenStreetMap መረጃ) ይላካሉ፤ ካርታው ከGoogle ይጫናል። በአቅራቢያዬ ያሉበትን ቦታ ለመጠቀም እና ለማስቀመጥ ፈቃድ ይጠይቃል። የጥንዶቹ መረጃ እና ዋጋዎች አይላኩም።",
       locationFailed:"ያሉበትን ቦታ ማግኘት አልተቻለም። አድራሻውን ይፈልጉ።", locating:"ያሉበትን ቦታ በማግኘት ላይ…", currentLocation:"አሁን ያሉበት ቦታ",
-      mapHint:"አድራሻውን እና ነጥቡን ለማስቀመጥ ውጤት ይምረጡ። የኢትዮጵያ ውጤቶች በቅድሚያ ይታያሉ።", mapLoad:"ካርታው ኢንተርኔት ይፈልጋል። ካልተጫነ በGoogle Maps ክፈትን ይጠቀሙ።", gregorian:"ጎርጎርዮሳዊ",
+      mapHint:"አድራሻውን እና ነጥቡን ለማስቀመጥ ውጤት ይምረጡ። የኢትዮጵያ ውጤቶች በቅድሚያ ይታያሉ።", mapLoad:"ካርታው ኢንተርኔት ይፈልጋል። ካልተጫነ በGoogle Maps ክፈትን ይጠቀሙ።", gregorian:"ጎርጎርዮሳዊ", ethiopian:"ዓ.ም. (ኢትዮጵያ)", calendarSystem:"የቀን አቆጣጠር",
       searchPlaceholder:"አድራሻ፣ ቦታ፣ ሆቴል ወይም ታዋቂ ስፍራ ይፈልጉ", searchCity:"የአዲስ አበባ አድራሻ ወይም ታዋቂ ስፍራ ይፈልጉ", searchResults:"የቦታ ፍለጋ ውጤቶች",
       mapEmpty:"ቦታ ለመምረጥ ከላይ ይፈልጉ", changeVenue:"ቦታ ቀይር", removeVenue:"ቦታውን አጥፋ", manualEntry:"ቦታውን በእጅ ያስገቡ", manualAddress:"የቦታው ስም / አድራሻ",
       searchHelp:"ሲጽፉ ውጤቶች ይታያሉ። Enterን በመጫንም መፈለግ ይችላሉ።", dataCredit:"የፍለጋ መረጃ፦ OpenStreetMap", addSearch:"ቦታ ፈልግ"
@@ -33,12 +33,36 @@
   const text = key => labels[state.lang][key];
   const icon = kind => kind === "date" ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 2v6m10-6v6M3 11h18m-13 4h2m4 0h2"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>';
   const popup = document.getElementById("pickerPopover");
-  let activeInput, activeTrigger, shownMonth, keyboardDate;
+  let activeInput, activeTrigger, shown, keyboardDate;
+  // The Ethiopian calendar is the default; a planner's switch to Gregorian is remembered on this device.
+  let calendarMode = "ec";
+  try { if (localStorage.getItem("matrimony-calendar") === "gc") calendarMode = "gc"; } catch {}
   let timeSelection = {};
   const mapState = new Map();
   const locale = () => state.lang === "am" ? "am-ET" : "en-GB";
   const dateFrom = value => value ? new Date(`${value}T12:00:00`) : new Date();
   const iso = date => dateInputValue(date);
+  const ecOf = date => gregorianToEthiopian(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  const fromEc = (year, month, day) => { const g = ethiopianToGregorian(year, month, day); return new Date(g.year, g.month - 1, g.day, 12); };
+
+  // `shown` is {year, month} in the active calendar, with 1-based months (13 in the Ethiopian calendar).
+  function showDate(date) {
+    if (calendarMode === "ec") { const ec = ecOf(date); shown = {year:ec.year, month:ec.month}; }
+    else shown = {year:date.getFullYear(), month:date.getMonth() + 1};
+  }
+  function shownDays() {
+    const {year, month} = shown;
+    if (calendarMode === "ec") return Array.from({length:ethiopianMonthLength(year, month)}, (_, i) => fromEc(year, month, i + 1));
+    return Array.from({length:new Date(year, month, 0).getDate()}, (_, i) => new Date(year, month - 1, i + 1, 12));
+  }
+  function stepMonth(delta) {
+    const count = calendarMode === "ec" ? 13 : 12;
+    let {year, month} = shown;
+    month += delta;
+    if (month < 1) { month = count; year--; }
+    if (month > count) { month = 1; year++; }
+    shown = {year, month};
+  }
 
   function updateTrigger(input) {
     const trigger = input.parentElement.querySelector(".picker-trigger");
@@ -99,7 +123,7 @@
     popup.hidden = false;
     if (input.type === "date") {
       keyboardDate = dateFrom(input.value);
-      shownMonth = new Date(keyboardDate.getFullYear(), keyboardDate.getMonth(), 1, 12);
+      showDate(keyboardDate);
       renderCalendar();
       popup.querySelector('[aria-selected="true"]')?.focus();
     } else {
@@ -122,18 +146,24 @@
 
   function renderCalendar() {
     popup.setAttribute("aria-label", text("chooseDate"));
-    const year = shownMonth.getFullYear(), month = shownMonth.getMonth();
-    const start = (new Date(year, month, 1).getDay() + 6) % 7;
-    const totalDays = new Date(year, month + 1, 0).getDate();
-    const months = Array.from({length:12}, (_, m) => new Intl.DateTimeFormat(locale(), {month:"long", calendar:"gregory"}).format(new Date(2026, m, 1)));
-    const minYear = Math.min(1950, year), maxYear = Math.max(new Date().getFullYear() + 50, year);
+    const {year, month} = shown;
+    const ec = calendarMode === "ec";
+    const days = shownDays();
+    const start = (days[0].getDay() + 6) % 7;
+    const months = ec ? (state.lang === "am" ? EC_MONTHS_AM : EC_MONTHS_EN) : Array.from({length:12}, (_, m) => new Intl.DateTimeFormat(locale(), {month:"long", calendar:"gregory"}).format(new Date(2026, m, 1)));
+    const today = new Date();
+    const thisYear = ec ? ecOf(today).year : today.getFullYear();
+    const minYear = Math.min(ec ? 1942 : 1950, year), maxYear = Math.max(thisYear + 50, year);
     const years = Array.from({length:maxYear-minYear+1}, (_, i) => minYear+i);
     const weekdays = Array.from({length:7}, (_, i) => new Intl.DateTimeFormat(locale(), {weekday:"short"}).format(new Date(2026, 0, 5+i)));
+    // Each day shows the other calendar's day number underneath so both systems stay visible.
+    const secondary = date => ec ? date.getDate() : ecOf(date).day;
     popup.innerHTML = `<div class="picker-heading"><strong>${escapeHtml(text("chooseDate"))}</strong><button type="button" data-picker="close" aria-label="${escapeHtml(text("close"))}">×</button></div>
-      <div class="calendar-navigation"><button type="button" data-picker="previous" aria-label="${escapeHtml(text("previous"))}">‹</button><select data-calendar="month" aria-label="${escapeHtml(text("month"))}">${months.map((name, m) => `<option value="${m}" ${m === month ? "selected" : ""}>${escapeHtml(name)}</option>`).join("")}</select><select data-calendar="year" aria-label="${escapeHtml(text("year"))}">${years.map(y => `<option ${y === year ? "selected" : ""}>${y}</option>`).join("")}</select><button type="button" data-picker="next" aria-label="${escapeHtml(text("next"))}">›</button></div>
+      <div class="calendar-mode" role="group" aria-label="${escapeHtml(text("calendarSystem"))}">${["ec", "gc"].map(mode => `<button type="button" data-calendar-mode="${mode}" aria-pressed="${calendarMode === mode}">${escapeHtml(text(mode === "ec" ? "ethiopian" : "gregorian"))}</button>`).join("")}</div>
+      <div class="calendar-navigation"><button type="button" data-picker="previous" aria-label="${escapeHtml(text("previous"))}">‹</button><select data-calendar="month" aria-label="${escapeHtml(text("month"))}">${months.map((name, m) => `<option value="${m + 1}" ${m + 1 === month ? "selected" : ""}>${escapeHtml(name)}</option>`).join("")}</select><select data-calendar="year" aria-label="${escapeHtml(text("year"))}">${years.map(y => `<option ${y === year ? "selected" : ""}>${y}</option>`).join("")}</select><button type="button" data-picker="next" aria-label="${escapeHtml(text("next"))}">›</button></div>
       <div class="calendar-weekdays" aria-hidden="true">${weekdays.map(day => `<span>${escapeHtml(day)}</span>`).join("")}</div>
-      <div class="calendar-grid" role="grid" aria-label="${escapeHtml(`${months[month]} ${year}`)}">${Array.from({length:start}, () => '<span aria-hidden="true"></span>').join("")}${Array.from({length:totalDays}, (_, i) => {const value = iso(new Date(year, month, i+1, 12)); return `<button type="button" role="gridcell" data-date="${value}" aria-label="${escapeHtml(formatDate(value))}" aria-selected="${value === activeInput.value}" class="${value === iso(new Date()) ? "is-today" : ""}">${i+1}</button>`;}).join("")}</div>
-      <div class="picker-footer"><button type="button" data-picker="today">${escapeHtml(text("today"))}</button><button type="button" data-picker="clear">${escapeHtml(text("clear"))}</button><span>${escapeHtml(text("gregorian"))}</span></div>`;
+      <div class="calendar-grid" role="grid" aria-label="${escapeHtml(`${months[month - 1]} ${year}`)}">${Array.from({length:start}, () => '<span aria-hidden="true"></span>').join("")}${days.map((date, i) => {const value = iso(date); return `<button type="button" role="gridcell" data-date="${value}" aria-label="${escapeHtml(formatDate(value))}" aria-selected="${value === activeInput.value}" class="${value === iso(today) ? "is-today" : ""}">${i+1}<small aria-hidden="true">${secondary(date)}</small></button>`;}).join("")}</div>
+      <div class="picker-footer"><button type="button" data-picker="today">${escapeHtml(text("today"))}</button><button type="button" data-picker="clear">${escapeHtml(text("clear"))}</button><span>${escapeHtml(text(ec ? "ethiopian" : "gregorian"))}</span></div>`;
     positionPopup();
   }
 
@@ -152,18 +182,27 @@
     if (date) { setValue(date.dataset.date); return; }
     const preset = event.target.closest("[data-time-preset]");
     if (preset) { setValue(preset.dataset.timePreset); return; }
+    const mode = event.target.closest("[data-calendar-mode]")?.dataset.calendarMode;
+    if (mode) {
+      const anchor = shownDays()[0];
+      calendarMode = mode;
+      try { localStorage.setItem("matrimony-calendar", mode); } catch {}
+      showDate(anchor);
+      renderCalendar();
+      popup.querySelector(`[data-calendar-mode="${mode}"]`).focus();
+      return;
+    }
     const period = event.target.closest("[data-period]");
     if (period) { timeSelection.period = period.dataset.period; renderTime(); popup.querySelector(`[data-period="${timeSelection.period}"]`).focus(); return; }
     const action = event.target.closest("[data-picker]")?.dataset.picker;
     if (action === "clear") setValue("");
     if (action === "close") closePicker();
     if (action === "today") setValue(iso(new Date()));
-    if (action === "previous" || action === "next") {shownMonth.setMonth(shownMonth.getMonth() + (action === "next" ? 1 : -1)); renderCalendar(); popup.querySelector(`[data-picker="${action}"]`).focus();}
+    if (action === "previous" || action === "next") {stepMonth(action === "next" ? 1 : -1); renderCalendar(); popup.querySelector(`[data-picker="${action}"]`).focus();}
     if (action === "apply") setValue(`${String(timeSelection.hour % 12 + (timeSelection.period === "PM" ? 12 : 0)).padStart(2,"0")}:${String(timeSelection.minute).padStart(2,"0")}`);
   });
   popup.addEventListener("change", event => {
-    if (event.target.dataset.calendar === "month") shownMonth.setMonth(Number(event.target.value));
-    if (event.target.dataset.calendar === "year") shownMonth.setFullYear(Number(event.target.value));
+    if (event.target.dataset.calendar) shown[event.target.dataset.calendar] = Number(event.target.value);
     if (event.target.dataset.calendar) { const part = event.target.dataset.calendar; renderCalendar(); popup.querySelector(`[data-calendar="${part}"]`).focus(); }
     if (event.target.dataset.time) timeSelection[event.target.dataset.time] = Number(event.target.value);
   });
@@ -175,7 +214,7 @@
       event.preventDefault();
       keyboardDate = dateFrom(day.dataset.date);
       keyboardDate.setDate(keyboardDate.getDate() + deltas[event.key]);
-      shownMonth = new Date(keyboardDate.getFullYear(), keyboardDate.getMonth(), 1, 12);
+      showDate(keyboardDate);
       renderCalendar();
       popup.querySelector(`[data-date="${iso(keyboardDate)}"]`)?.focus();
     }
@@ -492,7 +531,7 @@
           if (validPlace(directPlace)) place = {...directPlace, lat, lon};
         } catch { /* GPS coordinates fallback */ }
       }
-      finally {clearTimeout(timeout);}
+      clearTimeout(timeout);
       if (sequence === ui.sequence) selectPlace(id, place);
     }, () => {
       if (sequence !== ui.sequence) return;

@@ -36,6 +36,7 @@ fs.mkdirSync(output, {recursive:true});
   async function pin(id) {return page.evaluate(id => state.details.locations?.[id],id);}
   try {
     await page.goto(base);
+    await page.locator('#venue-church-search').waitFor();
     await page.locator('.event-venue-type-grid label').filter({has:page.locator('[data-event-venue-type="hall"]')}).click();
     assert.deepEqual(await pin('venue-church'),legacy,'Existing saved coordinate format must remain compatible');
     assert.match(await root('venue-church').locator('iframe').getAttribute('src'),/google\.com\/maps\?q=9.0303%2C38.7612/);
@@ -137,5 +138,5 @@ fs.mkdirSync(output, {recursive:true});
     await root('venue-church').screenshot({path:`${output}/venue-mobile-am.png`});
     assert.deepEqual(errors,[]);
     console.log(JSON.stringify({passed:true,searchRequests:requests.length,pageErrors:errors}));
-  } finally {await browser.close();}
+  } catch (error) {console.error({pageErrors:errors,url:page.url()});throw error;} finally {await browser.close();}
 })().catch(error => {console.error(error);process.exitCode=1;});

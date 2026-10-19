@@ -48,6 +48,16 @@ Maps and searches require internet access. The [Photon public demo](https://gith
 
 The provided letterhead PDF is preserved at `assets/letterhead.pdf`. The contract header follows its A4 structure with the supplied logo, aligned reference/date rows, angular divider, and letterhead contact footer so dynamic text stays readable and does not overlap. The app does not redistribute downloaded commercial Mending or SignPainter files; the CSS names those brand roles and falls back to an editorial serif and brush script if the fonts are not installed on the machine.
 
+## Wedding Planning module
+
+The **Wedding Planning** navigation entry opens the operational workspace described in the supplied technical spec: draft/activate setup, 21 configurable service templates, tasks and dependencies, readiness, calendar/timeline, vendor bookings, budget/payment reconciliation, revisioned approvals, guests, design boards and day-of coordination with offline export. The original agreement, proforma, records and venue workflows remain available.
+
+Choose services in the couple questionnaire, then select **Continue to planner**. The questionnaire and planning workspace share a saved couple record, and returning to the planner reuses the same wedding. Service preferences are configured later inside the planner; selections and existing details remain available to the agreement. Existing standalone weddings can use **Link questionnaire** to connect their couple record.
+
+Start an isolated local preview with `python server.py --port 4173 --db-path tmp/planning-demo.sqlite3`, then open `http://127.0.0.1:4173/weddings`. For existing local records, pass `--db-path data/matrimony.sqlite3`. This explicitly selects SQLite even when a hosted connection is configured.
+
+See [the implementation and rollout guide](docs/WEDDING_PLANNING.md) for identity integration, database migration, permissions, API conventions, reminders, tests and current integration limits. Hosted planning access requires a trusted host session and migration 001; neither production data nor hosting is changed by the local implementation.
+
 ## Verification
 
 Run API and SQLite tests with `py -m unittest discover -s tests -q`. Browser tests use Playwright and Microsoft Edge: run `node tests/ui_workflow.cjs` with Playwright installed, or set `PLAYWRIGHT_MODULE` to its installed package directory. Set `MATRIMONY_URL` if the server uses another port. Browser tests mock record writes and place responses; they never create or overwrite real couple records. They exercise validation, calendars, midnight/PM time handling, names, coordinates, save/reopen, agreement scope and consent, six real PDF downloads, aggregate-only proforma pricing, record outages, and mobile layout. PDF samples are written only under ignored `tmp/pdfs/workflow/` for visual verification.

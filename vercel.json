@@ -1,6 +1,14 @@
 {
   "version": 2,
+  "functions": {
+    "api/weddings.py": {
+      "excludeFiles": "{assets/**,tests/**,tmp/**,data/**,.agents/**,.env,.env.local,.neon}"
+    }
+  },
   "rewrites": [
+    { "source": "/api/v1/weddings/:path*", "destination": "/api/weddings?wpPath=weddings/:path*" },
+    { "source": "/api/v1/service-templates/:path*", "destination": "/api/weddings?wpPath=service-templates/:path*" },
+    { "source": "/weddings/:path*", "destination": "/index.html" },
     { "source": "/api/places/reverse", "destination": "/api/reverse.js" },
     { "source": "/api/places", "destination": "/api/places.js" },
     { "source": "/api/records/:id", "destination": "/api/records.js?id=:id" },
