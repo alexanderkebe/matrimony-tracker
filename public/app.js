@@ -1917,9 +1917,14 @@ function updateServiceOption(target) {
 
 async function clearDraft() {
   if (savingRecord || exportingPdf) return;
-  if (!window.confirm(state.lang === "am" ? "ይህን ረቂቅ ማጥፋት ይፈልጋሉ?" : "Clear this plan and start a new one?")) return;
   clearTimeout(autoSaveTimer);
   syncDetailsFromForm();
+  // Plans with both names are saved before clearing; ask only when unsaved details would be lost.
+  const named = state.details.brideName?.trim() && state.details.groomName?.trim();
+  const filled = value => value === true || ((typeof value === "string" || typeof value === "number") && String(value).trim() !== "");
+  const hasContent = Object.entries(state.details).some(([key, value]) => !["eventDays", "mediaConsent"].includes(key) && filled(value))
+    || Object.values(state.services).some(service => service?.selected);
+  if (!named && hasContent && !window.confirm(state.lang === "am" ? "ይህን ረቂቅ ማጥፋት ይፈልጋሉ?" : "Clear this plan and start a new one?")) return;
   if (state.details.brideName?.trim() && state.details.groomName?.trim() && planSignature() !== savedPlanSignature) await saveRecord({ silent: true });
   localStorage.removeItem(STORAGE_KEY);
   state.details = {};

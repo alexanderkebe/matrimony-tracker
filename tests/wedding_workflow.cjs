@@ -36,8 +36,10 @@ async function checkLayout(page){assert.ok(await page.evaluate(()=>document.docu
   context.setDefaultTimeout(180000);
   await context.addCookies([{name:'matrimony_session',value:token('qa-lead',['admin','planner']),url:base,sameSite:'Strict'}]);
   const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
-  await page.goto(base+'/weddings');await page.locator('[data-wp-action=create]').waitFor();
-  await action(page,'create');await page.locator('#wp-title').fill('QA Sara & Daniel');
+  // New weddings start as an empty couple in the app; a draft plan is set up with the planner's wizard.
+  const draft=await request('POST','weddings',{title:'QA draft',selectedServiceCodes:['CHURCH']});
+  await page.goto(`${base}/weddings/${draft.id}/overview`);await page.locator('[data-wp-action=setup]').first().waitFor();
+  await action(page,'setup');await page.locator('#wp-title').fill('QA Sara & Daniel');
   await action(page,'wizard-next');await page.locator('#wp-weddingDate').fill('2027-05-16');await page.locator('#wp-guestEstimate').fill('250');await page.locator('#wp-budgetMinor').fill('1500000.50');
   await action(page,'wizard-next');await page.locator('#wp-churchLocation').fill('QA ceremony');await page.locator('#wp-venueLocation').fill('QA reception');
   await action(page,'wizard-next');assert.equal(await page.locator('[data-wp-service-code]').count(),21);await action(page,'select-services','none');

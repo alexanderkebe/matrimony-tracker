@@ -82,7 +82,9 @@ async function layout(page){assert.ok(await page.evaluate(()=>document.documentE
   await step(page,5);await settled(page);assert.equal(new URL(page.url()).pathname,`/weddings/${weddingId}/overview`);
   assert.equal((await request('/api/v1/weddings')).total,1,'Continuing never creates duplicate weddings');
   await page.setViewportSize({width:390,height:844});await layout(page);await page.screenshot({path:path.join(output,'connected-overview-mobile.png'),fullPage:true});
-  await action(page,'all');await page.locator('[data-wp-action=create]').waitFor();await action(page,'create');await page.locator('#wp-clientId').selectOption(String(recordId));await page.locator('[data-wp-action=use-questionnaire]').waitFor();assert.ok((await page.locator('#wpDialog').innerText()).includes('7 services'));await action(page,'use-questionnaire',String(recordId));await settled(page);assert.equal(new URL(page.url()).pathname,`/weddings/${weddingId}/overview`);assert.equal((await request('/api/v1/weddings')).total,1);
+  // Create wedding now starts an empty couple instead of the planner pop-up.
+  await action(page,'all');await page.locator('[data-wp-action=create]').waitFor();await action(page,'create');await page.waitForFunction(()=>state.currentStep===0&&!state.recordId&&!state.details.brideName);
+  await page.evaluate(id=>openRecord(id),recordId);await page.waitForFunction(id=>state.recordId===id,recordId);await step(page,5);await settled(page);assert.equal(new URL(page.url()).pathname,`/weddings/${weddingId}/overview`);assert.equal((await request('/api/v1/weddings')).total,1);
   const earlierPlan={lang:'en',details:{brideName:'QA Earlier',groomName:'QA Linked',weddingDate:'2027-05-16',eventDays:'1',totalFee:'1000',mealProgram:['dinner']},services:{decor:{selected:true}}};
   const earlierRecord=await request('/api/records','POST',earlierPlan);
   const earlier=await request('/api/v1/weddings','POST',{title:'Earlier linked plan',clientId:earlierRecord.id,weddingDate:'2027-05-16',selectedServiceCodes:['SOUND','DECOR']});

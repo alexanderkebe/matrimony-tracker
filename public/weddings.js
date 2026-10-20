@@ -200,7 +200,6 @@
   }
   function planningContext() {
     if(typeof state!=='undefined'&&state.currentStep!==5)return;
-    document.querySelector('#resetDraftButton span').textContent=tr('create');
     document.querySelector('.sidebar-search').hidden=true;
     document.getElementById('topbarCoupleName').textContent=ui.project?.title||'';
     document.querySelector('#saveState [data-i18n="savedLocally"]').textContent=tr('planning');
@@ -672,7 +671,7 @@
     if(['tasks-tab','budget-tab','documents-tab'].includes(action)){go(ui.id,action.split('-')[0]);return;}
     if(action==='all'){go();return;}
     if(action==='open-wedding'){go(id);return;}
-    if(action==='create')return startWizard();
+    if(action==='create'){if(typeof clearDraft==='function')clearDraft();return;}
     if(action==='setup')return startWizard(true);
     if(action==='questionnaire')return openQuestionnaire();
     if(action==='questionnaire-services')return openQuestionnaire(1);
@@ -765,9 +764,6 @@
       event.preventDefault();event.stopImmediatePropagation();
       openQuestionnaire(Number(destination.dataset.stepTarget)).catch(error=>toast(error.message));return;
     }
-    if(!event.target.closest('#resetDraftButton'))return;
-    event.preventDefault();event.stopImmediatePropagation();
-    startWizard().catch(error=>toast(error.message));
   },true);
   let filterTimer;
   document.addEventListener('input',event=>{
