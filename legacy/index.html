@@ -13,7 +13,7 @@
     <title>Matrimony By Hanna · Event Planner</title>
     <link rel="icon" type="image/png" href="./assets/matrimony-app-icon.png?v=3" />
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=3" />
-    <link rel="stylesheet" href="./styles.css?v=20261020-new-wedding" />
+    <link rel="stylesheet" href="./styles.css?v=20261020-link-dialog-2" />
     <link rel="stylesheet" href="./weddings.css?v=20261015" />
   </head>
   <body>
@@ -29,6 +29,9 @@
       <symbol id="icon-sidebar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" /><path d="M9.5 4v16" /></symbol>
       <symbol id="icon-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8" /></symbol>
       <symbol id="icon-logout" viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 16l-4-4 4-4M6 12h10" /></symbol>
+      <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" /></symbol>
+      <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="8" y="4" width="11" height="14" rx="2" /><path d="M5 8v10a2 2 0 0 0 2 2h9" /></symbol>
+      <symbol id="icon-inbox" viewBox="0 0 24 24"><path d="M3 13.5 5.4 6.6A2 2 0 0 1 7.3 5.3h9.4a2 2 0 0 1 1.9 1.3l2.4 6.9V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4.5Z" /><path d="M3 13.5h5l1.5 2.5h5l1.5-2.5h5" /></symbol>
       <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.7" /></symbol>
       <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></symbol>
       <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20 12H5m6 6-6-6 6-6" /></symbol>
@@ -516,28 +519,73 @@
       <button type="button" class="button button-quiet blank-doc-cancel" data-close-dialog data-i18n="linkDone">Done</button>
     </dialog>
 
-    <dialog class="blank-doc-dialog link-dialog" id="portalLinkDialog" aria-labelledby="portalLinkHeading">
-      <h2 id="portalLinkHeading" data-i18n="createLinkTitle">Send the client portal</h2>
-      <p data-i18n="createLinkHint">The couple opens this link on their phone and fills in their own details. Their request appears under Client requests.</p>
-      <div class="link-fields">
-        <label><span data-i18n="linkClientName">Couple’s name (optional)</span><input type="text" id="linkClientName" autocomplete="off" /></label>
-        <label><span data-i18n="linkClientPhone">Phone for WhatsApp or SMS (optional)</span><input type="tel" id="linkClientPhone" inputmode="tel" autocomplete="off" placeholder="09… / +251…" /></label>
-      </div>
-      <div class="link-language" role="group" aria-labelledby="linkLanguageLabel">
-        <span class="tiny-label" id="linkLanguageLabel" data-i18n="linkLanguage">Portal and message language</span>
-        <div class="link-language-options">
-          <button type="button" data-link-lang="am">አማርኛ</button>
-          <button type="button" data-link-lang="en">English</button>
+    <dialog class="link-dialog" id="portalLinkDialog" aria-labelledby="portalLinkHeading">
+      <header class="link-dialog-head">
+        <div class="link-dialog-titles">
+          <div class="link-dialog-eyebrow"><span class="link-dialog-badge" aria-hidden="true"><svg class="ui-icon"><use href="#icon-link"></use></svg></span><span data-i18n="linkEyebrow">Client portal</span></div>
+          <h2 id="portalLinkHeading" tabindex="-1" data-i18n="createLinkTitle">Send the client portal</h2>
+          <p data-i18n="createLinkHint">Give your couple one simple place to share their details.</p>
         </div>
+        <button type="button" class="link-dialog-close" data-close-dialog aria-label="Close" data-aria-en="Close" data-aria-am="ዝጋ"><svg class="ui-icon" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+      </header>
+
+      <div class="link-dialog-body">
+        <div class="link-fields">
+          <label class="link-field">
+            <span class="link-field-label"><span data-i18n="linkClientName">Couple’s name</span> <small data-i18n="linkOptional">Optional</small></span>
+            <input type="text" id="linkClientName" autocomplete="off" data-placeholder-en="e.g. Hanna &amp; Samuel" data-placeholder-am="ለምሳሌ ሃና እና ሳሙኤል" placeholder="e.g. Hanna &amp; Samuel" />
+          </label>
+          <div class="link-field">
+            <label class="link-field-label" for="linkClientPhone"><span data-i18n="linkClientPhone">Phone number</span> <small data-i18n="linkOptional">Optional</small></label>
+            <div class="link-phone">
+              <span class="link-country">
+                <span class="link-flag" id="linkCountryFlag" aria-hidden="true"></span>
+                <select id="linkClientCountry" aria-label="Country code">
+                  <option value="251" title="Ethiopia" selected>+251</option>
+                  <option value="254" title="Kenya">+254</option>
+                  <option value="971" title="United Arab Emirates">+971</option>
+                  <option value="966" title="Saudi Arabia">+966</option>
+                  <option value="44" title="United Kingdom">+44</option>
+                  <option value="1" title="United States / Canada">+1</option>
+                </select>
+              </span>
+              <input type="tel" id="linkClientPhone" inputmode="tel" autocomplete="off" placeholder="9X XXX XXXX" />
+            </div>
+            <small class="link-field-hint" data-i18n="linkPhoneHint">For WhatsApp or SMS</small>
+          </div>
+        </div>
+
+        <div class="link-language" role="group" aria-labelledby="linkLanguageLabel">
+          <svg class="ui-icon link-language-icon" aria-hidden="true"><use href="#icon-globe"></use></svg>
+          <div class="link-language-text">
+            <strong id="linkLanguageLabel" data-i18n="linkLanguage">Portal language</strong>
+            <small data-i18n="linkLanguageHint">Language shown to your couple</small>
+          </div>
+          <div class="link-language-options">
+            <button type="button" data-link-lang="en">English</button>
+            <button type="button" data-link-lang="am">አማርኛ</button>
+          </div>
+        </div>
+
+        <div class="link-url-block">
+          <span class="link-field-label" id="portalLinkLabel" data-i18n="linkPortalLink">Portal link</span>
+          <div class="link-url">
+            <svg class="ui-icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+            <input type="text" id="portalLinkUrl" readonly aria-labelledby="portalLinkLabel" />
+            <button type="button" class="link-copy" data-copy-portal-link><svg class="ui-icon" aria-hidden="true"><use href="#icon-copy"></use></svg><span data-i18n="linkCopyLink">Copy link</span></button>
+          </div>
+          <small class="link-field-hint" data-i18n="linkCopyHint">Copy the link or choose how you’d like to share it.</small>
+          <p class="link-local-warning" id="portalLinkLocal" data-i18n="linkLocalWarning" hidden>This address only opens on this computer. Send links from the published app so couples can open them.</p>
+        </div>
+
+        <span class="link-share-label" data-i18n="linkShareVia">Share via</span>
+        <div class="share-channels" id="portalLinkChannels"></div>
       </div>
-      <div class="link-preview">
-        <input type="text" id="portalLinkUrl" readonly aria-label="Portal link" />
-        <button type="button" class="button button-quiet" data-copy-portal-link><span data-i18n="linkCopy">Copy</span></button>
-      </div>
-      <p class="link-local-warning" id="portalLinkLocal" data-i18n="linkLocalWarning" hidden>This address only opens on this computer. Send links from the published app so couples can open them.</p>
-      <span class="tiny-label" data-i18n="linkSendWith">Send with</span>
-      <div class="share-channels" id="portalLinkChannels"></div>
-      <button type="button" class="button button-quiet blank-doc-cancel" data-close-dialog data-i18n="linkDone">Done</button>
+
+      <footer class="link-dialog-foot">
+        <span class="link-dialog-note"><svg class="ui-icon" aria-hidden="true"><use href="#icon-inbox"></use></svg><span data-i18n="linkSubmissionsNote">Submissions appear in Client requests.</span></span>
+        <button type="button" class="link-done" data-close-dialog data-i18n="linkDone">Done</button>
+      </footer>
     </dialog>
 
     <dialog class="search-dialog" id="searchDialog" aria-labelledby="searchDialogHeading">
@@ -554,8 +602,8 @@
     <div id="pickerPopover" class="picker-popover" role="dialog" hidden></div>
     <script src="./assets/vendor/html2canvas.min.js"></script>
     <script src="./assets/vendor/jspdf.umd.min.js"></script>
-    <script src="./app.js?v=20261020-new-wedding"></script>
+    <script src="./app.js?v=20261020-link-dialog-2"></script>
     <script src="./pickers.js?v=20261019-couple-card"></script>
-    <script src="./weddings.js?v=20261020-new-wedding"></script>
+    <script src="./weddings.js?v=20261020-link-dialog-2"></script>
   </body>
 </html>

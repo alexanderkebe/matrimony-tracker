@@ -431,9 +431,12 @@ Object.assign(copy.en, {
   teamPending: "{count} unused invite link(s).", teamRevokeAll: "Cancel unused invites", teamLoadFailed: "The team list couldn’t be loaded.",
   teamLastActive: "Active", linkCopied: "Link copied.", teamNeverActive: "Not signed in yet", signOut: "Sign out", signedOutLocal: "Signed out. Local drafts were cleared from this device.",
   createLink: "Create client link", createLinkTitle: "Send the client portal",
-  createLinkHint: "The couple opens this link on their phone and fills in their own details. Their request appears under Client requests.",
-  linkClientName: "Couple’s name (optional)", linkClientPhone: "Phone for WhatsApp or SMS (optional)", linkLanguage: "Portal and message language",
-  linkCopy: "Copy", linkSendWith: "Send with", linkDone: "Done", linkMore: "More…", linkEmail: "Email",
+  createLinkHint: "Give your couple one simple place to share their details.",
+  linkClientName: "Couple’s name", linkClientPhone: "Phone number", linkLanguage: "Portal language", linkOptional: "Optional",
+  linkCopy: "Copy", linkSendWith: "Send with", linkDone: "Done", linkMore: "More", linkEmail: "Email",
+  linkEyebrow: "Client portal", linkPhoneHint: "For WhatsApp or SMS", linkLanguageHint: "Language shown to your couple", linkPortalLink: "Portal link",
+  linkCopyLink: "Copy link", linkCopyHint: "Copy the link or choose how you’d like to share it.", linkShareVia: "Share via",
+  linkSubmissionsNote: "Submissions appear in Client requests.", linkMessageCopied: "Message and link copied. Paste them into any app.",
   linkLocalWarning: "This address only opens on this computer. Send links from the published app so couples can open them.",
   linkMessageNamed: "Hello {name}, congratulations on your wedding! 💍 Please fill in your wedding details for Matrimony By Hanna here:",
   linkMessage: "Hello, congratulations on your wedding! 💍 Please fill in your wedding details for Matrimony By Hanna here:", linkSubject: "Your wedding details – Matrimony By Hanna",
@@ -524,9 +527,12 @@ Object.assign(copy.am, {
   teamPending: "{count} ያልተጠቀሙ የግብዣ ሊንኮች።", teamRevokeAll: "ያልተጠቀሙ ግብዣዎችን ሰርዝ", teamLoadFailed: "የቡድኑ ዝርዝር ሊጫን አልቻለም።",
   teamLastActive: "ንቁ", linkCopied: "ሊንኩ ተቀድቷል።", teamNeverActive: "እስካሁን አልገቡም", signOut: "ውጣ", signedOutLocal: "ወጥተዋል። የአካባቢ ረቂቆች ከዚህ መሳሪያ ተሰርዘዋል።",
   createLink: "የደንበኛ ሊንክ ፍጠር", createLinkTitle: "የደንበኛ መግቢያ ይላኩ",
-  createLinkHint: "ጥንዶቹ ይህን ሊንክ በስልካቸው ከፍተው መረጃቸውን ራሳቸው ይሞላሉ። ጥያቄያቸው በደንበኛ ጥያቄዎች ስር ይታያል።",
-  linkClientName: "የጥንዶቹ ስም (አማራጭ)", linkClientPhone: "ለWhatsApp ወይም SMS ስልክ (አማራጭ)", linkLanguage: "የመግቢያውና የመልዕክቱ ቋንቋ",
-  linkCopy: "ቅዳ", linkSendWith: "በዚህ ይላኩ", linkDone: "ጨርስ", linkMore: "ሌሎች…", linkEmail: "ኢሜይል",
+  createLinkHint: "ለጥንዶችዎ መረጃቸውን የሚያጋሩበት አንድ ቀላል ቦታ ይስጡ።",
+  linkClientName: "የጥንዶቹ ስም", linkClientPhone: "ስልክ ቁጥር", linkLanguage: "የመግቢያው ቋንቋ", linkOptional: "አማራጭ",
+  linkCopy: "ቅዳ", linkSendWith: "በዚህ ይላኩ", linkDone: "ጨርስ", linkMore: "ሌሎች", linkEmail: "ኢሜይል",
+  linkEyebrow: "የደንበኛ መግቢያ", linkPhoneHint: "ለWhatsApp ወይም SMS", linkLanguageHint: "ለጥንዶቹ የሚታየው ቋንቋ", linkPortalLink: "የመግቢያ ሊንክ",
+  linkCopyLink: "ሊንኩን ቅዳ", linkCopyHint: "ሊንኩን ይቅዱ ወይም እንዴት እንደሚያጋሩ ይምረጡ።", linkShareVia: "በዚህ ያጋሩ",
+  linkSubmissionsNote: "የተላኩት በደንበኛ ጥያቄዎች ውስጥ ይታያሉ።", linkMessageCopied: "መልዕክቱና ሊንኩ ተቀድተዋል። በማንኛውም መተግበሪያ ይለጥፉ።",
   linkLocalWarning: "ይህ አድራሻ የሚከፈተው በዚህ ኮምፒውተር ብቻ ነው። ጥንዶች እንዲከፍቱት ከታተመው መተግበሪያ ሊንክ ይላኩ።",
   linkMessageNamed: "ሰላም {name}፣ እንኳን ለሰርጋችሁ አደረሳችሁ! 💍 የሰርጋችሁን ዝርዝር ለማትሪሞኒ ባይ ሃና እዚህ ይሙሉ፦",
   linkMessage: "ሰላም፣ እንኳን ለሰርጋችሁ አደረሳችሁ! 💍 የሰርጋችሁን ዝርዝር ለማትሪሞኒ ባይ ሃና እዚህ ይሙሉ፦", linkSubject: "የሰርግ ዝርዝራችሁ – ማትሪሞኒ ባይ ሃና",
@@ -2191,13 +2197,23 @@ const SHARE_CHANNELS = {
   email: { labelKey:"linkEmail", href:message => `mailto:?subject=${encodeURIComponent(message.subject)}&body=${encodeURIComponent(withLink(message, "\n\n"))}` },
 };
 
+const CHANNEL_ICONS = {
+  whatsapp: '<path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 7.9c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.3l.8 1.8c.1.2 0 .5-.1.7l-.6.7c.6 1.2 1.6 2.2 2.8 2.8l.7-.6c.2-.2.5-.2.7-.1l1.8.8c.2.1.3.3.3.5v.5c0 .3-.1.5-.4.7-.7.4-1.5.5-2.2.3-2.7-.8-4.8-2.9-5.6-5.6-.2-.7-.1-1.5.3-2.1Z" fill="currentColor"/>',
+  telegram: '<circle cx="12" cy="12" r="10" fill="currentColor"/><path d="m6.2 11.6 10.2-3.9c.5-.2.9.1.8.8l-1.7 8.2c-.1.6-.5.7-1 .4l-2.7-2-1.3 1.3c-.2.2-.3.3-.6.3l.2-2.8 5-4.5c.2-.2 0-.3-.3-.1l-6.2 3.9-2.6-.8c-.6-.2-.6-.6.2-.8Z" fill="#fff"/>',
+  facebook: '<circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M13.1 21.9v-7h2.3l.4-2.7h-2.7v-1.7c0-.8.2-1.3 1.3-1.3h1.4V6.8c-.3 0-1.1-.1-2-.1-2 0-3.4 1.2-3.4 3.5v2h-2.3v2.7h2.3v7" fill="#fff"/>',
+  sms: '<path d="M20 15.5a2 2 0 0 1-2 2H8l-4 3.3V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8.5" cy="10.8" r="1.1" fill="currentColor"/><circle cx="12" cy="10.8" r="1.1" fill="currentColor"/><circle cx="15.5" cy="10.8" r="1.1" fill="currentColor"/>',
+  email: '<rect x="3" y="5" width="18" height="14" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m3.8 6.5 8.2 6.3 8.2-6.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+  more: '<circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/>'
+};
+const channelTile = (id, label) => `<span class="share-channel-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${CHANNEL_ICONS[id]}</svg></span><span class="share-channel-label">${escapeHtml(label)}</span>`;
+
 function shareChannelsMarkup(message, channels) {
   return channels.map(id => {
     const channel = SHARE_CHANNELS[id];
     const href = channel.href(message);
     const external = href.startsWith("https:");
-    return `<a class="share-channel share-channel-${id}" href="${escapeHtml(href)}"${external ? ' target="_blank" rel="noopener"' : ""}>${escapeHtml(channel.labelKey ? t(channel.labelKey) : channel.label)}</a>`;
-  }).join("") + (navigator.share && message.url ? `<button type="button" class="share-channel share-channel-more" data-share-link-native>${escapeHtml(t("linkMore"))}</button>` : "");
+    return `<a class="share-channel share-channel-${id}" href="${escapeHtml(href)}"${external ? ' target="_blank" rel="noopener"' : ""}>${channelTile(id, channel.labelKey ? t(channel.labelKey) : channel.label)}</a>`;
+  }).join("") + (message.url ? `<button type="button" class="share-channel share-channel-more" data-share-link-native>${channelTile("more", t("linkMore"))}</button>` : "");
 }
 
 // The portal link opens in the language chosen for the couple.
@@ -2214,13 +2230,37 @@ function portalLinkMessage() {
   const name = document.getElementById("linkClientName").value.trim();
   const words = copy[lang] || copy.en;
   return { text:words[name ? "linkMessageNamed" : "linkMessage"].replace("{name}", name), url:portalLink(lang),
-    phone:document.getElementById("linkClientPhone").value, subject:words.linkSubject };
+    phone:linkPhone(), subject:words.linkSubject };
+}
+
+// Small drawn flags: Windows shows flag emoji as letters.
+const COUNTRY_FLAGS = {
+  251: '<rect width="24" height="6" fill="#078930"/><rect y="6" width="24" height="6" fill="#fcdd09"/><rect y="12" width="24" height="6" fill="#da121a"/><circle cx="12" cy="9" r="4" fill="#0f47af"/><path d="m12 6.4.7 2 2.1.1-1.7 1.3.6 2-1.7-1.2-1.7 1.2.6-2-1.7-1.3 2.1-.1Z" fill="#fcdd09"/>',
+  254: '<rect width="24" height="18" fill="#fff"/><rect width="24" height="5" fill="#000"/><rect y="6.5" width="24" height="5" fill="#bb0000"/><rect y="13" width="24" height="5" fill="#006600"/><ellipse cx="12" cy="9" rx="2.6" ry="5" fill="#bb0000" stroke="#000" stroke-width=".6"/>',
+  971: '<rect width="24" height="6" fill="#00732f"/><rect y="6" width="24" height="6" fill="#fff"/><rect y="12" width="24" height="6" fill="#000"/><rect width="7" height="18" fill="#ff0000"/>',
+  966: '<rect width="24" height="18" fill="#006c35"/><path d="M6 7.5h12M8 11h8" stroke="#fff" stroke-width="1.2"/>',
+  44: '<rect width="24" height="18" fill="#012169"/><path d="m0 0 24 18M24 0 0 18" stroke="#fff" stroke-width="3.6"/><path d="m0 0 24 18M24 0 0 18" stroke="#c8102e" stroke-width="1.4"/><path d="M12 0v18M0 9h24" stroke="#fff" stroke-width="5"/><path d="M12 0v18M0 9h24" stroke="#c8102e" stroke-width="3"/>',
+  1: '<rect width="24" height="18" fill="#fff"/><path d="M0 1.4h24M0 4.2h24M0 7h24M0 9.8h24M0 12.6h24M0 15.4h24" stroke="#b22234" stroke-width="1.4"/><rect width="10" height="9.8" fill="#3c3b6e"/>'
+};
+
+function renderCountryFlag() {
+  const code = document.getElementById("linkClientCountry").value;
+  document.getElementById("linkCountryFlag").innerHTML = `<svg viewBox="0 0 24 18">${COUNTRY_FLAGS[code] || ""}</svg>`;
+}
+
+// A number typed with its own + or 00 prefix is kept; otherwise the chosen country code is added.
+function linkPhone() {
+  const typed = document.getElementById("linkClientPhone").value.trim();
+  if (!typed || /^(\+|00)/.test(typed)) return typed;
+  const digits = typed.replace(/\D/g, "").replace(/^0+/, "");
+  return digits ? `+${document.getElementById("linkClientCountry").value}${digits}` : "";
 }
 
 function renderPortalLinkDialog() {
   const lang = linkLanguage || state.lang;
+  renderCountryFlag();
   document.querySelectorAll("[data-link-lang]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.linkLang === lang)));
-  document.getElementById("portalLinkUrl").value = portalLink(lang);
+  document.getElementById("portalLinkUrl").value = portalLink(lang).replace(/^https?:\/\//, "");
   document.getElementById("portalLinkLocal").hidden = !/^(localhost|127\.|\[::1\]|0\.0\.0\.0)/.test(location.hostname);
   document.getElementById("portalLinkChannels").innerHTML = shareChannelsMarkup(portalLinkMessage(), ["whatsapp", "telegram", "facebook", "sms", "email"]);
 }
@@ -2230,6 +2270,8 @@ function openPortalLinkDialog() {
   if (drawerQuery.matches) setSidebarOpen(false, { restoreFocus:false });
   renderPortalLinkDialog();
   document.getElementById("portalLinkDialog").showModal();
+  // Start at the title, so phones don't open the keyboard and no button looks pre-selected.
+  document.getElementById("portalLinkHeading").focus();
 }
 
 /* ── Client portal ────────────────────────────────────────────────── */
@@ -2850,8 +2892,11 @@ function bindEvents() {
     const linkLang = event.target.closest("[data-link-lang]");
     if (linkLang) { linkLanguage = linkLang.dataset.linkLang; renderPortalLinkDialog(); return; }
     if (event.target.closest("[data-share-link-native]")) {
-      const { text, url } = portalLinkMessage();
-      navigator.share({ title:"Matrimony By Hanna", text, url }).catch(() => {});
+      const inTeam = event.target.closest("#teamDialog");
+      const { text, url } = inTeam ? { text:t(teamLink.kind === "invite" ? "teamInviteMessage" : "teamResetMessage"), url:teamLink.link } : portalLinkMessage();
+      // Phones open their share sheet; elsewhere the whole message is copied for any app.
+      if (navigator.share) navigator.share({ title:"Matrimony By Hanna", text, url }).catch(() => {});
+      else navigator.clipboard.writeText(`${text} ${url}`).then(() => showToast(t("linkMessageCopied")), () => window.prompt(t("linkCopy"), `${text} ${url}`));
       return;
     }
     if (event.target.closest("[data-share-blank]")) { shareBlankDocument(); return; }
@@ -2933,7 +2978,7 @@ function bindEvents() {
       renderRecords();
       return;
     }
-    if (target.id === "linkClientName" || target.id === "linkClientPhone") {
+    if (target.id === "linkClientName" || target.id === "linkClientPhone" || target.id === "linkClientCountry") {
       renderPortalLinkDialog();
       return;
     }

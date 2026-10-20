@@ -51,9 +51,9 @@ async function download(page, trigger) {
   assert.equal(await portal.evaluate(() => document.documentElement.scrollWidth), 390, 'The portal never scrolls sideways on a phone');
   assert.equal(await portal.locator('#sidebarToggle').isVisible(), false, 'Couples see no planner menu');
   assert.equal(await portal.locator('h1:visible').first().innerText(), 'Tell us about your wedding.');
-  await portal.waitForTimeout(400); // let the step's fade-in settle
-  const footer = await portal.locator('#step-details .step-footer').boundingBox();
-  assert.ok(footer.y + footer.height <= 844 && footer.y > 600, 'Continue stays pinned to the bottom of the screen');
+  // Measured once the step's fade-in has settled.
+  const pinned = await portal.waitForFunction(() => { const r = document.querySelector('#step-details .step-footer').getBoundingClientRect(); return r.bottom <= 844 && r.top > 600; }, null, {timeout:5000}).then(() => true, () => false);
+  assert.ok(pinned, 'Continue stays pinned to the bottom of the screen');
 
   await portal.locator('.workflow-nav [data-step-target="1"]').click();
   assert.equal(await portal.locator('#step-services [data-next-step="6"]').isVisible(), false, 'Couples never reach pricing');
@@ -108,12 +108,12 @@ async function download(page, trigger) {
   assert.ok(whatsapp.startsWith('https://wa.me/251911456789?text=Hello Selam & Dawit'), whatsapp);
   assert.ok(whatsapp.endsWith(`${base}/portal?lang=en`), whatsapp);
   await linkDialog.locator('[data-link-lang="am"]').click();
-  assert.equal(await page.locator('#portalLinkUrl').inputValue(), `${base}/portal?lang=am`);
+  assert.equal(await page.locator('#portalLinkUrl').inputValue(), `${base.replace(/^https?:\/\//, '')}/portal?lang=am`);
   assert.match(decodeURIComponent(await linkDialog.locator('.share-channel-telegram').getAttribute('href')), /ሰላም Selam & Dawit/);
   assert.match(await linkDialog.locator('.share-channel-sms').getAttribute('href'), /^sms:\+251911456789\?&body=/);
   assert.equal(await page.locator('#portalLinkLocal').isVisible(), true, 'Links to this computer carry a warning');
   await page.screenshot({path:path.join(output, 'create-link.png'), fullPage:false});
-  await linkDialog.locator('[data-close-dialog]').click();
+  await linkDialog.locator('.link-done').click();
   // The couple's portal opens in the language the link was made for.
   const amPortal = await planner.newPage();
   await amPortal.goto(`${base}/portal?lang=am`, {waitUntil:'domcontentloaded'});

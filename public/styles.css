@@ -1111,38 +1111,112 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 }
 
 /* Sending the portal link and shared PDFs */
-.blank-doc-dialog [hidden] { display: none !important; }
-.link-dialog { width: min(480px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; }
-.link-fields { display: grid; gap: 10px; margin-bottom: 14px; }
-.link-fields label { display: grid; gap: 5px; color: var(--muted); font-size: 12px; }
-.link-fields input, .link-preview input { width: 100%; min-height: 42px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: #fff; font: inherit; font-size: 14px; }
-.link-fields input:focus, .link-preview input:focus { border-color: var(--gold); outline: 2px solid var(--gold-wash); }
-.link-language { display: grid; gap: 6px; margin-bottom: 14px; }
-.link-language-options { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px; border-radius: 10px; background: #f3f3f2; }
-.link-language-options button { min-height: 36px; border: 0; border-radius: 7px; color: var(--muted); background: transparent; font: inherit; font-size: 13px; cursor: pointer; }
-.link-language-options button[aria-pressed="true"] { color: var(--ink); background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); font-weight: 600; }
+.blank-doc-dialog [hidden], .link-dialog [hidden] { display: none !important; }
+/* Link box used in the team dialog. */
 .link-preview { display: flex; gap: 8px; margin-bottom: 8px; }
-.link-preview input { flex: 1 1 auto; min-width: 0; color: var(--gold); font-size: 13px; }
+.link-preview input { flex: 1 1 auto; min-width: 0; min-height: 42px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 9px; color: var(--gold); background: #fff; font: inherit; font-size: 13px; }
+.link-preview input:focus { border-color: var(--gold); outline: 2px solid var(--gold-wash); }
 .link-preview .button { flex: 0 0 auto; }
-.blank-doc-dialog .link-local-warning { margin: 0 0 10px; padding: 8px 10px; border-radius: 8px; color: #8a5a00; background: #fff6e0; font-size: 12px; }
-.link-dialog > .tiny-label { display: block; margin: 12px 0 8px; }
-.share-channels { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; }
-.share-channels:empty { display: none; }
-.share-channel { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 12px; border: 0; border-radius: 10px; color: #fff; background: var(--gold); font: inherit; font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; }
-.share-channel:hover { filter: brightness(1.08); }
-.share-channel:focus-visible { outline: 3px solid var(--gold-wash); outline-offset: 2px; }
-.share-channel-whatsapp { background: #1f8f4e; }
-.share-channel-telegram { background: #2481cc; }
-.share-channel-facebook { background: #1877f2; }
-.share-channel-sms { background: #4b5563; }
-.share-channel-email { background: #7c5a2b; }
-.share-channel-more { color: var(--ink); background: var(--gold-wash); }
+.blank-doc-dialog .link-local-warning, .link-dialog .link-local-warning { margin: 8px 0 0; padding: 8px 10px; border-radius: 8px; color: #8a5a00; background: #fff6e0; font-size: 12px; }
 .blank-doc-share .blank-share-button { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 52px; margin-bottom: 10px; font-size: 15px; }
 .sidebar-create-link { margin-top: 0; }
+
+/* Share tiles: brand icon above the name. */
+.share-channels { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 12px; }
+.share-channels:empty { display: none; }
+.share-channel { display: grid; justify-items: center; gap: 10px; padding: 0; border: 0; color: var(--ink-2); background: transparent; font: inherit; font-size: 13px; text-decoration: none; cursor: pointer; }
+.share-channel-icon { display: grid; place-items: center; width: 100%; height: 64px; border: 1px solid var(--line); border-radius: 12px; background: #fff; transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease; }
+.share-channel-icon svg { width: 28px; height: 28px; }
+.share-channel:hover .share-channel-icon { border-color: #cfd1d0; box-shadow: 0 6px 16px rgba(1, 1, 1, 0.07); transform: translateY(-1px); }
+.share-channel:focus-visible { outline: 0; }
+.share-channel:focus-visible .share-channel-icon { outline: 3px solid var(--gold-light); outline-offset: 2px; }
+.share-channel-whatsapp .share-channel-icon { color: #25a244; }
+.share-channel-telegram .share-channel-icon { color: #2aa3de; }
+.share-channel-facebook .share-channel-icon { color: #1877f2; }
+.share-channel-sms .share-channel-icon, .share-channel-email .share-channel-icon, .share-channel-more .share-channel-icon { color: var(--ink); }
+
+/* Send the client portal */
+.link-dialog { width: min(772px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; overflow-y: auto; border: 0; border-radius: 20px; color: var(--ink); background: #fff; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3); }
+.link-dialog::backdrop { background: rgba(10, 10, 10, 0.5); backdrop-filter: blur(3px); }
+.link-dialog[open] { animation: search-dialog-in 160ms ease-out; }
+.link-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin: 0 42px; padding: 32px 0 26px; border-bottom: 1px solid #ece4da; }
+.link-dialog-eyebrow { display: flex; align-items: center; gap: 18px; color: var(--gold); font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; }
+html[lang="am"] .link-dialog-eyebrow { letter-spacing: 0.04em; }
+.link-dialog-badge { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 10px; color: var(--ink); background: #f3f2ef; }
+.link-dialog-badge .ui-icon { width: 20px; height: 20px; flex-basis: 20px; }
+.link-dialog-titles { padding-left: 2px; }
+.link-dialog-titles h2 { outline: 0; margin: 4px 0 6px 38px; font-family: var(--serif); font-size: 44px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.08; }
+.link-dialog-titles p { margin: 0 0 0 38px; color: var(--muted); font-size: 17px; }
+.link-dialog-close { display: grid; flex: 0 0 auto; place-items: center; width: 40px; height: 40px; margin: -4px -8px 0 0; padding: 0; border: 0; border-radius: 10px; color: var(--ink); background: transparent; cursor: pointer; }
+.link-dialog-close:hover { background: #f3f2ef; }
+.link-dialog-close .ui-icon { width: 22px; height: 22px; flex-basis: 22px; stroke-width: 1.6; }
+.link-dialog-body { display: grid; gap: 22px; padding: 26px 42px 0; }
+.link-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.link-field { display: grid; align-content: start; gap: 9px; min-width: 0; }
+.link-field-label { color: var(--ink); font-size: 15px; font-weight: 500; }
+.link-field-label small { margin-left: 6px; color: var(--muted-2); font-size: 13px; font-weight: 400; }
+.link-field-hint { color: var(--muted); font-size: 13px; }
+.link-field input, .link-phone { width: 100%; min-height: 54px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.link-field input { padding: 12px 20px; color: var(--ink); font: inherit; font-size: 16px; }
+.link-field input::placeholder, .link-phone input::placeholder { color: #9a9c9d; }
+.link-field input:focus, .link-phone:focus-within { border-color: var(--ink); outline: 0; box-shadow: 0 0 0 4px rgba(1, 1, 1, 0.05); }
+.link-phone { display: flex; align-items: stretch; overflow: hidden; }
+.link-country { position: relative; display: flex; flex: 0 0 auto; align-items: center; border-right: 1px solid var(--line); }
+.link-flag { position: absolute; left: 16px; display: grid; pointer-events: none; }
+.link-flag svg { width: 24px; height: 18px; border-radius: 3px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08); }
+.link-phone select { height: 100%; padding: 0 10px 0 50px; border: 0; color: var(--ink); background: transparent; font: inherit; font-size: 16px; cursor: pointer; }
+.link-phone select:focus { outline: 0; }
+.link-phone input { flex: 1 1 auto; min-width: 0; min-height: 0; padding: 12px 18px; border: 0; border-radius: 0; box-shadow: none !important; }
+.link-language { display: grid; grid-template-columns: auto 1fr minmax(0, 296px); align-items: center; gap: 18px; padding: 18px 16px 18px 22px; border: 1px solid #ece9e4; border-radius: 12px; background: #faf9f7; }
+.link-language-icon { width: 28px; height: 28px; flex-basis: 28px; stroke-width: 1.5; }
+.link-language-text { display: grid; gap: 3px; }
+.link-language-text strong { font-size: 15px; font-weight: 500; }
+.link-language-text small { color: var(--muted); font-size: 14px; }
+.link-language-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.link-language-options button { min-height: 44px; border: 0; border-radius: 8px; color: var(--ink); background: transparent; font: inherit; font-size: 16px; cursor: pointer; }
+.link-language-options button[aria-pressed="true"] { color: #fff; background: var(--ink); font-weight: 600; }
+.link-url-block { display: grid; gap: 9px; }
+.link-url { display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 5px 5px 5px 20px; border: 1px solid #ece9e4; border-radius: 12px; background: #faf9f7; }
+.link-url > .ui-icon { width: 22px; height: 22px; flex-basis: 22px; stroke-width: 1.6; }
+.link-url input { flex: 1 1 auto; min-width: 0; padding: 0; border: 0; color: var(--gold); background: transparent; font: inherit; font-size: 16px; text-overflow: ellipsis; }
+.link-url input:focus { outline: 0; }
+.link-copy { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; gap: 10px; min-width: 176px; min-height: 48px; padding: 0 22px; border: 0; border-radius: 9px; color: #fff; background: var(--ink); font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 140ms ease; }
+.link-copy:hover { background: #262626; }
+.link-copy .ui-icon { width: 20px; height: 20px; flex-basis: 20px; }
+.link-share-label { margin-top: 6px; color: var(--gold); font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; }
+html[lang="am"] .link-share-label { letter-spacing: 0.04em; }
+.link-dialog-body .share-channels { margin-top: -8px; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px; }
+.link-dialog-body .share-channel { font-size: 15px; }
+.link-dialog-body .share-channel-icon { height: 72px; }
+.link-dialog-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 30px 42px 0; padding: 16px 0 28px; border-top: 1px solid #ece9e4; }
+.link-dialog-note { display: flex; align-items: center; gap: 14px; color: var(--muted); font-size: 14px; }
+.link-dialog-note .ui-icon { width: 24px; height: 24px; flex-basis: 24px; color: var(--ink); stroke-width: 1.5; }
+.link-done { min-width: 126px; min-height: 48px; padding: 0 24px; border: 1px solid #d6d6d4; border-radius: 9px; color: var(--ink); background: #fff; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; }
+.link-done:hover { background: #f6f6f4; }
+@media (max-width: 760px) {
+  .link-dialog { width: calc(100vw - 20px); max-height: calc(100dvh - 20px); border-radius: 16px; }
+  .link-dialog-head { margin: 0 18px; padding: 20px 0 18px; }
+  .link-dialog-eyebrow { gap: 12px; }
+  .link-dialog-badge { width: 36px; height: 36px; }
+  .link-dialog-titles h2 { margin: 12px 0 6px; font-size: 30px; }
+  .link-dialog-titles p { margin: 0; font-size: 15px; }
+  .link-dialog-body { gap: 18px; padding: 18px 18px 0; }
+  .link-fields { grid-template-columns: 1fr; gap: 16px; }
+  .link-language { grid-template-columns: auto 1fr; gap: 12px 14px; padding: 14px; }
+  .link-language-options { grid-column: 1 / -1; }
+  .link-url { flex-wrap: wrap; padding: 10px; }
+  .link-url > .ui-icon { margin-left: 6px; }
+  .link-url input { flex-basis: calc(100% - 50px); font-size: 15px; }
+  .link-copy { width: 100%; }
+  .link-dialog-body .share-channels { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 12px; }
+  .link-dialog-body .share-channel-icon { height: 60px; }
+  .link-dialog-foot { flex-direction: column; align-items: stretch; margin: 22px 18px 0; padding: 14px 0 18px; }
+  .link-done { width: 100%; }
+}
 @media (max-width: 520px) {
   .blank-doc-dialog { padding: 20px 16px; }
-  .link-fields input, .link-preview input { font-size: 16px; }
-  .share-channels { grid-template-columns: 1fr 1fr; }
+  .link-preview input { font-size: 16px; }
+  .share-channels { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 /* ── Logo mark in tight spaces ─────────────────────────────────────── */
