@@ -78,12 +78,18 @@ class QuestionnaireTests(unittest.TestCase):
         app = (Path(__file__).resolve().parents[1] / "public" / "app.js").read_text(encoding="utf-8")
         picker_ids = re.findall(r'^    id: "([^"]+)",$', app, re.MULTILINE)
         self.assertEqual(set(picker_ids), set(catalog.LEGACY_CODES))
-        self.assertEqual(len(picker_ids), 21)
+        self.assertEqual(len(picker_ids), 20)
         self.plan["services"] = {key: {"selected": True} for key in picker_ids}
         self.update_source()
         wedding = self.call("POST", self.handoff, {})
-        self.assertEqual({s["code"] for s in self.rows(wedding, "services")}, {t["code"] for t in catalog.templates()})
-        self.assertEqual(len(self.rows(wedding, "tasks")), 63)
+        self.assertEqual({s["code"] for s in self.rows(wedding, "services")}, {t["code"] for t in catalog.templates() if not t["retired"]})
+        self.assertEqual(len(self.rows(wedding, "tasks")), 60)
+
+    def test_services_saved_under_old_ids_carry_into_the_plan(self):
+        self.plan["services"] = {"transport": {"selected": True}, "cake-champagne": {"selected": True}, "nurse": {"selected": True}}
+        self.update_source()
+        wedding = self.call("POST", self.handoff, {})
+        self.assertEqual({s["code"] for s in self.rows(wedding, "services")}, {"TRANSPORT", "CATERING"})
 
     def test_repeated_and_concurrent_continuations_reuse_the_plan_and_tasks(self):
         with ThreadPoolExecutor(max_workers=2) as pool:

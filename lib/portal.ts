@@ -44,14 +44,14 @@ export function sanitizePortalPlan(payload: unknown) {
     const coords = Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180 ? { lat, lon } : {};
     return [[key.slice(0, 40), { name: clip(place.name, 200), address: clip(place.address, 300), ...coords }]];
   }));
-  const services: Record<string, { selected: boolean; options: Record<string, unknown>; notes: string }> = {};
+  const services: Record<string, { selected: boolean; options: Record<string, unknown>; notes: string; responsibility: string }> = {};
   for (const [id, service] of Object.entries(isObject(payload.services) ? payload.services : {}).slice(0, 40)) {
     if (!/^[a-z][a-z0-9-]{0,39}$/.test(id) || !isObject(service) || service.selected !== true) continue;
     const options = Object.fromEntries(Object.entries(isObject(service.options) ? service.options : {}).slice(0, 20).map(([key, value]) => [
       key.slice(0, 40),
       Array.isArray(value) ? textList(value) : typeof value === "boolean" ? value : clip(value, 300)
     ]));
-    services[id] = { selected: true, options, notes: clip(service.notes, 1000) };
+    services[id] = { selected: true, options, notes: clip(service.notes, 1000), responsibility: service.responsibility === "client" ? "client" : "planning" };
   }
   const bride = String(details.brideName), groom = String(details.groomName), weddingDate = String(details.weddingDate);
   if (!bride || !groom) throw new PortalError(400, "Enter both the bride's and groom's names.");

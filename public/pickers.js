@@ -98,13 +98,15 @@
 
   function positionPopup() {
     if (popup.hidden || !activeTrigger) return;
+    // On large screens the app is drawn smaller (--ui-zoom); place the pop-up in screen pixels, then convert.
+    const zoom = parseFloat(getComputedStyle(popup).zoom) || 1;
     const rect = activeTrigger.getBoundingClientRect();
-    const width = Math.min(340, window.innerWidth - 24);
-    popup.style.width = `${width}px`;
-    popup.style.left = `${Math.max(12, Math.min(rect.left, window.innerWidth - width - 12))}px`;
-    const height = popup.offsetHeight;
+    const width = Math.min(340 * zoom, window.innerWidth - 24);
+    popup.style.width = `${width / zoom}px`;
+    popup.style.left = `${Math.max(12, Math.min(rect.left, window.innerWidth - width - 12)) / zoom}px`;
+    const height = popup.getBoundingClientRect().height;
     const top = rect.bottom + height + 8 <= window.innerHeight ? rect.bottom + 8 : Math.max(12, rect.top - height - 8);
-    popup.style.top = `${Math.min(top, Math.max(12, window.innerHeight - height - 12))}px`;
+    popup.style.top = `${Math.min(top, Math.max(12, window.innerHeight - height - 12)) / zoom}px`;
   }
 
   function closePicker(restoreFocus = true) {

@@ -343,7 +343,8 @@ def sanitize_portal_plan(payload):
         options = {}
         for key, value in list((service.get("options") if isinstance(service.get("options"), dict) else {}).items())[:20]:
             options[key[:40]] = _text_list(value) if isinstance(value, list) else value if isinstance(value, bool) else _clip(value, 300)
-        services[service_id] = {"selected": True, "options": options, "notes": _clip(service.get("notes"), 1000)}
+        services[service_id] = {"selected": True, "options": options, "notes": _clip(service.get("notes"), 1000),
+                                "responsibility": "client" if service.get("responsibility") == "client" else "planning"}
     bride, groom, wedding_date = details["brideName"], details["groomName"], details["weddingDate"]
     if not bride or not groom:
         raise ValueError("Enter both the bride's and groom's names.")

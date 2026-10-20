@@ -134,9 +134,11 @@ const copy = {
     servicesTitle: "Choose what belongs in the promise.",
     servicesDescription: "Choose the services for this wedding. Your selections carry into the planner, where you can arrange the details later.",
     continuePlanning: "Continue to planner",
-    selectedOf: "of 21 selected",
+    selectedOf: "of 20 selected",
     filterLabel: "Filter services",
     filterAll: "All service areas",
+    filterPart1: "Part 1 · Spiritual teaching & documents", filterPart2: "Part 2 · Teaching & choir", filterPart3: "Part 3 · Hall & logistics",
+    filterPart4: "Part 4 · Media, attire & beauty", filterPart5: "Part 5 · Printing, protocol & hosting",
     filterSpiritual: "Spiritual & church",
     filterVenue: "Venue & atmosphere",
     filterHospitality: "Hospitality",
@@ -316,9 +318,11 @@ const copy = {
     servicesTitle: "በቃል ኪዳኑ ውስጥ የሚገባውን ይምረጡ።",
     servicesDescription: "ለዚህ ሰርግ አገልግሎቶችን ይምረጡ። ምርጫዎችዎ ወደ ዕቅዱ ይተላለፋሉ፤ ዝርዝሮቹን በኋላ ያዘጋጃሉ።",
     continuePlanning: "ወደ ዕቅዱ ቀጥል",
-    selectedOf: "ከ21 ተመርጠዋል",
+    selectedOf: "ከ20 ተመርጠዋል",
     filterLabel: "አገልግሎቶችን ይለዩ",
     filterAll: "ሁሉም የአገልግሎት ዘርፎች",
+    filterPart1: "ክፍል 1 · መንፈሳዊ ትምህርቶች እና ሰነዶች", filterPart2: "ክፍል 2 · ትምህርት እና ዝማሬ", filterPart3: "ክፍል 3 · አዳራሽ እና ሎጅስቲክስ",
+    filterPart4: "ክፍል 4 · ሚዲያ፣ አልባሳት እና ውበት", filterPart5: "ክፍል 5 · ህትመት፣ ፕሮቶኮል እና አስተናጋጅ",
     filterSpiritual: "መንፈሳዊ እና ቤተ-ክርስቲያን",
     filterVenue: "ቦታ እና ድባብ",
     filterHospitality: "እንግዳ አቀባበል",
@@ -467,7 +471,12 @@ Object.assign(copy.en, {
   providerBank: "Bank details", bankName: "Bank", bankAccountNo: "Account No.", bankAccountHolder: "Account name",
   providerTelebirr: "Telebirr (contact)", clientDetails: "Clients / Couple",
   contractGroomName: "Groom’s full name", contractBrideName: "Bride’s full name",
-  contractScopeTitle: "Selected Services & Scope", scopePremarital: "Premarital Course",
+  contractScopeTitle: "Services & Responsibilities", scopePremarital: "Premarital Course",
+  partLabel: "Part", statusLabel: "Status", statusPlanning: "Full Planning", statusClient: "Client Booked",
+  statusPlanningHint: "Matrimony plans and books it", statusClientHint: "The couple has booked it; we coordinate",
+  whoArranges: "Who arranges it?", serviceDetails: "Details", serviceNotesLabel: "Notes for this service", serviceNotesPlaceholder: "Anything else we should know",
+  bonusTitle: "Free bonus services (included)", bonusIncluded: "Included", servicesChecklistTitle: "Orthodox wedding service & responsibility checklist",
+  noServicesChosen: "No services chosen yet.",
   otherAddons: "Other agreed add-ons", noAddons: "No other add-ons selected.",
   termsHeading: "Terms, Conditions & Service Delivery", vendorHeading: "Service Delivery & Vendor Coordination",
   providerResponsibilityHeading: "Service Provider Responsibilities", clientResponsibilityHeading: "Client Responsibilities",
@@ -563,7 +572,12 @@ Object.assign(copy.am, {
   providerBank: "የባንክ መረጃ", bankName: "ባንክ", bankAccountNo: "የሂሳብ ቁጥር", bankAccountHolder: "የሂሳቡ ስም",
   providerTelebirr: "Telebirr (ለመገናኛ)", clientDetails: "የደንበኛ (ሙሽሮቹ) መረጃ",
   contractGroomName: "የሙሽራው ሙሉ ስም", contractBrideName: "የሙሽሪት ሙሉ ስም",
-  contractScopeTitle: "የተመረጡ አገልግሎቶች እና ወሰን", scopePremarital: "ቅድመ-ጋብቻ ትምህርት",
+  contractScopeTitle: "የአገልግሎትና የኃላፊነት ዝርዝር", scopePremarital: "ቅድመ-ጋብቻ ትምህርት",
+  partLabel: "ክፍል", statusLabel: "Status", statusPlanning: "Full Planning", statusClient: "Client Booked",
+  statusPlanningHint: "ማትሪሞኒ ያቅዳል እና ያስይዛል", statusClientHint: "ደንበኛው አስይዟል፤ እኛ እናስተባብራለን",
+  whoArranges: "ማን ያዘጋጀዋል?", serviceDetails: "ዝርዝር", serviceNotesLabel: "ለዚህ አገልግሎት ማስታወሻ", serviceNotesPlaceholder: "ማወቅ ያለብን ሌላ ነገር",
+  bonusTitle: "በነፃ የሚካተቱ ተጨማሪ ቦነሶች (Bonus Services)", bonusIncluded: "ተካቷል", servicesChecklistTitle: "የኦርቶዶክስ ሰርግ የአገልግሎትና የኃላፊነት መምረጫ ዝርዝር",
+  noServicesChosen: "እስካሁን አገልግሎት አልተመረጠም።",
   otherAddons: "ሌሎች የተስማሙባቸው ተጨማሪ ሥራዎች", noAddons: "ሌላ ተጨማሪ አገልግሎት አልተመረጠም።",
   termsHeading: "የውል አንቀጾች እና የሥራ ሂደት", vendorHeading: "የአገልግሎት አሰጣጥ እና የቬንደሮች አስተባባሪነት",
   providerResponsibilityHeading: "የአገልግሎት ሰጪ (ማትሪሞኒ) ግዴታዎች", clientResponsibilityHeading: "የደንበኛ (ሙሽሮቹ) ግዴታዎች",
@@ -592,257 +606,298 @@ Object.assign(copy.am, {
   clientSignatures: "ውል ተቀባይ (ደንበኛ / ሙሽሮቹ)", signatureLabel: "ፊርማ"
 });
 
+// The Orthodox wedding service & responsibility checklist: five parts, numbered as on the printed form.
+// Each service is planned by Matrimony ("planning") or already booked by the couple ("client").
+const SERVICE_PARTS = [
+  { id: "part1", number: 1, title: { en: "Pre-wedding spiritual teaching & church documents", am: "ቅድመ-ሰርግ መንፈሳዊ ትምህርቶች እና የሰነድ ጉዳዮች" } },
+  { id: "part2", number: 2, title: { en: "Teaching & choir program (Liturgy & Choir)", am: "የትምህርት እና የዝማሬ መርሃ ግብር (Liturgy & Choir)" } },
+  { id: "part3", number: 3, title: { en: "Behind-the-scenes preparation, hall & logistics", am: "ከጀርባ ያሉ ዝግጅቶች፣ አዳራሽ እና ሎጅስቲክስ" } },
+  { id: "part4", number: 4, title: { en: "Media, attire & beauty", am: "ሚዲያ፣ አልባሳት እና ውበት" } },
+  { id: "part5", number: 5, title: { en: "Printing, protocol & hosting", am: "የህትመት፣ የፕሮቶኮል እና አስተናጋጅ ስራዎች" } }
+];
+
+// Included free with every wedding.
+const BONUS_SERVICES = [
+  { id: "bonus-kidase-audio", title: { en: "Special Kidase audio teachings on marriage for the couple", am: "የሙሽሮች ልዩ ቅዳሴ ከትዳር አንፃር ኦዲዮ ትምህርቶች" } },
+  { id: "bonus-rehearsal", title: { en: "Song study & rehearsal for the couple and bridesmaids", am: "የሙሽሮች እና የሚዜዎች የመዝሙር ጥናት እና Rehearsal" } },
+  { id: "bonus-spiritual-prep", title: { en: "Pre-wedding repentance & spiritual preparation guide (Spiritual Prep Checklist)", am: "የቅድመ ሰርግ የንስሐ እና የመንፈሳዊ ዝግጅት መመሪያ (Spiritual Prep Checklist)" } }
+];
+
+const choice = (value, en, am = en) => ({ value, label: { en, am } });
+const FORMAT_CHOICES = [choice("in-person", "In person", "በአካል"), choice("online", "Online"), choice("hybrid", "In person & online", "በአካል እና Online")];
+const MOMENT_CHOICES = [choice("home", "Home / exit", "ቤት / መውጫ"), choice("church", "Church", "ቤተክርስቲያን"), choice("procession", "Procession", "ሰልፍ"), choice("hall", "Hall program", "የአዳራሽ ፕሮግራም")];
+
 const services = [
   {
     id: "premarital",
-    number: "01",
-    group: "spiritual",
-    title: { en: "Premarital education", am: "ቅድመ-ጋብቻ ትምህርት" },
-    description: { en: "Prepare for the covenant with a guided learning path.", am: "ለጋብቻ በተመራማሪ ትምህርት ይዘጋጁ።" },
+    number: "1.1",
+    group: "part1",
+    title: { en: "Premarital teaching", am: "የቅድመ ጋብቻ ትምህርት" },
+    description: { en: "Guided teaching that prepares the couple for the covenant of marriage.", am: "ጥንዶቹን ለጋብቻ ቃል ኪዳን የሚያዘጋጅ የተመራ ትምህርት።" },
     options: [
-      { id: "format", label: { en: "Delivery", am: "የአቀራረብ መንገድ" }, type: "single", choices: [{ value: "in-person", label: { en: "In person", am: "በአካል" } }, { value: "online", label: { en: "Online", am: "Online" } }, { value: "hybrid", label: { en: "Hybrid", am: "በአካል እና Online" } }] },
-      { id: "sessions", label: { en: "Session plan", am: "የትምህርት እቅድ" }, type: "single", choices: [{ value: "one", label: { en: "1 session", am: "1 ጊዜ" } }, { value: "two-three", label: { en: "2–3 sessions", am: "2–3 ጊዜ" } }, { value: "custom", label: { en: "Custom plan", am: "ልዩ እቅድ" } }] },
+      { id: "format", label: { en: "Delivery", am: "የአቀራረብ መንገድ" }, type: "single", choices: FORMAT_CHOICES },
+      { id: "sessions", label: { en: "Sessions", am: "የትምህርት ብዛት" }, type: "single", choices: [choice("one", "1 session", "1 ጊዜ"), choice("two-three", "2–3 sessions", "2–3 ጊዜ"), choice("four-plus", "4 or more", "4 እና ከዚያ በላይ")] },
+      { id: "teacher", label: { en: "Teacher / church", am: "መምህር / ቤተክርስቲያን" }, type: "text" },
       { id: "date", label: { en: "Preferred start", am: "የሚጀምሩበት ቀን" }, type: "date" }
     ]
   },
   {
-    id: "liturgy",
-    number: "02",
-    group: "spiritual",
-    title: { en: "Liturgy / Kidase education", am: "የቅዳሴ ተሰጥዎ ትምህርት" },
-    description: { en: "Understand the liturgy, order, and sacred roles before the day.", am: "ቅዳሴውን፣ ሥርዓቱን እና የተሳታፊዎችን ሚና ይረዱ።" },
+    id: "post-marriage",
+    number: "1.2",
+    group: "part1",
+    title: { en: "Post-marriage teaching", am: "የድህረ ጋብቻ ትምህርት" },
+    description: { en: "Follow-up teaching and counsel after the wedding.", am: "ከሰርጉ በኋላ የሚሰጥ የክትትል ትምህርት እና ምክር።" },
     options: [
-      { id: "format", label: { en: "Delivery", am: "የአቀራረብ መንገድ" }, type: "single", choices: [{ value: "in-person", label: { en: "In person", am: "በአካል" } }, { value: "online", label: { en: "Online", am: "Online" } }] },
-      { id: "coverage", label: { en: "Coverage", am: "የሚካተተው" }, type: "multi", choices: [{ value: "kidase", label: { en: "Kidase order", am: "የቅዳሴ ሥርዓት" } }, { value: "roles", label: { en: "Roles & procession", am: "ሚና እና ሰልፍ" } }, { value: "responses", label: { en: "Responses & prayers", am: "ምላሾች እና ጸሎቶች" } }] }
+      { id: "format", label: { en: "Delivery", am: "የአቀራረብ መንገድ" }, type: "single", choices: FORMAT_CHOICES },
+      { id: "timing", label: { en: "When", am: "መቼ" }, type: "single", choices: [choice("three-month", "After 3 months", "ከ3 ወር በኋላ"), choice("six-month", "After 6 months", "ከ6 ወር በኋላ"), choice("flexible", "Flexible", "ተለዋዋጭ")] },
+      { id: "followup", label: { en: "Extra follow-up session", am: "ተጨማሪ የክትትል ጊዜ" }, type: "toggle" }
     ]
   },
   {
-    id: "post-marriage",
-    number: "03",
-    group: "spiritual",
-    title: { en: "Post-marriage counseling", am: "ድህረ ጋብቻ ምክክር" },
-    description: { en: "A gentle follow-up after the first six months of marriage.", am: "ከጋብቻ ከስድስት ወር በኋላ የሚደረግ የእርቅ እና ምክክር ጊዜ።" },
+    id: "liturgy",
+    number: "1.3",
+    group: "part1",
+    title: { en: "Kidase responses teaching", am: "የቅዳሴ ተሰጥኦ ትምህርት" },
+    description: { en: "Learn the Kidase responses and order so the couple can take part with understanding.", am: "ጥንዶቹ በማስተዋል እንዲሳተፉ የቅዳሴ ተሰጥኦ እና ሥርዓት ትምህርት።" },
     options: [
-      { id: "format", label: { en: "Session format", am: "የምክክር መንገድ" }, type: "single", choices: [{ value: "in-person", label: { en: "In person", am: "በአካል" } }, { value: "online", label: { en: "Online", am: "Online" } }] },
-      { id: "timing", label: { en: "Timing", am: "ጊዜ" }, type: "single", choices: [{ value: "six-month", label: { en: "At six months", am: "ከ6 ወር በኋላ" } }, { value: "six-to-nine", label: { en: "6–9 months", am: "ከ6–9 ወር በኋላ" } }, { value: "flexible", label: { en: "Flexible", am: "ተለዋዋጭ" } }] },
-      { id: "followup", label: { en: "Follow-up included", am: "ተጨማሪ ክትትል" }, type: "toggle" }
+      { id: "format", label: { en: "Delivery", am: "የአቀራረብ መንገድ" }, type: "single", choices: FORMAT_CHOICES },
+      { id: "coverage", label: { en: "Covers", am: "የሚካተተው" }, type: "multi", choices: [choice("responses", "Responses & prayers", "ተሰጥኦ እና ጸሎቶች"), choice("order", "Kidase order", "የቅዳሴ ሥርዓት"), choice("roles", "Roles & procession", "ሚና እና ሰልፍ")] },
+      { id: "learners", label: { en: "Who attends", am: "የሚማሩት" }, type: "multi", choices: [choice("couple", "Couple", "ሙሽሮች"), choice("bridesmaids", "Bridesmaids & groomsmen", "ሚዜዎች"), choice("family", "Family", "ቤተሰብ")] }
     ]
   },
   {
     id: "church-systems",
-    number: "04",
-    group: "spiritual",
-    title: { en: "Church system coordination", am: "የቤተ-ክርስቲያኑን ሥርዓት ማስፈጸም" },
-    description: { en: "Keep the church process, documents, and people in step.", am: "የቤተ-ክርስቲያን ሂደት፣ ሰነዶች እና ሰዎች እንዲስማሙ ማስተባበር።" },
+    number: "1.4",
+    group: "part1",
+    title: { en: "Church documents & process", am: "የቤተክርስቲያን ሰነዶች ማስፈጸም" },
+    description: { en: "Registration, letters and clergy arrangements handled with the church.", am: "ምዝገባ፣ ደብዳቤዎች እና ከካህናት ጋር የሚደረጉ ዝግጅቶች።" },
     options: [
-      { id: "tasks", label: { en: "Included tasks", am: "የሚካተቱ ሥራዎች" }, type: "multi", choices: [{ value: "registration", label: { en: "Church registration", am: "የቤተ-ክርስቲያን ምዝገባ" } }, { value: "documents", label: { en: "Documents", am: "ሰነዶች" } }, { value: "clergy", label: { en: "Clergy coordination", am: "ከካህናት ጋር ማስተባበር" } }, { value: "program", label: { en: "Church program", am: "የቤተ-ክርስቲያን ፕሮግራም" } }] },
-      { id: "contact", label: { en: "Church contact", am: "የቤተ-ክርስቲያን አድራሻ" }, type: "text" }
+      { id: "tasks", label: { en: "Included", am: "የሚካተቱ ሥራዎች" }, type: "multi", choices: [choice("registration", "Church registration", "የቤተክርስቲያን ምዝገባ"), choice("letters", "Letters & certificates", "ደብዳቤዎች እና የምስክር ወረቀቶች"), choice("confession", "Confession father letter", "የንስሐ አባት ደብዳቤ"), choice("clergy", "Clergy coordination", "ከካህናት ጋር ማስተባበር")] },
+      { id: "church", label: { en: "Church name / contact", am: "የቤተክርስቲያኑ ስም / አድራሻ" }, type: "text" }
     ]
   },
   {
-    id: "venue",
-    number: "05",
-    group: "venue",
-    title: { en: "Hall / venue", am: "አዳራሽ" },
-    description: { en: "Find a setting that carries the ceremony and celebration well.", am: "ሥነ-ስርዓቱን እና ድግሱን በጥሩ ሁኔታ የሚያስተናግድ ቦታ።" },
+    id: "teacher",
+    number: "2.1",
+    group: "part2",
+    title: { en: "Guest teacher", am: "ተጋባዥ መምህር" },
+    description: { en: "An invited teacher who gives the word on the wedding day.", am: "በሰርጉ ዕለት ትምህርት የሚሰጥ ተጋባዥ መምህር።" },
     options: [
-      { id: "type", label: { en: "Venue type", am: "የቦታ አይነት" }, type: "single", choices: [{ value: "church", label: { en: "Church hall", am: "የቤተ-ክርስቲያን አዳራሽ" } }, { value: "wedding", label: { en: "Wedding hall", am: "የሰርግ አዳራሽ" } }, { value: "hotel", label: { en: "Hotel hall", am: "የሆቴል አዳራሽ" } }, { value: "outdoor", label: { en: "Outdoor / garden", am: "የውጪ ቦታ / ግቢ" } }] },
-      { id: "capacity", label: { en: "Guest capacity", am: "የእንግዳ ብዛት" }, type: "number" },
-      { id: "name", label: { en: "Venue name", am: "የቦታው ስም" }, type: "text" }
-    ]
-  },
-  {
-    id: "decor",
-    number: "06",
-    group: "venue",
-    title: { en: "Decor & home exit", am: "ዲኮር - የአዳራሽ እና ከቤት መውጫ" },
-    description: { en: "Shape the visual language from the first step outside the home to the hall.", am: "ከቤት መውጫ እስከ አዳራሽ ድረስ የሚታይ ውበት ይምረጡ።" },
-    options: [
-      { id: "areas", label: { en: "Decor areas", am: "የዲኮር ቦታዎች" }, type: "multi", choices: [{ value: "hall", label: { en: "Hall", am: "አዳራሽ" } }, { value: "home-exit", label: { en: "Home exit", am: "ከቤት መውጫ" } }, { value: "church", label: { en: "Church", am: "ቤተ-ክርስቲያን" } }, { value: "photo", label: { en: "Photo backdrop", am: "የፎቶ ጀርባ" } }] },
-      { id: "style", label: { en: "Style", am: "የዲኮር ዘይቤ" }, type: "single", choices: [{ value: "classic", label: { en: "Classic & elegant", am: "ክላሲክ እና ውብ" } }, { value: "modern", label: { en: "Modern minimal", am: "ዘመናዊ ቀላል" } }, { value: "traditional", label: { en: "Traditional", am: "ባህላዊ" } }, { value: "custom", label: { en: "Custom vision", am: "ልዩ ራዕይ" } }] },
-    ]
-  },
-  {
-    id: "sound",
-    number: "07",
-    group: "venue",
-    title: { en: "Sound system", am: "የድምጽ ማጉያ ሲስተም" },
-    description: { en: "Clear sound for vows, prayers, music, and every guest.", am: "ለቃል ኪዳን፣ ጸሎት፣ ሙዚቃ እና እንግዶች ግልጽ ድምጽ።" },
-    options: [
-      { id: "coverage", label: { en: "Coverage", am: "የሚሰማበት ቦታ" }, type: "multi", choices: [{ value: "ceremony", label: { en: "Ceremony", am: "ሥነ-ስርዓት" } }, { value: "reception", label: { en: "Reception", am: "ድግስ" } }, { value: "outdoor", label: { en: "Outdoor / procession", am: "የውጪ / ሰልፍ" } }] },
-      { id: "technician", label: { en: "Technician", am: "ቴክኒሺያን" }, type: "single", choices: [{ value: "included", label: { en: "Included", am: "ተካቷል" } }, { value: "venue", label: { en: "Venue provides", am: "ቦታው ይሰጣል" } }, { value: "not-needed", label: { en: "Not needed", am: "አያስፈልግም" } }] }
-    ]
-  },
-  {
-    id: "instruments",
-    number: "08",
-    group: "venue",
-    title: { en: "Mezmur instruments", am: "ዘማ መሳሪያ" },
-    description: { en: "Choose the musical texture that carries the sacred moments.", am: "የቅዱሳን ጊዜያትን የሚያስተላልፍ የሙዚቃ መሳሪያ ይምረጡ።" },
-    options: [
-      { id: "instruments", label: { en: "Instrument set", am: "የመሳሪያ ስብስብ" }, type: "multi", choices: [{ value: "keyboard", label: { en: "Keyboard", am: "ኪቦርድ" } }, { value: "krar", label: { en: "Krar", am: "ክራር" } }, { value: "drums", label: { en: "Drums", am: "ከበሮ" } }, { value: "full-band", label: { en: "Full band", am: "ሙሉ ባንድ" } }] },
-      { id: "soundcheck", label: { en: "Soundcheck", am: "የድምጽ ሙከራ" }, type: "toggle" }
+      { id: "preferred", label: { en: "Preferred teacher", am: "የሚመረጠው መምህር" }, type: "text" },
+      { id: "moments", label: { en: "Teaches at", am: "የሚያስተምርበት" }, type: "multi", choices: [choice("church", "Church", "ቤተክርስቲያን"), choice("hall", "Hall program", "የአዳራሽ ፕሮግራም")] },
+      { id: "minutes", label: { en: "Length (minutes)", am: "ርዝመት (ደቂቃ)" }, type: "number" }
     ]
   },
   {
     id: "choir",
-    number: "09",
-    group: "style",
-    title: { en: "Choir, guest singers & teacher", am: "ህብረት፣ ተጋባዦች መዘምራን እና ተጋባዥ መምህር" },
-    description: { en: "Coordinate the voices and guidance that make the gathering feel alive.", am: "ስብሰባውን ሕያው የሚያደርጉ ድምጾችን እና መምህራንን ያስተባብሩ።" },
+    number: "2.2",
+    group: "part2",
+    title: { en: "Church choir", am: "የህብረት መዘምራን" },
+    description: { en: "A choir that leads the mezmur through the ceremony and celebration.", am: "በሥነ-ሥርዓቱ እና በድግሱ መዝሙር የሚመሩ የህብረት መዘምራን።" },
     options: [
-      { id: "voices", label: { en: "Who will sing", am: "የሚዘምሩት" }, type: "multi", choices: [{ value: "church-choir", label: { en: "Church choir", am: "የቤተ-ክርስቲያን ህብረት" } }, { value: "guest-singers", label: { en: "Guest singers", am: "ተጋባዥ ዘማሪዎች" } }, { value: "family", label: { en: "Family / guests", am: "ቤተሰብ / እንግዶች" } }, { value: "teacher", label: { en: "Guest teacher", am: "ተጋባዥ መምህር" } }] },
-      { id: "repertoire", label: { en: "Song direction", am: "የመዝሙር መመሪያ" }, type: "text" }
+      { id: "choir", label: { en: "Choir / church", am: "መዘምራኑ / ቤተክርስቲያኑ" }, type: "text" },
+      { id: "members", label: { en: "Number of singers", am: "የዘማሪዎች ብዛት" }, type: "number" },
+      { id: "moments", label: { en: "Sings during", am: "የሚዘምሩበት" }, type: "multi", choices: MOMENT_CHOICES }
     ]
   },
   {
-    id: "cake-champagne",
-    number: "10",
-    group: "hospitality",
-    title: { en: "Cake & champagne", am: "ኬክ እና champagne" },
-    description: { en: "Finish the celebration with a considered toast and sweet table.", am: "በተመረጠ ጣፋጭ እና ምስጋና የደስታውን መጨረሻ ያሳምሩ።" },
+    id: "guest-singers",
+    number: "2.3",
+    group: "part2",
+    title: { en: "Guest singers (well-known mezmur singers)", am: "ተጋባዥ መዘምራን (የታወቁ ዘማሪዎች)" },
+    description: { en: "Invited, well-known singers for the special moments.", am: "ለልዩ ጊዜያት የሚጋበዙ የታወቁ ዘማሪዎች።" },
     options: [
-      { id: "include", label: { en: "Include", am: "የሚካተተው" }, type: "multi", choices: [{ value: "cake", label: { en: "Wedding cake", am: "የሰርግ ኬክ" } }, { value: "champagne", label: { en: "Champagne", am: "Champagne" } }, { value: "both", label: { en: "Cake cutting & toast", am: "ኬክ መቁረጥ እና ጥራጥሬ" } }] },
-      { id: "servings", label: { en: "Servings / size", am: "መጠን / ብዛት" }, type: "text" },
-      { id: "flavor", label: { en: "Flavor / preference", am: "ጣዕም / ምርጫ" }, type: "text" }
+      { id: "singers", label: { en: "Preferred singers", am: "የሚመረጡ ዘማሪዎች" }, type: "text" },
+      { id: "songs", label: { en: "Number of songs", am: "የመዝሙር ብዛት" }, type: "number" },
+      { id: "moments", label: { en: "Sings during", am: "የሚዘምሩበት" }, type: "multi", choices: MOMENT_CHOICES }
     ]
   },
   {
-    id: "food-drinks",
-    number: "11",
-    group: "hospitality",
-    title: { en: "Food & drinks", am: "ምግብ እና መጠጥ" },
-    description: { en: "Make hospitality feel generous, organized, and true to the couple.", am: "እንግዳ አቀባበሉ በቂ፣ የተደራጀ እና ለጥንዶቹ የሚስማማ ይሁን።" },
+    id: "instruments",
+    number: "2.4",
+    group: "part2",
+    title: { en: "Mezmur instruments", am: "የዜማ መሳሪያዎች" },
+    description: { en: "Instruments and players that carry the mezmur.", am: "መዝሙሩን የሚያጅቡ የዜማ መሳሪያዎች እና ተጫዋቾች።" },
     options: [
-      { id: "service", label: { en: "Meal service", am: "የምግብ አቀራረብ" }, type: "single", choices: [{ value: "buffet", label: { en: "Buffet", am: "ቡፌ" } }, { value: "plated", label: { en: "Plated meal", am: "በሳህን የሚቀርብ" } }, { value: "cocktail", label: { en: "Cocktail / light bites", am: "ቀላል ምግብ" } }, { value: "traditional", label: { en: "Traditional menu", am: "ባህላዊ ምግብ" } }] },
-      { id: "drinks", label: { en: "Drinks", am: "መጠጦች" }, type: "multi", choices: [{ value: "water", label: { en: "Water", am: "ውሃ" } }, { value: "soft-drinks", label: { en: "Soft drinks", am: "ለስላሳ መጠጦች" } }, { value: "coffee-tea", label: { en: "Coffee & tea", am: "ቡና እና ሻይ" } }, { value: "juice", label: { en: "Juice", am: "ጭማቂ" } }] },
-      { id: "guests", label: { en: "Guest count", am: "የእንግዳ ብዛት" }, type: "number" }
+      { id: "instruments", label: { en: "Instruments", am: "መሳሪያዎች" }, type: "multi", choices: [choice("kebero", "Kebero", "ከበሮ"), choice("begena", "Begena", "በገና"), choice("krar", "Krar", "ክራር"), choice("keyboard", "Keyboard", "ኪቦርድ"), choice("masinko", "Masinko", "ማሲንቆ")] },
+      { id: "soundcheck", label: { en: "Soundcheck before the day", am: "ከዕለቱ በፊት የድምፅ ሙከራ" }, type: "toggle" }
     ]
   },
   {
-    id: "attire",
-    number: "12",
-    group: "style",
-    title: { en: "Attire & jewelry", am: "አለባበስ እና ጌጣጌጥ" },
-    description: { en: "Coordinate the looks across the photo shoot, church, and hall program.", am: "ለፎቶ ስብስብ፣ ቤተ-ክርስቲያን እና አዳራሽ ፕሮግራም የሚስማማ አለባበስ ያዘጋጁ።" },
+    id: "venue",
+    number: "3.1",
+    group: "part3",
+    title: { en: "Hall (choosing & booking the venue)", am: "አዳራሽ (የሰርግ ቦታ መምረጥና ማስያዝ)" },
+    description: { en: "Find and reserve the place that holds the celebration.", am: "ድግሱን የሚያስተናግድ ቦታ መምረጥ እና ማስያዝ።" },
     options: [
-      { id: "moments", label: { en: "Moments covered", am: "የሚሸፈኑ ጊዜያት" }, type: "multi", choices: [{ value: "photo-shoot", label: { en: "Photo shoot", am: "የፎቶ ስብስብ" } }, { value: "church", label: { en: "Church program", am: "የቤተ-ክርስቲያን ፕሮግራም" } }, { value: "hall", label: { en: "Hall program", am: "የአዳራሽ ፕሮግራም" } }] },
-      { id: "people", label: { en: "For", am: "ለማን" }, type: "multi", choices: [{ value: "bride", label: { en: "Bride", am: "ሙሽራ" } }, { value: "groom", label: { en: "Groom", am: "ሙሽራው" } }, { value: "family", label: { en: "Family / wedding party", am: "ቤተሰብ / ሚዜ" } }] },
-      { id: "jewelry", label: { en: "Jewelry direction", am: "የጌጣጌጥ ምርጫ" }, type: "text" }
+      { id: "type", label: { en: "Venue type", am: "የቦታ አይነት" }, type: "single", choices: [choice("church", "Church hall", "የቤተክርስቲያን አዳራሽ"), choice("wedding", "Wedding hall", "የሰርግ አዳራሽ"), choice("hotel", "Hotel hall", "የሆቴል አዳራሽ"), choice("outdoor", "Outdoor / garden", "የውጪ ቦታ / ግቢ")] },
+      { id: "capacity", label: { en: "Guests", am: "የእንግዳ ብዛት" }, type: "number" },
+      { id: "name", label: { en: "Preferred venue", am: "የሚመረጠው ቦታ" }, type: "text" },
+      { id: "budget", label: { en: "Venue budget (ETB)", am: "የአዳራሽ በጀት (ብር)" }, type: "number" }
     ]
   },
   {
-    id: "transport",
-    number: "13",
-    group: "logistics",
-    title: { en: "Cars & transport", am: "መኪና" },
-    description: { en: "Make every arrival and departure feel easy and on time.", am: "የመግባት እና የመውጣት ጊዜዎች ቀላል እና በሰዓት እንዲሆኑ ያስተዳድሩ።" },
+    id: "decor",
+    number: "3.2",
+    group: "part3",
+    title: { en: "Hall decor", am: "የአዳራሽ ዲኮር" },
+    description: { en: "The look of the hall, from the stage to the tables.", am: "ከመድረክ እስከ ጠረጴዛ የአዳራሹ ውበት።" },
     options: [
-      { id: "riders", label: { en: "Who needs transport", am: "መኪና የሚያስፈልጋቸው" }, type: "multi", choices: [{ value: "bride", label: { en: "Bride", am: "ሙሽራ" } }, { value: "groom", label: { en: "Groom", am: "ሙሽራው" } }, { value: "bridesmaids", label: { en: "Bridesmaids", am: "ሚዜዎች" } }, { value: "family", label: { en: "Family", am: "ቤተሰብ" } }] },
-      { id: "vehicle", label: { en: "Vehicle type", am: "የመኪና አይነት" }, type: "single", choices: [{ value: "sedan", label: { en: "Sedan", am: "ሴዳን" } }, { value: "suv", label: { en: "SUV", am: "SUV" } }, { value: "van", label: { en: "Van / minibus", am: "ቫን / ሚኒባስ" } }, { value: "multiple", label: { en: "Multiple vehicles", am: "ብዙ መኪኖች" } }] },
-      { id: "cars", label: { en: "Number of cars", am: "የመኪና ብዛት" }, type: "number" }
+      { id: "areas", label: { en: "Areas", am: "የዲኮር ቦታዎች" }, type: "multi", choices: [choice("stage", "Stage", "መድረክ"), choice("tables", "Guest tables", "የእንግዶች ጠረጴዛ"), choice("entrance", "Entrance", "መግቢያ"), choice("home-exit", "Home exit", "ከቤት መውጫ"), choice("photo", "Photo backdrop", "የፎቶ ጀርባ")] },
+      { id: "style", label: { en: "Style", am: "ዘይቤ" }, type: "single", choices: [choice("classic", "Classic & elegant", "ክላሲክ እና ውብ"), choice("modern", "Modern minimal", "ዘመናዊ ቀላል"), choice("traditional", "Traditional", "ባህላዊ"), choice("custom", "Custom vision", "ልዩ ራዕይ")] },
+      { id: "colors", label: { en: "Colors", am: "ቀለሞች" }, type: "text" }
     ]
   },
   {
-    id: "flowers",
-    number: "14",
-    group: "style",
-    title: { en: "Flowers", am: "አበባ" },
-    description: { en: "Carry one floral story from hand to car and ceremony.", am: "ከእጅ እስከ መኪና እና ሥነ-ስርዓት አንድ የአበባ ታሪክ ይፍጠሩ።" },
+    id: "sound",
+    number: "3.3",
+    group: "part3",
+    title: { en: "Sound system", am: "ሳውንድ ሲስተም (Sound System)" },
+    description: { en: "Clear sound for prayers, teaching, mezmur and speeches.", am: "ለጸሎት፣ ትምህርት፣ መዝሙር እና ንግግር ግልጽ ድምፅ።" },
     options: [
-      { id: "pieces", label: { en: "Floral pieces", am: "የአበባ አይነቶች" }, type: "multi", choices: [{ value: "hand", label: { en: "Hand bouquet", am: "የእጅ አበባ" } }, { value: "car", label: { en: "Car flowers", am: "የመኪና አበባ" } }, { value: "hall", label: { en: "Hall arrangements", am: "የአዳራሽ አበባ" } }, { value: "church", label: { en: "Church flowers", am: "የቤተ-ክርስቲያን አበባ" } }] },
-      { id: "palette", label: { en: "Color palette", am: "የቀለም ምርጫ" }, type: "text" }
-    ]
-  },
-  {
-    id: "beauty",
-    number: "15",
-    group: "style",
-    title: { en: "Beauty care", am: "የውበት መጠበቂያ" },
-    description: { en: "Build a composed beauty schedule, including Morocco and facial care.", am: "Morocco እና facial እንክብካቤን የሚያካትት የውበት ፕሮግራም ያዘጋጁ።" },
-    options: [
-      { id: "care", label: { en: "Care services", am: "የእንክብካቤ አገልግሎት" }, type: "multi", choices: [{ value: "morocco", label: { en: "Morocco bath", am: "Morocco" } }, { value: "facial", label: { en: "Facial", am: "Facial" } }, { value: "makeup", label: { en: "Makeup", am: "ሜካፕ" } }, { value: "hair", label: { en: "Hair styling", am: "የጸጉር አሰራር" }, }, { value: "nails", label: { en: "Nails", am: "ጥፍር" } }] },
-      { id: "for", label: { en: "For", am: "ለማን" }, type: "multi", choices: [{ value: "bride", label: { en: "Bride", am: "ሙሽራ" } }, { value: "groom", label: { en: "Groom", am: "ሙሽራው" } }, { value: "party", label: { en: "Wedding party", am: "የሰርግ ቡድን" } }] },
-      { id: "appointment", label: { en: "Appointment time", am: "የቀጠሮ ሰዓት" }, type: "text" }
+      { id: "coverage", label: { en: "Coverage", am: "የሚሸፍነው" }, type: "multi", choices: [choice("church", "Church", "ቤተክርስቲያን"), choice("hall", "Hall", "አዳራሽ"), choice("outdoor", "Outdoor / procession", "ውጪ / ሰልፍ")] },
+      { id: "microphones", label: { en: "Microphones", am: "የማይክሮፎን ብዛት" }, type: "number" },
+      { id: "technician", label: { en: "Technician", am: "ቴክኒሺያን" }, type: "single", choices: [choice("included", "Included", "ተካቷል"), choice("venue", "Venue provides", "ቦታው ያቀርባል")] }
     ]
   },
   {
     id: "generator",
-    number: "16",
-    group: "logistics",
-    title: { en: "Generator", am: "Generator" },
-    description: { en: "Keep the day steady with a clear power backup plan.", am: "ዝግጅቱ በጥሩ ሁኔታ እንዲቀጥል የኃይል መጠባበቂያ ዕቅድ ያዘጋጁ።" },
+    number: "3.4",
+    group: "part3",
+    title: { en: "Generator & backup power", am: "የድንገተኛ ኃይል / ጀነሬተር (Generator & Backup Power)" },
+    description: { en: "Keeps lights and sound running if the power fails.", am: "መብራት ቢጠፋ መብራቱና ድምፁ እንዲቀጥል።" },
     options: [
-      { id: "need", label: { en: "Power plan", am: "የኃይል እቅድ" }, type: "single", choices: [{ value: "rental", label: { en: "Rental needed", am: "ኪራይ ያስፈልጋል" } }, { value: "venue", label: { en: "Venue provides", am: "ቦታው ይሰጣል" } }, { value: "client", label: { en: "Client provides", am: "ደንበኛው ያቀርባል" } }] },
-      { id: "capacity", label: { en: "Capacity / size", am: "አቅም / መጠን" }, type: "text" },
-      { id: "fuel", label: { en: "Fuel plan", am: "የነዳጅ እቅድ" }, type: "single", choices: [{ value: "included", label: { en: "Included", am: "ተካቷል" } }, { value: "separate", label: { en: "Separate", am: "የተለየ" } }] }
+      { id: "need", label: { en: "Power plan", am: "የኃይል እቅድ" }, type: "single", choices: [choice("rental", "Rental needed", "ኪራይ ያስፈልጋል"), choice("venue", "Venue provides", "ቦታው ያቀርባል")] },
+      { id: "capacity", label: { en: "Capacity (kVA)", am: "አቅም (kVA)" }, type: "text" },
+      { id: "fuel", label: { en: "Fuel", am: "ነዳጅ" }, type: "single", choices: [choice("included", "Included", "ተካቷል"), choice("separate", "Separate", "ለብቻ")] }
     ]
   },
   {
-    id: "ac",
-    number: "17",
-    group: "logistics",
-    title: { en: "Air conditioning", am: "Ac" },
-    description: { en: "Keep the hall comfortable for the couple, clergy, and guests.", am: "ለጥንዶቹ፣ ለካህናት እና ለእንግዶች ምቹ የሆነ አዳራሽ ያዘጋጁ።" },
+    id: "food-drinks",
+    number: "3.5",
+    group: "part3",
+    title: { en: "Food, drinks & catering rentals", am: "ምግብ፣ መጠጥ እና የድግስ እቃዎች ኪራይ" },
+    description: { en: "The menu, drinks and the tables, tableware and tents the feast needs.", am: "ምናሌ፣ መጠጦች እና ለድግሱ የሚያስፈልጉ ጠረጴዛዎች፣ የምግብ እቃዎች እና ድንኳኖች።" },
     options: [
-      { id: "provision", label: { en: "Provision", am: "አቅርቦት" }, type: "single", choices: [{ value: "venue", label: { en: "Venue AC", am: "የአዳራሽ AC" } }, { value: "portable", label: { en: "Portable AC / fans", am: "ተንቀሳቃሽ AC / ፋን" } }, { value: "not-needed", label: { en: "Not needed", am: "አያስፈልግም" } }] },
-      { id: "areas", label: { en: "Areas covered", am: "የሚሸፈኑ ቦታዎች" }, type: "multi", choices: [{ value: "hall", label: { en: "Main hall", am: "ዋና አዳራሽ" } }, { value: "bridal", label: { en: "Bridal room", am: "የሙሽራ ክፍል" } }, { value: "church", label: { en: "Church", am: "ቤተ-ክርስቲያን" } }] }
+      { id: "service", label: { en: "Meal service", am: "የምግብ አቀራረብ" }, type: "single", choices: [choice("buffet", "Buffet", "ቡፌ"), choice("plated", "Plated", "በሳህን"), choice("traditional", "Traditional menu", "ባህላዊ ምግብ")] },
+      { id: "fasting", label: { en: "Fasting menu", am: "የጾም ምግብ" }, type: "single", choices: [choice("no", "Not needed", "አያስፈልግም"), choice("partly", "Some fasting dishes", "ከፊል የጾም ምግብ"), choice("all", "Fully fasting", "ሙሉ የጾም")] },
+      { id: "guests", label: { en: "Guests", am: "የእንግዳ ብዛት" }, type: "number" },
+      { id: "drinks", label: { en: "Drinks", am: "መጠጦች" }, type: "multi", choices: [choice("water", "Water", "ውሃ"), choice("soft-drinks", "Soft drinks", "ለስላሳ መጠጦች"), choice("coffee-tea", "Coffee & tea", "ቡና እና ሻይ"), choice("juice", "Juice", "ጭማቂ"), choice("tella-tej", "Tella / tej", "ጠላ / ጠጅ")] },
+      { id: "rentals", label: { en: "Rentals", am: "ኪራይ" }, type: "multi", choices: [choice("tables-chairs", "Tables & chairs", "ጠረጴዛ እና ወንበር"), choice("tableware", "Tableware", "የምግብ እቃዎች"), choice("tents", "Tents", "ድንኳን"), choice("cake", "Cake & champagne", "ኬክ እና ሻምፓኝ")] }
     ]
   },
   {
-    id: "checklist",
-    number: "18",
-    group: "logistics",
-    title: { en: "Equipment checklist", am: "የእቃዎች checklist" },
-    description: { en: "A shared list that keeps small but important items visible.", am: "ትንንሽ ነገሮችም እንዳይረሱ የሚያደርግ የጋራ ዝርዝር።" },
+    id: "cars-flowers",
+    number: "3.6",
+    group: "part3",
+    title: { en: "Cars & flower decoration for the couple, bridesmaids & family", am: "የሙሽሮች፣የሚዜዎች እና የቤተሰብ መኪና እና የአበባ ጌጣጌጥ" },
+    description: { en: "Decorated cars and the flowers for hands, cars and the hall.", am: "ያጌጡ መኪኖች እና የእጅ፣ የመኪና እና የአዳራሽ አበባዎች።" },
     options: [
-      { id: "scope", label: { en: "Checklist scope", am: "የchecklist ወሰን" }, type: "multi", choices: [{ value: "church", label: { en: "Church items", am: "የቤተ-ክርስቲያን ዕቃዎች" } }, { value: "hall", label: { en: "Hall items", am: "የአዳራሽ ዕቃዎች" } }, { value: "personal", label: { en: "Personal items", am: "የግል ዕቃዎች" } }, { value: "vendor", label: { en: "Vendor handoff", am: "ለአቅራቢ ማስረከብ" } }] },
-      { id: "owner", label: { en: "Checklist owner", am: "የchecklist ኃላፊ" }, type: "single", choices: [{ value: "planner", label: { en: "Planner", am: "እቅድ አውጪ" } }, { value: "couple", label: { en: "Couple", am: "ጥንዶቹ" } }, { value: "shared", label: { en: "Shared", am: "በጋራ" } }] },
-      { id: "items", label: { en: "Must-have items", am: "አስፈላጊ ዕቃዎች" }, type: "text" }
+      { id: "riders", label: { en: "Cars for", am: "መኪና ለ" }, type: "multi", choices: [choice("couple", "Couple", "ሙሽሮች"), choice("bridesmaids", "Bridesmaids & groomsmen", "ሚዜዎች"), choice("family", "Family", "ቤተሰብ")] },
+      { id: "cars", label: { en: "Number of cars", am: "የመኪና ብዛት" }, type: "number" },
+      { id: "vehicle", label: { en: "Car type", am: "የመኪና አይነት" }, type: "text" },
+      { id: "flowers", label: { en: "Flowers", am: "አበባዎች" }, type: "multi", choices: [choice("bouquet", "Hand bouquet", "የእጅ አበባ"), choice("car", "Car flowers", "የመኪና አበባ"), choice("hall", "Hall flowers", "የአዳራሽ አበባ"), choice("church", "Church flowers", "የቤተክርስቲያን አበባ")] },
+      { id: "palette", label: { en: "Flower colors", am: "የአበባ ቀለሞች" }, type: "text" }
     ]
   },
   {
-    id: "rehearsal",
-    number: "19",
-    group: "spiritual",
-    title: { en: "Rehearsal & song study", am: "Rehearsal እና መዝሙር ጥናት" },
-    description: { en: "Walk through the sequence, the music, and the calm of the day.", am: "የዝግጅቱን ሂደት፣ መዝሙር እና የቀኑን ሰላም አስቀድመው ይለማመዱ።" },
+    id: "photo-video",
+    number: "4.1",
+    group: "part4",
+    title: { en: "Photography & video", am: "ፎቶግራፍ፣ ቪዲዮ" },
+    description: { en: "Photos and film of the day, from preparation to the last dance.", am: "ከዝግጅቱ እስከ መጨረሻው የዕለቱ ፎቶ እና ቪዲዮ።" },
     options: [
-      { id: "includes", label: { en: "Includes", am: "የሚካተተው" }, type: "multi", choices: [{ value: "walkthrough", label: { en: "Day walkthrough", am: "የቀኑ ልምምድ" } }, { value: "mezmur", label: { en: "Mezmur study", am: "የመዝሙር ጥናት" } }, { value: "kidase", label: { en: "Kidase rehearsal", am: "የቅዳሴ ልምምድ" } }, { value: "roles", label: { en: "Role practice", am: "የሚና ልምምድ" } }] },
-      { id: "timing", label: { en: "When", am: "መቼ" }, type: "single", choices: [{ value: "two-three-weeks", label: { en: "2–3 weeks before", am: "ከ2–3 ሳምንት በፊት" } }, { value: "one-week", label: { en: "One week before", am: "ከ1 ሳምንት በፊት" } }, { value: "custom", label: { en: "Custom date", am: "ልዩ ቀን" } }] },
-      { id: "date", label: { en: "Rehearsal date", am: "የልምምድ ቀን" }, type: "date" }
+      { id: "coverage", label: { en: "Coverage", am: "የሚካተተው" }, type: "multi", choices: [choice("photo", "Photography", "ፎቶግራፍ"), choice("video", "Video", "ቪዲዮ"), choice("drone", "Drone", "ድሮን"), choice("pre-wedding", "Pre-wedding shoot", "ቅድመ-ሰርግ ፎቶ")] },
+      { id: "moments", label: { en: "Moments", am: "የሚቀረጹ ጊዜያት" }, type: "multi", choices: MOMENT_CHOICES },
+      { id: "deliverables", label: { en: "Deliverables", am: "የሚረከቡት" }, type: "multi", choices: [choice("album", "Printed album", "የታተመ አልበም"), choice("highlight", "Highlight film", "አጭር ፊልም"), choice("full-film", "Full film", "ሙሉ ፊልም"), choice("gallery", "Digital gallery", "ዲጂታል ጋለሪ")] }
+    ]
+  },
+  {
+    id: "attire",
+    number: "4.2",
+    group: "part4",
+    title: { en: "Attire & jewelry for the couple, bridesmaids & family", am: "የሙሽሮች፣ የሚዜዎችና የቤተሰብ አልባሳት እና ጌጣጌጥ" },
+    description: { en: "Dresses, suits, traditional wear and jewelry for each part of the day.", am: "ለዕለቱ ቀሚሶች፣ ሱፎች፣ የባህል ልብሶች እና ጌጣጌጦች።" },
+    options: [
+      { id: "people", label: { en: "For", am: "ለማን" }, type: "multi", choices: [choice("bride", "Bride", "ሙሽሪት"), choice("groom", "Groom", "ሙሽራው"), choice("bridesmaids", "Bridesmaids & groomsmen", "ሚዜዎች"), choice("family", "Family", "ቤተሰብ")] },
+      { id: "looks", label: { en: "Looks", am: "አልባሳት" }, type: "multi", choices: [choice("church", "Church", "ለቤተክርስቲያን"), choice("hall", "Hall", "ለአዳራሽ"), choice("traditional", "Traditional", "ባህላዊ"), choice("photo", "Photo shoot", "ለፎቶ")] },
+      { id: "jewelry", label: { en: "Jewelry", am: "ጌጣጌጥ" }, type: "text" }
+    ]
+  },
+  {
+    id: "beauty",
+    number: "4.3",
+    group: "part4",
+    title: { en: "Bride's hair styling & beauty", am: "የሙሽራዋ የፀጉር ስታይሊንግ እና የውበት ዝግጅት" },
+    description: { en: "Hair, makeup and care before and on the day.", am: "ከዕለቱ በፊት እና በዕለቱ የፀጉር፣ ሜካፕ እና የውበት እንክብካቤ።" },
+    options: [
+      { id: "care", label: { en: "Includes", am: "የሚካተተው" }, type: "multi", choices: [choice("hair", "Hair styling", "የፀጉር ስታይሊንግ"), choice("makeup", "Makeup", "ሜካፕ"), choice("facial", "Facial", "Facial"), choice("morocco", "Morocco bath", "Morocco"), choice("nails", "Nails", "ጥፍር")] },
+      { id: "for", label: { en: "Also for", am: "ለሌሎችም" }, type: "multi", choices: [choice("bridesmaids", "Bridesmaids", "ሚዜዎች"), choice("family", "Family", "ቤተሰብ")] },
+      { id: "trial", label: { en: "Trial session", am: "የሙከራ ጊዜ" }, type: "toggle" }
     ]
   },
   {
     id: "invitation",
-    number: "20",
-    group: "style",
-    title: { en: "Invitation cards", am: "መጥሪያ ካርድ" },
-    description: { en: "Give the invitation a voice that feels like the couple.", am: "መጥሪያው የጥንዶቹን ድምጽ እና ውበት እንዲያሳይ ያድርጉ።" },
+    number: "5.1",
+    group: "part5",
+    title: { en: "Invitation cards & guest gifts (printed/digital)", am: "መጥሪያ ካርድ እና የእንግዶች ስጦታዎች (Printed/Digital)" },
+    description: { en: "Invitations in the couple's voice, and gifts for the guests.", am: "የጥንዶቹን ድምፅ የሚያሳዩ መጥሪያዎች እና ለእንግዶች ስጦታዎች።" },
     options: [
-      { id: "format", label: { en: "Format", am: "ቅርጽ" }, type: "multi", choices: [{ value: "printed", label: { en: "Printed", am: "የታተመ" } }, { value: "digital", label: { en: "Digital", am: "ዲጂታል" } }, { value: "both", label: { en: "Printed & digital", am: "የታተመ እና ዲጂታል" } }] },
-      { id: "quantity", label: { en: "Quantity", am: "ብዛት" }, type: "number" },
-      { id: "language", label: { en: "Language / style", am: "ቋንቋ / ዘይቤ" }, type: "multi", choices: [{ value: "amharic", label: { en: "Amharic", am: "አማርኛ" } }, { value: "english", label: { en: "English", am: "እንግሊዝኛ" } }, { value: "bilingual", label: { en: "Bilingual", am: "ሁለት ቋንቋ" } }] }
+      { id: "format", label: { en: "Format", am: "ቅርጽ" }, type: "single", choices: [choice("printed", "Printed", "የታተመ"), choice("digital", "Digital", "ዲጂታል"), choice("both", "Printed & digital", "የታተመ እና ዲጂታል")] },
+      { id: "quantity", label: { en: "Invitations", am: "የመጥሪያ ብዛት" }, type: "number" },
+      { id: "language", label: { en: "Language", am: "ቋንቋ" }, type: "single", choices: [choice("amharic", "Amharic", "አማርኛ"), choice("english", "English", "እንግሊዝኛ"), choice("bilingual", "Bilingual", "ሁለት ቋንቋ")] },
+      { id: "gifts", label: { en: "Guest gifts", am: "የእንግዶች ስጦታ" }, type: "text" }
     ]
   },
   {
-    id: "nurse",
-    number: "21",
-    group: "logistics",
-    title: { en: "Emergency nurse", am: "Emergency Nurse" },
-    description: { en: "Have a calm, capable point of care close at hand.", am: "በአቅራቢያ የሚገኝ የአደጋ ጊዜ እንክብካቤ ይኑር።" },
+    id: "hosts",
+    number: "5.2",
+    group: "part5",
+    title: { en: "Hosts & ushers", am: "አስተናጋጆች" },
+    description: { en: "Hosts who welcome, seat and serve the guests.", am: "እንግዶችን የሚቀበሉ፣ የሚያስቀምጡ እና የሚያስተናግዱ።" },
     options: [
-      { id: "coverage", label: { en: "Coverage", am: "የሚሸፍነው ጊዜ" }, type: "single", choices: [{ value: "full-day", label: { en: "Full wedding day", am: "ሙሉ የሰርግ ቀን" } }, { value: "ceremony", label: { en: "Ceremony only", am: "ሥነ-ስርዓት ብቻ" } }, { value: "on-call", label: { en: "On-call", am: "በጥሪ ጊዜ" } }] },
-      { id: "hours", label: { en: "Hours", am: "ሰዓታት" }, type: "text" },
-      { id: "contact", label: { en: "Provider / contact", am: "አቅራቢ / አድራሻ" }, type: "text" }
+      { id: "count", label: { en: "Number of hosts", am: "የአስተናጋጆች ብዛት" }, type: "number" },
+      { id: "duties", label: { en: "Duties", am: "ኃላፊነቶች" }, type: "multi", choices: [choice("welcome", "Welcome & seating", "አቀባበል እና ማስቀመጥ"), choice("service", "Food & drink service", "የምግብ እና መጠጥ መስተንግዶ"), choice("gifts", "Gift table", "የስጦታ ጠረጴዛ"), choice("vip", "Elders & VIP care", "የአዛውንቶች እና የክብር እንግዶች")] },
+      { id: "dress", label: { en: "Dress code", am: "የአለባበስ ሥርዓት" }, type: "text" }
+    ]
+  },
+  {
+    id: "mc",
+    number: "5.3",
+    group: "part5",
+    title: { en: "Day protocol & program lead (MC)", am: "የዕለቱ ፕሮቶኮል እና መርሃ ግብር መሪ (MC)" },
+    description: { en: "Runs the order of the day and keeps every moment on time.", am: "የዕለቱን መርሃ ግብር የሚመራ እና ሰዓቱን የሚጠብቅ።" },
+    options: [
+      { id: "language", label: { en: "Language", am: "ቋንቋ" }, type: "single", choices: [choice("amharic", "Amharic", "አማርኛ"), choice("english", "English", "እንግሊዝኛ"), choice("bilingual", "Bilingual", "ሁለት ቋንቋ")] },
+      { id: "program", label: { en: "Leads", am: "የሚመራው" }, type: "multi", choices: [choice("procession", "Procession & entrance", "ሰልፍ እና መግቢያ"), choice("hall", "Hall program", "የአዳራሽ ፕሮግራም"), choice("speeches", "Speeches & blessings", "ንግግሮች እና ቡራኬ"), choice("gifts", "Gift ceremony", "የስጦታ ሥነ-ሥርዓት")] },
+      { id: "preferred", label: { en: "Preferred MC", am: "የሚመረጠው MC" }, type: "text" }
     ]
   }
 ];
 
-const groupLabels = {
-  en: { spiritual: "Spiritual & church", venue: "Venue & atmosphere", hospitality: "Hospitality", style: "Style & people", logistics: "Logistics & readiness" },
-  am: { spiritual: "መንፈሳዊ እና ቤተ-ክርስቲያን", venue: "ቦታ እና ድባብ", hospitality: "እንግዳ አቀባበል", style: "ውበት እና ሰዎች", logistics: "ዝግጅት እና አስተዳደር" }
-};
+// Service IDs from before the five-part checklist, so saved plans keep their choices.
+const RETIRED_SERVICES = { transport: "cars-flowers", flowers: "cars-flowers", "cake-champagne": "food-drinks" };
+const DROPPED_SERVICES = ["ac", "checklist", "nurse", "rehearsal"];
+
+function normalizeServices() {
+  const list = state.services ||= {};
+  for (const [oldId, newId] of Object.entries(RETIRED_SERVICES)) {
+    const old = list[oldId];
+    if (!old) continue;
+    const target = list[newId] ||= { selected: false, options: {}, notes: "", price: "" };
+    target.options ||= {};
+    if (old.selected) target.selected = true;
+    if (old.selected && oldId === "cake-champagne") target.options.rentals = [...new Set([...(target.options.rentals || []), "cake"])];
+    if (old.selected && oldId === "flowers" && Array.isArray(old.options?.pieces)) {
+      const pieces = { hand: "bouquet", car: "car", hall: "hall", church: "church" };
+      target.options.flowers = [...new Set([...(target.options.flowers || []), ...old.options.pieces.map(piece => pieces[piece]).filter(Boolean)])];
+    }
+    if (old.notes?.trim()) target.notes = [target.notes, old.notes].filter(Boolean).join("\n");
+    delete list[oldId];
+  }
+  DROPPED_SERVICES.forEach(id => delete list[id]);
+  for (const service of Object.values(list)) if (service?.selected && !service.responsibility) service.responsibility = "planning";
+}
 
 const fieldIds = ["brideName", "bridePhone", "brideAddress", "groomName", "groomPhone", "groomAddress", "weddingDate", "eventDays", "totalFee", "generalNotes"];
 const eventVenueCatalog = [
@@ -1102,7 +1157,7 @@ function syncContractChoicesToForm() {
 }
 
 function defaultOptionValue(option) {
-  if (option.type === "single") return option.choices?.[0]?.value || "";
+  if (option.type === "single") return "";
   if (option.type === "multi") return [];
   if (option.type === "toggle") return false;
   return "";
@@ -1155,6 +1210,7 @@ function loadDraft() {
     if (!state.details.mediaConsent) state.details.mediaConsent = "no";
     normalizeEventVenues();
     state.services = saved.services || {};
+    normalizeServices();
     state.recordId = Number.isInteger(saved.recordId) ? saved.recordId : null;
     recordStatus = state.recordId ? "recordDirty" : "newPlan";
     fieldIds.forEach((id) => {
@@ -1278,7 +1334,7 @@ function renderOption(service, option, serviceState) {
   const wide = option.type === "multi" || option.type === "textarea" || option.type === "text";
   let control = "";
   if (option.type === "single") {
-    control = `<select data-service-id="${service.id}" data-option-id="${option.id}">${option.choices.map((choice) => `<option value="${escapeHtml(choice.value)}" ${value === choice.value ? "selected" : ""}>${escapeHtml(localized(choice.label))}</option>`).join("")}</select>`;
+    control = `<select data-service-id="${service.id}" data-option-id="${option.id}"><option value="">—</option>${option.choices.map((choice) => `<option value="${escapeHtml(choice.value)}" ${value === choice.value ? "selected" : ""}>${escapeHtml(localized(choice.label))}</option>`).join("")}</select>`;
   } else if (option.type === "multi") {
     const values = Array.isArray(value) ? value : [];
     control = `<div class="multi-choice-grid">${option.choices.map((choice) => `<label class="multi-choice"><input type="checkbox" data-service-id="${service.id}" data-option-id="${option.id}" data-option-value="${escapeHtml(choice.value)}" ${values.includes(choice.value) ? "checked" : ""} /><span>${escapeHtml(localized(choice.label))}</span></label>`).join("")}</div>`;
@@ -1296,37 +1352,89 @@ function renderOption(service, option, serviceState) {
   return `<div class="service-option ${wide ? "is-wide" : ""}"><span class="service-option-label">${escapeHtml(label)}</span>${control}</div>`;
 }
 
+const servicePart = id => SERVICE_PARTS.find(part => part.id === id);
+const partHeading = part => `${t("partLabel")} ${part.number}፡ ${localized(part.title)}`;
+
+function statusChoice(service, serviceState) {
+  return `<div class="service-status" role="group" aria-label="${escapeHtml(t("whoArranges"))}">
+    <span class="service-option-label">${escapeHtml(t("whoArranges"))}</span>
+    <div class="service-status-options">${["planning", "client"].map(value => `<button type="button" data-service-status="${service.id}" data-status="${value}" aria-pressed="${serviceState.responsibility === value}"><strong>${escapeHtml(t(value === "planning" ? "statusPlanning" : "statusClient"))}</strong><small>${escapeHtml(t(value === "planning" ? "statusPlanningHint" : "statusClientHint"))}</small></button>`).join("")}</div>
+  </div>`;
+}
+
 function renderServiceCard(service) {
   const serviceState = getServiceState(service.id);
   const title = localized(service.title);
   const description = localized(service.description);
+  const details = serviceState.selected ? `<div class="service-options">
+      ${statusChoice(service, serviceState)}
+      <div class="service-options-grid">${service.options.map(option => renderOption(service, option, serviceState)).join("")}</div>
+      <label class="service-option is-wide"><span class="service-option-label">${escapeHtml(t("serviceNotesLabel"))}</span><textarea data-service-notes="${service.id}" placeholder="${escapeHtml(t("serviceNotesPlaceholder"))}">${escapeHtml(serviceState.notes || "")}</textarea></label>
+    </div>` : "";
   return `<article class="service-card ${serviceState.selected ? "is-selected" : ""}" data-service-card="${service.id}">
     <div class="service-main">
       <div class="service-icon" aria-hidden="true">${service.number}</div>
       <div class="service-copy">
-        <div class="service-group">${escapeHtml(groupLabels[state.lang][service.group])}</div>
         <h3 class="service-title">${escapeHtml(title)}</h3>
         <p class="service-description">${escapeHtml(description)}</p>
       </div>
       <button class="service-toggle" type="button" data-service-toggle="${service.id}" aria-label="${escapeHtml(title)}" aria-pressed="${serviceState.selected ? "true" : "false"}"></button>
     </div>
+    ${details}
   </article>`;
+}
+
+function renderBonusCard() {
+  return `<section class="service-part service-bonus-card"><header class="service-part-head"><span class="service-part-number" aria-hidden="true">🎁</span><h2>${escapeHtml(t("bonusTitle"))}</h2></header>
+    <ul class="service-bonus-list">${BONUS_SERVICES.map(bonus => `<li><span class="contract-checkbox is-checked" aria-hidden="true">✓</span>${escapeHtml(localized(bonus.title))}</li>`).join("")}</ul></section>`;
 }
 
 function renderServices() {
   const grid = document.getElementById("servicesGrid");
   if (!grid) return;
+  normalizeServices();
   const search = state.serviceSearch.trim().toLocaleLowerCase();
   const visible = services.filter((service) => {
     const matchesGroup = state.serviceFilter === "all" || service.group === state.serviceFilter;
-    const haystack = `${localized(service.title)} ${localized(service.description)} ${localized(groupLabels[state.lang][service.group])}`.toLocaleLowerCase();
+    const haystack = `${service.number} ${localized(service.title)} ${localized(service.description)} ${localized(servicePart(service.group).title)}`.toLocaleLowerCase();
     return matchesGroup && (!search || haystack.includes(search));
   });
-  grid.innerHTML = visible.length ? visible.map(renderServiceCard).join("") : `<div class="empty-services">${escapeHtml(t("noMatches"))}</div>`;
+  const parts = SERVICE_PARTS.map(part => {
+    const cards = visible.filter(service => service.group === part.id);
+    return cards.length ? `<section class="service-part" data-service-part="${part.id}"><header class="service-part-head"><span class="service-part-number">${escapeHtml(`${t("partLabel")} ${part.number}`)}</span><h2>${escapeHtml(localized(part.title))}</h2></header><div class="services-grid">${cards.map(renderServiceCard).join("")}</div></section>` : "";
+  }).join("");
+  grid.innerHTML = (parts || `<div class="empty-services">${escapeHtml(t("noMatches"))}</div>`) + (state.serviceFilter === "all" && !search ? renderBonusCard() : "");
   const count = selectedServices().length;
   const selectedCount = document.getElementById("selectedCount");
   if (selectedCount) selectedCount.textContent = String(count);
   reconcileServiceTotal();
+}
+
+// One checklist row: tick box, number and title, the Status line, then the chosen details.
+function checklistBox(checked) {
+  return `<span class="contract-checkbox${checked ? " is-checked" : ""}" aria-hidden="true">${checked ? "✓" : ""}</span>`;
+}
+
+function serviceChecklistItem(service, itemClass = "checklist-item") {
+  const serviceState = state.blankDocument ? {} : getServiceState(service.id);
+  const chosen = Boolean(serviceState.selected);
+  const summary = chosen ? serviceOptionSummary(service) : [];
+  const status = ["planning", "client"].map(value => `<span class="checklist-status-choice">${checklistBox(chosen && serviceState.responsibility === value)}${escapeHtml(t(value === "planning" ? "statusPlanning" : "statusClient"))}</span>`).join('<span class="checklist-status-divider">|</span>');
+  return `<li class="${itemClass}${chosen ? " is-chosen" : ""}">${checklistBox(chosen)}<div class="checklist-body">
+    <div class="checklist-title"><span class="checklist-number">${escapeHtml(service.number)}</span> ${escapeHtml(localized(service.title))}</div>
+    <div class="checklist-status"><span>└ ${escapeHtml(t("statusLabel"))}:</span>${status}</div>
+    ${summary.length ? `<small class="checklist-detail">${escapeHtml(summary.join(" · "))}</small>` : ""}
+  </div></li>`;
+}
+
+// Agreement: every service, ticked or not, part by part, then the included bonuses.
+function servicePartsMarkup({ onlyChosen = false, listClass = "service-checklist", itemClass = "checklist-item" } = {}) {
+  const parts = SERVICE_PARTS.map(part => {
+    const list = services.filter(service => service.group === part.id && (!onlyChosen || state.blankDocument || getServiceState(service.id).selected));
+    return list.length ? `<section class="service-part-document"><h4>${escapeHtml(partHeading(part))}</h4><ul class="${listClass}">${list.map(service => serviceChecklistItem(service, itemClass)).join("")}</ul></section>` : "";
+  }).join("");
+  const bonus = `<section class="service-part-document service-bonus-document"><h4>🎁 ${escapeHtml(t("bonusTitle"))}</h4><ul class="${listClass}">${BONUS_SERVICES.map(item => `<li class="${itemClass} is-chosen">${checklistBox(true)}<div class="checklist-body"><div class="checklist-title">${escapeHtml(localized(item.title))}</div></div></li>`).join("")}</ul></section>`;
+  return (parts || `<section class="service-part-document"><p>${escapeHtml(t("noServicesChosen"))}</p></section>`) + bonus;
 }
 
 function serviceOptionSummary(service) {
@@ -1365,17 +1473,10 @@ function renderAgreement() {
   const d = state.details;
   const selected = selectedServices();
   const agreementDate = formatDateForDocument(dateInputValue());
-  const premarital = services.find(service => service.id === "premarital");
-  const premaritalSummary = premarital && getServiceState("premarital").selected ? serviceOptionSummary(premarital) : [];
   const packageRows = [
-    [t("scopePremarital"), Boolean(getServiceState("premarital").selected), premaritalSummary],
-    [t("scopeFullPlanning"), Boolean(d.scopeFullPlanning), []],
-    [t("scopeDayOf"), Boolean(d.scopeDayOfCoordination), []]
-  ].map(([label, checked, summary]) => `<li class="agreement-check-row"><span class="contract-checkbox${checked ? " is-checked" : ""}" aria-hidden="true">${checked ? "✓" : ""}</span><div><strong>${escapeHtml(label)}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}</div></li>`).join("");
-  const addOns = selected.filter(service => service.id !== "premarital").map((service) => {
-    const summary = serviceOptionSummary(service);
-    return `<li><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<div class="service-selection-detail">${escapeHtml(summary.join(" · "))}</div>` : ""}</li>`;
-  }).join("");
+    [t("scopeFullPlanning"), Boolean(d.scopeFullPlanning)],
+    [t("scopeDayOf"), Boolean(d.scopeDayOfCoordination)]
+  ].map(([label, checked]) => `<li class="agreement-check-row"><span class="contract-checkbox${checked ? " is-checked" : ""}" aria-hidden="true">${checked ? "✓" : ""}</span><div><strong>${escapeHtml(label)}</strong></div></li>`).join("");
   const total = Number(d.totalFee) || 0;
   const schedule = paymentSchedule(total);
   const eventVenueRows = selectedEventVenues().map((venue) => `<div class="event-venue-document-row"><strong>${escapeHtml(venue.label)}</strong><span>${detail(venue.name, t("notSet"))}</span></div>`).join("") || `<div class="doc-value">${escapeHtml(t("notSet"))}</div>`;
@@ -1420,7 +1521,8 @@ function renderAgreement() {
       <div><div class="doc-label">${escapeHtml(t("mealProgramAgreement"))}</div><div class="doc-value">${escapeHtml(formatMealProgram())}</div></div>
       <div class="event-venues-document"><div class="doc-label">${escapeHtml(t("eventVenuesAgreement"))}</div>${eventVenueRows}</div>
     </div></section>
-    <section class="agreed-services"><h3>2. ${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><h4>${escapeHtml(t("otherAddons"))}</h4>${state.blankDocument ? blankServiceChecklist(services.filter(service => service.id !== "premarital")) : `<ol class="agreed-services-list">${addOns || `<li>${escapeHtml(t("noAddons"))}</li>`}</ol>`}</section>
+    <section class="agreed-services"><h3>2. ${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><p class="checklist-heading">📋 ${escapeHtml(t("servicesChecklistTitle"))}</p></section>
+    ${servicePartsMarkup()}
     <section class="contract-clause" data-contract-clause="1"><h3>3. ${escapeHtml(t("termsHeading"))}</h3><h4>1. ${escapeHtml(t("vendorHeading"))}</h4><p>${escapeHtml(t("vendorScope"))}</p></section>
     <section class="contract-clause" data-contract-clause="2"><h4>2. ${escapeHtml(t("providerResponsibilityHeading"))}</h4><p>${escapeHtml(t("providerResponsibility"))}</p></section>
     <section class="contract-clause" data-contract-clause="3"><h4>3. ${escapeHtml(t("clientResponsibilityHeading"))}</h4><p>${escapeHtml(t("clientResponsibility"))}</p></section>
@@ -1452,10 +1554,7 @@ function renderProforma() {
   const total = Number(details.totalFee) || 0;
   const issueDate = formatDateForDocument(dateInputValue());
   const reference = documentReference("PF");
-  const serviceRows = selected.map((service) => {
-    const summary = serviceOptionSummary(service);
-    return `<li class="proforma-item"><div><strong>${escapeHtml(localized(service.title))}</strong>${summary.length ? `<small>${escapeHtml(summary.join(" · "))}</small>` : ""}</div></li>`;
-  }).join("");
+
   container.innerHTML = `<article class="agreement-paper proforma-paper">
     <div class="agreement-kicker">MATRIMONY BY HANNA <span aria-hidden="true">·</span> ${escapeHtml(t("proformaEyebrow"))}</div>
     <h2 class="agreement-title">${escapeHtml(t("proformaDocumentTitle"))}<span>${escapeHtml(t("proformaDescription"))}</span></h2>
@@ -1466,7 +1565,8 @@ function renderProforma() {
       <div><div class="doc-label">${escapeHtml(t("mealProgramAgreement"))}</div><div class="doc-value">${escapeHtml(formatMealProgram())}</div></div>
       <div><div class="doc-label">${escapeHtml(t("eventVenues"))}</div><div class="doc-value">${escapeHtml(eventVenueSummary())}</div></div>
     </div>
-    <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3>${state.blankDocument ? blankServiceChecklist(services) : `<ul class="proforma-service-list">${serviceRows}</ul>`}</section>
+    <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3></section>
+    ${servicePartsMarkup({ onlyChosen:true, listClass:"proforma-service-list", itemClass:"proforma-item" })}
     <div class="proforma-closing">
     <section class="proforma-totals" aria-label="${escapeHtml(t("proformaTotal"))}">
       <div class="proforma-total-banner"><span>${escapeHtml(t("proformaTotal"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div>
@@ -1502,7 +1602,9 @@ function paginateAgreement(container, reference, date) {
   const fits = (reserve = 0) => {
     if (!isProforma) return body.scrollHeight <= body.clientHeight + 1;
     const last = body.lastElementChild;
-    return !last || last.getBoundingClientRect().bottom - body.getBoundingClientRect().top <= body.clientHeight - reserve;
+    // Screen measurements include the large-screen scale (--ui-zoom); compare in layout pixels.
+    const scale = body.getBoundingClientRect().height / body.clientHeight || 1;
+    return !last || (last.getBoundingClientRect().bottom - body.getBoundingClientRect().top) / scale <= body.clientHeight - reserve;
   };
   newPage();
   for (const block of blocks) {
@@ -1758,6 +1860,7 @@ async function openRecord(id, { step = 0 } = {}) {
     if (!state.details.mediaConsent) state.details.mediaConsent = "no";
     normalizeEventVenues();
     state.services = result.plan.services || {};
+    normalizeServices();
     savedPlanSignature = planSignature();
     recordStatus = "recordReady";
     fieldIds.forEach(field => { document.getElementById(field).value = state.details[field] ?? ""; });
@@ -1899,6 +2002,7 @@ function validateBeforeProforma() {
 function toggleService(serviceId) {
   const serviceState = getServiceState(serviceId);
   serviceState.selected = !serviceState.selected;
+  if (serviceState.selected && !serviceState.responsibility) serviceState.responsibility = "planning";
   saveDraft();
   renderServices();
 }
@@ -2100,11 +2204,6 @@ function openBlankDocumentDialog(kind) {
   dialog.querySelectorAll("[data-blank-lang]").forEach(button => button.classList.toggle("is-current", button.dataset.blankLang === state.lang));
   dialog.showModal();
   dialog.querySelector(`[data-blank-lang="${state.lang}"]`)?.focus();
-}
-
-// Blank forms list every service as an empty tick-box, to be marked by hand.
-function blankServiceChecklist(list) {
-  return `<ul class="blank-service-checklist">${list.map(service => `<li><span class="contract-checkbox" aria-hidden="true"></span>${escapeHtml(localized(service.title))}</li>`).join("")}</ul>`;
 }
 
 // What the document renderers see while a blank form is produced.
@@ -2925,6 +3024,13 @@ function bindEvents() {
     const recordButton = event.target.closest("[data-open-record]");
     if (recordButton) {
       openRecord(Number(recordButton.dataset.openRecord));
+      return;
+    }
+    const status = event.target.closest("[data-service-status]");
+    if (status) {
+      getServiceState(status.dataset.serviceStatus).responsibility = status.dataset.status;
+      saveDraft();
+      renderServices();
       return;
     }
     const toggle = event.target.closest("[data-service-toggle]");

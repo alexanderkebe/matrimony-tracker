@@ -8,11 +8,22 @@ from .domain import digest, integer, require, text
 from .storage import encode, now
 
 
+def upgrade_choices(choices):
+    """Maps services saved under pre-checklist IDs to their current service (see catalog.RETIRED_IDS)."""
+    upgraded = {key: value for key, value in choices.items() if key not in catalog.RETIRED_IDS}
+    for old, new in catalog.RETIRED_IDS.items():
+        value = choices.get(old)
+        if new and isinstance(value, dict) and value.get("selected") and not (upgraded.get(new) or {}).get("selected"):
+            upgraded[new] = {**value, "options": {}}
+    return upgraded
+
+
 def questionnaire_source(record):
     plan = json.loads(record["plan_json"])
     details, choices = plan.get("details", {}), plan.get("services", {})
     require(isinstance(details, dict) and isinstance(choices, dict), "Invalid couple questionnaire.")
     require(all(isinstance(value, dict) and isinstance(value.get("options", {}), dict) for value in choices.values()), "Invalid questionnaire service choices.")
+    choices = upgrade_choices(choices)
     unknown = [key for key, value in choices.items() if isinstance(value, dict) and value.get("selected") and key not in catalog.LEGACY_CODES]
     require(not unknown, "The questionnaire contains an unknown service. Review its selection.", services=unknown)
     codes = [code for key, code in catalog.LEGACY_CODES.items() if choices.get(key, {}).get("selected")]

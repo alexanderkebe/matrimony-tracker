@@ -493,7 +493,7 @@ h2 { margin-bottom: 0; color: var(--ink); font-family: var(--serif); font-size: 
 .service-option select:focus, .service-option input:focus, .service-option textarea:focus { border-color: var(--gold-light); outline: 0; box-shadow: 0 0 0 3px rgba(183,138,78,0.1); }
 .multi-choice-grid { display: flex; flex-wrap: wrap; gap: 6px; }
 .multi-choice { position: relative; }
-.multi-choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.multi-choice input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .multi-choice span { display: block; padding: 7px 8px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); background: #fff; font-size: 9px; line-height: 1.1; cursor: pointer; }
 .multi-choice input:checked + span { border-color: var(--gold-light); color: var(--ink); background: var(--gold-wash); }
 .empty-services { grid-column: 1 / -1; padding: 42px 20px; border: 1px dashed var(--line-dark); border-radius: 10px; color: var(--muted); text-align: center; }
@@ -1356,3 +1356,68 @@ html[lang="am"] .auth-eyebrow { letter-spacing: 0.04em; font-size: 13px; }
   .auth-page { zoom: 0.8; min-height: 125dvh; }
   .auth-hero { min-height: 125dvh; }
 }
+
+/* ── Services grouped by checklist part ────────────────────────────── */
+.service-parts { display: grid; gap: 26px; }
+.service-part { display: grid; gap: 12px; }
+.service-part-head { display: flex; align-items: baseline; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.service-part-number { flex: 0 0 auto; color: var(--gold); font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+html[lang="am"] .service-part-number { letter-spacing: 0.02em; }
+.service-part-head h2 { margin: 0; font-family: var(--serif); font-size: 19px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+/* A chosen service opens across the row with its questions. */
+.service-card.is-selected { grid-column: 1 / -1; }
+.service-icon { width: auto; min-width: 32px; padding: 0 6px; font-family: var(--sans); font-size: 11px; font-weight: 700; }
+.service-options { margin: 0 17px 17px; display: grid; gap: 14px; }
+.service-options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px 14px; }
+.service-options-grid .service-option.is-wide { grid-column: 1 / -1; }
+.service-status { display: grid; gap: 6px; }
+.service-status-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.service-status-options button { display: grid; gap: 2px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: #fff; font: inherit; text-align: left; cursor: pointer; transition: border-color 140ms ease, background 140ms ease; }
+.service-status-options button strong { font-size: 11px; }
+.service-status-options button small { color: var(--muted); font-size: 9px; line-height: 1.35; }
+.service-status-options button[aria-pressed="true"] { border-color: var(--gold); background: var(--gold-wash); box-shadow: 0 0 0 1px var(--gold) inset; }
+.service-bonus-card { padding: 16px 18px; border: 1px solid var(--gold-light); border-radius: 11px; background: #fbfdfc; }
+.service-bonus-card .service-part-head { border-bottom-color: #dde8e6; }
+.service-bonus-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; color: var(--ink-2); font-size: 11px; }
+.service-bonus-list li { display: flex; align-items: flex-start; gap: 9px; }
+.service-bonus-list .contract-checkbox { margin-top: 2px; }
+
+/* ── Checklist in the agreement and proposal ───────────────────────── */
+.checklist-heading { margin: 14px 0 0 !important; color: var(--ink); font-weight: 700; }
+.service-part-document { margin-top: 12px !important; }
+.service-part-document h4 { margin: 0 0 6px !important; color: var(--ink); font-size: 11px; }
+.service-checklist, .service-part-document .proforma-service-list { display: grid; gap: 0; margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
+.service-part-document li { display: flex; align-items: flex-start; gap: 9px; padding: 7px 2px; border-bottom: 1px solid var(--line); color: var(--ink-2); font-size: 10px; line-height: 1.45; }
+.service-part-document li::before { content: none !important; }
+.service-part-document li.is-chosen { color: var(--ink); }
+.service-part-document .contract-checkbox { margin-top: 2px; }
+.checklist-body { display: grid; gap: 2px; min-width: 0; }
+.checklist-title { font-weight: 600; }
+.checklist-number { color: var(--gold); font-weight: 800; font-variant-numeric: tabular-nums; }
+.checklist-status { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--muted); font-size: 9px; }
+.checklist-status-choice { display: inline-flex; align-items: center; gap: 4px; }
+.checklist-status-choice .contract-checkbox { width: 10px; height: 10px; flex-basis: 10px; margin-top: 0; font-size: 8px; }
+.checklist-status-divider { color: var(--line-dark); }
+.checklist-detail { color: var(--muted); font-size: 9px; }
+@media (max-width: 700px) {
+  .service-options { margin: 0 14px 14px; }
+  .service-status-options { grid-template-columns: 1fr; }
+  .service-part-head { flex-direction: column; gap: 2px; }
+}
+
+/* ── Default scale on large screens ────────────────────────────────── */
+/* The design reads best a little smaller than 1:1 on laptops and desktops (as at 70–80% browser zoom).
+   --ui-zoom scales the app, its dialogs and pop-ups; heights divide by it so they still fill the window.
+   Phones and tablets keep 1:1 and their own responsive layout. */
+:root { --ui-zoom: 1; }
+@media (min-width: 1200px) { :root { --ui-zoom: 0.82; } }
+@media (min-width: 1440px) { :root { --ui-zoom: 0.7; } }
+.app-shell, dialog, .picker-popover, .toast { zoom: var(--ui-zoom); }
+.app-shell { min-height: calc(100vh / var(--ui-zoom)); }
+@media (min-width: 901px) {
+  .sidebar { height: calc(100dvh / var(--ui-zoom)); }
+}
+.search-dialog { max-height: min(560px, calc(100vh / var(--ui-zoom) - 64px)); }
+.link-dialog { max-height: calc(100dvh / var(--ui-zoom) - 32px); }
+.wp-dialog { max-height: calc(100dvh / var(--ui-zoom) - 48px); }
+.service-card.is-selected .service-options { display: grid; }

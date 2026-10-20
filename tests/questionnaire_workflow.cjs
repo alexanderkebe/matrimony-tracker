@@ -45,7 +45,7 @@ async function layout(page){assert.ok(await page.evaluate(()=>document.documentE
   for(const [type,value] of [['church','QA Trinity'],['hotel','QA Reception Hotel']]){await page.locator(`label:has([data-event-venue-type="${type}"])`).click();await page.locator(`#venue-${type}-search`).fill(value);await page.locator(`#venue-${type}-search`).press('Enter');await page.locator(`#venue-${type}-results .place-result`).first().click();}
   await step(page,1);
   const before=await page.locator('[data-service-card="choir"]').boundingBox();
-  const selected=['church-systems','choir','cake-champagne','food-drinks','transport','checklist','invitation'];
+  const selected=['church-systems','choir','food-drinks','cars-flowers','photo-video','hosts','invitation'];
   for(const id of selected)await page.locator(`[data-service-toggle="${id}"]`).click();
   const after=await page.locator('[data-service-card="choir"]').boundingBox();
   assert.equal(before.height,after.height,'Selecting a service never expands its card');
@@ -74,9 +74,9 @@ async function layout(page){assert.ok(await page.evaluate(()=>document.documentE
   assert.equal((await request(`/api/v1/weddings/${weddingId}/tasks/${progressTask.id}`)).status,'done');
   await action(page,'tab','services');await page.locator('.wp-service-card').first().waitFor();assert.equal(await page.locator('.wp-service-card').count(),7,'Removed services are not shown as selected');
   const transport=dashboard.services.find(s=>s.code==='TRANSPORT');await action(page,'service',transport.id);await action(page,'service-details');
-  await page.locator('#wp-detail-vehicle').selectOption('multiple');await page.locator('#wp-detail-cars').fill('3');await page.locator('[data-wp-detail-choice="riders"][value="family"]').check();await page.locator('#wp-serviceNotes').fill('QA transporter note for agreement.');
+  await page.locator('#wp-detail-vehicle').fill('SUV');await page.locator('#wp-detail-cars').fill('3');await page.locator('[data-wp-detail-choice="riders"][value="family"]').check();await page.locator('#wp-serviceNotes').fill('QA transporter note for agreement.');
   await page.locator('[form="wpServiceDetailsForm"]').click();await page.locator('#wpDialog [data-wp-action=service-details]').waitFor();await page.keyboard.press('Escape');
-  const saved=await request(`/api/records/${recordId}`);assert.equal(saved.plan.services.transport.options.cars,'3');assert.deepEqual(saved.plan.services.transport.options.riders,['family']);assert.equal(saved.plan.services.transport.notes,'QA transporter note for agreement.');
+  const saved=await request(`/api/records/${recordId}`);assert.equal(saved.plan.services['cars-flowers'].options.cars,'3');assert.deepEqual(saved.plan.services['cars-flowers'].options.riders,['family']);assert.equal(saved.plan.services['cars-flowers'].notes,'QA transporter note for agreement.');
   await step(page,2);await page.waitForFunction(()=>document.querySelector('#agreementDocument .letterhead-sheet')&&document.getElementById('agreementDocument').getAttribute('aria-busy')!=='true');
   assert.ok((await page.locator('#agreementDocument').innerText()).includes('QA transporter note for agreement.'));
   await step(page,5);await settled(page);assert.equal(new URL(page.url()).pathname,`/weddings/${weddingId}/overview`);

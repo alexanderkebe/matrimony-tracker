@@ -469,7 +469,7 @@
   const weddingFields=['title','clientId','weddingDate','guestEstimate','budgetMinor','language','calendarPreference','city','churchLocation','venueLocation','package','selectedServiceCodes','ceremonyType','timezone','currency'];
   async function startWizard(existing=false) {
     const [templates,clients]=await Promise.all([api('service-templates'),ui.cap.canAccessClients?api('weddings/clients'):Promise.resolve({items:[]})]);
-    ui.templates=templates.items;ui.clients=clients.items;
+    ui.templates=templates.items.filter(t=>!t.retired||(existing&&ui.project?.selectedServiceCodes?.includes(t.code)));ui.clients=clients.items;
     ui.wizard=existing?{...ui.project}:{title:'',clientId:null,weddingDate:null,guestEstimate:0,budgetMinor:0,language:lang(),calendarPreference:'ethiopian',city:'Addis Ababa',churchLocation:'',venueLocation:'',ceremonyType:'church',timezone:'Africa/Addis_Ababa',currency:'ETB',package:'full_planning',selectedServiceCodes:templates.items.filter(t=>t.defaultEnabled).map(t=>t.code)};
     ui.clientSource=ui.wizard.clientId?await api('weddings/clients/'+ui.wizard.clientId):null;
     ui.wizardStep=0;renderWizard();

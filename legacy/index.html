@@ -13,7 +13,7 @@
     <title>Matrimony By Hanna · Event Planner</title>
     <link rel="icon" type="image/png" href="./assets/matrimony-app-icon.png?v=3" />
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=3" />
-    <link rel="stylesheet" href="./styles.css?v=20261020-link-dialog-2" />
+    <link rel="stylesheet" href="./styles.css?v=20261020-scale" />
     <link rel="stylesheet" href="./weddings.css?v=20261015" />
   </head>
   <body>
@@ -195,7 +195,7 @@
                 </p>
               </div>
               <div class="intro-stamp" aria-hidden="true">
-                <span>21</span>
+                <span>20</span>
                 <small data-i18n="stampServices">services</small>
               </div>
             </div>
@@ -335,7 +335,7 @@
                 <h1 data-i18n="servicesTitle">Choose what belongs in the promise.</h1>
                 <p data-i18n="servicesDescription">Choose the services for this wedding. Your selections carry into the planner, where you can arrange the details later.</p>
               </div>
-              <div class="selected-counter" aria-live="polite"><strong id="selectedCount">0</strong><span data-i18n="selectedOf">of 21 selected</span></div>
+              <div class="selected-counter" aria-live="polite"><strong id="selectedCount">0</strong><span data-i18n="selectedOf">of 20 selected</span></div>
             </div>
 
             <div class="service-toolbar">
@@ -347,11 +347,11 @@
                 <span class="sr-only" data-i18n="filterLabel">Filter services</span>
                 <select id="serviceFilter">
                   <option value="all" data-i18n="filterAll">All service areas</option>
-                  <option value="spiritual" data-i18n="filterSpiritual">Spiritual & church</option>
-                  <option value="venue" data-i18n="filterVenue">Venue & atmosphere</option>
-                  <option value="hospitality" data-i18n="filterHospitality">Hospitality</option>
-                  <option value="style" data-i18n="filterStyle">Style & people</option>
-                  <option value="logistics" data-i18n="filterLogistics">Logistics & readiness</option>
+                  <option value="part1" data-i18n="filterPart1">Part 1 · Spiritual teaching & documents</option>
+                  <option value="part2" data-i18n="filterPart2">Part 2 · Teaching & choir</option>
+                  <option value="part3" data-i18n="filterPart3">Part 3 · Hall & logistics</option>
+                  <option value="part4" data-i18n="filterPart4">Part 4 · Media, attire & beauty</option>
+                  <option value="part5" data-i18n="filterPart5">Part 5 · Printing, protocol & hosting</option>
                 </select>
               </label>
             </div>
@@ -368,7 +368,7 @@
               </div>
             </div>
 
-            <div class="services-grid" id="servicesGrid"></div>
+            <div class="service-parts" id="servicesGrid"></div>
 
             <div class="step-footer">
               <button class="button button-quiet" type="button" data-prev-step="0"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="back">Back</span></button>
@@ -602,8 +602,8 @@
     <div id="pickerPopover" class="picker-popover" role="dialog" hidden></div>
     <script src="./assets/vendor/html2canvas.min.js"></script>
     <script src="./assets/vendor/jspdf.umd.min.js"></script>
-    <script src="./app.js?v=20261020-link-dialog-2"></script>
-    <script src="./pickers.js?v=20261019-couple-card"></script>
-    <script src="./weddings.js?v=20261020-link-dialog-2"></script>
+    <script src="./app.js?v=20261020-scale"></script>
+    <script src="./pickers.js?v=20261020-scale"></script>
+    <script src="./weddings.js?v=20261020-scale"></script>
   </body>
 </html>

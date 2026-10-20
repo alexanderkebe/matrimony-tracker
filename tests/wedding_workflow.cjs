@@ -42,7 +42,7 @@ async function checkLayout(page){assert.ok(await page.evaluate(()=>document.docu
   await action(page,'setup');await page.locator('#wp-title').fill('QA Sara & Daniel');
   await action(page,'wizard-next');await page.locator('#wp-weddingDate').fill('2027-05-16');await page.locator('#wp-guestEstimate').fill('250');await page.locator('#wp-budgetMinor').fill('1500000.50');
   await action(page,'wizard-next');await page.locator('#wp-churchLocation').fill('QA ceremony');await page.locator('#wp-venueLocation').fill('QA reception');
-  await action(page,'wizard-next');assert.equal(await page.locator('[data-wp-service-code]').count(),21);await action(page,'select-services','none');
+  await action(page,'wizard-next');assert.equal(await page.locator('[data-wp-service-code]').count(),20);await action(page,'select-services','none');
   for(const code of ['CHURCH','VENUE','DECOR','COUNSELING'])await page.locator(`[data-wp-service-code="${code}"]`).check();
   await action(page,'wizard-next');assert.ok((await page.locator('#wpWizardForm').innerText()).includes('Church'));await action(page,'wizard-next');await action(page,'wizard-finish');await closed(page);
   await page.waitForURL(/\/weddings\/.+\/overview/);const weddingId=new URL(page.url()).pathname.split('/')[2];
