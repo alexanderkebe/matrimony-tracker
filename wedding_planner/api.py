@@ -439,8 +439,8 @@ class Router(QuestionnaireMixin, TemplateUpgradeMixin):
             require(isinstance(values["selectedServiceCodes"], list) and all(isinstance(c, str) for c in values["selectedServiceCodes"]) and set(values["selectedServiceCodes"]) <= {t["code"] for t in self.all_templates()}, "Unknown service code.")
         if values.get("clientId"):
             require(legacy_staff(self.identity), "Linking a couple record requires access to the host's client directory.", 403)
-            scope, parameters = record_scope(self.identity)
-            require(self.db.query_one("SELECT id FROM records WHERE id=?" + scope, (values["clientId"], *parameters)), "Client record not found.", 404)
+            scope, parameters = record_scope(self.identity, write=True)
+            require(self.db.query_one("SELECT id FROM records WHERE id=?" + scope, (values["clientId"], *parameters)), "Only the planner who registered this couple, or the owner, can link it to a plan.", 403)
         validated = validation.wedding({k: v for k, v in proposed.items() if k in {"title", "clientId", "weddingDate", "guestEstimate", "budgetMinor", "language", "calendarPreference", "city", "churchLocation", "venueLocation", "leadPlannerUserId", "package", "selectedServiceCodes", "ceremonyType", "timezone", "currency"}})
         proposed.update({k: validated[k] for k in values})
         if "status" in self.body:

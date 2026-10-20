@@ -13,7 +13,7 @@
     <title>Matrimony By Hanna · Event Planner</title>
     <link rel="icon" type="image/png" href="./assets/matrimony-app-icon.png?v=3" />
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=3" />
-    <link rel="stylesheet" href="./styles.css?v=20261020-doc-share-2" />
+    <link rel="stylesheet" href="./styles.css?v=20261020-couples" />
     <link rel="stylesheet" href="./weddings.css?v=20261015" />
   </head>
   <body>
@@ -33,6 +33,9 @@
       <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="8" y="4" width="11" height="14" rx="2" /><path d="M5 8v10a2 2 0 0 0 2 2h9" /></symbol>
       <symbol id="icon-inbox" viewBox="0 0 24 24"><path d="M3 13.5 5.4 6.6A2 2 0 0 1 7.3 5.3h9.4a2 2 0 0 1 1.9 1.3l2.4 6.9V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4.5Z" /><path d="M3 13.5h5l1.5 2.5h5l1.5-2.5h5" /></symbol>
       <symbol id="icon-file-pdf" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" /><path d="M14 3v5h5M9 13h6M9 17h4" /></symbol>
+      <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M9 4h6l-1 5 3 3v2H7v-2l3-3-1-5Z" /><path d="M12 14v6" /></symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 12.5a1.5 1.5 0 0 0 1.5 1.4h6a1.5 1.5 0 0 0 1.5-1.4l1-12.5M10 11v6M14 11v6" /></symbol>
+      <symbol id="icon-dots" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.3" fill="currentColor" stroke="none" /><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none" /><circle cx="18.5" cy="12" r="1.3" fill="currentColor" stroke="none" /></symbol>
       <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.7" /></symbol>
       <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></symbol>
       <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20 12H5m6 6-6-6 6-6" /></symbol>
@@ -186,6 +189,7 @@
             <div id="weddingWorkspace" aria-live="polite"></div>
           </section>
           <div id="validationSummary" class="validation-summary" role="alert" hidden></div>
+          <div id="readonlyBanner" class="readonly-banner" role="status" hidden></div>
           <section class="step-panel is-active" id="step-details" data-step="0">
             <div class="section-intro intro-with-stamp">
               <div>
@@ -611,10 +615,11 @@
     </dialog>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <div id="pickerPopover" class="picker-popover" role="dialog" hidden></div>
+    <div id="coupleMenu" class="couple-menu" role="menu" hidden></div>
     <script src="./assets/vendor/html2canvas.min.js"></script>
     <script src="./assets/vendor/jspdf.umd.min.js"></script>
-    <script src="./app.js?v=20261020-doc-share-2"></script>
-    <script src="./pickers.js?v=20261020-doc-share-2"></script>
-    <script src="./weddings.js?v=20261020-doc-share-2"></script>
+    <script src="./app.js?v=20261020-couples"></script>
+    <script src="./pickers.js?v=20261020-couples"></script>
+    <script src="./weddings.js?v=20261020-couples"></script>
   </body>
 </html>

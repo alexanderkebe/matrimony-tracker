@@ -42,7 +42,14 @@ const OWNERSHIP = [
   "ALTER TABLE records ADD COLUMN IF NOT EXISTS owner_user_id TEXT",
   "CREATE INDEX IF NOT EXISTS records_owner ON records (owner_user_id, updated_at)",
   "ALTER TABLE portal_requests ADD COLUMN IF NOT EXISTS owner_user_id TEXT",
-  "CREATE INDEX IF NOT EXISTS portal_requests_owner ON portal_requests (owner_user_id, id)"
+  "CREATE INDEX IF NOT EXISTS portal_requests_owner ON portal_requests (owner_user_id, id)",
+  // Each team member's own pinned couples.
+  `CREATE TABLE IF NOT EXISTS record_pins (
+  user_id TEXT NOT NULL,
+  record_id INTEGER NOT NULL,
+  created_at TEXT NOT NULL,
+  PRIMARY KEY (user_id, record_id)
+)`
 ];
 
 // Staff accounts (see lib/accounts.ts). Passwords are scrypt hashes; refresh tokens and

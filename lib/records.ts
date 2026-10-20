@@ -110,35 +110,58 @@ export async function claimUnowned(scope: Scope) {
   await db.execute("UPDATE portal_requests SET owner_user_id = ? WHERE owner_user_id IS NULL", [scope.userId]);
 }
 
+/** Who may change or delete a couple: the account that registered it, or the workspace owner. */
+const canEdit = (ownerUserId: unknown, scope: Scope) => scope.workspaceOwner || ownerUserId === scope.userId;
+
+// Joins the creator's name ("u<id>" ↔ app_users.id) and the viewer's own pin.
+const RECORD_COLUMNS = `r.id, r.bride_first_name, r.groom_first_name, r.wedding_date, r.created_at, r.updated_at, r.owner_user_id,
+  u.name AS owner_name, (p.record_id IS NOT NULL) AS pinned`;
+const RECORD_JOINS = `LEFT JOIN app_users u ON 'u' || u.id = r.owner_user_id
+  LEFT JOIN record_pins p ON p.record_id = r.id AND p.user_id = ?`;
+
+type RecordRow = Record<string, unknown> & { owner_user_id: string | null; owner_name: string | null; pinned: boolean };
+const publicRecord = ({ owner_user_id, ...row }: RecordRow, scope: Scope) => ({ ...row, can_edit: canEdit(owner_user_id, scope), is_mine: owner_user_id === scope.userId });
+
+/** Every couple, pinned ones first, for every team member. */
 export async function listRecords(scope: Scope) {
   await claimUnowned(scope);
-  const rows = await getDatabase().query<Record<string, unknown> & { plan_json: string }>(
-    `SELECT id, bride_first_name, groom_first_name, wedding_date, created_at, updated_at, plan_json
-     FROM records WHERE owner_user_id = ? ORDER BY updated_at DESC, id DESC`, [scope.userId]
+  const rows = await getDatabase().query<RecordRow & { plan_json: string }>(
+    `SELECT ${RECORD_COLUMNS}, r.plan_json FROM records r ${RECORD_JOINS}
+     ORDER BY pinned DESC, r.updated_at DESC, r.id DESC`, [scope.userId]
   );
-  const records = rows.map(({ plan_json, ...record }) => ({ ...record, search: searchSummary(plan_json) }));
+  const records = rows.map(({ plan_json, ...record }) => ({ ...publicRecord(record, scope), search: searchSummary(plan_json) }));
   return json(200, { records });
 }
 
 export async function getRecord(id: number, scope: Scope) {
   await claimUnowned(scope);
-  const [row] = await getDatabase().query<{ id: number; plan_json: string }>("SELECT id, plan_json FROM records WHERE id = ? AND owner_user_id = ?", [id, scope.userId]);
+  const [row] = await getDatabase().query<RecordRow & { plan_json: string }>(`SELECT ${RECORD_COLUMNS}, r.plan_json FROM records r ${RECORD_JOINS} WHERE r.id = ?`, [scope.userId, id]);
   if (!row) return json(404, { error: "Record not found." });
-  return json(200, { id: Number(row.id), plan: JSON.parse(row.plan_json) });
+  const { plan_json, ...record } = row;
+  return json(200, { id: Number(row.id), plan: JSON.parse(plan_json), ...publicRecord(record, scope) });
+}
+
+async function editableRecord(id: number, scope: Scope) {
+  const [row] = await getDatabase().query<{ owner_user_id: string | null; owner_name: string | null }>(
+    "SELECT r.owner_user_id, u.name AS owner_name FROM records r LEFT JOIN app_users u ON 'u' || u.id = r.owner_user_id WHERE r.id = ?", [id]
+  );
+  if (!row) throw new RecordError(404, "Record not found.");
+  if (!canEdit(row.owner_user_id, scope)) throw new RecordError(403, `Only ${row.owner_name || "the planner who registered this couple"} or the owner can change this couple.`);
 }
 
 export async function saveRecord(request: Request, id: number | null, scope: Scope) {
+  if (id !== null) await editableRecord(id, scope);
   const { payload, bride, groom, weddingDate, language } = await readPlan(request);
   const now = new Date().toISOString().replace(/\.\d{3}Z$/, "+00:00");
   const fields = [bride, groom, firstName(bride), firstName(groom), weddingDate, language, JSON.stringify(payload), now];
   const db = getDatabase();
   if (id !== null) {
-    const changed = await db.execute(
+    await db.execute(
       `UPDATE records SET bride_name=?, groom_name=?, bride_first_name=?, groom_first_name=?,
-       wedding_date=?, language=?, plan_json=?, updated_at=? WHERE id=? AND owner_user_id=?`,
-      [...fields, id, scope.userId]
+       wedding_date=?, language=?, plan_json=?, updated_at=? WHERE id=?`,
+      [...fields, id]
     );
-    return changed ? json(200, { id }) : json(404, { error: "Record not found." });
+    return json(200, { id });
   }
   const newId = await db.insert(
     `INSERT INTO records (bride_name, groom_name, bride_first_name, groom_first_name,
@@ -149,6 +172,24 @@ export async function saveRecord(request: Request, id: number | null, scope: Sco
 }
 
 export async function deleteRecord(id: number, scope: Scope) {
-  const changed = await getDatabase().execute("DELETE FROM records WHERE id = ? AND owner_user_id = ?", [id, scope.userId]);
-  return changed ? json(200, { deleted: true }) : json(404, { error: "Record not found." });
+  await editableRecord(id, scope);
+  const db = getDatabase();
+  await db.execute("DELETE FROM record_pins WHERE record_id = ?", [id]);
+  // A client request that became this couple can be opened again as a new plan.
+  await db.execute("UPDATE portal_requests SET record_id = NULL, status = 'new' WHERE record_id = ?", [id]);
+  await db.execute("DELETE FROM records WHERE id = ?", [id]);
+  return json(200, { deleted: true });
+}
+
+/** Pins are each person's own; they never change anyone else's list. */
+export async function pinRecord(request: Request, id: number, scope: Scope) {
+  const body = await request.json().catch(() => ({})) as { pinned?: unknown };
+  const db = getDatabase();
+  if (!(await db.query("SELECT 1 FROM records WHERE id = ?", [id])).length) return json(404, { error: "Record not found." });
+  if (body.pinned === true) {
+    await db.query("INSERT INTO record_pins (user_id, record_id, created_at) VALUES (?, ?, ?) ON CONFLICT DO NOTHING", [scope.userId, id, new Date().toISOString()]);
+  } else {
+    await db.execute("DELETE FROM record_pins WHERE user_id = ? AND record_id = ?", [scope.userId, id]);
+  }
+  return json(200, { pinned: body.pinned === true });
 }

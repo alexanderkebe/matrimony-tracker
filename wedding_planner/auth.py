@@ -24,9 +24,9 @@ class Identity:
     isolated: bool = False
 
 
-def record_scope(identity):
-    """SQL condition limiting couple records to the signed-in account's own."""
-    if identity and identity.isolated:
+def record_scope(identity, write=False):
+    """SQL condition for couple records: every team member reads them; only the creator writes (the owner is not isolated)."""
+    if write and identity and identity.isolated:
         return " AND owner_user_id=?", (identity.user_id,)
     return "", ()
 
@@ -77,7 +77,8 @@ def authenticate(headers, local_allowed=False):
                 return None
             if not isinstance(roles, list) or not set(roles) <= ROLES or not isinstance(permissions, list) or not all(isinstance(p, str) for p in permissions):
                 return None
-            return Identity(user_id, org, set(roles), set(permissions), isolated=True)
+            # The workspace owner oversees every wedding; everyone else sees the weddings they belong to.
+            return Identity(user_id, org, set(roles), set(permissions), isolated="workspace_owner" not in permissions)
         except (ValueError, KeyError, TypeError):
             return None
     if local_allowed and not secret and os.environ.get("MATRIMONY_LOCAL_PLANNER", "1") == "1":

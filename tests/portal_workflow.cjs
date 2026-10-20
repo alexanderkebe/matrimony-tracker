@@ -69,6 +69,7 @@ async function download(page, trigger) {
   await portal.locator('#generalNotes').fill('Garden ceremony, about 300 guests');
   await portal.locator('.workflow-nav [data-step-target="1"]').click();
   await portal.locator('[data-service-toggle="venue"]').click();
+  await portal.locator('[data-service-status="venue"][data-status="client"]').click();
   await portal.locator('[data-portal-submit]').click();
   await portal.locator('#portalDone.is-active').waitFor();
   assert.equal(await portal.locator('.portal-reference').innerText(), 'MBH-RQ-1');

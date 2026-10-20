@@ -54,12 +54,16 @@ class QuestionnaireMixin:
     def questionnaire_record(self, record_id, lock=False):
         require(legacy_staff(self.identity), "Questionnaire access requires the host's client directory permission.", 403)
         require(str(record_id).isdecimal() and int(record_id) > 0, "Invalid couple record.")
-        scope, parameters = record_scope(self.identity)
-        sql = "SELECT id,plan_json FROM records WHERE id=?" + scope
+        sql = "SELECT id,plan_json FROM records WHERE id=?"
         if lock and not hasattr(self.db, "path"):
             sql += " FOR UPDATE"
-        row = self.db.query_one(sql, (int(record_id), *parameters))
+        row = self.db.query_one(sql, (int(record_id),))
         require(row, "Couple record not found.", 404)
+        if lock:
+            # Creating or changing a plan writes to the couple record: its creator or the owner only.
+            scope, parameters = record_scope(self.identity, write=True)
+            require(not scope or self.db.query_one("SELECT id FROM records WHERE id=?" + scope, (int(record_id), *parameters)),
+                    "Only the planner who registered this couple, or the owner, can create or change its plan.", 403)
         return row
 
     def linked_questionnaire_wedding(self, record_id):

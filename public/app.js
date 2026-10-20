@@ -29,7 +29,7 @@ const SERVICE_PROVIDER = {
     { bank: "BOA", number: "45622053" }
   ],
   telebirr: "0953914487",
-  signatory: { en: "Hanna Woldemariam", am: "ሃና ወልደማርያም" }
+  signatory: { en: "Hanna Wendemagegn Zewde", am: "ሃና ወንድምአገኝ ዘውዴ" }
 };
 
 const copy = {
@@ -480,10 +480,15 @@ Object.assign(copy.en, {
   providerBank: "Bank details", bankName: "Bank", bankAccountNo: "Account No.", bankAccountHolder: "Account name",
   providerTelebirr: "Telebirr (contact)", clientDetails: "Clients / Couple",
   contractGroomName: "Groom’s full name", contractBrideName: "Bride’s full name",
-  contractScopeTitle: "Services & Responsibilities", scopePremarital: "Premarital Course",
+  contractScopeTitle: "Services & Responsibilities",
   partLabel: "Part", statusLabel: "Status", statusPlanning: "Full Planning", statusClient: "Client Booked",
-  statusPlanningHint: "Matrimony plans and books it", statusClientHint: "The couple has booked it; we coordinate",
-  whoArranges: "Who arranges it?", serviceDetails: "Details", serviceNotesLabel: "Notes for this service", serviceNotesPlaceholder: "Anything else we should know",
+  statusPlanningHint: "Matrimony By Hanna handles it", statusClientHint: "The couple booked it themselves; we coordinate",
+  whoArranges: "Who handles this service?", serviceDetails: "Details", statusRequired: "Choose who handles it: Full Planning or Client Booked.",
+  statusLegend: "Full Planning = Matrimony By Hanna handles it · Client Booked = the couple booked it themselves; we coordinate.",
+  couplePin: "Pin", coupleUnpin: "Unpin", coupleOpen: "Open", coupleDelete: "Delete", coupleMore: "More options for {name}",
+  coupleCreatedBy: "Created by {name}", coupleCreatedByYou: "Created by you", coupleDeleteConfirm: "Delete {name}? The couple record is removed for the whole team. This can’t be undone.",
+  coupleDeleted: "Couple deleted.", coupleNoDelete: "Only {name} or the owner can delete this couple.",
+  readOnlyBanner: "View only — {name} registered this couple. Only they or the owner can change it.", readOnlySave: "This couple is view only. Changes aren’t saved.", serviceNotesLabel: "Notes for this service", serviceNotesPlaceholder: "Anything else we should know",
   bonusTitle: "Free bonus services (included)", bonusIncluded: "Included", servicesChecklistTitle: "Orthodox wedding service & responsibility checklist",
   noServicesChosen: "No services chosen yet.",
   otherAddons: "Other agreed add-ons", noAddons: "No other add-ons selected.",
@@ -590,10 +595,15 @@ Object.assign(copy.am, {
   providerBank: "የባንክ መረጃ", bankName: "ባንክ", bankAccountNo: "የሂሳብ ቁጥር", bankAccountHolder: "የሂሳቡ ስም",
   providerTelebirr: "Telebirr (ለመገናኛ)", clientDetails: "የደንበኛ (ሙሽሮቹ) መረጃ",
   contractGroomName: "የሙሽራው ሙሉ ስም", contractBrideName: "የሙሽሪት ሙሉ ስም",
-  contractScopeTitle: "የአገልግሎትና የኃላፊነት ዝርዝር", scopePremarital: "ቅድመ-ጋብቻ ትምህርት",
+  contractScopeTitle: "የአገልግሎትና የኃላፊነት ዝርዝር",
   partLabel: "ክፍል", statusLabel: "Status", statusPlanning: "Full Planning", statusClient: "Client Booked",
-  statusPlanningHint: "ማትሪሞኒ ያቅዳል እና ያስይዛል", statusClientHint: "ደንበኛው አስይዟል፤ እኛ እናስተባብራለን",
-  whoArranges: "ማን ያዘጋጀዋል?", serviceDetails: "ዝርዝር", serviceNotesLabel: "ለዚህ አገልግሎት ማስታወሻ", serviceNotesPlaceholder: "ማወቅ ያለብን ሌላ ነገር",
+  statusPlanningHint: "ማትሪሞኒ ባይ ሃና ይይዘዋል", statusClientHint: "ጥንዶቹ ራሳቸው አስይዘዋል፤ እኛ እናስተባብራለን",
+  whoArranges: "ይህን አገልግሎት ማን ይይዘዋል?", serviceDetails: "ዝርዝር", statusRequired: "ማን እንደሚይዘው ይምረጡ፦ Full Planning ወይም Client Booked።",
+  statusLegend: "Full Planning = ማትሪሞኒ ባይ ሃና ይይዘዋል · Client Booked = ጥንዶቹ ራሳቸው አስይዘዋል፤ እኛ እናስተባብራለን።",
+  couplePin: "ሰካ", coupleUnpin: "መሰካቱን አንሳ", coupleOpen: "ክፈት", coupleDelete: "ሰርዝ", coupleMore: "ለ{name} ተጨማሪ አማራጮች",
+  coupleCreatedBy: "የፈጠረው፦ {name}", coupleCreatedByYou: "እርስዎ የፈጠሩት", coupleDeleteConfirm: "{name}ን ይሰርዙ? የጥንዶቹ መዝገብ ለመላው ቡድን ይሰረዛል። መመለስ አይቻልም።",
+  coupleDeleted: "ጥንዶቹ ተሰርዘዋል።", coupleNoDelete: "ይህን መሰረዝ የሚችሉት {name} ወይም ባለቤቱ ብቻ ናቸው።",
+  readOnlyBanner: "ለእይታ ብቻ — {name} የመዘገቧቸው ጥንዶች ናቸው። መቀየር የሚችሉት እነሱ ወይም ባለቤቱ ብቻ ናቸው።", readOnlySave: "እነዚህ ጥንዶች ለእይታ ብቻ ናቸው። ለውጦች አይቀመጡም።", serviceNotesLabel: "ለዚህ አገልግሎት ማስታወሻ", serviceNotesPlaceholder: "ማወቅ ያለብን ሌላ ነገር",
   bonusTitle: "በነፃ የሚካተቱ ተጨማሪ ቦነሶች (Bonus Services)", bonusIncluded: "ተካቷል", servicesChecklistTitle: "የኦርቶዶክስ ሰርግ የአገልግሎትና የኃላፊነት መምረጫ ዝርዝር",
   noServicesChosen: "እስካሁን አገልግሎት አልተመረጠም።",
   otherAddons: "ሌሎች የተስማሙባቸው ተጨማሪ ሥራዎች", noAddons: "ሌላ ተጨማሪ አገልግሎት አልተመረጠም።",
@@ -914,7 +924,6 @@ function normalizeServices() {
     delete list[oldId];
   }
   DROPPED_SERVICES.forEach(id => delete list[id]);
-  for (const service of Object.values(list)) if (service?.selected && !service.responsibility) service.responsibility = "planning";
 }
 
 const fieldIds = ["brideName", "bridePhone", "brideAddress", "groomName", "groomPhone", "groomAddress", "weddingDate", "eventDays", "totalFee", "generalNotes"];
@@ -1319,7 +1328,9 @@ function renderCoupleContext() {
       const bName = escapeHtml(record.bride_first_name || "");
       const gName = escapeHtml(record.groom_first_name || "");
       const dateText = escapeHtml(formatDate(record.wedding_date));
-      return `<div class="recent-couple-item"><button type="button" class="recent-couple ${isCurrent ? "is-current" : ""}" data-open-record="${record.id}" title="${bName} &amp; ${gName}"><svg class="ui-icon recent-couple-icon" aria-hidden="true"><use href="#icon-chat"></use></svg><span class="recent-couple-text"><strong>${bName} &amp; ${gName}</strong><small>${dateText} · #${record.id}</small></span></button></div>`;
+      const label = `${record.bride_first_name || ""} & ${record.groom_first_name || ""}`;
+      return `<div class="recent-couple-item${isCurrent ? " is-current" : ""}${record.pinned ? " is-pinned" : ""}"><button type="button" class="recent-couple ${isCurrent ? "is-current" : ""}" data-open-record="${record.id}" title="${bName} &amp; ${gName}"><svg class="ui-icon recent-couple-icon" aria-hidden="true"><use href="#icon-chat"></use></svg><span class="recent-couple-text"><strong>${bName} &amp; ${gName}</strong><small>${dateText} · #${record.id}</small></span></button>
+        <span class="recent-couple-tools"><button type="button" class="recent-couple-tool recent-couple-more" data-couple-menu="${record.id}" aria-haspopup="menu" aria-expanded="false" aria-label="${escapeHtml(t("coupleMore").replace("{name}", label))}"><svg class="ui-icon" aria-hidden="true"><use href="#icon-dots"></use></svg></button><button type="button" class="recent-couple-tool recent-couple-pin" data-couple-pin="${record.id}" aria-pressed="${Boolean(record.pinned)}" aria-label="${escapeHtml(t(record.pinned ? "coupleUnpin" : "couplePin"))}" title="${escapeHtml(t(record.pinned ? "coupleUnpin" : "couplePin"))}"><svg class="ui-icon" aria-hidden="true"><use href="#icon-pin"></use></svg></button></span></div>`;
     }).join("");
   }
 }
@@ -1374,8 +1385,8 @@ const servicePart = id => SERVICE_PARTS.find(part => part.id === id);
 const partHeading = part => `${t("partLabel")} ${part.number}፡ ${localized(part.title)}`;
 
 function statusChoice(service, serviceState) {
-  return `<div class="service-status" role="group" aria-label="${escapeHtml(t("whoArranges"))}">
-    <span class="service-option-label">${escapeHtml(t("whoArranges"))}</span>
+  return `<div class="service-status${serviceState.responsibility ? "" : " needs-status"}" role="group" aria-label="${escapeHtml(t("whoArranges"))}">
+    <span class="service-status-question">${escapeHtml(t("whoArranges"))}${serviceState.responsibility ? "" : ` <em>${escapeHtml(t("statusRequired"))}</em>`}</span>
     <div class="service-status-options">${["planning", "client"].map(value => `<button type="button" data-service-status="${service.id}" data-status="${value}" aria-pressed="${serviceState.responsibility === value}"><strong>${escapeHtml(t(value === "planning" ? "statusPlanning" : "statusClient"))}</strong><small>${escapeHtml(t(value === "planning" ? "statusPlanningHint" : "statusClientHint"))}</small></button>`).join("")}</div>
   </div>`;
 }
@@ -1539,7 +1550,7 @@ function renderAgreement() {
       <div><div class="doc-label">${escapeHtml(t("mealProgramAgreement"))}</div><div class="doc-value">${escapeHtml(formatMealProgram())}</div></div>
       <div class="event-venues-document"><div class="doc-label">${escapeHtml(t("eventVenuesAgreement"))}</div>${eventVenueRows}</div>
     </div></section>
-    <section class="agreed-services"><h3>2. ${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><p class="checklist-heading">📋 ${escapeHtml(t("servicesChecklistTitle"))}</p></section>
+    <section class="agreed-services"><h3>2. ${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><p class="checklist-heading">📋 ${escapeHtml(t("servicesChecklistTitle"))}</p><p class="checklist-legend">${escapeHtml(t("statusLegend"))}</p></section>
     ${servicePartsMarkup()}
     <section class="contract-clause" data-contract-clause="1"><h3>3. ${escapeHtml(t("termsHeading"))}</h3><h4>1. ${escapeHtml(t("vendorHeading"))}</h4><p>${escapeHtml(t("vendorScope"))}</p></section>
     <section class="contract-clause" data-contract-clause="2"><h4>2. ${escapeHtml(t("providerResponsibilityHeading"))}</h4><p>${escapeHtml(t("providerResponsibility"))}</p></section>
@@ -1583,7 +1594,7 @@ function renderProforma() {
       <div><div class="doc-label">${escapeHtml(t("mealProgramAgreement"))}</div><div class="doc-value">${escapeHtml(formatMealProgram())}</div></div>
       <div><div class="doc-label">${escapeHtml(t("eventVenues"))}</div><div class="doc-value">${escapeHtml(eventVenueSummary())}</div></div>
     </div>
-    <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3></section>
+    <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3><p class="checklist-legend">${escapeHtml(t("statusLegend"))}</p></section>
     ${servicePartsMarkup({ onlyChosen:true, listClass:"proforma-service-list", itemClass:"proforma-item" })}
     <div class="proforma-closing">
     <section class="proforma-totals" aria-label="${escapeHtml(t("proformaTotal"))}">
@@ -1803,7 +1814,7 @@ function renderRecords() {
     <div class="record-mark" aria-hidden="true">∞</div>
     <div class="record-main"><h2>${highlightMatch(record.search?.bride_name || record.bride_first_name, query)} <span>&amp;</span> ${highlightMatch(record.search?.groom_name || record.groom_first_name, query)}</h2>
       <p>${escapeHtml(t("weddingDate"))}: ${escapeHtml(formatDate(record.wedding_date))}${record.search?.phones?.length ? ` · ${highlightMatch(record.search.phones.join(" / "), query)}` : ""}</p>${searchDetailMarkup(detail, query)}</div>
-    <button class="button button-quiet" type="button" data-open-record="${record.id}">${escapeHtml(t("openRecord"))}${iconUse("open")}</button>
+    <div class="record-card-actions"><button class="button button-quiet" type="button" data-open-record="${record.id}">${escapeHtml(t("openRecord"))}${iconUse("open")}</button><button type="button" class="recent-couple-tool record-card-more" data-couple-menu="${record.id}" aria-haspopup="menu" aria-expanded="false" aria-label="${escapeHtml(t("coupleMore").replace("{name}", `${record.bride_first_name} & ${record.groom_first_name}`))}"><svg class="ui-icon" aria-hidden="true"><use href="#icon-dots"></use></svg></button></div>
   </article>`).join("");
 }
 
@@ -1813,6 +1824,7 @@ async function loadRecords() {
   list.innerHTML = `<div class="records-empty">${escapeHtml(state.lang === "am" ? "በመጫን ላይ…" : "Loading records…")}</div>`;
   try {
     state.records = (await recordsRequest("")).records;
+    syncReadOnlyFromList();
     renderRecords();
     renderCoupleContext();
   } catch (error) {
@@ -1828,6 +1840,11 @@ function saveRecord(options = {}) {
 async function persistRecord({ silent = false, requireRemote = false } = {}) {
   if (PORTAL) return;
   if (savingRecord) return;
+  if (state.recordReadOnly) {
+    if (!silent) showToast(t("readOnlySave"));
+    if (requireRemote) throw new Error(t("readOnlySave"));
+    return;
+  }
   syncDetailsFromForm();
   if (!state.details.brideName?.trim() || !state.details.groomName?.trim()) {
     if (!silent) showValidation([{id:"brideName", message:t("nameRequired")}, {id:"groomName", message:t("nameRequired")}].filter(error => !state.details[error.id]?.trim()), 0);
@@ -1872,6 +1889,8 @@ async function openRecord(id, { step = 0 } = {}) {
   try {
     const result = await recordsRequest(`/${id}`);
     state.recordId = result.id;
+    state.recordReadOnly = result.can_edit === false;
+    state.recordOwnerName = result.owner_name || "";
     state.lang = result.plan.lang === "am" ? "am" : "en";
     state.details = result.plan.details || {};
     if (!state.details.eventDays) state.details.eventDays = "1";
@@ -1879,6 +1898,7 @@ async function openRecord(id, { step = 0 } = {}) {
     normalizeEventVenues();
     state.services = result.plan.services || {};
     normalizeServices();
+    applyReadOnly();
     savedPlanSignature = planSignature();
     recordStatus = "recordReady";
     fieldIds.forEach(field => { document.getElementById(field).value = state.details[field] ?? ""; });
@@ -2006,6 +2026,8 @@ function validateBeforeAgreement() {
   if (!Number.isInteger(days) || days < 1 || days > 365) errors.push({ id:"eventDays", message:t("daysRequired") });
   if (errors.length) return showValidation(errors, 0);
   if (!selectedServices().length) return showValidation([{ message:t("noServicesWarning") }], 1);
+  const undecided = selectedServices().filter(service => !getServiceState(service.id).responsibility);
+  if (undecided.length) return showValidation(undecided.map(service => ({ label:`${service.number} ${localized(service.title)}`, message:t("statusRequired") })), 1);
   // The agreed fee has its own Pricing step.
   if (state.details.totalFee === "" || state.details.totalFee === undefined || state.details.totalFee === null) {
     return showValidation([{ id:"totalFee", message:t("totalFeeRequired") }], 6);
@@ -2021,7 +2043,6 @@ function validateBeforeProforma() {
 function toggleService(serviceId) {
   const serviceState = getServiceState(serviceId);
   serviceState.selected = !serviceState.selected;
-  if (serviceState.selected && !serviceState.responsibility) serviceState.responsibility = "planning";
   saveDraft();
   renderServices();
 }
@@ -2055,6 +2076,13 @@ async function clearDraft() {
     || Object.values(state.services).some(service => service?.selected);
   if (!named && hasContent && !window.confirm(state.lang === "am" ? "ይህን ረቂቅ ማጥፋት ይፈልጋሉ?" : "Clear this plan and start a new one?")) return;
   if (state.details.brideName?.trim() && state.details.groomName?.trim() && planSignature() !== savedPlanSignature) await saveRecord({ silent: true });
+  resetToEmptyPlan();
+  showToast(t("draftReset"));
+}
+
+// An empty Couple & event step, with nothing carried over.
+function resetToEmptyPlan() {
+  clearTimeout(autoSaveTimer);
   localStorage.removeItem(STORAGE_KEY);
   state.details = {};
   normalizeEventVenues();
@@ -2071,9 +2099,11 @@ async function clearDraft() {
   updateBalance();
   renderServices();
   clearValidation();
+  state.recordReadOnly = false;
+  state.recordOwnerName = "";
+  applyReadOnly();
   setStep(0);
   window.dispatchEvent(new Event("plan-ui-update"));
-  showToast(t("draftReset"));
 }
 
 async function printDocument(kind) {
@@ -2514,6 +2544,8 @@ async function submitPortal(button) {
   const errors = ["brideName", "groomName"].filter(id => !state.details[id]?.trim()).map(id => ({ id, message:t("nameRequired") }));
   if (!state.details.bridePhone?.trim() && !state.details.groomPhone?.trim()) errors.push({ id:"bridePhone", message:t("portalPhoneRequired") });
   if (errors.length) return showValidation(errors, 0);
+  const undecided = selectedServices().filter(service => !getServiceState(service.id).responsibility);
+  if (undecided.length) return showValidation(undecided.map(service => ({ label:`${service.number} ${localized(service.title)}`, message:t("statusRequired") })), 1);
   const label = button.querySelector("span");
   button.disabled = true;
   label.textContent = t("portalSending");
@@ -2620,6 +2652,139 @@ async function copyPortalLink() {
     window.prompt(t("portalCopyLink"), link);
   }
 }
+
+/* ── Couples: pins, menu, delete and view-only ─────────────────────── */
+// Every team member sees every couple; its creator and the owner can change or delete it.
+const coupleName = record => `${record.bride_first_name || ""} & ${record.groom_first_name || ""}`;
+const sortCouples = records => records.sort((a, b) => Number(Boolean(b.pinned)) - Number(Boolean(a.pinned)) || String(b.updated_at).localeCompare(String(a.updated_at)) || b.id - a.id);
+
+function syncReadOnlyFromList() {
+  const record = state.recordId && (state.records || []).find(item => item.id === state.recordId);
+  if (!record) return;
+  state.recordReadOnly = record.can_edit === false;
+  state.recordOwnerName = record.owner_name || "";
+  applyReadOnly();
+}
+
+// A couple someone else registered opens for viewing: its fields can't be edited and nothing is saved.
+function applyReadOnly() {
+  const readOnly = Boolean(state.recordReadOnly) && !PORTAL;
+  document.body.classList.toggle("record-readonly", readOnly);
+  const banner = document.getElementById("readonlyBanner");
+  if (banner) {
+    banner.hidden = !readOnly;
+    banner.textContent = readOnly ? t("readOnlyBanner").replace("{name}", state.recordOwnerName || "—") : "";
+  }
+  document.querySelectorAll("#step-details > *, #step-services > *, #step-pricing > *").forEach(element => {
+    element.inert = readOnly && !element.matches(".step-footer, .section-intro");
+  });
+}
+
+async function setCouplePinned(id, pinned) {
+  const record = (state.records || []).find(item => item.id === id);
+  if (!record) return;
+  record.pinned = pinned;
+  sortCouples(state.records);
+  renderCoupleContext();
+  renderRecords();
+  try {
+    const response = await fetch(`/api/records/${id}/pin`, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify({ pinned }) });
+    if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || t("recordUnavailable"));
+  } catch (error) {
+    record.pinned = !pinned;
+    sortCouples(state.records);
+    renderCoupleContext();
+    renderRecords();
+    showToast(error.message);
+  }
+}
+
+async function deleteCouple(id) {
+  const record = (state.records || []).find(item => item.id === id);
+  if (!record) return;
+  if (!record.can_edit) return showToast(t("coupleNoDelete").replace("{name}", record.owner_name || "—"));
+  if (!window.confirm(t("coupleDeleteConfirm").replace("{name}", coupleName(record)))) return;
+  try {
+    const response = await fetch(`/api/records/${id}`, { method:"DELETE" });
+    if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || t("recordUnavailable"));
+    state.records = state.records.filter(item => item.id !== id);
+    if (state.recordId === id) resetToEmptyPlan();
+    renderCoupleContext();
+    renderRecords();
+    showToast(t("coupleDeleted"));
+  } catch (error) {
+    showToast(error.message);
+  }
+}
+
+let coupleMenuFor = null;
+
+function closeCoupleMenu() {
+  const menu = document.getElementById("coupleMenu");
+  if (!menu || menu.hidden) return;
+  menu.hidden = true;
+  document.querySelectorAll("[data-couple-menu][aria-expanded='true']").forEach(button => button.setAttribute("aria-expanded", "false"));
+  coupleMenuFor = null;
+}
+
+function openCoupleMenu(button, id) {
+  const record = (state.records || []).find(item => item.id === id);
+  const menu = document.getElementById("coupleMenu");
+  if (!record || !menu) return;
+  if (coupleMenuFor === id) return closeCoupleMenu();
+  closeCoupleMenu();
+  coupleMenuFor = id;
+  button.setAttribute("aria-expanded", "true");
+  const creator = record.is_mine ? t("coupleCreatedByYou") : t("coupleCreatedBy").replace("{name}", record.owner_name || "—");
+  menu.innerHTML = `
+    <button type="button" role="menuitem" data-couple-action="open"><svg class="ui-icon" aria-hidden="true"><use href="#icon-open"></use></svg>${escapeHtml(t("coupleOpen"))}</button>
+    <button type="button" role="menuitem" data-couple-action="pin"><svg class="ui-icon" aria-hidden="true"><use href="#icon-pin"></use></svg>${escapeHtml(t(record.pinned ? "coupleUnpin" : "couplePin"))}</button>
+    <hr />
+    <button type="button" role="menuitem" class="couple-menu-danger" data-couple-action="delete" ${record.can_edit ? "" : `disabled title="${escapeHtml(t("coupleNoDelete").replace("{name}", record.owner_name || "—"))}"`}><svg class="ui-icon" aria-hidden="true"><use href="#icon-trash"></use></svg>${escapeHtml(t("coupleDelete"))}</button>
+    <hr />
+    <p class="couple-menu-note">${escapeHtml(creator)}</p>`;
+  menu.hidden = false;
+  // Place it in screen pixels beside the button, then convert for the large-screen scale.
+  const zoom = parseFloat(getComputedStyle(menu).zoom) || 1;
+  const anchor = button.getBoundingClientRect();
+  const size = menu.getBoundingClientRect();
+  const left = Math.min(anchor.left, window.innerWidth - size.width - 8);
+  const top = anchor.bottom + 6 + size.height <= window.innerHeight ? anchor.bottom + 6 : Math.max(8, anchor.top - size.height - 6);
+  menu.style.left = `${Math.max(8, left) / zoom}px`;
+  menu.style.top = `${top / zoom}px`;
+  menu.querySelector("button:not([disabled])")?.focus();
+}
+
+// Pins, the ⋯ menu and its items; returns true when the click was handled.
+function handleCoupleClick(event) {
+  const menu = document.getElementById("coupleMenu");
+  const action = event.target.closest("[data-couple-action]");
+  if (action && coupleMenuFor) {
+    const id = coupleMenuFor;
+    closeCoupleMenu();
+    if (action.dataset.coupleAction === "open") openRecord(id);
+    if (action.dataset.coupleAction === "pin") setCouplePinned(id, !(state.records.find(item => item.id === id)?.pinned));
+    if (action.dataset.coupleAction === "delete") deleteCouple(id);
+    return true;
+  }
+  const more = event.target.closest("[data-couple-menu]");
+  if (more) { openCoupleMenu(more, Number(more.dataset.coupleMenu)); return true; }
+  const pin = event.target.closest("[data-couple-pin]");
+  if (pin) {
+    const id = Number(pin.dataset.couplePin);
+    setCouplePinned(id, !(state.records.find(item => item.id === id)?.pinned));
+    return true;
+  }
+  if (menu && !menu.hidden && !menu.contains(event.target)) closeCoupleMenu();
+  return false;
+}
+
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape" || !coupleMenuFor) return;
+  const id = coupleMenuFor;
+  closeCoupleMenu();
+  document.querySelector(`[data-couple-menu="${id}"]`)?.focus();
+});
 
 /* ── Account and team ─────────────────────────────────────────────── */
 const roleKey = role => ({ owner:"teamRoleOwner", admin:"teamRoleAdmin" }[role] || "teamRolePlanner");
@@ -3063,6 +3228,7 @@ function bindEvents() {
   document.addEventListener("click", (event) => {
     // The share panel works while its PDF is still being prepared.
     if (handleDocShareClick(event)) return;
+    if (handleCoupleClick(event)) return;
     if (exportingPdf) return;
     const download = event.target.closest("[data-download-pdf]");
     if (download) { downloadDocument(download.dataset.downloadPdf, download); return; }
