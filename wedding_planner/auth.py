@@ -19,6 +19,16 @@ class Identity:
     roles: set = field(default_factory=set)
     permissions: set = field(default_factory=set)
     local: bool = False
+    # Signed-in app accounts only ever see weddings and couple records they registered
+    # (or were added to); the admin role no longer reaches other accounts' weddings.
+    isolated: bool = False
+
+
+def record_scope(identity):
+    """SQL condition limiting couple records to the signed-in account's own."""
+    if identity and identity.isolated:
+        return " AND owner_user_id=?", (identity.user_id,)
+    return "", ()
 
 
 def legacy_staff(identity):
@@ -67,7 +77,7 @@ def authenticate(headers, local_allowed=False):
                 return None
             if not isinstance(roles, list) or not set(roles) <= ROLES or not isinstance(permissions, list) or not all(isinstance(p, str) for p in permissions):
                 return None
-            return Identity(user_id, org, set(roles), set(permissions))
+            return Identity(user_id, org, set(roles), set(permissions), isolated=True)
         except (ValueError, KeyError, TypeError):
             return None
     if local_allowed and not secret and os.environ.get("MATRIMONY_LOCAL_PLANNER", "1") == "1":

@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from . import catalog, validation
-from .auth import ROLES, legacy_staff
+from .auth import ROLES, legacy_staff, record_scope
 from .domain import (ApiError, BOOKING_TRANSITIONS, SERVICE_TRANSITIONS, WEDDING_TRANSITIONS,
                      budget_summary, civil_date, collision, digest, due_time, integer, instant,
                      overdue, readiness, relative_date, require, text, would_cycle)
@@ -39,8 +39,6 @@ class Router(QuestionnaireMixin, TemplateUpgradeMixin):
         require(isinstance(self.body, dict), "A JSON object is required.")
         self.path = path.rstrip("/").removeprefix("/api/v1/")
         parts = self.path.split("/")
-        if method in {"POST", "PATCH", "DELETE"} and hasattr(self.db, "path") and not self.db.conn.in_transaction:
-            self.db.execute("BEGIN IMMEDIATE")
         key = self.headers.get("Idempotency-Key", "")
         self.request_key = None
         if method == "POST" and not parts[-1].endswith("preview") and parts[-1] != "conflict-check":
@@ -97,7 +95,7 @@ class Router(QuestionnaireMixin, TemplateUpgradeMixin):
         row = self.db.query_one("SELECT payload_json FROM wp_members WHERE wedding_id=? AND user_id=?", (wedding_id, self.identity.user_id))
         self.member = json.loads(row["payload_json"]) if row else {}
         self.roles = set(self.member.get("roles", []))
-        if "admin" in self.identity.roles:
+        if "admin" in self.identity.roles and (row or not self.identity.isolated):
             self.roles.add("admin")
         require(bool(self.roles), "Wedding not found.", 404)
         self.service_cache = {s["id"]: s for s in self.store.items("services", wedding_id)}
@@ -301,13 +299,14 @@ class Router(QuestionnaireMixin, TemplateUpgradeMixin):
 
     def clients(self):
         require(self.method == "GET" and legacy_staff(self.identity), "Client selection requires access to the host's couple records.", 403)
-        rows = self.db.query("SELECT id,bride_first_name,groom_first_name,wedding_date FROM records ORDER BY updated_at DESC LIMIT 100")
+        scope, parameters = record_scope(self.identity)
+        rows = self.db.query("SELECT id,bride_first_name,groom_first_name,wedding_date FROM records WHERE 1=1" + scope + " ORDER BY updated_at DESC LIMIT 100", parameters)
         return 200, {"items": [{"id": r["id"], "title": f"{r['bride_first_name']} & {r['groom_first_name']}", "weddingDate": r["wedding_date"] or None} for r in rows]}
 
     def root_route(self):
         if self.method == "GET":
             clauses, parameters = ["w.organization_id=?"], [self.identity.organization_id]
-            if "admin" not in self.identity.roles:
+            if "admin" not in self.identity.roles or self.identity.isolated:
                 clauses.append("EXISTS(SELECT 1 FROM wp_members m WHERE m.wedding_id=w.id AND m.user_id=?)")
                 parameters.append(self.identity.user_id)
             term = self.query.get("q", [""])[0].strip().lower()[:160]
@@ -440,7 +439,8 @@ class Router(QuestionnaireMixin, TemplateUpgradeMixin):
             require(isinstance(values["selectedServiceCodes"], list) and all(isinstance(c, str) for c in values["selectedServiceCodes"]) and set(values["selectedServiceCodes"]) <= {t["code"] for t in self.all_templates()}, "Unknown service code.")
         if values.get("clientId"):
             require(legacy_staff(self.identity), "Linking a couple record requires access to the host's client directory.", 403)
-            require(self.db.query_one("SELECT id FROM records WHERE id=?", (values["clientId"],)), "Client record not found.", 404)
+            scope, parameters = record_scope(self.identity)
+            require(self.db.query_one("SELECT id FROM records WHERE id=?" + scope, (values["clientId"], *parameters)), "Client record not found.", 404)
         validated = validation.wedding({k: v for k, v in proposed.items() if k in {"title", "clientId", "weddingDate", "guestEstimate", "budgetMinor", "language", "calendarPreference", "city", "churchLocation", "venueLocation", "leadPlannerUserId", "package", "selectedServiceCodes", "ceremonyType", "timezone", "currency"}})
         proposed.update({k: validated[k] for k in values})
         if "status" in self.body:
@@ -721,7 +721,7 @@ class Router(QuestionnaireMixin, TemplateUpgradeMixin):
         events = [json.loads(row["payload_json"]) for row in rows]
         result = collision(candidate, events)
         for conflict in result:
-            if conflict["weddingId"] != self.project["id"] and "admin" not in self.identity.roles:
+            if conflict["weddingId"] != self.project["id"] and ("admin" not in self.identity.roles or self.identity.isolated):
                 member = self.db.query_one("SELECT user_id FROM wp_members WHERE wedding_id=? AND user_id=?", (conflict["weddingId"], self.identity.user_id))
                 if not member:
                     conflict["title"] = "Resource booked in another wedding"

@@ -2,7 +2,6 @@
 
 import json
 import logging
-import sqlite3
 from urllib.parse import parse_qs, urlparse
 
 from .api import Router, enabled
@@ -59,8 +58,6 @@ def serve(handler, db_factory, local=False, path=None):
         return handler.send_json(status, payload)
     except ApiError as error:
         return handler.send_json(error.status, error.payload)
-    except sqlite3.IntegrityError:
-        return handler.send_json(409, {"error": "A duplicate or invalid linked record was rejected. Refresh before retrying."})
     except Exception as error:
         code = error.args[0].get("C") if error.args and isinstance(error.args[0], dict) else None
         if code in {"23505", "23503", "23514"}:

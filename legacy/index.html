@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <base id="appBase" href="./" />
+    <script>if (location.protocol === 'http:' || location.protocol === 'https:') document.getElementById('appBase').href = '/';</script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#010101" />
+    <meta
+      name="description"
+      content="Matrimony By Hanna — a calm, clear wedding planning and service agreement workspace."
+    />
+    <title>Matrimony By Hanna · Event Planner</title>
+    <link rel="icon" type="image/png" href="./assets/matrimony-app-icon.png?v=3" />
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=3" />
+    <link rel="stylesheet" href="./styles.css?v=20261020-owned" />
+    <link rel="stylesheet" href="./weddings.css?v=20261015" />
+  </head>
+  <body>
+    <svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="icon-save" viewBox="0 0 24 24"><path d="M5 4h12l3 3v13H4V4h1Z" /><path d="M8 4v6h8V4M8 20v-6h8v6" /></symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 20h14" /></symbol>
+      <symbol id="icon-printer" viewBox="0 0 24 24"><path d="M7 8V4h10v4M7 17H4V9h16v8h-3" /><path d="M7 14h10v6H7zM17 11h.01" /></symbol>
+      <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+      <symbol id="icon-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></symbol>
+      <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4" /></symbol>
+      <symbol id="icon-link" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3.2-3.2a4.5 4.5 0 0 0-6.4-6.4L11.6 6" /><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3.2 3.2a4.5 4.5 0 0 0 6.4 6.4l1.6-1.6" /></symbol>
+      <symbol id="icon-sidebar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5" /><path d="M9.5 4v16" /></symbol>
+      <symbol id="icon-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8" /></symbol>
+      <symbol id="icon-logout" viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 16l-4-4 4-4M6 12h10" /></symbol>
+      <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.7" /></symbol>
+      <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></symbol>
+      <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20 12H5m6 6-6-6 6-6" /></symbol>
+      <symbol id="icon-open" viewBox="0 0 24 24"><path d="M13 5h6v6m0-6-9 9" /><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 3v4m8-4v4M4 10h16" /></symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></symbol>
+      <symbol id="icon-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></symbol>
+      <symbol id="icon-sunrise" viewBox="0 0 24 24"><path d="M12 3v3m-7.8 3.2 2.1 2.1m11.4 0 2.1-2.1M2 18h20M6 18a6 6 0 0 1 12 0M3 21h18" /></symbol>
+      <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></symbol>
+      <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" /></symbol>
+      <symbol id="icon-church" viewBox="0 0 24 24"><path d="M12 2v5m-2-3h4M6 21V11l6-4 6 4v10M3 21h18M10 21v-4a2 2 0 0 1 4 0v4" /></symbol>
+      <symbol id="icon-hall" viewBox="0 0 24 24"><path d="M3 9 12 4l9 5M4 9v11m16-11v11M8 12v6m4-6v6m4-6v6M3 21h18" /></symbol>
+      <symbol id="icon-hotel" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5" /><path d="M9 7h2m2 0h2m-6 4h2m2 0h2m-6 4h2m2 0h2M10 21v-3h4v3" /></symbol>
+      <symbol id="icon-tree" viewBox="0 0 24 24"><path d="M12 22v-6M7 16h10l-2.5-4H16l-4-8-4 8h1.5z" /></symbol>
+      <symbol id="icon-home" viewBox="0 0 24 24"><path d="m3 11 9-7 9 7M5 9.5V20h14V9.5M10 20v-5h4v5" /></symbol>
+      <symbol id="icon-dining" viewBox="0 0 24 24"><path d="M7 3v8m-2.5-8v4.5a2.5 2.5 0 0 0 5 0V3M7 11v10M17 21V3c-2 1.5-3 4-3 7v2h3" /></symbol>
+      <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z" /><circle cx="12" cy="9" r="2.5" /></symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.4-2.3 1.4a11 11 0 0 0 5.2 5.2l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z" /></symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z" /></symbol>
+    </svg>
+    <div class="app-shell">
+      <div class="sidebar-backdrop" id="sidebarBackdrop" hidden></div>
+      <aside class="sidebar" id="appSidebar" aria-label="Menu">
+        <div class="sidebar-header">
+          <div class="sidebar-brand-row">
+            <div class="brand-lockup">
+              <img class="brand-logo brand-logo-dark" src="./assets/matrimony-logo-transparent.png" alt="Matrimony — Leading from wedding up to matrimony" />
+              <button type="button" class="sidebar-rail-mark" id="sidebarExpand" aria-label="Expand menu" data-aria-en="Expand menu" data-aria-am="ምናሌውን አስፋ" title="Expand menu">
+                <img src="./assets/matrimony-mark-white.png" alt="" />
+              </button>
+            </div>
+            <button type="button" class="sidebar-icon-button sidebar-collapse" id="sidebarCollapse" aria-label="Collapse menu" data-aria-en="Collapse menu" data-aria-am="ምናሌውን አሳንስ" title="Collapse menu" aria-controls="appSidebar" aria-expanded="true">
+              <svg class="ui-icon" aria-hidden="true"><use href="#icon-sidebar"></use></svg>
+            </button>
+            <button type="button" class="sidebar-icon-button sidebar-close" id="sidebarClose" aria-label="Close menu" data-aria-en="Close menu" data-aria-am="ምናሌውን ዝጋ">
+              <svg class="ui-icon" aria-hidden="true"><use href="#icon-close"></use></svg>
+            </button>
+            <button type="button" class="sidebar-icon-button sidebar-search" id="openSearchButton" aria-label="Search weddings" title="Search weddings (Ctrl+K)" aria-haspopup="dialog">
+              <svg class="ui-icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+            </button>
+          </div>
+          <button class="sidebar-new-plan" type="button" id="resetDraftButton">
+            <svg class="ui-icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
+            <span data-i18n="startNew">New wedding</span>
+          </button>
+          <button class="sidebar-requests" type="button" data-open-requests>
+            <svg class="ui-icon" aria-hidden="true"><use href="#icon-chat"></use></svg>
+            <span data-i18n="portalRequestsTitle">Client requests</span>
+            <span class="sidebar-requests-count" id="portalRequestsCount" hidden>0</span>
+          </button>
+          <button class="sidebar-requests sidebar-create-link" type="button" data-create-link>
+            <svg class="ui-icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+            <span data-i18n="createLink">Create client link</span>
+          </button>
+        </div>
+
+        <div class="sidebar-main">
+          <section class="recent-couples">
+            <div class="recent-heading"><span class="tiny-label" data-i18n="weddingsHeading">Weddings</span><button type="button" data-step-target="4" data-i18n="viewAll">View all</button></div>
+            <div id="recentCouples" aria-live="polite"></div>
+          </section>
+        </div>
+
+        <section class="sidebar-blank-forms" aria-labelledby="blankFormsHeading">
+          <span class="tiny-label" id="blankFormsHeading" data-i18n="blankForms">Blank forms</span>
+          <button type="button" data-blank-doc="agreement"><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg><span data-i18n="blankAgreement">Blank agreement</span></button>
+          <button type="button" data-blank-doc="proforma"><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg><span data-i18n="blankProposal">Blank proposal</span></button>
+        </section>
+
+        <div class="sidebar-footer">
+          <div class="sidebar-user-avatar" id="sidebarAvatar" aria-hidden="true">MH</div>
+          <div class="sidebar-user-meta">
+            <strong id="sidebarUserName">Matrimony by Hanna</strong>
+            <small id="sidebarUserRole" data-i18n="brandCaption">Ceremony, beautifully considered.</small>
+          </div>
+          <div class="sidebar-account" id="sidebarAccount" hidden>
+            <button type="button" class="sidebar-icon-button" id="teamButton" aria-label="Team" data-aria-en="Team" data-aria-am="ቡድን" hidden>
+              <svg class="ui-icon" aria-hidden="true"><use href="#icon-users"></use></svg>
+            </button>
+            <button type="button" class="sidebar-icon-button" id="signOutButton" aria-label="Sign out" data-aria-en="Sign out" data-aria-am="ውጣ">
+              <svg class="ui-icon" aria-hidden="true"><use href="#icon-logout"></use></svg>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="main-shell">
+        <header class="topbar">
+          <button type="button" class="topbar-menu" id="sidebarToggle" aria-controls="appSidebar" aria-expanded="false" aria-label="Open menu" data-aria-en="Open menu" data-aria-am="ምናሌ ክፈት">
+            <svg class="ui-icon" aria-hidden="true"><use href="#icon-menu"></use></svg>
+          </button>
+          <div class="mobile-brand">
+            <img class="mobile-logo" src="./assets/matrimony-logo-transparent.png" alt="Matrimony — Leading from wedding up to matrimony" />
+            <img class="mobile-mark" src="./assets/matrimony-mark.png" alt="Matrimony" />
+          </div>
+          <div class="topbar-couple" id="topbarCoupleName"></div>
+        </header>
+
+        <div class="workflow-nav-shell">
+          <div class="workflow-card">
+            <div class="workflow-card-header">
+              <div class="workflow-title">
+                <h2 class="workspace-label" data-i18n="workspaceLabel">Planning workspace</h2>
+                <span class="workflow-step-count" id="workflowStepCount" aria-live="polite">Step 01 of 06</span>
+              </div>
+              <div class="workflow-card-actions">
+                <div class="save-state" id="saveState" aria-live="polite">
+                  <span class="save-dot"></span>
+                  <span data-i18n="savedLocally">Saved locally</span>
+                </div>
+                <div class="language-switcher" role="group" aria-label="Language">
+                  <button class="language-button is-active" type="button" data-language="en">EN</button>
+                  <button class="language-button" type="button" data-language="am">አማ</button>
+                </div>
+              </div>
+            </div>
+            <nav class="workflow-nav" aria-label="Planning workspace">
+              <div class="workflow-steps">
+              <button class="step-link is-active" type="button" data-step-target="0" aria-current="step">
+                <span class="step-index" aria-hidden="true">01</span>
+                <span class="step-copy"><strong data-i18n="navDetails">Couple & event</strong></span>
+              </button>
+              <button class="step-link" type="button" data-step-target="1">
+                <span class="step-index" aria-hidden="true">02</span>
+                <span class="step-copy"><strong data-i18n="navServices">Services</strong></span>
+              </button>
+              <button class="step-link" type="button" data-step-target="6">
+                <span class="step-index" aria-hidden="true">03</span>
+                <span class="step-copy"><strong data-i18n="navPricing">Pricing</strong></span>
+              </button>
+              <button class="step-link" type="button" data-step-target="3">
+                <span class="step-index" aria-hidden="true">04</span>
+                <span class="step-copy"><strong data-i18n="navProforma">Proposal</strong></span>
+              </button>
+              <button class="step-link" type="button" data-step-target="2">
+                <span class="step-index" aria-hidden="true">05</span>
+                <span class="step-copy"><strong data-i18n="navAgreement">Agreement</strong></span>
+              </button>
+              <button class="step-link" id="weddingPlanningNav" type="button" data-step-target="5">
+                <span class="step-index" aria-hidden="true">06</span>
+                <span class="step-copy"><strong id="weddingPlanningNavLabel" data-i18n="navPlan">Plan</strong></span>
+              </button>
+              </div>
+            </nav>
+          </div>
+        </div>
+
+        <main class="content" id="appMain">
+          <section class="step-panel wp-root" id="step-weddings" data-step="5" aria-label="Wedding Planning">
+            <section id="portalRequests" class="portal-requests" aria-live="polite" hidden></section>
+            <div id="weddingWorkspace" aria-live="polite"></div>
+          </section>
+          <div id="validationSummary" class="validation-summary" role="alert" hidden></div>
+          <section class="step-panel is-active" id="step-details" data-step="0">
+            <div class="section-intro intro-with-stamp">
+              <div>
+                <div class="eyebrow" data-i18n="detailsEyebrow">MATRIMONY BY HANNA · WEDDING PLANNING</div>
+                <h1 data-i18n="detailsTitle">Plan the ceremony with clarity.</h1>
+                <p data-i18n="detailsDescription">
+                  Start with the people, place, and promises. Every detail you add here flows into a ready-to-sign service agreement.
+                </p>
+              </div>
+              <div class="intro-stamp" aria-hidden="true">
+                <span>21</span>
+                <small data-i18n="stampServices">services</small>
+              </div>
+            </div>
+
+            <div class="notice-bar">
+              <span class="notice-icon" aria-hidden="true">✦</span>
+              <span data-i18n="detailsNotice">A calm plan starts with the essentials. You can return and refine this at any time.</span>
+            </div>
+
+            <div class="form-layout">
+              <div class="form-card couple-card">
+                <div class="card-heading">
+                  <div>
+                    <div class="eyebrow" data-i18n="coupleEyebrow">THE COUPLE</div>
+                    <h2 data-i18n="coupleHeading">Names & contact</h2>
+                  </div>
+                  <span class="card-number">01</span>
+                </div>
+                <div class="couple-card-columns">
+                  <section class="couple-card-section" aria-labelledby="brideDetailsHeading">
+                    <h3 class="couple-section-title" id="brideDetailsHeading" data-i18n="brideDetails">Bride’s details</h3>
+                    <label class="field">
+                      <span data-i18n="fullName">Full name</span>
+                      <input id="brideName" type="text" autocomplete="name" placeholder="e.g. Hanna Alemu" data-placeholder-en="e.g. Hanna Alemu" data-placeholder-am="ለምሳሌ ሀና አለሙ" />
+                    </label>
+                    <label class="field">
+                      <span data-i18n="phoneNumber">Phone number</span>
+                      <span class="input-with-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-phone"></use></svg><input id="bridePhone" type="tel" autocomplete="tel" placeholder="+251 9 …" /></span>
+                    </label>
+                    <label class="field">
+                      <span data-i18n="homeAddress">Home address</span>
+                      <input id="brideAddress" type="text" data-map-location placeholder="Search bride’s address" data-placeholder-en="Search bride’s address" data-placeholder-am="የሙሽራዋን አድራሻ ይፈልጉ" />
+                    </label>
+                  </section>
+                  <section class="couple-card-section" aria-labelledby="groomDetailsHeading">
+                    <h3 class="couple-section-title" id="groomDetailsHeading" data-i18n="groomDetails">Groom’s details</h3>
+                    <label class="field">
+                      <span data-i18n="fullName">Full name</span>
+                      <input id="groomName" type="text" autocomplete="name" placeholder="e.g. Samuel Bekele" data-placeholder-en="e.g. Samuel Bekele" data-placeholder-am="ለምሳሌ ሳሙኤል በቀለ" />
+                    </label>
+                    <label class="field">
+                      <span data-i18n="phoneNumber">Phone number</span>
+                      <span class="input-with-icon"><svg class="ui-icon" aria-hidden="true"><use href="#icon-phone"></use></svg><input id="groomPhone" type="tel" autocomplete="tel" placeholder="+251 9 …" /></span>
+                    </label>
+                    <label class="field">
+                      <span data-i18n="homeAddress">Home address</span>
+                      <input id="groomAddress" type="text" data-map-location placeholder="Search groom’s address" data-placeholder-en="Search groom’s address" data-placeholder-am="የሙሽራውን አድራሻ ይፈልጉ" />
+                    </label>
+                  </section>
+                </div>
+              </div>
+
+              <div class="form-card event-card">
+                <div class="card-heading">
+                  <div>
+                    <div class="eyebrow" data-i18n="eventEyebrow">THE EVENT</div>
+                    <h2 data-i18n="eventHeading">When & where</h2>
+                  </div>
+                  <span class="card-number">02</span>
+                </div>
+                <div class="event-card-columns">
+                  <section class="event-card-section" aria-labelledby="eventScheduleHeading">
+                    <h3 class="event-section-title" id="eventScheduleHeading" data-i18n="eventScheduleHeading">Date &amp; meals</h3>
+                    <label class="field">
+                      <span data-i18n="weddingDate">Wedding date</span>
+                      <input id="weddingDate" type="date" />
+                    </label>
+                    <div class="field">
+                      <span id="eventDaysLabel" data-i18n="eventDays">Number of event days</span>
+                      <div class="day-stepper">
+                        <button type="button" data-days-step="-1" aria-label="Fewer days" data-aria-en="Fewer days" data-aria-am="ቀን ቀንስ">−</button>
+                        <input id="eventDays" type="number" min="1" max="365" step="1" value="1" inputmode="numeric" aria-labelledby="eventDaysLabel" />
+                        <button type="button" data-days-step="1" aria-label="More days" data-aria-en="More days" data-aria-am="ቀን ጨምር">+</button>
+                      </div>
+                    </div>
+                    <fieldset class="field meal-program-field">
+                      <legend data-i18n="mealProgram">Meal program</legend>
+                      <p class="field-help" data-i18n="mealProgramHint">Select the meals included in the event.</p>
+                      <div class="meal-program-grid">
+                        <label class="multi-choice choice-tile"><input type="checkbox" data-meal-program="breakfast" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-sunrise"></use></svg><span class="choice-tile-text"><strong data-i18n="mealBreakfast">Breakfast</strong><small data-i18n="mealBreakfastHint">Morning</small></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                        <label class="multi-choice choice-tile"><input type="checkbox" data-meal-program="lunch" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-sun"></use></svg><span class="choice-tile-text"><strong data-i18n="mealLunch">Lunch</strong><small data-i18n="mealLunchHint">Midday</small></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                        <label class="multi-choice choice-tile"><input type="checkbox" data-meal-program="dinner" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-moon"></use></svg><span class="choice-tile-text"><strong data-i18n="mealDinner">Dinner</strong><small data-i18n="mealDinnerHint">Evening</small></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                      </div>
+                      <div class="meal-summary" id="mealSummary" hidden></div>
+                    </fieldset>
+                  </section>
+                  <fieldset class="event-card-section event-venue-fieldset">
+                    <legend class="event-section-title" data-i18n="eventVenuesTitle">Event venues</legend>
+                    <p class="field-help" data-i18n="eventVenueSelectHint">Select every venue type you need.</p>
+                    <div class="event-venue-type-grid">
+                      <label class="multi-choice choice-tile"><input type="checkbox" data-event-venue-type="church" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-church"></use></svg><span class="choice-tile-text"><strong data-i18n="venueTypeChurch">Church / religious venue</strong></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                      <label class="multi-choice choice-tile"><input type="checkbox" data-event-venue-type="hall" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-hall"></use></svg><span class="choice-tile-text"><strong data-i18n="venueTypeHall">Wedding or reception hall</strong></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                      <label class="multi-choice choice-tile"><input type="checkbox" data-event-venue-type="hotel" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-hotel"></use></svg><span class="choice-tile-text"><strong data-i18n="venueTypeHotel">Hotel / banquet venue</strong></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                      <label class="multi-choice choice-tile"><input type="checkbox" data-event-venue-type="outdoor" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-tree"></use></svg><span class="choice-tile-text"><strong data-i18n="venueTypeOutdoor">Garden / park / outdoor venue</strong></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                      <label class="multi-choice choice-tile"><input type="checkbox" data-event-venue-type="home" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-home"></use></svg><span class="choice-tile-text"><strong data-i18n="venueTypeHome">Home / private residence</strong></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                      <label class="multi-choice choice-tile"><input type="checkbox" data-event-venue-type="restaurant" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-dining"></use></svg><span class="choice-tile-text"><strong data-i18n="venueTypeRestaurant">Restaurant</strong></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                      <label class="multi-choice choice-tile"><input type="checkbox" data-event-venue-type="other" /><span class="choice-tile-body"><svg class="choice-tile-icon" aria-hidden="true"><use href="#icon-pin"></use></svg><span class="choice-tile-text"><strong data-i18n="venueTypeOther">Other venue</strong></span><span class="choice-check" aria-hidden="true"></span></span></label>
+                    </div>
+                    <p class="event-venue-note"><svg class="ui-icon" aria-hidden="true"><use href="#icon-pin"></use></svg><span data-i18n="eventVenueMapHint">Choose each venue location on the map.</span></p>
+                  </fieldset>
+                </div>
+                <div id="eventVenueFields" class="event-venue-fields"></div>
+                <fieldset class="media-consent-field">
+                  <legend data-i18n="mediaConsentTitle">Photo &amp; video consent</legend>
+                  <div class="consent-choice-grid">
+                    <label class="multi-choice consent-option"><input type="radio" name="mediaConsent" value="yes" /><span class="consent-option-body"><span class="consent-radio" aria-hidden="true"></span><span data-i18n="mediaConsentYes">We consent to promotional use of wedding photos and videos.</span></span></label>
+                    <label class="multi-choice consent-option"><input type="radio" name="mediaConsent" value="no" checked /><span class="consent-option-body"><span class="consent-radio" aria-hidden="true"></span><span data-i18n="mediaConsentNo">Do not post images showing our faces.</span></span></label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="form-card notes-card">
+                <div class="card-heading">
+                  <div>
+                    <div class="eyebrow" data-i18n="notesEyebrow">ANYTHING ELSE</div>
+                    <h2 data-i18n="notesHeading">Planning notes</h2>
+                  </div>
+                  <span class="card-number">03</span>
+                </div>
+                <label class="field field-full notes-field">
+                  <span class="sr-only" data-i18n="generalNotes">Planning notes</span>
+                  <textarea id="generalNotes" rows="3" placeholder="Anything Hanna should know about this celebration?" data-placeholder-en="Anything Hanna should know about this celebration?" data-placeholder-am="ስለዚህ ዝግጅት ሀና ማወቅ ያለባት ነገር አለ?" ></textarea>
+                </label>
+              </div>
+            </div>
+
+            <div class="step-footer">
+              <div class="footer-note"><span class="required-dot">*</span><span data-i18n="requiredHint">Date and couple names help us build the agreement.</span></div>
+              <button class="button button-primary" type="button" data-next-step="1"><span data-i18n="continueServices">Continue to services</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+            </div>
+          </section>
+
+          <section class="step-panel" id="step-services" data-step="1">
+            <div class="section-intro">
+              <div>
+                <div class="eyebrow" data-i18n="servicesEyebrow">THE AGREED SCOPE</div>
+                <h1 data-i18n="servicesTitle">Choose what belongs in the promise.</h1>
+                <p data-i18n="servicesDescription">Choose the services for this wedding. Your selections carry into the planner, where you can arrange the details later.</p>
+              </div>
+              <div class="selected-counter" aria-live="polite"><strong id="selectedCount">0</strong><span data-i18n="selectedOf">of 21 selected</span></div>
+            </div>
+
+            <div class="service-toolbar">
+              <label class="search-field">
+                <span aria-hidden="true">⌕</span>
+                <input id="serviceSearch" type="search" placeholder="Search services" data-placeholder-en="Search services" data-placeholder-am="አገልግሎቶችን ፈልግ" />
+              </label>
+              <label class="filter-field">
+                <span class="sr-only" data-i18n="filterLabel">Filter services</span>
+                <select id="serviceFilter">
+                  <option value="all" data-i18n="filterAll">All service areas</option>
+                  <option value="spiritual" data-i18n="filterSpiritual">Spiritual & church</option>
+                  <option value="venue" data-i18n="filterVenue">Venue & atmosphere</option>
+                  <option value="hospitality" data-i18n="filterHospitality">Hospitality</option>
+                  <option value="style" data-i18n="filterStyle">Style & people</option>
+                  <option value="logistics" data-i18n="filterLogistics">Logistics & readiness</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="contract-scope-card">
+              <div>
+                <div class="eyebrow" data-i18n="contractScopeEyebrow">AGREEMENT SCOPE</div>
+                <h2 data-i18n="contractScopeHeading">Choose the planning engagement</h2>
+                <p data-i18n="contractScopeHint">Premarital education is included when selected in the service list below.</p>
+              </div>
+              <div class="contract-scope-options">
+                <label class="multi-choice"><input type="checkbox" id="scopeFullPlanning" data-contract-scope="fullPlanning" /><span data-i18n="scopeFullPlanning">Full wedding planning & coordination</span></label>
+                <label class="multi-choice"><input type="checkbox" id="scopeDayOf" data-contract-scope="dayOfCoordination" /><span data-i18n="scopeDayOf">Day-of coordination</span></label>
+              </div>
+            </div>
+
+            <div class="services-grid" id="servicesGrid"></div>
+
+            <div class="step-footer">
+              <button class="button button-quiet" type="button" data-prev-step="0"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="back">Back</span></button>
+              <div class="agreement-actions">
+                <button class="button button-quiet" type="button" data-next-step="6"><span data-i18n="continuePricing">Continue to pricing</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+                <button class="button button-primary" type="button" data-portal-submit hidden><span data-i18n="portalSubmit">Send to Matrimony By Hanna</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+                <button class="button button-primary" type="button" data-continue-planning hidden><span data-i18n="continuePlanning">Continue to planner</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+              </div>
+            </div>
+          </section>
+
+          <section class="step-panel" id="step-pricing" data-step="6">
+            <div class="section-intro">
+              <div>
+                <div class="eyebrow" data-i18n="pricingEyebrow">PRICING</div>
+                <h1 data-i18n="pricingTitle">What is the agreed fee?</h1>
+                <p data-i18n="pricingDescription">Enter the one overall fee agreed with the couple. The agreement splits it into the 40% / 40% / 20% payment schedule.</p>
+              </div>
+            </div>
+
+            <section class="form-card pricing-card" aria-labelledby="pricingHeading">
+              <div class="card-heading">
+                <div>
+                  <div class="eyebrow" data-i18n="financialEyebrow">FINANCIAL COMMITMENT</div>
+                  <h2 id="pricingHeading" data-i18n="financialHeading">Set the agreement amount</h2>
+                </div>
+              </div>
+              <div class="financial-grid">
+                <label class="field money-field">
+                  <span data-i18n="totalFee">Total professional fee</span>
+                  <div class="input-with-suffix"><input id="totalFee" type="number" min="0" step="0.01" placeholder="0" inputmode="decimal" /><span>ETB</span></div>
+                  <small class="field-hint" data-i18n="priceAutoHint">Enter one agreed overall fee. The proposal will show a single general price.</small>
+                </label>
+                <div class="balance-card"><span data-i18n="advancePayment">40% advance payment</span><strong id="advanceValue">0 ETB</strong><small data-i18n="advanceDue">Upon signing and commencement</small></div>
+                <div class="balance-card"><span data-i18n="midtermPayment">40% mid-term payment</span><strong id="midtermValue">0 ETB</strong><small data-i18n="midtermDue">At the midpoint of the work</small></div>
+                <div class="balance-card"><span data-i18n="finalPayment">20% final payment</span><strong id="finalPaymentValue">0 ETB</strong><small data-i18n="finalDue">Within 24 hours after completion</small></div>
+              </div>
+            </section>
+
+            <div class="step-footer">
+              <button class="button button-quiet" type="button" data-prev-step="1"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="back">Back</span></button>
+              <button class="button button-primary" type="button" data-next-step="3"><span data-i18n="generateProposal">Generate proposal</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+            </div>
+          </section>
+
+          <section class="step-panel" id="step-agreement" data-step="2">
+            <div class="agreement-toolbar no-print">
+              <div>
+                <div class="eyebrow" data-i18n="agreementEyebrow">THE DOCUMENT</div>
+                <h1 data-i18n="agreementTitle">Your service agreement.</h1>
+                <p data-i18n="agreementDescription">A clear record of what Matrimony By Hanna and the couple have agreed to.</p>
+              </div>
+              <div class="agreement-actions">
+                <button class="button button-quiet" type="button" data-prev-step="3"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="backToProposal">Proposal</span></button>
+                <button class="button button-quiet" type="button" id="printAgreementButton"><svg class="ui-icon" aria-hidden="true"><use href="#icon-printer"></use></svg><span data-i18n="printDocument">Print</span></button>
+                <button class="button button-primary" type="button" data-download-pdf="agreement"><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg><span data-i18n="downloadAgreement">Download agreement PDF</span></button>
+              </div>
+            </div>
+            <div id="agreementDocument" class="agreement-document"></div>
+          </section>
+          <section class="step-panel" id="step-proforma" data-step="3">
+            <div class="agreement-toolbar no-print">
+              <div>
+                <div class="eyebrow" data-i18n="proformaEyebrow">THE QUOTATION</div>
+                <h1 data-i18n="proformaTitle">Your proposal.</h1>
+                <p data-i18n="proformaDescription">A clear, itemized quotation for the couple’s celebration.</p>
+              </div>
+              <div class="agreement-actions">
+                <button class="button button-quiet" type="button" data-prev-step="6"><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg><span data-i18n="editPricing">Edit pricing</span></button>
+                <button class="button button-quiet" type="button" id="printProformaButton"><svg class="ui-icon" aria-hidden="true"><use href="#icon-printer"></use></svg><span data-i18n="printDocument">Print</span></button>
+                <button class="button button-quiet" type="button" data-download-pdf="proforma"><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg><span data-i18n="downloadProforma">Download proposal PDF</span></button>
+              </div>
+            </div>
+            <div id="proformaDocument" class="agreement-document"></div>
+            <div class="share-banner no-print">
+              <div class="share-banner-copy">
+                <svg class="ui-icon" aria-hidden="true"><use href="#icon-share"></use></svg>
+                <p data-i18n="shareHint">Send the PDF straight to the couple on WhatsApp, Telegram, Instagram or email.</p>
+              </div>
+              <div class="share-banner-actions">
+                <button class="button button-share" type="button" data-share-pdf="proforma"><svg class="ui-icon" aria-hidden="true"><use href="#icon-share"></use></svg><span data-i18n="shareProforma">Share proposal</span></button>
+                <button class="button button-primary" type="button" data-next-step="2"><span data-i18n="continueAgreement">Continue to agreement</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+              </div>
+            </div>
+          </section>
+          <section class="step-panel portal-done" id="portalDone" data-step="7" aria-live="polite"></section>
+          <section class="step-panel" id="step-records" data-step="4">
+            <div class="section-intro">
+              <div>
+                <div class="eyebrow" data-i18n="recordsEyebrow">THE COUPLES</div>
+                <h1 data-i18n="recordsTitle">Saved records.</h1>
+                <p data-i18n="recordsDescription">Find a couple by name, phone, date (EC or Gregorian), place, service, fee or Ref No, then reopen their plan.</p>
+              </div>
+              <div class="records-count" id="recordsCount">0</div>
+            </div>
+            <div class="records-search-wrap">
+              <label for="recordsSearch" data-i18n="searchRecords">Search couples</label>
+              <input id="recordsSearch" type="search" autocomplete="off" data-placeholder-en="Name, phone, date, place, service or Ref No…" data-placeholder-am="ስም፣ ስልክ፣ ቀን፣ ቦታ፣ አገልግሎት ወይም መዝገብ ቁጥር…" placeholder="Name, phone, date, place, service or Ref No…" />
+            </div>
+            <div class="records-list" id="recordsList" aria-live="polite"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <dialog class="blank-doc-dialog" id="blankDocDialog" aria-labelledby="blankDocHeading">
+      <form method="dialog">
+        <h2 id="blankDocHeading">Download blank agreement</h2>
+        <p data-i18n="blankChooseLanguage">Choose the language for the blank document.</p>
+        <div class="blank-doc-languages">
+          <button type="button" class="button button-primary" data-blank-lang="en">English</button>
+          <button type="button" class="button button-primary" data-blank-lang="am">አማርኛ</button>
+        </div>
+        <button type="submit" class="button button-quiet blank-doc-cancel" data-i18n="blankCancel">Cancel</button>
+      </form>
+      <div class="blank-doc-share" hidden>
+        <h2 data-i18n="blankSavedTitle">Downloaded</h2>
+        <p id="blankShareText"></p>
+        <button type="button" class="button button-primary blank-share-button" data-share-blank><svg class="ui-icon" aria-hidden="true"><use href="#icon-share"></use></svg><span data-i18n="blankShareButton">Share PDF</span></button>
+        <div class="share-channels" id="blankShareChannels"></div>
+        <button type="button" class="button button-quiet blank-doc-cancel" data-close-dialog data-i18n="linkDone">Done</button>
+      </div>
+    </dialog>
+
+    <dialog class="blank-doc-dialog team-dialog" id="teamDialog" aria-labelledby="teamHeading">
+      <h2 id="teamHeading" data-i18n="teamTitle">Team</h2>
+      <p data-i18n="teamHint">Only the people listed here can sign in and see couples’ details.</p>
+      <ul class="team-members" id="teamMembers" aria-live="polite"></ul>
+      <div class="team-invite">
+        <span class="tiny-label" data-i18n="teamInviteLabel">Invite someone</span>
+        <div class="team-invite-row">
+          <select id="teamInviteRole" aria-label="Role">
+            <option value="planner" data-i18n="teamRolePlanner">Planner</option>
+            <option value="admin" data-i18n="teamRoleAdmin">Admin</option>
+          </select>
+          <button type="button" class="button button-primary" data-team-invite><span data-i18n="teamCreateInvite">Create invite link</span></button>
+        </div>
+        <div class="team-link" id="teamLink" hidden>
+          <p class="team-pending" id="teamLinkText"></p>
+          <div class="link-preview">
+            <input type="text" id="teamLinkUrl" readonly aria-label="Link" />
+            <button type="button" class="button button-quiet" data-copy-team-link><span data-i18n="linkCopy">Copy</span></button>
+          </div>
+          <div class="share-channels" id="teamLinkChannels"></div>
+        </div>
+        <p class="team-pending" id="teamPending"></p>
+      </div>
+      <button type="button" class="button button-quiet blank-doc-cancel" data-close-dialog data-i18n="linkDone">Done</button>
+    </dialog>
+
+    <dialog class="blank-doc-dialog link-dialog" id="portalLinkDialog" aria-labelledby="portalLinkHeading">
+      <h2 id="portalLinkHeading" data-i18n="createLinkTitle">Send the client portal</h2>
+      <p data-i18n="createLinkHint">The couple opens this link on their phone and fills in their own details. Their request appears under Client requests.</p>
+      <div class="link-fields">
+        <label><span data-i18n="linkClientName">Couple’s name (optional)</span><input type="text" id="linkClientName" autocomplete="off" /></label>
+        <label><span data-i18n="linkClientPhone">Phone for WhatsApp or SMS (optional)</span><input type="tel" id="linkClientPhone" inputmode="tel" autocomplete="off" placeholder="09… / +251…" /></label>
+      </div>
+      <div class="link-language" role="group" aria-labelledby="linkLanguageLabel">
+        <span class="tiny-label" id="linkLanguageLabel" data-i18n="linkLanguage">Portal and message language</span>
+        <div class="link-language-options">
+          <button type="button" data-link-lang="am">አማርኛ</button>
+          <button type="button" data-link-lang="en">English</button>
+        </div>
+      </div>
+      <div class="link-preview">
+        <input type="text" id="portalLinkUrl" readonly aria-label="Portal link" />
+        <button type="button" class="button button-quiet" data-copy-portal-link><span data-i18n="linkCopy">Copy</span></button>
+      </div>
+      <p class="link-local-warning" id="portalLinkLocal" data-i18n="linkLocalWarning" hidden>This address only opens on this computer. Send links from the published app so couples can open them.</p>
+      <span class="tiny-label" data-i18n="linkSendWith">Send with</span>
+      <div class="share-channels" id="portalLinkChannels"></div>
+      <button type="button" class="button button-quiet blank-doc-cancel" data-close-dialog data-i18n="linkDone">Done</button>
+    </dialog>
+
+    <dialog class="search-dialog" id="searchDialog" aria-labelledby="searchDialogHeading">
+      <div class="search-dialog-head">
+        <input type="search" id="weddingSearchInput" class="search-dialog-input" data-placeholder-en="Name, phone, date, place, service or Ref No…" data-placeholder-am="ስም፣ ስልክ፣ ቀን፣ ቦታ፣ አገልግሎት ወይም መዝገብ ቁጥር…" placeholder="Name, phone, date, place, service or Ref No…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="weddingSearchResults" aria-autocomplete="list" />
+        <button type="button" class="search-dialog-close" id="closeSearchButton" aria-label="Close search">×</button>
+      </div>
+      <div class="search-dialog-body">
+        <h2 class="search-dialog-heading" id="searchDialogHeading">Recent weddings</h2>
+        <div class="search-dialog-results" id="weddingSearchResults" role="listbox"></div>
+      </div>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div id="pickerPopover" class="picker-popover" role="dialog" hidden></div>
+    <script src="./assets/vendor/html2canvas.min.js"></script>
+    <script src="./assets/vendor/jspdf.umd.min.js"></script>
+    <script src="./app.js?v=20261020-owned"></script>
+    <script src="./pickers.js?v=20261019-couple-card"></script>
+    <script src="./weddings.js?v=20261020-owned"></script>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-"""Portable relational storage using the host's SQLite / pg8000 transaction adapters."""
+"""Relational planning storage on Neon Postgres through the host's pg8000 transaction adapter."""
 
 import json
 from datetime import date, datetime, timezone
@@ -19,9 +19,7 @@ def encode(value):
 
 
 def migrate(db):
-    """Migration 001. Run explicitly on Postgres, automatically on local SQLite only."""
-    if hasattr(db, "path") and not db.conn.in_transaction:
-        db.execute("BEGIN IMMEDIATE")
+    """Migration 001 (idempotent). The local server applies it at startup; hosted databases via wedding_planner.migrate."""
     statements = [
         "CREATE TABLE IF NOT EXISTS wp_schema (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL)",
         """CREATE TABLE IF NOT EXISTS wp_weddings (

@@ -1,5 +1,4 @@
 import json
-import tempfile
 import threading
 import unittest
 from pathlib import Path
@@ -8,14 +7,12 @@ from urllib.request import Request, urlopen
 from unittest.mock import patch
 
 import server
+import pg_schema
 
 
 class RecordApiTests(unittest.TestCase):
     def setUp(self):
-        self.directory = tempfile.TemporaryDirectory()
-        self.original_db_path = server.DB_PATH
-        server.DB_PATH = Path(self.directory.name) / "records.sqlite3"
-        server.initialize()
+        pg_schema.fresh()
         self.http = server.ThreadingHTTPServer(("127.0.0.1", 0), server.Handler)
         self.thread = threading.Thread(target=self.http.serve_forever, daemon=True)
         self.thread.start()
@@ -25,8 +22,6 @@ class RecordApiTests(unittest.TestCase):
         self.http.shutdown()
         self.http.server_close()
         self.thread.join()
-        server.DB_PATH = self.original_db_path
-        self.directory.cleanup()
 
     def request(self, path, method="GET", data=None):
         body = json.dumps(data, ensure_ascii=False).encode() if data is not None else None
@@ -46,6 +41,10 @@ class RecordApiTests(unittest.TestCase):
         _, listing = self.request("/api/records")
         self.assertEqual(listing["records"][0]["bride_first_name"], "ሀና")
         self.assertEqual(listing["records"][0]["groom_first_name"], "ሳሙኤል")
+        search = listing["records"][0]["search"]
+        self.assertEqual((search["bride_name"], search["fee"], search["services"], search["language"]), ("ሀና አለሙ", "25000", ["venue"], "am"))
+        self.assertIn("Holy Trinity Cathedral", search["places"])
+        self.assertNotIn("plan_json", listing["records"][0])
         _, opened = self.request(f"/api/records/{record_id}")
         self.assertEqual(opened["plan"], plan)
         plan["details"]["brideName"] = "Marta Tesfaye"

@@ -7,28 +7,36 @@ A standalone, bilingual wedding planning workspace for Matrimony By Hanna.
 - Collects couple details, contact information, event dates and duration, venue information, and ETB financial commitments.
 - Includes all 21 services from the provided planning list.
 - Lets the planner turn each service on or off and choose service-specific options for each couple.
-- Saves the current draft locally in the browser and completed plans in SQLite.
+- Saves the current draft locally in the browser and completed plans in Neon Postgres.
 - Lists saved couples by the bride's and groom's first names, with search and reopening of the full plan.
 - Shows the couple's first names live in the sidebar and header, with recent-couple shortcuts and clear record-save status.
 - Includes keyboard-friendly, branded Gregorian calendars and AM/PM time pickers, localized in English and Amharic.
 - Adapts Teri's builder venue picker: search-as-you-type with Ethiopian-first suggestions, an always-visible Google Maps preview, selected-venue cards, directions, removal, and opt-in current-location lookup. Saves names, addresses and coordinates with each plan; manual entry remains available.
 - Supports English and Amharic UI/content labels.
 - Generates two separate, print-ready PDFs on the supplied letterhead: a dynamic service agreement in the selected language and a proforma listing the couple, event days, chosen services, one overall ETB fee, and a thank-you message.
-- Uses the supplied Helvetica, Benaiah, Ethiopic Sadiss, and letterhead assets from `assets/`.
+- Uses the supplied Helvetica, Benaiah, Ethiopic Sadiss, and letterhead assets from `public/assets/`.
 - Uses the supplied Matrimony logo as a cropped transparent PNG in the app and agreement header.
 - Uses Mending and SignPainter as the brand font roles when those fonts are installed, with graceful fallbacks when they are not available locally.
 
 ## Run locally
 
-The app has no build step or runtime package installation. Python 3 is required for SQLite records and venue search. PDF libraries are bundled locally. Start it from this folder:
+The app runs on Next.js (App Router, TypeScript). Node.js 22.13+ is required; Python 3 is also needed for the Wedding Planning API. PDF libraries are bundled locally. From this folder:
 
 ```powershell
-py server.py --port 4173
+npm install --include=dev
+npm run dev
 ```
 
-Then open `http://localhost:4173`.
+Then open `http://localhost:4173`. `npm run dev` starts Next.js on port 4173 and the Python planning API (`server.py`) on port 8765, which Next.js proxies at `/api/v1/*`. Set `PYTHON` if Python is not on the path as `py` (Windows) or `python3`. For a production check, run `npm run build` then `npm start` (set `PLANNING_API_URL=http://127.0.0.1:8765` and run `py server.py --port 8765` alongside it for Wedding Planning).
 
-Generating an agreement or proforma saves or updates the couple's record. You can also use **Save record** in the sidebar before generating a document (both names are required). The **Records** tab and recent sidebar shortcuts reopen complete plans. Changing a saved plan shows **Unsaved changes** until it is saved again. Starting a new plan clears the working draft but keeps previous records. Records are stored in `data/matrimony.sqlite3` on this computer and are excluded from Git. Back up that file to preserve records. Opening `index.html` directly does not provide SQLite records or venue search. Use the same hostname and port to retain access to the browser's local draft.
+How the stack is organised:
+
+- `app/` holds the Next.js page and route handlers: `/api/records` (couple records) and `/api/places` and `/api/places/reverse` (venue search).
+- `lib/` holds the server code. All data (records, client requests and Wedding Planning) lives in Neon Postgres; set `DATABASE_URL` (and `DATABASE_URL_UNPOOLED` for migrations) in `.env.local`. There is no local database file. The Python planning API needs `py -m pip install -r requirements.txt` (pg8000).
+- `legacy/index.html` is the page markup. The original scripts and styles in `public/` still drive the UI and are meant to be converted to React one screen at a time.
+- `server.py` and `wedding_planner/` are the Python Wedding Planning API. On Vercel it runs as the `api/weddings.py` function, and `next.config.ts` rewrites `/api/v1/*` to it. Running `py server.py --port 4173` directly still serves the whole app as a fallback; the Python and browser test suites use this.
+
+Generating an agreement or proforma saves or updates the couple's record. You can also use **Save record** in the sidebar before generating a document (both names are required). The **Records** tab and recent sidebar shortcuts reopen complete plans. Changing a saved plan shows **Unsaved changes** until it is saved again. Starting a new plan clears the working draft but keeps previous records. Records are stored in the Neon Postgres database; use Neon's backups and branches to preserve them. Opening `index.html` directly does not provide saved records or venue search. Use the same hostname and port to retain access to the browser's local draft.
 
 To create either document, complete the couple and event details, choose at least one service, enter the agreed overall fee once, and select the document. The agreement includes the selected service scope, responsibilities, the 40% / 40% / 20% payment schedule, cancellation/change terms, media-consent choice, and signature lines. The separate proforma lists selected services without assigning prices to individual items; it displays only the overall agreed fee. Missing fields are highlighted instead of silently preventing generation. Record-save errors do not prevent PDF export.
 
@@ -54,12 +62,24 @@ The **Wedding Planning** navigation entry opens the operational workspace descri
 
 Choose services in the couple questionnaire, then select **Continue to planner**. The questionnaire and planning workspace share a saved couple record, and returning to the planner reuses the same wedding. Service preferences are configured later inside the planner; selections and existing details remain available to the agreement. Existing standalone weddings can use **Link questionnaire** to connect their couple record.
 
-Start an isolated local preview with `python server.py --port 4173 --db-path tmp/planning-demo.sqlite3`, then open `http://127.0.0.1:4173/weddings`. For existing local records, pass `--db-path data/matrimony.sqlite3`. This explicitly selects SQLite even when a hosted connection is configured.
+Run `npm run dev`, then open `http://127.0.0.1:4173/weddings`. The planning tables are created in Neon automatically when the planning API starts.
 
 See [the implementation and rollout guide](docs/WEDDING_PLANNING.md) for identity integration, database migration, permissions, API conventions, reminders, tests and current integration limits. Hosted planning access requires a trusted host session and migration 001; neither production data nor hosting is changed by the local implementation.
 
+## Sign-in and team accounts
+
+The planner app is for Hanna's team only. Every page except the client portal (`/portal`) and the sign-in page (`/signin`) requires a signed-in account, and so do the couple records, client requests and Wedding Planning APIs.
+
+- **First run:** open the app and create the owner account (name, email, password of 10+ characters). Only one owner can exist; after that, nobody can sign up without an invite.
+- **Team:** the owner and admins open **Team** (people icon at the bottom of the sidebar) to create one-time invite links (valid 7 days) for planners, or admins (owner only), send them by WhatsApp, Telegram, SMS or email, create password reset links (valid 24 hours), and remove people. Removed people and other devices after a password reset are locked out within 10 minutes.
+- **Owner locked out:** run `node scripts/reset-link.mjs owner@example.com https://your-app-url` on a computer with `.env.local` to print a reset link.
+- **Private per account:** every couple record, client request and planner wedding belongs to the account that registered it, and no other account can list, open, change or delete it. This includes admins and the owner. Client-portal links made with **Create client link** carry the sender's code, so a couple's request goes to the planner who sent the link (requests without a valid code go to the owner). Records and planner weddings from before sign-in existed belong to the owner. Other people can still work on a planner wedding if its owner adds them as members inside that wedding.
+- **Sign out** (arrow icon next to your name) also clears couple drafts and offline copies saved in that browser.
+
+Sessions use two httpOnly cookies: a 10-minute signed session (`matrimony_session`, checked by Next.js and the Python planner) and a 30-day refresh token stored hashed in `app_sessions`. Passwords are scrypt hashes in `app_users`; invite and reset codes are stored only as hashes in `app_invites`. Set `MATRIMONY_SESSION_SECRET` (a random value of at least 32 characters) in `.env.local` locally and in the Vercel project settings. `npm run dev` passes `.env.local` to the Python planner as well. The standalone `py server.py` server used by the Python tests does not have sign-in and must not be exposed publicly.
+
 ## Verification
 
-Run API and SQLite tests with `py -m unittest discover -s tests -q`. Browser tests use Playwright and Microsoft Edge: run `node tests/ui_workflow.cjs` with Playwright installed, or set `PLAYWRIGHT_MODULE` to its installed package directory. Set `MATRIMONY_URL` if the server uses another port. Browser tests mock record writes and place responses; they never create or overwrite real couple records. They exercise validation, calendars, midnight/PM time handling, names, coordinates, save/reopen, agreement scope and consent, six real PDF downloads, aggregate-only proforma pricing, record outages, and mobile layout. PDF samples are written only under ignored `tmp/pdfs/workflow/` for visual verification.
+Run API tests with `py -m unittest discover -s tests -q`. Tests use the Neon database from `DATABASE_URL`, but only inside a temporary `test_…` schema of their own that is dropped afterwards, so live tables are never read or written. Browser tests use Playwright (installed as a dev dependency) and Microsoft Edge: with `npm run dev` running, run `node tests/ui_workflow.cjs`, `node tests/auth_workflow.cjs` and `node tests/isolation_workflow.cjs`. Tests against the running app sign in with temporary `@matrimony.test` accounts that are deleted afterwards; they never use or change the owner account. Set `MATRIMONY_URL` if the server uses another port. Browser tests mock record writes and place responses; they never create or overwrite real couple records. They exercise validation, calendars, midnight/PM time handling, names, coordinates, save/reopen, agreement scope and consent, six real PDF downloads, aggregate-only proforma pricing, record outages, and mobile layout. PDF samples are written only under ignored `tmp/pdfs/workflow/` for visual verification.
 
 Run `node tests/venue_picker.cjs` for focused venue checks: debounce, keyboard selection, stale responses, saved-pin compatibility, manual/offline entry, remove/replace, current-location permission and fallback, localization, and mobile layout. It also mocks records and provider responses, so live records are untouched.

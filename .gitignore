@@ -4,3 +4,9 @@ __pycache__/
 .neon
 .env.local
 .env
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+
+.vercel

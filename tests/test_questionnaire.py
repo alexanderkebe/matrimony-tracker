@@ -2,13 +2,13 @@
 
 import json
 import re
-import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from uuid import uuid4
 
 import server
+import pg_schema
 from wedding_planner import catalog
 from wedding_planner.api import Router
 from wedding_planner.auth import Identity
@@ -18,10 +18,7 @@ from wedding_planner.storage import encode, now
 
 class QuestionnaireTests(unittest.TestCase):
     def setUp(self):
-        self.directory = tempfile.TemporaryDirectory()
-        self.previous_path = server.DB_PATH
-        server.DB_PATH = Path(self.directory.name) / "questionnaire.sqlite3"
-        server.initialize()
+        pg_schema.fresh()
         self.lead = Identity("lead", "questionnaire-test", {"planner"}, {"legacy_records"})
         self.plan = {"lang": "am", "details": {
             "brideName": "Hanna Alemu", "groomName": "Samuel Bekele", "bridePhone": "+251911000001",
@@ -38,10 +35,6 @@ class QuestionnaireTests(unittest.TestCase):
                 wedding_date,language,plan_json,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?)""",
                 ("Hanna Alemu", "Samuel Bekele", "Hanna", "Samuel", "2027-05-16", "am", encode(self.plan), now(), now()))
         self.handoff = f"weddings/clients/{self.record_id}/plan"
-
-    def tearDown(self):
-        server.DB_PATH = self.previous_path
-        self.directory.cleanup()
 
     def call(self, method, path, body=None, identity=None, key=None, version=None, query=None):
         headers = {"Idempotency-Key": key or str(uuid4())}
@@ -82,7 +75,7 @@ class QuestionnaireTests(unittest.TestCase):
         self.assertEqual(len(self.rows(wedding, "tasks")), 6)
 
     def test_every_picker_id_maps_to_the_matching_service_including_hyphenated_ids(self):
-        app = (Path(__file__).resolve().parents[1] / "app.js").read_text(encoding="utf-8")
+        app = (Path(__file__).resolve().parents[1] / "public" / "app.js").read_text(encoding="utf-8")
         picker_ids = re.findall(r'^    id: "([^"]+)",$', app, re.MULTILINE)
         self.assertEqual(set(picker_ids), set(catalog.LEGACY_CODES))
         self.assertEqual(len(picker_ids), 21)

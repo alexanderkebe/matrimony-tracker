@@ -3,7 +3,6 @@
 import base64
 import json
 import os
-import tempfile
 import time
 import unittest
 from datetime import datetime
@@ -13,6 +12,7 @@ from unittest.mock import patch
 from uuid import uuid4
 
 import server
+import pg_schema
 from wedding_planner.api import Router
 from wedding_planner.auth import Identity, authenticate, sign_session
 from wedding_planner.domain import ApiError, overdue, relative_date
@@ -20,16 +20,9 @@ from wedding_planner.domain import ApiError, overdue, relative_date
 
 class WeddingTests(unittest.TestCase):
     def setUp(self):
-        self.directory = tempfile.TemporaryDirectory()
-        self.previous_path = server.DB_PATH
-        server.DB_PATH = Path(self.directory.name) / "test.sqlite3"
-        server.initialize()
+        pg_schema.fresh()
         self.lead = Identity("lead", "org-a", {"planner"})
         self.admin = Identity("admin", "org-a", {"admin"})
-
-    def tearDown(self):
-        server.DB_PATH = self.previous_path
-        self.directory.cleanup()
 
     def call(self, method, path, body=None, identity=None, key=None, version=None):
         headers = {"Idempotency-Key": key or str(uuid4())}

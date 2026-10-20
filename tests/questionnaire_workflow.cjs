@@ -1,4 +1,5 @@
 /* Real questionnaire → planning → service configuration → agreement, on a synthetic DB. */
+const testSchema=require('./test_schema.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -13,9 +14,9 @@ const token=payload+'.'+createHmac('sha256',secret).update(payload).digest('hex'
 let server,browser,page;
 fs.mkdirSync(output,{recursive:true});
 async function startServer(){
-  server=spawn(process.env.PYTHON||'python',['-u','server.py','--port',String(port),'--db-path',path.join(output,randomUUID()+'.sqlite3')],{cwd:path.resolve('.'),env:{...process.env,MATRIMONY_SESSION_SECRET:secret,MATRIMONY_LEGACY_ORGANIZATION_ID:'qa-org',MATRIMONY_WEDDINGS_ENABLED:'1'},windowsHide:true,stdio:['ignore','pipe','pipe']});
+  server=spawn(testSchema.python, ['-u','server.py','--port',String(port)],{cwd:path.resolve('.'),env:{...process.env,MATRIMONY_DB_SCHEMA:testSchema.name, MATRIMONY_SESSION_SECRET:secret,MATRIMONY_LEGACY_ORGANIZATION_ID:'qa-org',MATRIMONY_WEDDINGS_ENABLED:'1'},windowsHide:true,stdio:['ignore','pipe','pipe']});
   server.stderr.on('data',()=>{});
-  await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(new Error('Test server did not start')),30000);server.stdout.on('data',chunk=>{if(String(chunk).includes('Matrimony planner:')){clearTimeout(timeout);resolve();}});server.on('error',reject);server.on('exit',code=>reject(new Error('Test server exited '+code)));});
+  await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(new Error('Test server did not start')),120000);server.stdout.on('data',chunk=>{if(String(chunk).includes('Matrimony planner:')){clearTimeout(timeout);resolve();}});server.on('error',reject);server.on('exit',code=>reject(new Error('Test server exited '+code)));});
 }
 async function request(route,method='GET',body){
   const response=await fetch(base+route,{method,headers:{Authorization:'Bearer '+token,'Content-Type':'application/json','Idempotency-Key':randomUUID()},body:body===undefined?undefined:JSON.stringify(body)});
@@ -29,13 +30,15 @@ async function layout(page){assert.ok(await page.evaluate(()=>document.documentE
 (async()=>{
   await startServer();browser=await chromium.launch({channel:'msedge',headless:true});
   const context=await browser.newContext({viewport:{width:1440,height:1000}});
+  // Neon is remote: planner handoffs run many statements, so allow slow steps.
+  context.setDefaultTimeout(180000);
   await context.addCookies([{name:'matrimony_session',value:token,url:base,sameSite:'Strict'}]);
   await context.route('**/api/places?**',route=>{const name=new URL(route.request().url()).searchParams.get('q');return route.fulfill({json:{places:[{name,address:'Addis Ababa',lat:9.03,lon:38.76}]}});});
   page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base);await page.locator('[data-continue-planning]:not([hidden])').waitFor({state:'attached'});
   await page.locator('#brideName').fill('QA Hanna Alemu');await page.locator('#groomName').fill('QA Samuel Bekele');
   await page.locator('#bridePhone').fill('+251911000001');await page.locator('#groomPhone').fill('+251911000002');
-  await page.locator('#eventDays').fill('3');await page.locator('#totalFee').fill('50000.50');await page.locator('#generalNotes').fill('QA family celebration from the questionnaire.');
+  await page.locator('#eventDays').fill('3');await page.locator('#totalFee').evaluate(input=>{input.value='50000.50';input.dispatchEvent(new Event('input',{bubbles:true}));});await page.locator('#generalNotes').fill('QA family celebration from the questionnaire.');
   await page.evaluate(()=>{const input=document.getElementById('weddingDate');input.value='2027-05-16';input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}));});
   await page.locator('label:has([data-meal-program="breakfast"])').click();await page.locator('label:has([data-meal-program="lunch"])').click();
   for(const [id,value] of [['brideAddress','QA Bole address'],['groomAddress','QA Kazanchis address']]){await page.locator(`#${id}-search`).fill(value);await page.locator(`#${id}-search`).press('Enter');await page.locator(`#${id}-results .place-result`).first().click();}
@@ -88,4 +91,4 @@ async function layout(page){assert.ok(await page.evaluate(()=>document.documentE
   const updated=await request(`/api/v1/weddings/${earlier.id}/dashboard`);assert.equal(updated.wedding.clientId,earlierRecord.id);assert.deepEqual(updated.services.filter(s=>s.enabled).map(s=>s.code),['DECOR']);
   assert.deepEqual(errors,[]);
   console.log('Questionnaire browser acceptance passed: picker only, exact service handoff, full couple context, record reuse, preserved task progress, later service configuration, agreement round trip, saved-client continuation and mobile layout.');
-})().catch(async error=>{console.error(error);if(page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});process.exitCode=1;}).finally(async()=>{if(browser)await browser.close();if(server)server.kill();});
+})().catch(async error=>{console.error(error);if(page)await page.screenshot({path:path.join(output,'failure.png'),fullPage:true}).catch(()=>{});process.exitCode=1;}).finally(async()=>{if(browser)await browser.close();if(server)server.kill(); testSchema.drop();});

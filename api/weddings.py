@@ -11,8 +11,10 @@ class handler(BaseHTTPRequestHandler):
     send_json = server.Handler.send_json
 
     def handle_planning(self):
-        if not server.get_database_url() or not server.HAS_PG:
-            return self.send_json(503, {"error": "Configure the host DATABASE_URL and install the Postgres driver."})
+        try:
+            server.get_database_url()
+        except RuntimeError:
+            return self.send_json(503, {"error": "Configure the host DATABASE_URL."})
         parsed = urlparse(self.path)
         query = parse_qs(parsed.query)
         route = query.pop("wpPath", ["weddings"])[0].strip("/")

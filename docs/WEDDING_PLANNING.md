@@ -1,6 +1,6 @@
 # Wedding Planning implementation
 
-This extends the existing Matrimony by Hanna app. The supplied technical spec is the product reference; the implementation follows the host's buildless JavaScript, Python, SQLite/PostgreSQL and Vercel conventions.
+This extends the existing Matrimony by Hanna app. The supplied technical spec is the product reference; the implementation follows the host's buildless JavaScript, Python, Neon PostgreSQL and Vercel conventions.
 
 ## Host mapping
 
@@ -9,7 +9,7 @@ This extends the existing Matrimony by Hanna app. The supplied technical spec is
 | Frontend | Plain JavaScript, shared CSS, local brand assets | `weddings.js` / `weddings.css`, sixth navigation entry; no new framework or build step |
 | Routes | Five existing agreement/record screens | Existing screens retained; bookmarkable `/weddings/:id/:view` routes |
 | API | Python `ThreadingHTTPServer`; Vercel file-based functions | Shared Python application service behind `/api/v1/weddings` and `/api/v1/service-templates` |
-| Database | Raw SQLite / pg8000 adapters, no ORM | Same transaction adapters; additive migration 001, `wp_` namespace |
+| Database | Raw pg8000 adapter on Neon Postgres, no ORM | Same transaction adapters; additive migration 001, `wp_` namespace |
 | Clients | Existing `records` table | Nullable `client_id` FK; setup links an existing record without creating another identity |
 | Authentication | No existing identity provider or account system | Host-signed session adapter; loopback-only development identity; no new passwords or account database |
 | Tenancy | Legacy records have no organization field | Every new project/resource scoped to verified organization plus wedding membership; legacy records remain a staff integration |
@@ -47,15 +47,9 @@ The optional advanced phase (drag-and-drop seating/floor plans, rich mood-board 
 
 ## Local use
 
-Keep the ordinary host startup for its configured database. To explicitly use a local SQLite database, including when `.env.local` contains a hosted connection:
+All data lives in Neon Postgres (`DATABASE_URL` in `.env.local`). Start the app with `npm run dev` (or `py server.py --port 4173` for the standalone Python server) and open `http://127.0.0.1:4173/weddings`. The local server applies the additive schema automatically at startup; existing records are preserved. The loopback development identity is `local-planner` in organization `local`; it exists only when there is no configured session secret, the server is bound to loopback and the request has a loopback Host. Set `MATRIMONY_LOCAL_PLANNER=0` to disable it.
 
-```powershell
-python server.py --port 4173 --db-path data/matrimony.sqlite3
-```
-
-Open `http://127.0.0.1:4173/weddings`. Local SQLite receives the additive schema automatically. Existing records are preserved. The loopback development identity is `local-planner` in organization `local`; it exists only when there is no configured session secret, the server is bound to loopback and the request has a loopback Host. Set `MATRIMONY_LOCAL_PLANNER=0` to disable it.
-
-For isolated evaluation, use `--db-path tmp/planning-demo.sqlite3`. This does not touch the normal local database or the configured Neon database.
+For isolated evaluation, set `MATRIMONY_DB_SCHEMA=test_demo`: the server then works in that separate schema of the same Neon database. Remove it afterwards with `py -c "import server; server.drop_schema('test_demo')"`.
 
 Set `MATRIMONY_WEDDINGS_ENABLED=0` to hide the navigation entry and disable the module APIs. The agreement builder, records and venue search continue to work.
 
@@ -78,7 +72,7 @@ Browser role selectors and unsigned `X-User-ID` / `X-Role` headers are never tru
 
 Migration 001 lives in `wedding_planner/storage.py:migrate`. It creates `wp_schema`, weddings, membership, tenant catalog overrides, idempotency records, audit history, service/task/dependency records, milestones, events, vendors, budget lines, payments, document requests/versions/reviews/files, guests, issues, boards, restricted notes and notification records. Context, ownership, status, deadlines, template codes, transaction references and amounts are relational/indexed columns. Configurable attributes and versioned snapshots use JSON payloads. API validation checks referenced records belong to the same wedding before writes.
 
-SQLite schema application and every multi-record operation run transactionally. PostgreSQL writes serialize the wedding aggregate and retain optimistic version checks. `If-Match` (or a body `version`) is required for edits; `Idempotency-Key` is required for mutating POSTs. Financial references, service template codes and reminder deduplication keys have unique indexes.
+Schema application and every multi-record operation run transactionally. PostgreSQL writes serialize the wedding aggregate and retain optimistic version checks. `If-Match` (or a body `version`) is required for edits; `Idempotency-Key` is required for mutating POSTs. Financial references, service template codes and reminder deduplication keys have unique indexes.
 
 Do not apply a migration implicitly to production. Use a development branch of the existing Neon project and a **direct** connection:
 
@@ -97,10 +91,10 @@ The Vercel function `api/weddings.py` uses the same application service as the l
 Use the application's existing scheduler to run:
 
 ```powershell
-python -m wedding_planner.reminders --sqlite data/matrimony.sqlite3
+python -m wedding_planner.reminders
 ```
 
-Omit `--sqlite` for the configured Postgres database. The command produces deduplicated **in-app** notifications; it sends no email, SMS or vendor messages. The Activity tab also offers Check reminders. An existing notification provider can consume the durable pending records and record delivery/failure; no third-party delivery credentials or subscriptions were introduced.
+The command produces deduplicated **in-app** notifications; it sends no email, SMS or vendor messages. The Activity tab also offers Check reminders. An existing notification provider can consume the durable pending records and record delivery/failure; no third-party delivery credentials or subscriptions were introduced.
 
 Export offline plan downloads standalone HTML with its own print styles, run-sheet times, shared contacts and open incidents. It contains no files, private notes or financial records. Coordination snapshots are additionally cached per signed-in user and wedding for 24 hours; exports can use that last snapshot during a connection outage. Protected files are never cached for offline use.
 
@@ -118,7 +112,7 @@ node tests/questionnaire_workflow.cjs
 node tests/legacy_regressions.cjs
 ```
 
-The planner and questionnaire browser tests start and stop their own servers with unique SQLite files under ignored `tmp/planning-qa/` and `tmp/questionnaire-qa/`, create synthetic users/records only, and write screenshots and an offline export there. The questionnaire test exercises actual record persistence, exact service selections, repeated handoff, preserved task progress, later configuration and the agreement round trip. The legacy wrapper starts its own isolated server and runs `ui_workflow.cjs` and `venue_picker.cjs`, which mock record writes and provider calls. Those individual scripts can also use an independently started isolated server via `MATRIMONY_URL`.
+The planner and questionnaire browser tests start and stop their own servers in unique temporary `test_…` schemas of the Neon database (dropped afterwards) and write output under ignored `tmp/planning-qa/` and `tmp/questionnaire-qa/`. They create synthetic users/records only, and write screenshots and an offline export there. The questionnaire test exercises actual record persistence, exact service selections, repeated handoff, preserved task progress, later configuration and the agreement round trip. The legacy wrapper starts its own isolated server and runs `ui_workflow.cjs` and `venue_picker.cjs`, which mock record writes and provider calls. Those individual scripts can also use an independently started isolated server via `MATRIMONY_URL`.
 
 Backend coverage includes transactional activation rollback, idempotency, authorization and tenant isolation, cross-wedding IDs, disabled/aftercare readiness, evidence gates, dependency cycles, schedule/date previews, conflicts, simultaneous edits, integer money, transaction deduplication, client/vendor redaction, separate counseling authority, immutable document history, designated client consent, reminder preferences and signed-session validation.
 

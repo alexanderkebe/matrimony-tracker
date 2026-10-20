@@ -2,7 +2,6 @@
 
 import json
 import os
-import tempfile
 import threading
 import time
 import unittest
@@ -13,16 +12,14 @@ from unittest.mock import patch
 from uuid import uuid4
 
 import server
+import pg_schema
 from wedding_planner.auth import sign_session
 
 
 class WeddingHttpTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.directory = tempfile.TemporaryDirectory()
-        cls.previous_path = server.DB_PATH
-        server.DB_PATH = Path(cls.directory.name) / "http.sqlite3"
-        server.initialize()
+        pg_schema.fresh()
         cls.secret = "http-tests-use-a-synthetic-secret-123456789"
         cls.environment = patch.dict(os.environ, {"MATRIMONY_SESSION_SECRET": cls.secret, "MATRIMONY_LEGACY_ORGANIZATION_ID": "qa-org"})
         cls.environment.start()
@@ -37,8 +34,6 @@ class WeddingHttpTests(unittest.TestCase):
         cls.http.server_close()
         cls.thread.join()
         cls.environment.stop()
-        server.DB_PATH = cls.previous_path
-        cls.directory.cleanup()
 
     def request(self, path, method="GET", body=None, signed=True, headers=None):
         request_headers = {"Content-Type": "application/json", "Idempotency-Key": str(uuid4())}

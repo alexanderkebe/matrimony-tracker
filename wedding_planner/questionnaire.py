@@ -3,7 +3,7 @@
 import json
 
 from . import catalog
-from .auth import legacy_staff
+from .auth import legacy_staff, record_scope
 from .domain import digest, integer, require, text
 from .storage import encode, now
 
@@ -43,10 +43,11 @@ class QuestionnaireMixin:
     def questionnaire_record(self, record_id, lock=False):
         require(legacy_staff(self.identity), "Questionnaire access requires the host's client directory permission.", 403)
         require(str(record_id).isdecimal() and int(record_id) > 0, "Invalid couple record.")
-        sql = "SELECT id,plan_json FROM records WHERE id=?"
+        scope, parameters = record_scope(self.identity)
+        sql = "SELECT id,plan_json FROM records WHERE id=?" + scope
         if lock and not hasattr(self.db, "path"):
             sql += " FOR UPDATE"
-        row = self.db.query_one(sql, (int(record_id),))
+        row = self.db.query_one(sql, (int(record_id), *parameters))
         require(row, "Couple record not found.", 404)
         return row
 

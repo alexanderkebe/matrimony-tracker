@@ -1,4 +1,24 @@
-const STORAGE_KEY = "matrimony-by-hanna-planning-draft-v1";
+// The client portal (/portal) is this page in a couple-facing mode: no sidebar, records, documents or prices.
+const PORTAL = /^\/portal\/?$/.test(location.pathname);
+const STORAGE_KEY = PORTAL ? "matrimony-by-hanna-portal-draft-v1" : "matrimony-by-hanna-planning-draft-v1";
+
+// Staff pages need a signed-in account. When a request comes back 401 the session has
+// ended (signed out elsewhere, removed from the team), so go to sign-in and return here.
+function goToSignIn() {
+  const next = location.pathname + location.search;
+  location.assign(`/signin${next === "/" ? "" : `?next=${encodeURIComponent(next)}`}`);
+}
+if (!PORTAL) {
+  const nativeFetch = window.fetch.bind(window);
+  window.fetch = async (input, init) => {
+    const response = await nativeFetch(input, init);
+    if (response.status === 401) {
+      const url = new URL(typeof input === "string" || input instanceof URL ? input : input.url, location.href);
+      if (url.origin === location.origin && url.pathname.startsWith("/api/") && !url.pathname.startsWith("/api/auth/")) goToSignIn();
+    }
+    return response;
+  };
+}
 
 // Account-holder and contract-signatory names are intentionally kept as supplied.
 const SERVICE_PROVIDER = {
@@ -19,18 +39,19 @@ const copy = {
     navDetails: "Couple & event",
     navServices: "Services",
     navReview: "Review",
+    navPricing: "Pricing",
     navAgreement: "Agreement",
-    navProforma: "Proforma",
+    navProforma: "Proposal",
     eventDays: "Number of event days",
     servicePrice: "Agreed price",
-    priceAutoHint: "Enter one agreed overall fee. The proforma will show a single general price.",
-    viewProforma: "View proforma",
+    priceAutoHint: "Enter one agreed overall fee. The proposal will show a single general price.",
+    viewProforma: "View proposal",
     proformaEyebrow: "THE QUOTATION",
-    proformaTitle: "Your proforma.",
+    proformaTitle: "Your proposal.",
     proformaDescription: "A clear summary of selected services and one agreed total.",
     backToAgreement: "Agreement",
-    printProforma: "Print proforma PDF",
-    proformaDocumentTitle: "Proforma",
+    printProforma: "Print proposal PDF",
+    proformaDocumentTitle: "Proposal",
     proformaPreparedFor: "Prepared for",
     proformaScope: "Selected services",
     proformaService: "Service and agreed details",
@@ -40,12 +61,13 @@ const copy = {
     proformaBalance: "Balance after deposit",
     proformaThanks: "Thank you for choosing Matrimony By Hanna. It is a privilege to be part of your celebration, and we look forward to caring for every detail with you.",
     proformaNote: "The selected services are listed for reference; pricing is shown as one overall fee. The signed agreement sets out the payment terms.",
-    proformaDetailsRequired: "Enter the event days and overall agreed fee before opening the proforma.",
+    proformaDetailsRequired: "Enter the event days and overall agreed fee before opening the proposal.",
     navRecords: "Records",
+    navPlan: "Plan",
     recordsEyebrow: "THE COUPLES",
     recordsTitle: "Saved records.",
-    recordsDescription: "Find a couple by first name and reopen their complete plan.",
-    searchRecords: "Search bride or groom",
+    recordsDescription: "Find a couple by name, phone, date (EC or Gregorian), place, service, fee or Ref No, then reopen their plan.",
+    searchRecords: "Search couples",
     saveRecord: "Save record",
     openRecord: "Open plan",
     recordsEmpty: "No saved records yet. Generate an agreement to add one.",
@@ -84,6 +106,8 @@ const copy = {
     mealNotSet: "No meals selected",
     eventVenueTypesHeading: "Where will the wedding events take place?",
     eventVenueTypesHint: "Select every venue type you need, then choose its location on the map.",
+    brideDetails: "Bride’s details", groomDetails: "Groom’s details", fullName: "Full name", phoneNumber: "Phone number", homeAddress: "Home address",
+    eventScheduleHeading: "Date & meals", eventVenuesTitle: "Event venues", eventVenueSelectHint: "Select every venue type you need.", eventVenueMapHint: "Choose each venue location on the map.", mediaConsentTitle: "Photo & video consent",
     venueTypeChurch: "Church / religious venue",
     venueTypeHall: "Wedding or reception hall",
     venueTypeHotel: "Hotel / banquet venue",
@@ -93,6 +117,7 @@ const copy = {
     venueTypeOther: "Other venue",
     eventVenues: "Event venues",
     financialEyebrow: "FINANCIAL COMMITMENT",
+    notesEyebrow: "ANYTHING ELSE", notesHeading: "Planning notes",
     financialHeading: "Set the agreement amount",
     totalFee: "Total professional fee",
     deposit: "Non-refundable deposit",
@@ -101,6 +126,10 @@ const copy = {
     generalNotes: "Planning notes",
     requiredHint: "Date and couple names help us build the agreement.",
     continueServices: "Continue to services",
+    continuePricing: "Continue to pricing",
+    pricingEyebrow: "PRICING",
+    pricingTitle: "What is the agreed fee?",
+    pricingDescription: "Enter the one overall fee agreed with the couple. The agreement splits it into the 40% / 40% / 20% payment schedule.",
     servicesEyebrow: "THE AGREED SCOPE",
     servicesTitle: "Choose what belongs in the promise.",
     servicesDescription: "Choose the services for this wedding. Your selections carry into the planner, where you can arrange the details later.",
@@ -192,18 +221,19 @@ const copy = {
     navDetails: "ጥንዶቹ እና ዝግጅቱ",
     navServices: "አገልግሎቶች",
     navReview: "ግምገማ",
+    navPricing: "ዋጋ",
     navAgreement: "ስምምነት",
-    navProforma: "ፕሮፎርማ",
+    navProforma: "ፕሮፖዛል",
     eventDays: "የዝግጅቱ ቀናት ብዛት",
     servicePrice: "የተስማሙበት ዋጋ",
-    priceAutoHint: "አንድ ጠቅላላ የተስማሙበትን ዋጋ ያስገቡ። ፕሮፎርማው አንድ ጠቅላላ ዋጋ ብቻ ያሳያል።",
-    viewProforma: "ፕሮፎርማን ይመልከቱ",
+    priceAutoHint: "አንድ ጠቅላላ የተስማሙበትን ዋጋ ያስገቡ። ፕሮፖዛሉ አንድ ጠቅላላ ዋጋ ብቻ ያሳያል።",
+    viewProforma: "ፕሮፖዛልን ይመልከቱ",
     proformaEyebrow: "የዋጋ ጥቅስ",
-    proformaTitle: "የእርስዎ ፕሮፎርማ።",
+    proformaTitle: "የእርስዎ ፕሮፖዛል።",
     proformaDescription: "የተመረጡ አገልግሎቶች ማጠቃለያ እና አንድ ጠቅላላ የተስማሙበት ዋጋ።",
     backToAgreement: "ስምምነት",
-    printProforma: "ፕሮፎርማ PDF አትም",
-    proformaDocumentTitle: "ፕሮፎርማ",
+    printProforma: "ፕሮፖዛል PDF አትም",
+    proformaDocumentTitle: "ፕሮፖዛል",
     proformaPreparedFor: "የተዘጋጀላቸው",
     proformaScope: "የተመረጡ አገልግሎቶች",
     proformaService: "አገልግሎት እና የተስማሙበት ዝርዝር",
@@ -213,12 +243,13 @@ const copy = {
     proformaBalance: "ከቅድመ ክፍያ በኋላ ቀሪ",
     proformaThanks: "ማትሪሞኒ በሀናን ስለመረጡ እናመሰግናለን። የደስታ ቀናችሁ አካል መሆን ለእኛ ክብር ነው፤ ሁሉንም ዝርዝር በጥንቃቄ እናስተባብራለን።",
     proformaNote: "የተመረጡ አገልግሎቶች ለማጣቀሻ ተዘርዝረዋል፤ ዋጋው በአንድ ጠቅላላ መጠን ቀርቧል። የክፍያ ውሎች በተፈረመው ስምምነት ይገለጻሉ።",
-    proformaDetailsRequired: "ፕሮፎርማውን ከመክፈትዎ በፊት የዝግጅቱን ቀናት እና ጠቅላላ የተስማሙበትን ዋጋ ያስገቡ።",
+    proformaDetailsRequired: "ፕሮፖዛሉን ከመክፈትዎ በፊት የዝግጅቱን ቀናት እና ጠቅላላ የተስማሙበትን ዋጋ ያስገቡ።",
     navRecords: "መዝገቦች",
+    navPlan: "ዕቅድ",
     recordsEyebrow: "ጥንዶቹ",
     recordsTitle: "የተቀመጡ መዝገቦች።",
-    recordsDescription: "በስም ፈልጉ እና ሙሉ እቅዳቸውን ይክፈቱ።",
-    searchRecords: "የሙሽራዋን ወይም የሙሽራውን ስም ፈልጉ",
+    recordsDescription: "ጥንዶችን በስም፣ በስልክ፣ በቀን (ዓ.ም. ወይም ጎርጎርዮሳዊ)፣ በቦታ፣ በአገልግሎት፣ በክፍያ ወይም በመዝገብ ቁጥር ፈልገው እቅዳቸውን ይክፈቱ።",
+    searchRecords: "ጥንዶችን ፈልግ",
     saveRecord: "መዝገብ አስቀምጥ",
     openRecord: "እቅድ ክፈት",
     recordsEmpty: "እስካሁን መዝገብ የለም። ስምምነት ፍጠሩ።",
@@ -257,6 +288,8 @@ const copy = {
     mealNotSet: "ምግብ አልተመረጠም",
     eventVenueTypesHeading: "የሰርጉ ዝግጅቶች የት ይካሄዳሉ?",
     eventVenueTypesHint: "የሚያስፈልጉዎትን ቦታዎች ሁሉ ይምረጡ፤ ለእያንዳንዱም በካርታው ላይ ቦታ ያስቀምጡ።",
+    brideDetails: "የሙሽራዋ መረጃ", groomDetails: "የሙሽራው መረጃ", fullName: "ሙሉ ስም", phoneNumber: "ስልክ ቁጥር", homeAddress: "የመኖሪያ አድራሻ",
+    eventScheduleHeading: "ቀን እና ምግብ", eventVenuesTitle: "የዝግጅት ቦታዎች", eventVenueSelectHint: "የሚያስፈልጉዎትን የቦታ ዓይነቶች ሁሉ ይምረጡ።", eventVenueMapHint: "የእያንዳንዱን ቦታ አድራሻ በካርታው ላይ ይምረጡ።", mediaConsentTitle: "የፎቶ እና ቪዲዮ ፈቃድ",
     venueTypeChurch: "ቤተ-ክርስቲያን / ሃይማኖታዊ ቦታ",
     venueTypeHall: "የሰርግ ወይም የድግስ አዳራሽ",
     venueTypeHotel: "ሆቴል / የድግስ ቦታ",
@@ -266,6 +299,7 @@ const copy = {
     venueTypeOther: "ሌላ ቦታ",
     eventVenues: "የዝግጅት ቦታዎች",
     financialEyebrow: "የገንዘብ ስምምነት",
+    notesEyebrow: "ተጨማሪ መረጃ", notesHeading: "የዕቅድ ማስታወሻዎች",
     financialHeading: "የስምምነቱን መጠን ያስገቡ",
     totalFee: "ጠቅላላ የሙያ ክፍያ",
     deposit: "የማይመለስ ቅድመ ክፍያ",
@@ -274,6 +308,10 @@ const copy = {
     generalNotes: "የእቅድ ማስታወሻ",
     requiredHint: "የጥንዶቹ ስም እና ቀን ስምምነቱን ለመዘጋጀት ያግዛሉ።",
     continueServices: "ወደ አገልግሎቶች ይቀጥሉ",
+    continuePricing: "ወደ ዋጋ ይቀጥሉ",
+    pricingEyebrow: "ዋጋ",
+    pricingTitle: "የተስማሙበት ክፍያ ስንት ነው?",
+    pricingDescription: "ከጥንዶቹ ጋር የተስማሙበትን አንድ ጠቅላላ ክፍያ ያስገቡ። ስምምነቱ በ40% / 40% / 20% የክፍያ መርሃ ግብር ይከፍለዋል።",
     servicesEyebrow: "የተስማሙበት ወሰን",
     servicesTitle: "በቃል ኪዳኑ ውስጥ የሚገባውን ይምረጡ።",
     servicesDescription: "ለዚህ ሰርግ አገልግሎቶችን ይምረጡ። ምርጫዎችዎ ወደ ዕቅዱ ይተላለፋሉ፤ ዝርዝሮቹን በኋላ ያዘጋጃሉ።",
@@ -364,17 +402,52 @@ const copy = {
 // New workflow copy stays paired so every control has an English and Amharic label.
 Object.assign(copy.en, {
   currentCouple: "CURRENT COUPLE", nextCelebration: "Your next celebration", newPlan: "New plan",
-  recentCouples: "RECENT COUPLES", weddingsHeading: "WEDDINGS", viewAll: "View all", recentEmpty: "Saved couples will appear here.", noWeddingsFound: "No weddings match search.", recentWeddings: "Recent weddings", searchResults: "Results",
+  recentCouples: "RECENT COUPLES", weddingsHeading: "Weddings", viewAll: "View all", recentEmpty: "Saved couples will appear here.", noWeddingsFound: "No weddings match search.", recentWeddings: "Recent weddings", searchResults: "Results",
   recordDirty: "Unsaved changes", recordSaving: "Saving record…", recordReady: "Saved record",
   localOnly: "Local draft only", localSaveFailed: "Draft could not be saved on this browser.",
-  downloadAgreement: "Download agreement PDF", downloadProforma: "Download proforma PDF",
+  downloadAgreement: "Download agreement PDF", downloadProforma: "Download proposal PDF",
+  searchKind_phone: "Phone", searchKind_ref: "Reference", searchKind_fee: "Fee", searchKind_place: "Place", searchKind_venue: "Venue",
+  searchKind_service: "Service", searchKind_meal: "Meals", searchKind_notes: "Notes",
+  portalWorkspace: "Your wedding details", portalNotice: "Tell us about your celebration. Your details go straight to Hanna’s team; the price is agreed together later.",
+  portalDetailsEyebrow: "MATRIMONY BY HANNA", portalDetailsTitle: "Tell us about your wedding.", portalDetailsDescription: "It only takes a few minutes. Hanna’s team uses these details to prepare your plan.",
+  portalServicesEyebrow: "YOUR SERVICES", portalServicesTitle: "Which services would you like?", portalServicesDescription: "Tap every service you’re interested in. We’ll go through the details together.",
+  portalSubmit: "Send to Matrimony By Hanna", portalSending: "Sending…", portalPhoneRequired: "Enter at least one phone number so we can reach you.",
+  portalFailed: "We couldn’t send your details. Check your connection and try again.", portalSent: "Sent",
+  portalDoneTitle: "Thank you, we have your details.", portalDoneText: "Hanna’s team will call you to talk through the plan and the price. Keep this reference:", portalSendAnother: "Send another",
+  portalRequestsEyebrow: "FROM THE CLIENT PORTAL", portalRequestsTitle: "Client requests", portalRequestsHint: "Couples fill in their own details at the portal link. Open a request to continue it as a plan and add the price.",
+  portalCopyLink: "Copy portal link", portalShareLink: "Share link", portalLinkCopied: "Portal link copied. Send it to the couple.", portalRequestsEmpty: "No client requests yet. Share the portal link with couples to receive their details here.",
+  portalOpenAsPlan: "Open as plan", portalOpenPlan: "Open plan", portalDismiss: "Dismiss", portalNew: "New", portalImportedBadge: "Added to records",
+  portalImported: "Request opened as a plan. Add the price in Pricing.", portalServicesCount: "services", portalSubmittedAt: "Sent",
+  blankForms: "Blank forms", blankAgreement: "Blank agreement", blankProposal: "Blank proposal", blankChooseLanguage: "Choose the language for the blank document.",
+  blankDownloadAgreement: "Download blank agreement", blankDownloadProposal: "Download blank proposal", blankCancel: "Cancel",
+  blankSavedTitle: "Downloaded", blankShareButton: "Share PDF", blankSavedText: "The blank {doc} is in your downloads. Share it now:",
+  blankSavedAttach: "The blank {doc} is in your downloads. Open a chat below and attach the PDF.", blankAgreementName: "agreement", blankProposalName: "proposal",
+  blankShareText: "Blank wedding {doc} from Matrimony By Hanna.",
+  teamTitle: "Team", teamHint: "Only the people listed here can sign in and see couples’ details.", teamInviteLabel: "Invite someone",
+  teamRolePlanner: "Planner", teamRoleAdmin: "Admin", teamRoleOwner: "Owner", teamCreateInvite: "Create invite link", teamYou: "You",
+  teamReset: "Reset link", teamRemove: "Remove", teamRemoveConfirm: "Remove {name}? They will be signed out and can no longer see couples’ details.",
+  teamInviteReady: "Send this invite to the new {role}. It works once, for 7 days.", teamResetReady: "Send this reset link to {name}. It works once, for 24 hours.",
+  teamInviteMessage: "You’re invited to Matrimony By Hanna’s planning workspace. Create your account here:", teamResetMessage: "Use this link to set a new password for Matrimony By Hanna:",
+  teamPending: "{count} unused invite link(s).", teamRevokeAll: "Cancel unused invites", teamLoadFailed: "The team list couldn’t be loaded.",
+  teamLastActive: "Active", linkCopied: "Link copied.", teamNeverActive: "Not signed in yet", signOut: "Sign out", signedOutLocal: "Signed out. Local drafts were cleared from this device.",
+  createLink: "Create client link", createLinkTitle: "Send the client portal",
+  createLinkHint: "The couple opens this link on their phone and fills in their own details. Their request appears under Client requests.",
+  linkClientName: "Couple’s name (optional)", linkClientPhone: "Phone for WhatsApp or SMS (optional)", linkLanguage: "Portal and message language",
+  linkCopy: "Copy", linkSendWith: "Send with", linkDone: "Done", linkMore: "More…", linkEmail: "Email",
+  linkLocalWarning: "This address only opens on this computer. Send links from the published app so couples can open them.",
+  linkMessageNamed: "Hello {name}, congratulations on your wedding! 💍 Please fill in your wedding details for Matrimony By Hanna here:",
+  linkMessage: "Hello, congratulations on your wedding! 💍 Please fill in your wedding details for Matrimony By Hanna here:", linkSubject: "Your wedding details – Matrimony By Hanna",
+  shareProforma: "Share proposal", shareReady: "Tap to share", shareTapAgain: "Your proposal PDF is ready. Tap Share again to send it.",
+  shareFallback: "This browser can’t share files directly, so the PDF was downloaded. Attach it in WhatsApp, Telegram, Instagram or email.",
+  shareText: "Your wedding proposal from Matrimony By Hanna.", shareHint: "Send the PDF straight to the couple on WhatsApp, Telegram, Instagram or email.",
+  generateProposal: "Generate proposal", continueAgreement: "Continue to agreement", backToProposal: "Proposal", editPricing: "Edit pricing",
   printDocument: "Print", pdfPreparing: "Preparing your PDF…", pdfReady: "PDF downloaded with your letterhead.",
   pdfFailed: "PDF export failed. Please retry or use Print to save a PDF.",
   fixFields: "Please complete the highlighted fields.", nameRequired: "Enter a name.",
   dateRequired: "Choose a valid wedding date.", daysRequired: "Enter a whole number from 1 to 365.",
   totalFeeRequired: "Enter the agreed overall fee.",
   priceRequired: "Enter this service’s price in ETB (0 is allowed).", depositInvalid: "Deposit cannot exceed the total fee.",
-  amountInvalid: "Enter a valid amount of 0 or more.", missingPriceHint: "Each selected service needs a price for the proforma.",
+  amountInvalid: "Enter a valid amount of 0 or more.", missingPriceHint: "Each selected service needs a price for the proposal.",
   generating: "Preparing the document…", documentFailed: "Could not prepare the document. Please try again.",
   documentTooLong: "One item is too long to fit safely on the letterhead. Shorten the longest service instructions or planning notes, then try again.",
   contractScopeEyebrow: "AGREEMENT SCOPE", contractScopeHeading: "Choose the planning engagement",
@@ -425,13 +498,48 @@ Object.assign(copy.am, {
   recentCouples: "የቅርብ ጥንዶች", weddingsHeading: "ሰርጎች", viewAll: "ሁሉንም አሳይ", recentEmpty: "የተቀመጡ ጥንዶች እዚህ ይታያሉ።", noWeddingsFound: "ምንም የሚዛመድ ሰርግ የለም።", recentWeddings: "የቅርብ ጊዜ ሰርጎች", searchResults: "ውጤቶች",
   recordDirty: "ያልተቀመጡ ለውጦች", recordSaving: "መዝገቡን በማስቀመጥ ላይ…", recordReady: "የተቀመጠ መዝገብ",
   localOnly: "በአሳሹ ላይ ብቻ የተቀመጠ ረቂቅ", localSaveFailed: "ረቂቁን በዚህ አሳሽ ማስቀመጥ አልተቻለም።",
-  downloadAgreement: "የስምምነት PDF አውርድ", downloadProforma: "የፕሮፎርማ PDF አውርድ",
+  downloadAgreement: "የስምምነት PDF አውርድ", downloadProforma: "የፕሮፖዛል PDF አውርድ",
+  searchKind_phone: "ስልክ", searchKind_ref: "መዝገብ ቁጥር", searchKind_fee: "ክፍያ", searchKind_place: "ቦታ", searchKind_venue: "የዝግጅት ቦታ",
+  searchKind_service: "አገልግሎት", searchKind_meal: "ምግብ", searchKind_notes: "ማስታወሻ",
+  portalWorkspace: "የሰርግዎ ዝርዝሮች", portalNotice: "ስለ ዝግጅታችሁ ይንገሩን። መረጃዎ በቀጥታ ወደ ሀና ቡድን ይደርሳል፤ ዋጋው በኋላ በጋራ ይወሰናል።",
+  portalDetailsEyebrow: "ማትሪሞኒ ባይ ሃና", portalDetailsTitle: "ስለ ሰርግዎ ይንገሩን።", portalDetailsDescription: "ጥቂት ደቂቃዎች ብቻ ይወስዳል። የሀና ቡድን በእነዚህ ዝርዝሮች ዕቅድዎን ያዘጋጃል።",
+  portalServicesEyebrow: "የእርስዎ አገልግሎቶች", portalServicesTitle: "የትኞቹን አገልግሎቶች ይፈልጋሉ?", portalServicesDescription: "የሚፈልጓቸውን አገልግሎቶች ሁሉ ይንኩ። ዝርዝሩን አብረን እንወያያለን።",
+  portalSubmit: "ወደ ማትሪሞኒ ባይ ሃና ላክ", portalSending: "በመላክ ላይ…", portalPhoneRequired: "እንድናገኝዎ ቢያንስ አንድ ስልክ ቁጥር ያስገቡ።",
+  portalFailed: "መረጃዎን መላክ አልተቻለም። ግንኙነትዎን አረጋግጠው እንደገና ይሞክሩ።", portalSent: "ተልኳል",
+  portalDoneTitle: "እናመሰግናለን፣ መረጃዎ ደርሶናል።", portalDoneText: "የሀና ቡድን ስለ ዕቅዱ እና ዋጋው ለመነጋገር ይደውልልዎታል። ይህን መለያ ቁጥር ያስቀምጡ፦", portalSendAnother: "ሌላ ላክ",
+  portalRequestsEyebrow: "ከደንበኞች መግቢያ", portalRequestsTitle: "የደንበኛ ጥያቄዎች", portalRequestsHint: "ጥንዶች በመግቢያው ሊንክ የራሳቸውን መረጃ ይሞላሉ። ጥያቄውን እንደ ዕቅድ ከፍተው ዋጋውን ያክሉ።",
+  portalCopyLink: "የመግቢያ ሊንክ ቅዳ", portalShareLink: "ሊንኩን አጋራ", portalLinkCopied: "የመግቢያ ሊንኩ ተቀድቷል። ለጥንዶቹ ይላኩት።", portalRequestsEmpty: "እስካሁን የደንበኛ ጥያቄ የለም። ጥንዶች መረጃቸውን እዚህ እንዲልኩ የመግቢያ ሊንኩን ያጋሩ።",
+  portalOpenAsPlan: "እንደ ዕቅድ ክፈት", portalOpenPlan: "ዕቅዱን ክፈት", portalDismiss: "አስወግድ", portalNew: "አዲስ", portalImportedBadge: "ወደ መዝገብ ተጨምሯል",
+  portalImported: "ጥያቄው እንደ ዕቅድ ተከፍቷል። ዋጋውን በዋጋ ደረጃ ያክሉ።", portalServicesCount: "አገልግሎቶች", portalSubmittedAt: "የተላከው",
+  blankForms: "ባዶ ቅጾች", blankAgreement: "ባዶ ስምምነት", blankProposal: "ባዶ ፕሮፖዛል", blankChooseLanguage: "ለባዶው ሰነድ ቋንቋ ይምረጡ።",
+  blankDownloadAgreement: "ባዶ ስምምነት አውርድ", blankDownloadProposal: "ባዶ ፕሮፖዛል አውርድ", blankCancel: "ሰርዝ",
+  blankSavedTitle: "ወርዷል", blankShareButton: "PDFውን አጋራ", blankSavedText: "ባዶው {doc} በውርዶችዎ ውስጥ ነው። አሁን ያጋሩት፦",
+  blankSavedAttach: "ባዶው {doc} በውርዶችዎ ውስጥ ነው። ከታች ውይይት ከፍተው PDFውን ያያይዙ።", blankAgreementName: "ስምምነት", blankProposalName: "ፕሮፖዛል",
+  blankShareText: "ከማትሪሞኒ ባይ ሃና ባዶ የሰርግ {doc}።",
+  teamTitle: "ቡድን", teamHint: "መግባትና የጥንዶችን መረጃ ማየት የሚችሉት እዚህ የተዘረዘሩት ብቻ ናቸው።", teamInviteLabel: "ሰው ይጋብዙ",
+  teamRolePlanner: "እቅድ አውጪ", teamRoleAdmin: "አስተዳዳሪ", teamRoleOwner: "ባለቤት", teamCreateInvite: "የግብዣ ሊንክ ፍጠር", teamYou: "እርስዎ",
+  teamReset: "የማደሻ ሊንክ", teamRemove: "አስወግድ", teamRemoveConfirm: "{name}ን ያስወግዱ? ይወጣሉ፤ የጥንዶችን መረጃ ከዚህ በኋላ ማየት አይችሉም።",
+  teamInviteReady: "ይህን ግብዣ ለአዲሱ {role} ይላኩ። አንድ ጊዜ፣ ለ7 ቀናት ይሰራል።", teamResetReady: "ይህን የማደሻ ሊንክ ለ{name} ይላኩ። አንድ ጊዜ፣ ለ24 ሰዓት ይሰራል።",
+  teamInviteMessage: "ወደ ማትሪሞኒ ባይ ሃና የዝግጅት መስሪያ ተጋብዘዋል። መለያዎን እዚህ ይፍጠሩ፦", teamResetMessage: "ለማትሪሞኒ ባይ ሃና አዲስ የይለፍ ቃል ለማዘጋጀት ይህን ሊንክ ይጠቀሙ፦",
+  teamPending: "{count} ያልተጠቀሙ የግብዣ ሊንኮች።", teamRevokeAll: "ያልተጠቀሙ ግብዣዎችን ሰርዝ", teamLoadFailed: "የቡድኑ ዝርዝር ሊጫን አልቻለም።",
+  teamLastActive: "ንቁ", linkCopied: "ሊንኩ ተቀድቷል።", teamNeverActive: "እስካሁን አልገቡም", signOut: "ውጣ", signedOutLocal: "ወጥተዋል። የአካባቢ ረቂቆች ከዚህ መሳሪያ ተሰርዘዋል።",
+  createLink: "የደንበኛ ሊንክ ፍጠር", createLinkTitle: "የደንበኛ መግቢያ ይላኩ",
+  createLinkHint: "ጥንዶቹ ይህን ሊንክ በስልካቸው ከፍተው መረጃቸውን ራሳቸው ይሞላሉ። ጥያቄያቸው በደንበኛ ጥያቄዎች ስር ይታያል።",
+  linkClientName: "የጥንዶቹ ስም (አማራጭ)", linkClientPhone: "ለWhatsApp ወይም SMS ስልክ (አማራጭ)", linkLanguage: "የመግቢያውና የመልዕክቱ ቋንቋ",
+  linkCopy: "ቅዳ", linkSendWith: "በዚህ ይላኩ", linkDone: "ጨርስ", linkMore: "ሌሎች…", linkEmail: "ኢሜይል",
+  linkLocalWarning: "ይህ አድራሻ የሚከፈተው በዚህ ኮምፒውተር ብቻ ነው። ጥንዶች እንዲከፍቱት ከታተመው መተግበሪያ ሊንክ ይላኩ።",
+  linkMessageNamed: "ሰላም {name}፣ እንኳን ለሰርጋችሁ አደረሳችሁ! 💍 የሰርጋችሁን ዝርዝር ለማትሪሞኒ ባይ ሃና እዚህ ይሙሉ፦",
+  linkMessage: "ሰላም፣ እንኳን ለሰርጋችሁ አደረሳችሁ! 💍 የሰርጋችሁን ዝርዝር ለማትሪሞኒ ባይ ሃና እዚህ ይሙሉ፦", linkSubject: "የሰርግ ዝርዝራችሁ – ማትሪሞኒ ባይ ሃና",
+  shareProforma: "ፕሮፖዛሉን አጋራ", shareReady: "ለማጋራት ይንኩ", shareTapAgain: "የፕሮፖዛሉ PDF ዝግጁ ነው። ለመላክ አጋራን እንደገና ይንኩ።",
+  shareFallback: "ይህ አሳሽ ፋይሎችን በቀጥታ ማጋራት ስለማይችል PDF ወርዷል። በWhatsApp፣ Telegram፣ Instagram ወይም ኢሜይል ያያይዙት።",
+  shareText: "ከማትሪሞኒ ባይ ሃና የቀረበ የሰርግ ፕሮፖዛል።", shareHint: "PDFውን በቀጥታ ለጥንዶቹ በWhatsApp፣ Telegram፣ Instagram ወይም ኢሜይል ይላኩ።",
+  generateProposal: "ፕሮፖዛሉን ይፍጠሩ", continueAgreement: "ወደ ስምምነት ይቀጥሉ", backToProposal: "ፕሮፖዛል", editPricing: "ዋጋውን ያርሙ",
   printDocument: "አትም", pdfPreparing: "PDF በማዘጋጀት ላይ…", pdfReady: "PDF ከደብዳቤ ራስጌው ጋር ወርዷል።",
   pdfFailed: "PDF ማውረድ አልተቻለም። እንደገና ይሞክሩ ወይም በማተም PDF ያስቀምጡ።",
   fixFields: "እባክዎ የተጠቆሙትን መስኮች ይሙሉ።", nameRequired: "ስም ያስገቡ።",
   dateRequired: "ትክክለኛ የሰርግ ቀን ይምረጡ።", daysRequired: "ከ1 እስከ365 ሙሉ ቁጥር ያስገቡ።",
   priceRequired: "የዚህን አገልግሎት ዋጋ በብር ያስገቡ (0 ይፈቀዳል)።", depositInvalid: "ቅድመ ክፍያው ከጠቅላላ ዋጋው መብለጥ የለበትም።",
-  amountInvalid: "0 ወይም ከዚያ በላይ ትክክለኛ ዋጋ ያስገቡ።", missingPriceHint: "ለፕሮፎርማው ሁሉም የተመረጡ አገልግሎቶች ዋጋ ያስፈልጋቸዋል።",
+  amountInvalid: "0 ወይም ከዚያ በላይ ትክክለኛ ዋጋ ያስገቡ።", missingPriceHint: "ለፕሮፖዛሉ ሁሉም የተመረጡ አገልግሎቶች ዋጋ ያስፈልጋቸዋል።",
   generating: "ሰነዱን በማዘጋጀት ላይ…", documentFailed: "ሰነዱን ማዘጋጀት አልተቻለም። እንደገና ይሞክሩ።",
   documentTooLong: "አንድ ዝርዝር በደብዳቤ ራስጌው ገጽ ላይ ለመግጠም በጣም ረጅም ነው። ረጅም የአገልግሎት መመሪያዎችን ወይም ማስታወሻዎችን ያሳጥሩ።",
   totalFeeRequired: "የተስማሙበትን ጠቅላላ ዋጋ ያስገቡ።",
@@ -815,7 +923,12 @@ let documentJob = 0;
 let exportingPdf = false;
 let openingRecord = false;
 
+// Blank documents print write-in lines where a plan would show "Not provided" and similar.
+const BLANK = "____________________";
+const BLANK_KEYS = new Set(["notProvided", "notSet", "dateNotSet", "mealNotSet", "noAddons"]);
+
 function t(key) {
+  if (state.blankDocument && BLANK_KEYS.has(key)) return BLANK;
   return (copy[state.lang] && copy[state.lang][key]) || copy.en[key] || key;
 }
 
@@ -838,6 +951,7 @@ function iconUse(name) {
 }
 
 function formatMoney(value) {
+  if (state.blankDocument) return `${BLANK} ETB`;
   const amount = Number(value) || 0;
   return `${new Intl.NumberFormat(state.lang === "am" ? "am-ET" : "en-ET", { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(amount)} ETB`;
 }
@@ -897,6 +1011,7 @@ function formatDate(value) {
 }
 
 function formatDateForDocument(value) {
+  if (state.blankDocument) return BLANK;
   // In documents: Amharic → EC, English → Gregorian
   if (!value) return t("dateNotSet");
   const date = new Date(`${value}T12:00:00`);
@@ -911,6 +1026,7 @@ function getMealProgram() {
 }
 
 function formatMealProgram() {
+  if (state.blankDocument) return ["mealBreakfast", "mealLunch", "mealDinner"].map(key => `☐ ${t(key)}`).join("    ");
   const meals = getMealProgram();
   if (!meals.length) return t("mealNotSet");
   if (meals.length === 3 && meals.includes("breakfast") && meals.includes("lunch") && meals.includes("dinner")) {
@@ -999,6 +1115,16 @@ function applyLocalization() {
     const key = element.dataset.i18n;
     if (copy[state.lang][key] !== undefined) element.textContent = copy[state.lang][key];
   });
+  // A prepared share belongs to the previous language; the next tap rebuilds the PDF.
+  document.querySelectorAll("[data-share-pdf]").forEach(button => button.classList.remove("is-ready"));
+  updateStepCount();
+  document.querySelectorAll("[data-aria-en]").forEach((element) => {
+    element.setAttribute("aria-label", state.lang === "am" ? (element.dataset.ariaAm || element.dataset.ariaEn) : element.dataset.ariaEn);
+  });
+  renderAccount();
+  if (document.getElementById("teamDialog")?.open) { renderTeamLink(); renderTeam(); }
+  ["sidebarCollapse", "sidebarExpand"].forEach(id => { const button = document.getElementById(id); if (button) button.title = button.getAttribute("aria-label"); });
+  if (document.body.classList.contains("sidebar-rail")) setSidebarRail(true);
   document.querySelectorAll("[data-placeholder-en]").forEach((element) => {
     element.placeholder = state.lang === "am" ? (element.dataset.placeholderAm || element.dataset.placeholderEn) : element.dataset.placeholderEn;
   });
@@ -1288,7 +1414,7 @@ function renderAgreement() {
       <div><div class="doc-label">${escapeHtml(t("mealProgramAgreement"))}</div><div class="doc-value">${escapeHtml(formatMealProgram())}</div></div>
       <div class="event-venues-document"><div class="doc-label">${escapeHtml(t("eventVenuesAgreement"))}</div>${eventVenueRows}</div>
     </div></section>
-    <section class="agreed-services"><h3>2. ${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><h4>${escapeHtml(t("otherAddons"))}</h4><ol class="agreed-services-list">${addOns || `<li>${escapeHtml(t("noAddons"))}</li>`}</ol></section>
+    <section class="agreed-services"><h3>2. ${escapeHtml(t("contractScopeTitle"))}</h3><p>${escapeHtml(t("agreedIntro"))}</p><ul class="contract-package-list">${packageRows}</ul><h4>${escapeHtml(t("otherAddons"))}</h4>${state.blankDocument ? blankServiceChecklist(services.filter(service => service.id !== "premarital")) : `<ol class="agreed-services-list">${addOns || `<li>${escapeHtml(t("noAddons"))}</li>`}</ol>`}</section>
     <section class="contract-clause" data-contract-clause="1"><h3>3. ${escapeHtml(t("termsHeading"))}</h3><h4>1. ${escapeHtml(t("vendorHeading"))}</h4><p>${escapeHtml(t("vendorScope"))}</p></section>
     <section class="contract-clause" data-contract-clause="2"><h4>2. ${escapeHtml(t("providerResponsibilityHeading"))}</h4><p>${escapeHtml(t("providerResponsibility"))}</p></section>
     <section class="contract-clause" data-contract-clause="3"><h4>3. ${escapeHtml(t("clientResponsibilityHeading"))}</h4><p>${escapeHtml(t("clientResponsibility"))}</p></section>
@@ -1334,7 +1460,7 @@ function renderProforma() {
       <div><div class="doc-label">${escapeHtml(t("mealProgramAgreement"))}</div><div class="doc-value">${escapeHtml(formatMealProgram())}</div></div>
       <div><div class="doc-label">${escapeHtml(t("eventVenues"))}</div><div class="doc-value">${escapeHtml(eventVenueSummary())}</div></div>
     </div>
-    <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3><ul class="proforma-service-list">${serviceRows}</ul></section>
+    <section class="proforma-items"><h3>${escapeHtml(t("proformaScope"))}</h3>${state.blankDocument ? blankServiceChecklist(services) : `<ul class="proforma-service-list">${serviceRows}</ul>`}</section>
     <div class="proforma-closing">
     <section class="proforma-totals" aria-label="${escapeHtml(t("proformaTotal"))}">
       <div class="proforma-total-banner"><span>${escapeHtml(t("proformaTotal"))}</span><strong>${escapeHtml(formatMoney(total))}</strong></div>
@@ -1434,6 +1560,7 @@ function paginateAgreement(container, reference, date) {
 }
 
 function documentReference(kind) {
+  if (state.blankDocument) return `MBH-${kind}-________`;
   const key = `${state.details.brideName || ""}|${state.details.groomName || ""}`;
   let hash = 0;
   for (const character of key) hash = ((hash << 5) - hash + character.codePointAt(0)) >>> 0;
@@ -1540,22 +1667,22 @@ function renderRecords() {
   const list = document.getElementById("recordsList");
   if (!list) return;
   document.getElementById("recordsCount").textContent = state.records.length;
-  const query = document.getElementById("recordsSearch")?.value.trim().toLocaleLowerCase() || "";
-  const matches = state.records.filter(record =>
-    `${record.bride_first_name} ${record.groom_first_name}`.toLocaleLowerCase().includes(query));
+  const query = document.getElementById("recordsSearch")?.value.trim() || "";
+  const matches = searchRecords(query);
   if (!matches.length) {
     list.innerHTML = `<div class="records-empty">${escapeHtml(t(state.records.length ? "recordsNoMatches" : "recordsEmpty"))}</div>`;
     return;
   }
-  list.innerHTML = matches.map(record => `<article class="record-card">
+  list.innerHTML = matches.map(({ record, detail }) => `<article class="record-card">
     <div class="record-mark" aria-hidden="true">∞</div>
-    <div class="record-main"><h2>${escapeHtml(record.bride_first_name)} <span>&amp;</span> ${escapeHtml(record.groom_first_name)}</h2>
-      <p>${escapeHtml(t("weddingDate"))}: ${escapeHtml(formatDate(record.wedding_date))}</p></div>
+    <div class="record-main"><h2>${highlightMatch(record.search?.bride_name || record.bride_first_name, query)} <span>&amp;</span> ${highlightMatch(record.search?.groom_name || record.groom_first_name, query)}</h2>
+      <p>${escapeHtml(t("weddingDate"))}: ${escapeHtml(formatDate(record.wedding_date))}${record.search?.phones?.length ? ` · ${highlightMatch(record.search.phones.join(" / "), query)}` : ""}</p>${searchDetailMarkup(detail, query)}</div>
     <button class="button button-quiet" type="button" data-open-record="${record.id}">${escapeHtml(t("openRecord"))}${iconUse("open")}</button>
   </article>`).join("");
 }
 
 async function loadRecords() {
+  if (PORTAL) return;
   const list = document.getElementById("recordsList");
   list.innerHTML = `<div class="records-empty">${escapeHtml(state.lang === "am" ? "በመጫን ላይ…" : "Loading records…")}</div>`;
   try {
@@ -1573,6 +1700,7 @@ function saveRecord(options = {}) {
 }
 
 async function persistRecord({ silent = false, requireRemote = false } = {}) {
+  if (PORTAL) return;
   if (savingRecord) return;
   syncDetailsFromForm();
   if (!state.details.brideName?.trim() || !state.details.groomName?.trim()) {
@@ -1645,6 +1773,25 @@ async function openRecord(id, { step = 0 } = {}) {
   }
 }
 
+// Panels keep their original ids. Pricing (6) shows third, the proposal (3) comes before the
+// agreement (2), and the Plan tab (5, the wedding planning workspace) is last. Records (4) is
+// opened from the sidebar and search rather than the step track.
+const STEP_ORDER = [0, 1, 6, 3, 2, 5];
+const stepPosition = step => STEP_ORDER.indexOf(Number(step));
+// Plan stays hidden until the planning service is available, so only visible steps are counted.
+const visibleSteps = () => STEP_ORDER.filter(step => !document.querySelector(`.workflow-nav [data-step-target="${step}"]`)?.hidden);
+
+function updateStepCount() {
+  const stepCount = document.getElementById("workflowStepCount");
+  if (!stepCount) return;
+  const steps = visibleSteps();
+  const position = steps.indexOf(state.currentStep || 0);
+  if (position < 0) { stepCount.textContent = t(state.currentStep === 7 ? "portalSent" : "navRecords"); return; }
+  const step = String(position + 1).padStart(2, "0");
+  const total = String(steps.length).padStart(2, "0");
+  stepCount.textContent = state.lang === "am" ? `ደረጃ ${step} ከ ${total}` : `Step ${step} of ${total}`;
+}
+
 function setStep(step) {
   if (exportingPdf) return;
   clearValidation();
@@ -1654,7 +1801,7 @@ function setStep(step) {
   document.querySelectorAll(".step-link").forEach((link) => {
     const target = Number(link.dataset.stepTarget);
     link.classList.toggle("is-active", target === state.currentStep);
-    link.classList.toggle("is-complete", state.currentStep < 5 && target < state.currentStep);
+    link.classList.toggle("is-complete", stepPosition(target) >= 0 && stepPosition(target) < stepPosition(state.currentStep));
   });
   document.querySelectorAll(".workflow-nav [data-step-target]").forEach(button => {
     const active = Number(button.dataset.stepTarget) === state.currentStep;
@@ -1662,8 +1809,8 @@ function setStep(step) {
     if (active) button.setAttribute("aria-current", "step");
     else button.removeAttribute("aria-current");
   });
-  const stepCount = document.getElementById("workflowStepCount");
-  if (stepCount) stepCount.textContent = state.currentStep === 5 ? (state.lang === "am" ? "የሰርግ ዕቅድ" : "Wedding Planning") : `${String(state.currentStep + 1).padStart(2, "0")} / 05`;
+  updateStepCount();
+  revealActiveStep();
   window.dispatchEvent(new Event("plan-step-change"));
   if (state.currentStep === 1) renderServices();
   if (state.currentStep === 2) {
@@ -1675,6 +1822,7 @@ function setStep(step) {
     saveRecord({ silent: true });
   }
   if (state.currentStep === 4) loadRecords();
+  if (state.currentStep === 5) loadPortalRequests();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1728,15 +1876,13 @@ function validateBeforeAgreement() {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(state.details.weddingDate || "") || Number.isNaN(new Date(`${state.details.weddingDate}T12:00:00`).getTime())) errors.push({ id:"weddingDate", message:t("dateRequired") });
   const days = Number(state.details.eventDays);
   if (!Number.isInteger(days) || days < 1 || days > 365) errors.push({ id:"eventDays", message:t("daysRequired") });
-  if (state.details.totalFee === "" || state.details.totalFee === undefined || state.details.totalFee === null) {
-    errors.push({ id:"totalFee", message:t("totalFeeRequired") });
-  } else if (!hasValidPrice(state.details.totalFee)) {
-    errors.push({ id:"totalFee", message:t("amountInvalid") });
-  }
   if (errors.length) return showValidation(errors, 0);
-  if (!selectedServices().length) {
-    return showValidation([{message:t("noServicesWarning")}], 1);
+  if (!selectedServices().length) return showValidation([{ message:t("noServicesWarning") }], 1);
+  // The agreed fee has its own Pricing step.
+  if (state.details.totalFee === "" || state.details.totalFee === undefined || state.details.totalFee === null) {
+    return showValidation([{ id:"totalFee", message:t("totalFeeRequired") }], 6);
   }
+  if (!hasValidPrice(state.details.totalFee)) return showValidation([{ id:"totalFee", message:t("amountInvalid") }], 6);
   return true;
 }
 
@@ -1808,7 +1954,7 @@ async function printDocument(kind) {
   showToast(t("printHint"));
   const previousTitle = document.title;
   const couple = `${state.details.brideName || "Bride"} & ${state.details.groomName || "Groom"}`;
-  document.title = `${kind === "proforma" ? "Proforma" : "Service Agreement"} - ${couple} - Matrimony By Hanna`;
+  document.title = `${kind === "proforma" ? "Proposal" : "Service Agreement"} - ${couple} - Matrimony By Hanna`;
   window.addEventListener('afterprint', () => {
     document.body.classList.remove('print-mode');
     panel.classList.remove('is-print-target');
@@ -1818,28 +1964,22 @@ async function printDocument(kind) {
   window.print();
 }
 
-async function downloadDocument(kind) {
-  if (exportingPdf || !(kind === "proforma" ? validateBeforeProforma() : validateBeforeAgreement())) return;
-  exportingPdf = true;
-  const buttons = document.querySelectorAll("[data-download-pdf], #printAgreementButton, #printProformaButton");
-  buttons.forEach(button => button.disabled = true);
-  const trigger = document.querySelector(`[data-download-pdf="${kind}"] span:last-child`);
-  const previousLabel = trigger.textContent;
-  trigger.textContent = t("pdfPreparing");
-  let stage;
+// Renders the letterhead pages into a jsPDF document; shared by download and share.
+async function buildPdf(kind) {
+  if (!window.html2canvas || !window.jspdf?.jsPDF) throw new Error("PDF libraries unavailable");
+  const container = await prepareDocument(kind);
+  if (!container) throw new Error("Document preparation failed");
+  // A desktop-sized snapshot isolates export from mobile layout and later form edits.
+  const stage = document.createElement("div");
+  stage.className = "pdf-export-stage";
   try {
-    if (!window.html2canvas || !window.jspdf?.jsPDF) throw new Error("PDF libraries unavailable");
-    const container = await prepareDocument(kind);
-    if (!container) throw new Error("Document preparation failed");
-    // A desktop-sized snapshot isolates export from mobile layout and later form edits.
-    stage = document.createElement("div");
-    stage.className = "pdf-export-stage";
     const pages = Array.from(container.querySelectorAll(".letterhead-sheet"), sheet => sheet.cloneNode(true));
     const letterhead = container.querySelector('.letterhead-art');
     document.body.append(stage);
     const pdf = new window.jspdf.jsPDF({ orientation:"portrait", unit:"mm", format:"a4", compress:true });
     const couple = `${firstName(state.details.brideName)} & ${firstName(state.details.groomName)}`;
-    pdf.setProperties({ title:`${kind === "proforma" ? "Proforma" : "Service Agreement"} - ${couple}`, author:"Matrimony By Hanna", subject:documentReference(kind === "proforma" ? "PF" : "AG") });
+    const title = `${kind === "proforma" ? "Proposal" : "Service Agreement"} - ${couple}`;
+    pdf.setProperties({ title, author:"Matrimony By Hanna", subject:documentReference(kind === "proforma" ? "PF" : "AG") });
     for (let index = 0; index < pages.length; index++) {
       // Isolate each sheet at the same origin. Off-viewport sibling sheets can
       // cause a DOM renderer to clip image layers on intermediate pages.
@@ -1856,34 +1996,727 @@ async function downloadDocument(kind) {
       pdf.addImage(canvas, "PNG", 0, 0, 210, 297, `content-${index}`, "FAST");
       canvas.width = canvas.height = 1;
     }
-    const filename = `Matrimony-${kind === "proforma" ? "Proforma" : "Agreement"}-${couple.replace(/[<>:"/\\|?*]/g, "").trim()}-${state.details.weddingDate}.pdf`;
-    pdf.save(filename);
-    showToast(t("pdfReady"));
+    const filename = `Matrimony-${kind === "proforma" ? "Proposal" : "Agreement"}-${couple.replace(/[<>:"/\|?*]/g, "").trim()}-${state.details.weddingDate}.pdf`;
+    return { pdf, filename, title };
+  } finally {
+    stage.remove();
+  }
+}
+
+async function runPdfAction(kind, button, action) {
+  if (exportingPdf || !(kind === "proforma" ? validateBeforeProforma() : validateBeforeAgreement())) return;
+  exportingPdf = true;
+  const buttons = document.querySelectorAll("[data-download-pdf], [data-share-pdf], #printAgreementButton, #printProformaButton");
+  buttons.forEach(item => item.disabled = true);
+  const label = button.querySelector("span:last-child");
+  const previousLabel = label.textContent;
+  label.textContent = t("pdfPreparing");
+  try {
+    await action(await buildPdf(kind));
   } catch (error) {
-    console.error("PDF download failed", error);
+    console.error("PDF export failed", error);
     showToast(t("pdfFailed"));
   } finally {
-    stage?.remove();
     exportingPdf = false;
-    buttons.forEach(button => button.disabled = false);
-    trigger.textContent = previousLabel;
+    buttons.forEach(item => item.disabled = false);
+    label.textContent = previousLabel;
   }
+}
+
+function downloadDocument(kind, button = document.querySelector(`[data-download-pdf="${kind}"]`)) {
+  return runPdfAction(kind, button, async ({ pdf, filename }) => {
+    pdf.save(filename);
+    showToast(t("pdfReady"));
+  });
+}
+
+// A shared PDF waits here when building it outlasts the click that started the share;
+// browsers only open the share sheet from a fresh tap, so the next tap shares it instantly.
+let pendingShare = null;
+
+async function openShareSheet(file, title, text = t("shareText")) {
+  try {
+    await navigator.share({ files:[file], title, text });
+    pendingShare = null;
+    return true;
+  } catch (error) {
+    if (error.name === "AbortError") { pendingShare = null; return true; }
+    if (error.name === "NotAllowedError") return false;
+    throw error;
+  }
+}
+
+function setShareReady(ready) {
+  document.querySelectorAll("[data-share-pdf]").forEach(button => {
+    button.classList.toggle("is-ready", ready);
+    button.querySelector("span:last-child").textContent = t(ready ? "shareReady" : "shareProforma");
+  });
+}
+
+async function shareDocument(kind, button) {
+  const signature = `${kind}|${state.lang}|${planSignature()}`;
+  if (pendingShare?.signature === signature) {
+    const { file, title } = pendingShare;
+    setShareReady(false);
+    return openShareSheet(file, title).catch(error => { console.error("Share failed", error); showToast(t("pdfFailed")); });
+  }
+  setShareReady(false);
+  let needsTap = false;
+  await runPdfAction(kind, button, async ({ pdf, filename, title }) => {
+    const file = new File([pdf.output("blob")], filename, { type:"application/pdf" });
+    if (!navigator.canShare?.({ files:[file] })) {
+      // No file sharing in this browser (most desktops): save it so it can be attached anywhere.
+      pdf.save(filename);
+      showToast(t("shareFallback"));
+      return;
+    }
+    pendingShare = { file, title, signature };
+    needsTap = !await openShareSheet(file, title);
+  });
+  if (needsTap) {
+    setShareReady(true);
+    showToast(t("shareTapAgain"));
+  }
+}
+
+/* ── Blank documents ──────────────────────────────────────────────── */
+// Unfilled agreement and proposal on the letterhead, with write-in lines, in either language.
+function openBlankDocumentDialog(kind) {
+  const dialog = document.getElementById("blankDocDialog");
+  dialog.dataset.kind = kind;
+  showBlankShareView(false);
+  document.getElementById("blankDocHeading").textContent = t(kind === "proforma" ? "blankDownloadProposal" : "blankDownloadAgreement");
+  dialog.querySelectorAll("[data-blank-lang]").forEach(button => button.classList.toggle("is-current", button.dataset.blankLang === state.lang));
+  dialog.showModal();
+  dialog.querySelector(`[data-blank-lang="${state.lang}"]`)?.focus();
+}
+
+// Blank forms list every service as an empty tick-box, to be marked by hand.
+function blankServiceChecklist(list) {
+  return `<ul class="blank-service-checklist">${list.map(service => `<li><span class="contract-checkbox" aria-hidden="true"></span>${escapeHtml(localized(service.title))}</li>`).join("")}</ul>`;
+}
+
+// What the document renderers see while a blank form is produced.
+const blankDocumentState = lang => ({ lang, services:{}, recordId:null, blankDocument:true,
+  details:{ eventDays:BLANK, mealProgram:[], eventVenueTypes:[], venues:{}, locations:{}, mediaConsent:"" } });
+
+async function downloadBlankDocument(kind, lang, button) {
+  if (exportingPdf) return;
+  exportingPdf = true;
+  const snapshot = { lang:state.lang, details:state.details, services:state.services, recordId:state.recordId };
+  const panel = document.getElementById(kind === "proforma" ? "step-proforma" : "step-agreement");
+  const buttons = document.querySelectorAll("[data-blank-lang]");
+  buttons.forEach(item => item.disabled = true);
+  const label = button.textContent;
+  button.textContent = t("pdfPreparing");
+  let saved = false;
+  try {
+    Object.assign(state, blankDocumentState(lang));
+    // Amharic documents need the Ethiopic fonts, which follow the page language.
+    document.documentElement.lang = lang;
+    // Pages are split by measuring them, so lay the document step out off-screen when it is not the open one.
+    panel.classList.add("is-measuring");
+    const { pdf } = await buildPdf(kind);
+    const filename = `Matrimony-Blank-${kind === "proforma" ? "Proposal" : "Agreement"}-${lang.toUpperCase()}.pdf`;
+    pdf.save(filename);
+    blankShare = { file:new File([pdf.output("blob")], filename, { type:"application/pdf" }), kind, lang };
+    saved = true;
+  } catch (error) {
+    console.error("Blank document failed", error);
+  } finally {
+    Object.assign(state, snapshot, { blankDocument:false });
+    panel.classList.remove("is-measuring");
+    document.documentElement.lang = state.lang;
+    exportingPdf = false;
+    buttons.forEach(item => item.disabled = false);
+    button.textContent = label;
+    if (state.currentStep === 2 || state.currentStep === 3) prepareDocument(state.currentStep === 3 ? "proforma" : "agreement");
+    if (saved) offerBlankShare(); else showToast(t("pdfFailed"));
+  }
+}
+
+// After a blank form downloads, the dialog turns into share options for it.
+let blankShare = null;
+
+function showBlankShareView(show) {
+  const dialog = document.getElementById("blankDocDialog");
+  dialog.querySelector("form").hidden = show;
+  dialog.querySelector(".blank-doc-share").hidden = !show;
+}
+
+function blankDocName() {
+  return t(blankShare.kind === "proforma" ? "blankProposalName" : "blankAgreementName");
+}
+
+function offerBlankShare() {
+  const canShareFile = Boolean(navigator.canShare?.({ files:[blankShare.file] }));
+  const text = t("blankShareText").replace("{doc}", blankDocName());
+  document.getElementById("blankShareText").textContent = t(canShareFile ? "blankSavedText" : "blankSavedAttach").replace("{doc}", blankDocName());
+  document.querySelector("[data-share-blank]").hidden = !canShareFile;
+  // Without file sharing, the chats open ready for the downloaded PDF to be attached.
+  document.getElementById("blankShareChannels").innerHTML = shareChannelsMarkup({ text, subject:text }, ["whatsapp", "telegram", "email"]);
+  showBlankShareView(true);
+  // The share sheet opens straight away while the download click still counts as a tap; otherwise Share PDF opens it.
+  if (canShareFile) shareBlankDocument();
+}
+
+function shareBlankDocument() {
+  if (!blankShare) return;
+  const text = t("blankShareText").replace("{doc}", blankDocName());
+  openShareSheet(blankShare.file, blankShare.file.name, text).catch(error => { console.error("Share failed", error); showToast(t("pdfFailed")); });
+}
+
+/* ── Sending links and files ──────────────────────────────────────── */
+// Ethiopian numbers typed locally (09…, 07…) become international for WhatsApp and SMS.
+function internationalPhone(value) {
+  let digits = String(value || "").replace(/\D/g, "");
+  if (digits.startsWith("00")) digits = digits.slice(2);
+  if (/^0[79]\d{8}$/.test(digits)) digits = `251${digits.slice(1)}`;
+  if (/^[79]\d{8}$/.test(digits)) digits = `251${digits}`;
+  return digits.length >= 8 ? digits : "";
+}
+
+const withLink = ({ text, url }, gap = " ") => url ? `${text}${gap}${url}` : text;
+
+const SHARE_CHANNELS = {
+  whatsapp: { label:"WhatsApp", href:message => `https://wa.me/${internationalPhone(message.phone)}?text=${encodeURIComponent(withLink(message))}` },
+  telegram: { label:"Telegram", href:({ text, url }) => `https://t.me/share/url?url=${encodeURIComponent(url || "")}&text=${encodeURIComponent(text)}` },
+  facebook: { label:"Facebook", href:({ url }) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}` },
+  sms: { label:"SMS", href:message => { const number = internationalPhone(message.phone); return `sms:${number ? `+${number}` : ""}?&body=${encodeURIComponent(withLink(message))}`; } },
+  email: { labelKey:"linkEmail", href:message => `mailto:?subject=${encodeURIComponent(message.subject)}&body=${encodeURIComponent(withLink(message, "\n\n"))}` },
+};
+
+function shareChannelsMarkup(message, channels) {
+  return channels.map(id => {
+    const channel = SHARE_CHANNELS[id];
+    const href = channel.href(message);
+    const external = href.startsWith("https:");
+    return `<a class="share-channel share-channel-${id}" href="${escapeHtml(href)}"${external ? ' target="_blank" rel="noopener"' : ""}>${escapeHtml(channel.labelKey ? t(channel.labelKey) : channel.label)}</a>`;
+  }).join("") + (navigator.share && message.url ? `<button type="button" class="share-channel share-channel-more" data-share-link-native>${escapeHtml(t("linkMore"))}</button>` : "");
+}
+
+// The portal link opens in the language chosen for the couple.
+let linkLanguage = null;
+
+function portalLink(lang = linkLanguage || state.lang) {
+  // The code routes the couple's request to the planner who sent the link.
+  const code = state.account?.portalCode;
+  return `${location.origin}/portal?lang=${lang}${code ? `&p=${encodeURIComponent(code)}` : ""}`;
+}
+
+function portalLinkMessage() {
+  const lang = linkLanguage || state.lang;
+  const name = document.getElementById("linkClientName").value.trim();
+  const words = copy[lang] || copy.en;
+  return { text:words[name ? "linkMessageNamed" : "linkMessage"].replace("{name}", name), url:portalLink(lang),
+    phone:document.getElementById("linkClientPhone").value, subject:words.linkSubject };
+}
+
+function renderPortalLinkDialog() {
+  const lang = linkLanguage || state.lang;
+  document.querySelectorAll("[data-link-lang]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.linkLang === lang)));
+  document.getElementById("portalLinkUrl").value = portalLink(lang);
+  document.getElementById("portalLinkLocal").hidden = !/^(localhost|127\.|\[::1\]|0\.0\.0\.0)/.test(location.hostname);
+  document.getElementById("portalLinkChannels").innerHTML = shareChannelsMarkup(portalLinkMessage(), ["whatsapp", "telegram", "facebook", "sms", "email"]);
+}
+
+function openPortalLinkDialog() {
+  linkLanguage = state.lang;
+  if (drawerQuery.matches) setSidebarOpen(false, { restoreFocus:false });
+  renderPortalLinkDialog();
+  document.getElementById("portalLinkDialog").showModal();
+}
+
+/* ── Client portal ────────────────────────────────────────────────── */
+function setupPortal() {
+  document.body.classList.add("portal-mode");
+  document.querySelectorAll(".workflow-nav [data-step-target]").forEach(button => button.hidden = !["0", "1"].includes(button.dataset.stepTarget));
+  document.querySelector(".workflow-title .workspace-label").dataset.i18n = "portalWorkspace";
+  // Couple-facing wording in place of the planner's.
+  for (const [key, portalKey] of [["detailsNotice", "portalNotice"], ["detailsEyebrow", "portalDetailsEyebrow"], ["detailsTitle", "portalDetailsTitle"],
+    ["detailsDescription", "portalDetailsDescription"], ["servicesEyebrow", "portalServicesEyebrow"], ["servicesTitle", "portalServicesTitle"], ["servicesDescription", "portalServicesDescription"]]) {
+    const element = document.querySelector(`[data-i18n="${key}"]`);
+    if (element) element.dataset.i18n = portalKey;
+  }
+  document.querySelector('#step-services [data-next-step="6"]').hidden = true;
+  document.querySelector("[data-portal-submit]").hidden = false;
+}
+
+async function submitPortal(button) {
+  syncDetailsFromForm();
+  clearValidation();
+  const errors = ["brideName", "groomName"].filter(id => !state.details[id]?.trim()).map(id => ({ id, message:t("nameRequired") }));
+  if (!state.details.bridePhone?.trim() && !state.details.groomPhone?.trim()) errors.push({ id:"bridePhone", message:t("portalPhoneRequired") });
+  if (errors.length) return showValidation(errors, 0);
+  const label = button.querySelector("span");
+  button.disabled = true;
+  label.textContent = t("portalSending");
+  try {
+    const response = await fetch("/api/portal", { method:"POST", headers:{ "Content-Type":"application/json" }, signal:AbortSignal.timeout(15000),
+      body:JSON.stringify({ lang:state.lang, details:state.details, services:state.services, planner:new URLSearchParams(location.search).get("p") || undefined }) });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || t("portalFailed"));
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* The request is already sent. */ }
+    document.getElementById("portalDone").innerHTML = `<div class="portal-done-mark" aria-hidden="true">✓</div>
+      <div class="eyebrow">${escapeHtml(t("portalSent"))}</div><h1>${escapeHtml(t("portalDoneTitle"))}</h1>
+      <p>${escapeHtml(t("portalDoneText"))}</p><strong class="portal-reference">${escapeHtml(result.reference)}</strong>
+      <button class="button button-quiet" type="button" data-portal-new>${escapeHtml(t("portalSendAnother"))}</button>`;
+    setStep(7);
+  } catch (error) {
+    showToast(error.name === "TimeoutError" ? t("portalFailed") : error.message || t("portalFailed"));
+  } finally {
+    button.disabled = false;
+    label.textContent = t("portalSubmit");
+  }
+}
+
+/* ── Client requests (planner dashboard) ──────────────────────────── */
+async function loadPortalRequests() {
+  if (PORTAL) return;
+  try {
+    const response = await fetch("/api/portal", { headers:{ Accept:"application/json" }, signal:AbortSignal.timeout(12000) });
+    if (!response.ok) throw new Error(String(response.status));
+    state.portalRequests = (await response.json()).requests;
+  } catch {
+    state.portalRequests = null;
+  }
+  renderPortalRequests();
+}
+
+function portalRequestCard(request) {
+  const imported = request.status === "imported";
+  const meals = request.meals || [];
+  const mealText = meals.length === 3 ? t("mealFullDay") : meals.map(meal => t(`meal${meal.charAt(0).toUpperCase()}${meal.slice(1)}`)).join(" · ");
+  const sent = new Intl.DateTimeFormat(state.lang === "am" ? "am-ET" : "en-GB", { dateStyle:"medium", timeStyle:"short" }).format(new Date(request.created_at));
+  const facts = [
+    request.wedding_date ? formatDate(request.wedding_date) : t("dateNotSet"),
+    `${request.services.length} ${t("portalServicesCount")}`,
+    mealText
+  ].filter(Boolean).map(fact => `<span>${escapeHtml(fact)}</span>`).join("");
+  return `<article class="portal-request${imported ? " is-imported" : ""}" data-portal-request="${request.id}">
+    <div class="portal-request-main">
+      <div class="portal-request-title"><h3>${escapeHtml(request.bride_name)} <span>&amp;</span> ${escapeHtml(request.groom_name)}</h3><span class="portal-badge">${escapeHtml(t(imported ? "portalImportedBadge" : "portalNew"))}</span></div>
+      <p class="portal-request-facts">${facts}</p>
+      <p class="portal-request-contact"><a href="tel:${escapeHtml(request.phone.replace(/[^\d+]/g, ""))}">${iconUse("phone")}${escapeHtml(request.phone)}</a><span>${escapeHtml(t("portalSubmittedAt"))} ${escapeHtml(sent)} · MBH-RQ-${request.id}</span></p>
+      ${request.notes ? `<p class="portal-request-notes">${escapeHtml(request.notes.length > 180 ? `${request.notes.slice(0, 180)}…` : request.notes)}</p>` : ""}
+    </div>
+    <div class="portal-request-actions">
+      <button class="button button-primary" type="button" data-portal-action="import" data-id="${request.id}">${escapeHtml(t(imported ? "portalOpenPlan" : "portalOpenAsPlan"))}</button>
+      <button class="button button-quiet" type="button" data-portal-action="dismiss" data-id="${request.id}">${escapeHtml(t("portalDismiss"))}</button>
+    </div>
+  </article>`;
+}
+
+function renderPortalRequests() {
+  const panel = document.getElementById("portalRequests");
+  const requests = state.portalRequests;
+  const fresh = (requests || []).filter(request => request.status === "new").length;
+  const badge = document.getElementById("portalRequestsCount");
+  if (badge) { badge.textContent = fresh; badge.hidden = !fresh; }
+  if (!panel) return;
+  panel.hidden = !requests;
+  if (!requests) return;
+  const link = portalLink(state.lang);
+  panel.innerHTML = `<div class="portal-requests-head">
+      <div><div class="eyebrow">${escapeHtml(t("portalRequestsEyebrow"))}</div><h2>${escapeHtml(t("portalRequestsTitle"))}${fresh ? ` <span class="portal-requests-count">${fresh}</span>` : ""}</h2><p>${escapeHtml(t("portalRequestsHint"))}</p></div>
+      <div class="portal-link"><code>${escapeHtml(link)}</code><button class="button button-quiet" type="button" data-copy-portal-link>${escapeHtml(t("portalCopyLink"))}</button><button class="button button-primary" type="button" data-create-link>${escapeHtml(t("createLink"))}</button></div>
+    </div>
+    ${requests.length ? `<div class="portal-request-list">${requests.map(portalRequestCard).join("")}</div>` : `<p class="portal-requests-empty">${escapeHtml(t("portalRequestsEmpty"))}</p>`}`;
+}
+
+async function portalRequestAction(id, action, button) {
+  button.disabled = true;
+  try {
+    const response = await fetch(`/api/portal/${id}`, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify({ action }), signal:AbortSignal.timeout(12000) });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || t("recordUnavailable"));
+    if (action === "dismiss") {
+      state.portalRequests = state.portalRequests.filter(request => request.id !== id);
+      renderPortalRequests();
+      return;
+    }
+    await openRecord(result.recordId);
+    showToast(t("portalImported"));
+    loadPortalRequests();
+  } catch (error) {
+    showToast(error.message);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function copyPortalLink() {
+  const link = portalLink();
+  try {
+    await navigator.clipboard.writeText(link);
+    showToast(t("portalLinkCopied"));
+  } catch {
+    window.prompt(t("portalCopyLink"), link);
+  }
+}
+
+/* ── Account and team ─────────────────────────────────────────────── */
+const roleKey = role => ({ owner:"teamRoleOwner", admin:"teamRoleAdmin" }[role] || "teamRolePlanner");
+const initials = name => name.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join("").toUpperCase() || "MH";
+
+async function loadAccount() {
+  if (PORTAL) return;
+  try {
+    const response = await fetch("/api/auth/me", { cache:"no-store" });
+    if (response.status === 401) return goToSignIn();
+    // Servers without sign-in (the standalone Python server used in tests) keep the brand footer.
+    if (!response.ok) return;
+    state.account = (await response.json()).user;
+    renderAccount();
+    // Portal links now include this account's code.
+    renderPortalRequests();
+  } catch {}
+}
+
+function renderAccount() {
+  const account = state.account;
+  if (!account) return;
+  document.getElementById("sidebarAvatar").textContent = initials(account.name);
+  document.getElementById("sidebarUserName").textContent = account.name;
+  const role = document.getElementById("sidebarUserRole");
+  role.removeAttribute("data-i18n");
+  role.textContent = `${t(roleKey(account.role))} · ${account.email}`;
+  document.getElementById("sidebarAccount").hidden = false;
+  document.getElementById("teamButton").hidden = account.role === "planner";
+}
+
+// Couple details kept on this device for offline use go with the person signing out.
+function clearLocalCoupleData() {
+  try {
+    for (const key of Object.keys(localStorage)) {
+      if (key === STORAGE_KEY || key === LOCAL_RECORDS_KEY || key.startsWith("matrimony-coordination:")) localStorage.removeItem(key);
+    }
+  } catch {}
+}
+
+async function signOut() {
+  try { await fetch("/api/auth/signout", { method:"POST" }); } catch {}
+  clearLocalCoupleData();
+  location.assign("/signin");
+}
+
+let teamLink = null;
+
+async function teamRequest(body) {
+  const response = await fetch("/api/team", body ? { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(body) } : { cache:"no-store" });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || t("teamLoadFailed"));
+  return result;
+}
+
+function renderTeamLink() {
+  const box = document.getElementById("teamLink");
+  box.hidden = !teamLink;
+  if (!teamLink) return;
+  document.getElementById("teamLinkText").textContent = teamLink.kind === "invite"
+    ? t("teamInviteReady").replace("{role}", t(roleKey(teamLink.role)).toLocaleLowerCase())
+    : t("teamResetReady").replace("{name}", teamLink.name);
+  document.getElementById("teamLinkUrl").value = teamLink.link;
+  const text = t(teamLink.kind === "invite" ? "teamInviteMessage" : "teamResetMessage");
+  document.getElementById("teamLinkChannels").innerHTML = shareChannelsMarkup({ text, url:teamLink.link, subject:"Matrimony By Hanna" }, ["whatsapp", "telegram", "sms", "email"]);
+}
+
+async function renderTeam() {
+  const list = document.getElementById("teamMembers");
+  list.setAttribute("aria-busy", "true");
+  try {
+    const team = await teamRequest();
+    state.team = team;
+    list.innerHTML = team.members.map(member => {
+      const you = member.id === team.me;
+      const canManage = !you && member.role !== "owner" && (member.role !== "admin" || team.myRole === "owner");
+      const active = member.lastActive ? `${t("teamLastActive")} ${formatDate(member.lastActive.slice(0, 10))}` : t("teamNeverActive");
+      return `<li class="team-member">
+        <div class="team-member-main"><strong>${escapeHtml(member.name)}${you ? ` · ${escapeHtml(t("teamYou"))}` : ""}</strong><small>${escapeHtml(member.email)} · ${escapeHtml(active)}</small></div>
+        <span class="team-role">${escapeHtml(t(roleKey(member.role)))}</span>
+        ${canManage ? `<div class="team-member-actions"><button type="button" class="button button-quiet" data-team-reset="${member.id}">${escapeHtml(t("teamReset"))}</button><button type="button" class="button button-quiet" data-team-remove="${member.id}">${escapeHtml(t("teamRemove"))}</button></div>` : ""}
+      </li>`;
+    }).join("");
+    document.querySelector('#teamInviteRole option[value="admin"]').hidden = team.myRole !== "owner";
+    const pending = document.getElementById("teamPending");
+    pending.innerHTML = team.invites.length ? `${escapeHtml(t("teamPending").replace("{count}", team.invites.length))} <button type="button" class="button button-quiet" data-team-revoke>${escapeHtml(t("teamRevokeAll"))}</button>` : "";
+  } catch (error) {
+    list.innerHTML = `<li class="team-pending">${escapeHtml(error.message)}</li>`;
+  } finally {
+    list.removeAttribute("aria-busy");
+  }
+}
+
+function openTeamDialog() {
+  teamLink = null;
+  renderTeamLink();
+  if (drawerQuery.matches) setSidebarOpen(false, { restoreFocus:false });
+  document.getElementById("teamDialog").showModal();
+  renderTeam();
+}
+
+async function teamAction(button, body, after) {
+  button.disabled = true;
+  try {
+    const result = await teamRequest(body);
+    after?.(result);
+    await renderTeam();
+  } catch (error) {
+    showToast(error.message);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+/* ── Mobile menu ──────────────────────────────────────────────────── */
+// Below 900px the sidebar becomes a slide-out menu opened from the top bar.
+const drawerQuery = window.matchMedia("(max-width: 900px)");
+
+function setSidebarOpen(open, { restoreFocus = true } = {}) {
+  const sidebar = document.getElementById("appSidebar");
+  const toggle = document.getElementById("sidebarToggle");
+  if (!sidebar || !toggle) return;
+  const drawer = drawerQuery.matches && !PORTAL;
+  open = open && drawer;
+  document.body.classList.toggle("sidebar-open", open);
+  document.getElementById("sidebarBackdrop").hidden = !open;
+  toggle.setAttribute("aria-expanded", String(open));
+  // A closed drawer is off-screen, so keep it out of the tab order.
+  sidebar.inert = drawer && !open;
+  if (open) requestAnimationFrame(() => document.getElementById("sidebarClose")?.focus());
+  else if (restoreFocus && drawer && sidebar.contains(document.activeElement)) toggle.focus();
+}
+
+/* ── Collapsed sidebar ────────────────────────────────────────────── */
+// On computers the sidebar can shrink to an icon rail with the logo mark; narrower laptops start that way.
+const RAIL_KEY = "matrimony-sidebar-rail";
+const railQuery = window.matchMedia("(max-width: 1100px)");
+
+function sidebarRailPreference() {
+  try { return localStorage.getItem(RAIL_KEY); } catch { return null; }
+}
+
+function setSidebarRail(collapsed, { remember = false } = {}) {
+  const rail = collapsed && !drawerQuery.matches && !PORTAL;
+  document.body.classList.toggle("sidebar-rail", rail);
+  document.getElementById("sidebarCollapse")?.setAttribute("aria-expanded", String(!rail));
+  // Icon-only buttons name themselves on hover.
+  document.querySelectorAll("#appSidebar button").forEach(button => {
+    const label = button.querySelector("span[data-i18n]")?.textContent.trim();
+    if (!label || (button.title && !button.dataset.railTitle)) return;
+    if (rail) { button.title = label; button.dataset.railTitle = "true"; }
+    else { button.removeAttribute("title"); delete button.dataset.railTitle; }
+  });
+  if (remember) try { localStorage.setItem(RAIL_KEY, rail ? "1" : "0"); } catch {}
+}
+
+function syncSidebarRail() {
+  const saved = sidebarRailPreference();
+  setSidebarRail(saved === null ? railQuery.matches : saved === "1");
+}
+
+function bindSidebarDrawer() {
+  const sidebar = document.getElementById("appSidebar");
+  document.getElementById("sidebarCollapse")?.addEventListener("click", () => setSidebarRail(true, { remember:true }));
+  document.getElementById("sidebarExpand")?.addEventListener("click", () => setSidebarRail(false, { remember:true }));
+  railQuery.addEventListener("change", syncSidebarRail);
+  drawerQuery.addEventListener("change", syncSidebarRail);
+  syncSidebarRail();
+  document.getElementById("sidebarToggle")?.addEventListener("click", () => setSidebarOpen(true));
+  document.getElementById("sidebarClose")?.addEventListener("click", () => setSidebarOpen(false));
+  document.getElementById("sidebarBackdrop")?.addEventListener("click", () => setSidebarOpen(false));
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && document.body.classList.contains("sidebar-open")) setSidebarOpen(false);
+  });
+  // Choosing anything in the menu (a wedding, New wedding, a blank form…) closes it.
+  sidebar?.addEventListener("click", event => {
+    if (event.target.closest("button, a") && !event.target.closest("#sidebarClose")) requestAnimationFrame(() => setSidebarOpen(false, { restoreFocus:false }));
+  });
+  drawerQuery.addEventListener("change", () => setSidebarOpen(false, { restoreFocus:false }));
+  // Rotating a phone or resizing into the swipeable row keeps the current step visible.
+  window.matchMedia("(max-width: 700px)").addEventListener("change", event => { if (event.matches) requestAnimationFrame(() => revealActiveStep(false)); });
+  setSidebarOpen(false, { restoreFocus:false });
+}
+
+// On phones the steps are one swipeable row; keep the current step in view.
+function revealActiveStep(smooth = true) {
+  const strip = document.querySelector(".workflow-steps");
+  const active = strip?.querySelector(".step-link.is-active");
+  if (!active || strip.scrollWidth <= strip.clientWidth) return;
+  strip.scrollTo({ left:active.offsetLeft - (strip.clientWidth - active.offsetWidth) / 2, behavior:smooth ? "smooth" : "auto" });
 }
 
 /* ── Wedding Search Dialog ────────────────────────────────────────── */
 let searchActiveIndex = 0;
 
+/* Record search: every saved couple is indexed by names, phones, dates in both calendars,
+   document references, places, services, meals, fee and notes, in English and Amharic. */
+const searchFold = value => String(value ?? "").normalize("NFKD").replace(/[̀-ͯ]/g, "").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+// Ethiopian numbers are typed as +251 9…, 251 9…, 09… or 9…; compare them without the prefix.
+const phoneDigits = value => String(value ?? "").replace(/\D/g, "").replace(/^251/, "").replace(/^0+/, "");
+const bothLanguages = key => [copy.en[key], copy.am[key]];
+const SEARCH_WEIGHTS = { name:100, phone:95, ref:90, date:75, fee:60, place:50, venue:35, service:35, meal:35, notes:20 };
+const searchIndexCache = new WeakMap();
+
+function searchIndex(record) {
+  if (searchIndexCache.has(record)) return searchIndexCache.get(record);
+  const summary = record.search || {};
+  const fields = [];
+  const add = (kind, values, display = null) => {
+    for (const value of [values].flat()) if (value) fields.push({ kind, text:searchFold(value), display:display || String(value) });
+  };
+  add("name", [summary.bride_name, summary.groom_name, record.bride_first_name, record.groom_first_name]);
+  for (const phone of summary.phones || []) fields.push({ kind:"phone", text:searchFold(phone), digits:phoneDigits(phone), display:phone });
+  const iso = /^\d{4}-\d{2}-\d{2}$/.test(record.wedding_date || "") ? record.wedding_date : "";
+  const compactDate = iso.replace(/-/g, "");
+  add("ref", [`MBH-PF-${record.id}-${compactDate}`, `MBH-AG-${record.id}-${compactDate}`], `MBH-PF-${record.id}-${compactDate}`);
+  fields.push({ kind:"ref", text:"", recordId:Number(record.id), display:`#${record.id}` });
+  if (iso) {
+    const [year, month, day] = iso.split("-").map(Number);
+    const date = new Date(year, month - 1, day, 12);
+    const ec = gregorianToEthiopian(year, month, day);
+    const names = ["en-GB", "am-ET"].flatMap(locale => ["long", "short"].map(style => new Intl.DateTimeFormat(locale, { month:style, calendar:"gregory" }).format(date)));
+    const variants = [iso, `${day} ${month} ${year}`, `${day} ${names.join(" ")} ${year}`, `${EC_MONTHS_EN[ec.month - 1]} ${EC_MONTHS_AM[ec.month - 1]} ${ec.day} ${ec.month} ${ec.year}`].join(" ");
+    const pad = value => String(value).padStart(2, "0");
+    // Typed dates such as 12/12/2026, 2026-12-12 or 3/4/2019 (EC) are compared as digits.
+    const digits = [compactDate, `${pad(day)}${pad(month)}${year}`, `${day}${month}${year}`, `${pad(month)}${pad(day)}${year}`, `${pad(ec.day)}${pad(ec.month)}${ec.year}`, `${ec.day}${ec.month}${ec.year}`];
+    fields.push({ kind:"date", text:searchFold(variants), dateDigits:digits, display:"" });
+  }
+  if (summary.fee) add("fee", [summary.fee, formatMoney(summary.fee)], formatMoney(summary.fee));
+  add("place", summary.places || []);
+  for (const id of summary.venue_types || []) {
+    const venue = eventVenueCatalog.find(item => item.id === id);
+    if (venue) add("venue", bothLanguages(venue.label).join(" "), t(venue.label));
+  }
+  for (const id of summary.services || []) {
+    const service = services.find(item => item.id === id);
+    if (service) add("service", `${service.title.en} ${service.title.am}`, localized(service.title));
+  }
+  for (const meal of summary.meals || []) {
+    const key = `meal${meal.charAt(0).toUpperCase()}${meal.slice(1)}`;
+    add("meal", bothLanguages(key).join(" "), t(key));
+  }
+  if (["breakfast", "lunch", "dinner"].every(meal => (summary.meals || []).includes(meal))) add("meal", bothLanguages("mealFullDay").join(" "), t("mealFullDay"));
+  add("notes", summary.notes);
+  searchIndexCache.set(record, fields);
+  return fields;
+}
+
+// Optimal string alignment distance, stopping once it exceeds `limit`.
+function editDistance(a, b, limit) {
+  if (Math.abs(a.length - b.length) > limit) return limit + 1;
+  let previous = Array.from({ length:b.length + 1 }, (_, i) => i), beforePrevious = previous;
+  for (let i = 1; i <= a.length; i++) {
+    const current = [i];
+    let rowMin = i;
+    for (let j = 1; j <= b.length; j++) {
+      current[j] = Math.min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) current[j] = Math.min(current[j], beforePrevious[j - 2] + 1);
+      rowMin = Math.min(rowMin, current[j]);
+    }
+    if (rowMin > limit) return limit + 1;
+    beforePrevious = previous;
+    previous = current;
+  }
+  return previous[b.length];
+}
+
+function searchTokens(query) {
+  const raw = query.trim();
+  // A phone number typed with spaces or dashes is one token.
+  if (/^[\d\s+()-]+$/.test(raw) && raw.replace(/\D/g, "").length >= 5) return [{ text:raw.replace(/\D/g, ""), digits:raw.replace(/\D/g, "") }];
+  return raw.split(/\s+/).flatMap(part => {
+    if (/^#\d+$/.test(part)) return [{ text:part, digits:"", recordId:Number(part.slice(1)) }];
+    if (/^\d{1,4}[./-]\d{1,2}[./-]\d{1,4}$/.test(part)) return [{ text:searchFold(part), digits:part.replace(/\D/g, ""), date:true }];
+    return searchFold(part).split(" ").filter(Boolean).map(text => ({ text, digits:/^\d+$/.test(text) ? text : "" }));
+  });
+}
+
+// How well one query token matches one field, from 0 (no match) to 1 (exact word).
+function tokenQuality(token, field) {
+  if (token.recordId) return field.recordId === token.recordId ? 1 : 0;
+  if (token.date) return field.dateDigits?.includes(token.digits) ? 1 : 0;
+  if (field.dateDigits && token.digits.length >= 6 && field.dateDigits.includes(token.digits)) return 1;
+  if (field.digits && token.digits.length >= 3) {
+    const digits = phoneDigits(token.digits);
+    if (digits && field.digits.startsWith(digits)) return 1;
+    if (digits && field.digits.includes(digits)) return 0.9;
+  }
+  const words = field.text.split(" ");
+  if (words.includes(token.text)) return 1;
+  if (words.some(word => word.startsWith(token.text))) return 0.85;
+  if (token.text.length >= 3 && field.text.includes(token.text)) return 0.6;
+  if (token.text.length >= 4 && !token.digits && (field.kind === "name" || field.kind === "place")) {
+    const limit = token.text.length >= 7 ? 2 : 1;
+    if (words.some(word => editDistance(token.text, word.slice(0, token.text.length + limit), limit) <= limit)) return 0.45;
+  }
+  return 0;
+}
+
+function searchRecords(query, records = state.records || []) {
+  const tokens = searchTokens(query);
+  if (!tokens.length) return records.map(record => ({ record, score:0, detail:null }));
+  const phrase = searchFold(query);
+  const results = [];
+  for (const record of records) {
+    const fields = searchIndex(record);
+    let score = 0, detail = null, detailScore = 0, matchedAll = true;
+    for (const token of tokens) {
+      let best = 0, bestField = null;
+      for (const field of fields) {
+        const value = tokenQuality(token, field) * SEARCH_WEIGHTS[field.kind];
+        if (value > best) { best = value; bestField = field; }
+      }
+      if (!best) { matchedAll = false; break; }
+      score += best;
+      if (bestField.kind !== "name" && best > detailScore) { detail = bestField; detailScore = best; }
+    }
+    if (!matchedAll) continue;
+    // Typing a whole phrase ("Sheraton Addis", "12 December") ranks the field that holds it first.
+    const phraseField = phrase.includes(" ") ? fields.find(field => field.text.includes(phrase)) : null;
+    if (phraseField) score += SEARCH_WEIGHTS[phraseField.kind] / 2;
+    results.push({ record, score, detail });
+  }
+  return results.sort((a, b) => b.score - a.score || String(b.record.updated_at || "").localeCompare(String(a.record.updated_at || "")));
+}
+
+// Marks the typed words inside a matched value so it is clear why a couple was found.
+function highlightMatch(value, query) {
+  let html = escapeHtml(value);
+  const words = [...new Set(query.trim().split(/\s+/).filter(word => word.length >= 2))].sort((a, b) => b.length - a.length);
+  for (const word of words) {
+    const pattern = new RegExp(`(${escapeHtml(word).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "giu");
+    html = html.replace(/(<[^>]*>)|([^<]+)/g, (part, tag, text) => tag || text.replace(pattern, "<mark>$1</mark>"));
+  }
+  return html;
+}
+
+// Highlights the typed digits inside a phone number, ignoring spaces and the 0 / +251 prefix.
+function highlightPhone(value, query) {
+  const typed = phoneDigits(query);
+  const positions = [...value].flatMap((character, index) => /\d/.test(character) ? [index] : []);
+  const start = positions.map(index => value[index]).join("").indexOf(typed);
+  if (!typed || start < 0) return highlightMatch(value, query);
+  const from = positions[start], to = positions[start + typed.length - 1] + 1;
+  return `${escapeHtml(value.slice(0, from))}<mark>${escapeHtml(value.slice(from, to))}</mark>${escapeHtml(value.slice(to))}`;
+}
+
+function searchDetailMarkup(detail, query) {
+  if (!detail || detail.kind === "date" || (detail.kind === "ref" && !/mbh|#/i.test(query))) return "";
+  const value = detail.kind === "phone" ? highlightPhone(detail.display, query) : highlightMatch(detail.display, query);
+  return `<span class="search-detail"><span class="search-detail-kind">${escapeHtml(t(`searchKind_${detail.kind}`))}</span>${value}</span>`;
+}
+
 function searchMatches(query) {
   const records = state.records || [];
-  if (!query) return records.slice(0, 8);
-  return records.filter((r) => [r.bride_first_name, r.groom_first_name, r.bride_name, r.groom_name, r.wedding_date, formatDate(r.wedding_date), `#${r.id}`]
-    .some((value) => String(value || "").toLowerCase().includes(query)));
+  if (!query) return records.slice(0, 8).map(record => ({ record, detail:null }));
+  return searchRecords(query, records).slice(0, 30);
 }
 
 function renderWeddingSearch() {
   const input = document.getElementById("weddingSearchInput");
   const results = document.getElementById("weddingSearchResults");
-  const query = input.value.trim().toLowerCase();
+  const query = input.value.trim();
   const matches = searchMatches(query);
   document.getElementById("searchDialogHeading").textContent = t(query ? "searchResults" : "recentWeddings");
   searchActiveIndex = Math.min(searchActiveIndex, Math.max(matches.length - 1, 0));
@@ -1892,9 +2725,9 @@ function renderWeddingSearch() {
     input.removeAttribute("aria-activedescendant");
     return;
   }
-  results.innerHTML = matches.map((record, index) => {
-    const names = `${escapeHtml(record.bride_first_name || "")} &amp; ${escapeHtml(record.groom_first_name || "")}`;
-    return `<button type="button" class="search-result ${index === searchActiveIndex ? "is-active" : ""}" id="search-result-${record.id}" role="option" aria-selected="${index === searchActiveIndex}" data-search-record="${record.id}"><svg class="ui-icon" aria-hidden="true"><use href="#icon-chat"></use></svg><span class="search-result-name">${names}</span><span class="search-result-date">${escapeHtml(formatDate(record.wedding_date))}</span></button>`;
+  results.innerHTML = matches.map(({ record, detail }, index) => {
+    const names = `${highlightMatch(record.search?.bride_name || record.bride_first_name || "", query)} &amp; ${highlightMatch(record.search?.groom_name || record.groom_first_name || "", query)}`;
+    return `<button type="button" class="search-result ${index === searchActiveIndex ? "is-active" : ""}" id="search-result-${record.id}" role="option" aria-selected="${index === searchActiveIndex}" data-search-record="${record.id}"><svg class="ui-icon" aria-hidden="true"><use href="#icon-chat"></use></svg><span class="search-result-main"><span class="search-result-name">${names}</span>${searchDetailMarkup(detail, query)}</span><span class="search-result-date">${escapeHtml(formatDate(record.wedding_date))}</span></button>`;
   }).join("");
   const active = results.querySelector(".search-result.is-active");
   if (active) {
@@ -1904,6 +2737,7 @@ function renderWeddingSearch() {
 }
 
 async function openWeddingSearch() {
+  if (PORTAL) return;
   const dialog = document.getElementById("searchDialog");
   if (dialog.open) return;
   const input = document.getElementById("weddingSearchInput");
@@ -1963,12 +2797,79 @@ function bindEvents() {
   document.addEventListener("click", (event) => {
     if (exportingPdf) return;
     const download = event.target.closest("[data-download-pdf]");
-    if (download) { downloadDocument(download.dataset.downloadPdf); return; }
+    if (download) { downloadDocument(download.dataset.downloadPdf, download); return; }
+    const blankKind = event.target.closest("[data-blank-doc]")?.dataset.blankDoc;
+    if (blankKind) { openBlankDocumentDialog(blankKind); return; }
+    const blankLanguage = event.target.closest("[data-blank-lang]");
+    if (blankLanguage) { downloadBlankDocument(document.getElementById("blankDocDialog").dataset.kind, blankLanguage.dataset.blankLang, blankLanguage); return; }
+    const portalSubmit = event.target.closest("[data-portal-submit]");
+    if (portalSubmit) { submitPortal(portalSubmit); return; }
+    if (event.target.closest("[data-portal-new]")) { location.assign(`/portal${location.search}`); return; }
+    const portalAction = event.target.closest("[data-portal-action]");
+    if (portalAction) { portalRequestAction(Number(portalAction.dataset.id), portalAction.dataset.portalAction, portalAction); return; }
+    if (event.target.closest("[data-copy-portal-link]")) { copyPortalLink(); return; }
+    if (event.target.closest("#signOutButton")) { signOut(); return; }
+    if (event.target.closest("#teamButton")) { openTeamDialog(); return; }
+    const teamInvite = event.target.closest("[data-team-invite]");
+    if (teamInvite) {
+      const role = document.getElementById("teamInviteRole").value;
+      teamAction(teamInvite, { action:"invite", role }, result => { teamLink = { kind:"invite", role, link:result.link }; renderTeamLink(); });
+      return;
+    }
+    const teamReset = event.target.closest("[data-team-reset]");
+    if (teamReset) {
+      const member = state.team.members.find(item => item.id === Number(teamReset.dataset.teamReset));
+      teamAction(teamReset, { action:"reset", userId:member.id }, result => { teamLink = { kind:"reset", name:member.name, link:result.link }; renderTeamLink(); });
+      return;
+    }
+    const teamRemove = event.target.closest("[data-team-remove]");
+    if (teamRemove) {
+      const member = state.team.members.find(item => item.id === Number(teamRemove.dataset.teamRemove));
+      if (window.confirm(t("teamRemoveConfirm").replace("{name}", member.name))) teamAction(teamRemove, { action:"remove", userId:member.id });
+      return;
+    }
+    const teamRevoke = event.target.closest("[data-team-revoke]");
+    if (teamRevoke) {
+      (async () => {
+        teamRevoke.disabled = true;
+        for (const invite of state.team.invites) await teamRequest({ action:"revoke", inviteId:invite.id }).catch(() => {});
+        await renderTeam();
+      })();
+      return;
+    }
+    if (event.target.closest("[data-copy-team-link]")) {
+      navigator.clipboard.writeText(teamLink.link).then(() => showToast(t("linkCopied")), () => window.prompt(t("linkCopy"), teamLink.link));
+      return;
+    }
+    if (event.target.closest("[data-create-link]")) { openPortalLinkDialog(); return; }
+    const linkLang = event.target.closest("[data-link-lang]");
+    if (linkLang) { linkLanguage = linkLang.dataset.linkLang; renderPortalLinkDialog(); return; }
+    if (event.target.closest("[data-share-link-native]")) {
+      const { text, url } = portalLinkMessage();
+      navigator.share({ title:"Matrimony By Hanna", text, url }).catch(() => {});
+      return;
+    }
+    if (event.target.closest("[data-share-blank]")) { shareBlankDocument(); return; }
+    if (event.target.closest("[data-close-dialog]")) { event.target.closest("dialog").close(); return; }
+    if (event.target.closest("[data-open-requests]")) {
+      setStep(5);
+      requestAnimationFrame(() => document.getElementById("portalRequests").scrollIntoView({ block:"start" }));
+      return;
+    }
+    const share = event.target.closest("[data-share-pdf]");
+    if (share) { shareDocument(share.dataset.sharePdf, share); return; }
     const languageButton = event.target.closest("[data-language]");
     if (languageButton) {
       state.lang = languageButton.dataset.language === "am" ? "am" : "en";
       applyLocalization();
       saveDraft();
+      return;
+    }
+    const dayStep = event.target.closest("[data-days-step]");
+    if (dayStep) {
+      const input = document.getElementById("eventDays");
+      input.value = String(Math.min(365, Math.max(1, (parseInt(input.value, 10) || 1) + Number(dayStep.dataset.daysStep))));
+      input.dispatchEvent(new Event("input", { bubbles: true }));
       return;
     }
     const recordButton = event.target.closest("[data-open-record]");
@@ -2027,6 +2928,10 @@ function bindEvents() {
       renderRecords();
       return;
     }
+    if (target.id === "linkClientName" || target.id === "linkClientPhone") {
+      renderPortalLinkDialog();
+      return;
+    }
     if (target.matches("[data-service-notes]")) {
       getServiceState(target.dataset.serviceNotes).notes = target.value;
       saveDraft();
@@ -2071,16 +2976,22 @@ function bindEvents() {
 }
 
 function init() {
+  if (PORTAL) setupPortal();
   loadDraft();
+  const linkLang = PORTAL && new URLSearchParams(location.search).get("lang");
+  if (linkLang === "am" || linkLang === "en") state.lang = linkLang;
   normalizeEventVenues();
   if (!state.details.mediaConsent) state.details.mediaConsent = "no";
   syncEventVenueChoicesToForm();
   syncContractChoicesToForm();
   bindEvents();
   bindWeddingSearch();
+  bindSidebarDrawer();
   applyLocalization();
   renderServices();
+  loadAccount();
   loadRecords();
+  loadPortalRequests();
 }
 
 init();

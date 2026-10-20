@@ -2,7 +2,8 @@
 (() => {
   'use strict';
   const root = document.getElementById('weddingWorkspace');
-  if (!root) return;
+  // The client portal never loads the planner.
+  if (!root || (typeof PORTAL !== 'undefined' && PORTAL)) return;
   const ui = {cap: {}, id: null, tab: 'overview', dashboard: null, project: null, data: {}, members: [], files: [], templates: [],
     filters: {}, cursors: {}, pages: {}, sequence: 0, wizard: null, wizardStep: 0, service: null, serviceTab: 'Plan', loading: false};
   const requestKeys = new Map();
@@ -129,10 +130,12 @@
   async function loadRoute(append=false) {
     const sequence=++ui.sequence;
     Object.assign(ui,route());
+    // Client requests belong to the planner's home, not to an open wedding.
+    document.getElementById('portalRequests')?.toggleAttribute('data-in-wedding',Boolean(ui.id));
     ui.loading=true;
     if (!append) root.innerHTML=`<div class="wp-loading" role="status">${tr('loading')}</div>`;
     try {
-      if (!ui.cap.enabled) throw new Error('Wedding Planning is disabled.');
+      if (!ui.cap.enabled) throw new Error(ui.capError?say('The planning service is not reachable. Start it with npm run dev, then retry.','የዕቅድ አገልግሎቱ አይገኝም። በnpm run dev ያስጀምሩት፣ ከዚያ እንደገና ይሞክሩ።'):say('Wedding planning is turned off for this workspace.','የሰርግ ዕቅድ ለዚህ የሥራ ቦታ ጠፍቷል።'));
       if (!ui.cap.authenticated) throw new Error('Sign in through the host application to use Wedding Planning.');
       if (!ui.id) {
         const response=await api('weddings?'+queryString({limit:24,...(append&&ui.data.list?.nextCursor?{cursor:ui.data.list.nextCursor}:{})}));
@@ -681,7 +684,7 @@
     if(action==='service-tab')return openService(ui.service.id,id);
     if(action==='verify-service'||action==='complete-service')return serviceVerification(id,action==='complete-service');
     if(action==='close'){dialog?.close();return;}
-    if(action==='retry'||action==='reload'){dialog?.close();return loadRoute();}
+    if(action==='retry'||action==='reload'){dialog?.close();if(ui.capError)await loadCapabilities().catch(()=>{});return loadRoute();}
     if(action==='more')return loadRoute(id);
     if(action==='category'){go(ui.id,'services');ui.filters.category=id;return loadRoute();}
     if(action==='show-blockers'){document.getElementById('wpBlockers')?.scrollIntoView({behavior:'smooth',block:'center'});return;}
@@ -750,7 +753,7 @@
   document.addEventListener('click',event=>{
     if(typeof state==='undefined')return;
     const handoff=event.target.closest('[data-continue-planning], #weddingPlanningNav');
-    if(handoff&&state.currentStep!==5&&(handoff.matches('[data-continue-planning]')||state.recordId||state.details.brideName?.trim()||state.details.groomName?.trim())) {
+    if(handoff&&ui.cap.enabled&&state.currentStep!==5&&(handoff.matches('[data-continue-planning]')||state.recordId||state.details.brideName?.trim()||state.details.groomName?.trim())) {
       event.preventDefault();event.stopImmediatePropagation();
       if(!handoff.disabled)continueQuestionnaire().catch(error=>toast(error.message));
       return;
@@ -758,7 +761,7 @@
     if(state.currentStep!==5)return;
     if(event.target.closest('.recent-heading [data-step-target="4"]')){event.preventDefault();event.stopImmediatePropagation();go();return;}
     const destination=event.target.closest('[data-step-target]');
-    if(destination&&ui.project?.clientId&&ui.cap.canAccessClients&&['0','1','2','3'].includes(destination.dataset.stepTarget)) {
+    if(destination&&ui.project?.clientId&&ui.cap.canAccessClients&&['0','1','6','2','3'].includes(destination.dataset.stepTarget)) {
       event.preventDefault();event.stopImmediatePropagation();
       openQuestionnaire(Number(destination.dataset.stepTarget)).catch(error=>toast(error.message));return;
     }
@@ -792,11 +795,14 @@
     else if(location.pathname.startsWith('/weddings')){history.pushState({},'','/');dialog?.close();document.querySelector('.sidebar-search').hidden=false;applyLocalization();renderCoupleContext();}
   });
   let previousLanguage=lang();
-  window.addEventListener('plan-ui-update',()=>{if(previousLanguage===lang()){if(typeof state!=='undefined'&&state.currentStep===5)planningContext();return;}previousLanguage=lang();document.getElementById('weddingPlanningNavLabel').textContent=tr('planning');if(ui.project)renderWorkspace();else if(ui.data.list)renderList();});
+  window.addEventListener('plan-ui-update',()=>{if(previousLanguage===lang()){if(typeof state!=='undefined'&&state.currentStep===5)planningContext();return;}previousLanguage=lang();if(ui.project)renderWorkspace();else if(ui.data.list)renderList();});
+  async function loadCapabilities() {
+    try {ui.cap=await api('weddings/capabilities');ui.capError=null;}
+    catch(error){ui.cap={};ui.capError=error;throw error;}
+  }
   (async()=>{
     try {
-      ui.cap=await api('weddings/capabilities');
-      const nav=document.getElementById('weddingPlanningNav');nav.hidden=!ui.cap.enabled;document.getElementById('weddingPlanningNavLabel').textContent=tr('planning');
+      await loadCapabilities();
       document.querySelector('[data-continue-planning]').hidden=!(ui.cap.enabled&&ui.cap.authenticated&&ui.cap.canAccessClients);
       if(ui.cap.authenticated&&!ui.cap.canCreate){document.querySelectorAll('.workflow-nav [data-step-target]').forEach(b=>b.hidden=b.dataset.stepTarget!=='5');document.querySelector('.sidebar-main').hidden=true;document.getElementById('resetDraftButton').hidden=true;document.querySelector('.sidebar-search').hidden=true;document.getElementById('topbarCoupleName').hidden=true;}
       if(location.pathname.startsWith('/weddings')||ui.cap.authenticated&&!ui.cap.canCreate)setStep(5);
