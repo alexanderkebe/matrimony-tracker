@@ -444,7 +444,16 @@ Object.assign(copy.en, {
   linkLocalWarning: "This address only opens on this computer. Send links from the published app so couples can open them.",
   linkMessageNamed: "Hello {name}, congratulations on your wedding! 💍 Please fill in your wedding details for Matrimony By Hanna here:",
   linkMessage: "Hello, congratulations on your wedding! 💍 Please fill in your wedding details for Matrimony By Hanna here:", linkSubject: "Your wedding details – Matrimony By Hanna",
-  shareProforma: "Share proposal", shareReady: "Tap to share", shareTapAgain: "Your proposal PDF is ready. Tap Share again to send it.",
+  shareProforma: "Share proposal", shareAgreement: "Share agreement", shareReady: "Tap to share", shareTapAgain: "Your proposal PDF is ready. Tap Share again to send it.",
+  shareReadyProposal: "Your proposal is ready", shareReadyProposalHint: "Share a PDF with your couple before the next step.",
+  shareReadyAgreement: "Your agreement is ready", shareReadyAgreementHint: "Share it with your couple to review and sign.",
+  sharePanelProposalHint: "Send your couple a copy of the proposal.", sharePanelAgreementHint: "Send your couple a copy of the agreement to review and sign.",
+  shareStatusBuilding: "Preparing the PDF…", shareStatusLinking: "PDF document · Creating a link…", shareStatusReady: "PDF document · Ready to share",
+  shareStatusNoLink: "PDF document · Ready to download (no link)", shareStatusFailed: "The PDF couldn’t be made. Check the details and try again.",
+  shareSendWith: "Send with", shareCopyProposalLink: "Copy proposal link", shareCopyAgreementLink: "Copy agreement link", shareDownload: "Download PDF",
+  shareLinkCopied: "Link copied. It opens the PDF for 30 days.", shareMessageCopied: "Message and link copied.", shareRetry: "Try again",
+  shareMessageProposal: "Your wedding proposal from Matrimony By Hanna:", shareMessageAgreement: "Your wedding service agreement from Matrimony By Hanna, ready to review and sign:",
+  shareLinkNote: "Links open the PDF without signing in and expire after 30 days.", continuePlan: "Continue to plan", shareClose: "Close",
   shareFallback: "This browser can’t share files directly, so the PDF was downloaded. Attach it in WhatsApp, Telegram, Instagram or email.",
   shareText: "Your wedding proposal from Matrimony By Hanna.", shareHint: "Send the PDF straight to the couple on WhatsApp, Telegram, Instagram or email.",
   generateProposal: "Generate proposal", continueAgreement: "Continue to agreement", backToProposal: "Proposal", editPricing: "Edit pricing",
@@ -545,7 +554,16 @@ Object.assign(copy.am, {
   linkLocalWarning: "ይህ አድራሻ የሚከፈተው በዚህ ኮምፒውተር ብቻ ነው። ጥንዶች እንዲከፍቱት ከታተመው መተግበሪያ ሊንክ ይላኩ።",
   linkMessageNamed: "ሰላም {name}፣ እንኳን ለሰርጋችሁ አደረሳችሁ! 💍 የሰርጋችሁን ዝርዝር ለማትሪሞኒ ባይ ሃና እዚህ ይሙሉ፦",
   linkMessage: "ሰላም፣ እንኳን ለሰርጋችሁ አደረሳችሁ! 💍 የሰርጋችሁን ዝርዝር ለማትሪሞኒ ባይ ሃና እዚህ ይሙሉ፦", linkSubject: "የሰርግ ዝርዝራችሁ – ማትሪሞኒ ባይ ሃና",
-  shareProforma: "ፕሮፖዛሉን አጋራ", shareReady: "ለማጋራት ይንኩ", shareTapAgain: "የፕሮፖዛሉ PDF ዝግጁ ነው። ለመላክ አጋራን እንደገና ይንኩ።",
+  shareProforma: "ፕሮፖዛሉን አጋራ", shareAgreement: "ስምምነቱን አጋራ", shareReady: "ለማጋራት ይንኩ",
+  shareReadyProposal: "ፕሮፖዛልዎ ዝግጁ ነው", shareReadyProposalHint: "ወደሚቀጥለው ደረጃ ከመሄድዎ በፊት PDFውን ለጥንዶችዎ ያጋሩ።",
+  shareReadyAgreement: "ስምምነትዎ ዝግጁ ነው", shareReadyAgreementHint: "እንዲያነቡት እና እንዲፈርሙ ለጥንዶችዎ ያጋሩ።",
+  sharePanelProposalHint: "የፕሮፖዛሉን ቅጂ ለጥንዶችዎ ይላኩ።", sharePanelAgreementHint: "እንዲያነቡት እና እንዲፈርሙ የስምምነቱን ቅጂ ለጥንዶችዎ ይላኩ።",
+  shareStatusBuilding: "PDF እየተዘጋጀ ነው…", shareStatusLinking: "PDF ሰነድ · ሊንክ እየተፈጠረ ነው…", shareStatusReady: "PDF ሰነድ · ለማጋራት ዝግጁ",
+  shareStatusNoLink: "PDF ሰነድ · ለማውረድ ዝግጁ (ሊንክ የለም)", shareStatusFailed: "PDF ሊዘጋጅ አልቻለም። ዝርዝሮቹን አረጋግጠው እንደገና ይሞክሩ።",
+  shareSendWith: "በዚህ ይላኩ", shareCopyProposalLink: "የፕሮፖዛሉን ሊንክ ቅዳ", shareCopyAgreementLink: "የስምምነቱን ሊንክ ቅዳ", shareDownload: "PDF አውርድ",
+  shareLinkCopied: "ሊንኩ ተቀድቷል። PDFውን ለ30 ቀናት ይከፍታል።", shareMessageCopied: "መልዕክቱና ሊንኩ ተቀድተዋል።", shareRetry: "እንደገና ሞክር",
+  shareMessageProposal: "ከማትሪሞኒ ባይ ሃና የቀረበ የሰርግ ፕሮፖዛልዎ፦", shareMessageAgreement: "ከማትሪሞኒ ባይ ሃና የሰርግ አገልግሎት ስምምነትዎ፣ ለማንበብ እና ለመፈረም፦",
+  shareLinkNote: "ሊንኮቹ ያለ መግቢያ PDFውን ይከፍታሉ፤ ከ30 ቀናት በኋላ ያበቃሉ።", continuePlan: "ወደ ዕቅዱ ይቀጥሉ", shareClose: "ዝጋ", shareTapAgain: "የፕሮፖዛሉ PDF ዝግጁ ነው። ለመላክ አጋራን እንደገና ይንኩ።",
   shareFallback: "ይህ አሳሽ ፋይሎችን በቀጥታ ማጋራት ስለማይችል PDF ወርዷል። በWhatsApp፣ Telegram፣ Instagram ወይም ኢሜይል ያያይዙት።",
   shareText: "ከማትሪሞኒ ባይ ሃና የቀረበ የሰርግ ፕሮፖዛል።", shareHint: "PDFውን በቀጥታ ለጥንዶቹ በWhatsApp፣ Telegram፣ Instagram ወይም ኢሜይል ይላኩ።",
   generateProposal: "ፕሮፖዛሉን ይፍጠሩ", continueAgreement: "ወደ ስምምነት ይቀጥሉ", backToProposal: "ፕሮፖዛል", editPricing: "ዋጋውን ያርሙ",
@@ -1177,7 +1195,7 @@ function applyLocalization() {
     if (copy[state.lang][key] !== undefined) element.textContent = copy[state.lang][key];
   });
   // A prepared share belongs to the previous language; the next tap rebuilds the PDF.
-  document.querySelectorAll("[data-share-pdf]").forEach(button => button.classList.remove("is-ready"));
+  closeDocSharePanel();
   updateStepCount();
   document.querySelectorAll("[data-aria-en]").forEach((element) => {
     element.setAttribute("aria-label", state.lang === "am" ? (element.dataset.ariaAm || element.dataset.ariaEn) : element.dataset.ariaEn);
@@ -1902,6 +1920,7 @@ function updateStepCount() {
 }
 
 function setStep(step) {
+  closeDocSharePanel();
   if (exportingPdf) return;
   clearValidation();
   syncDetailsFromForm();
@@ -2145,54 +2164,155 @@ function downloadDocument(kind, button = document.querySelector(`[data-download-
   });
 }
 
-// A shared PDF waits here when building it outlasts the click that started the share;
-// browsers only open the share sheet from a fresh tap, so the next tap shares it instantly.
-let pendingShare = null;
-
 async function openShareSheet(file, title, text = t("shareText")) {
   try {
     await navigator.share({ files:[file], title, text });
-    pendingShare = null;
     return true;
   } catch (error) {
-    if (error.name === "AbortError") { pendingShare = null; return true; }
+    if (error.name === "AbortError") return true;
     if (error.name === "NotAllowedError") return false;
     throw error;
   }
 }
 
-function setShareReady(ready) {
-  document.querySelectorAll("[data-share-pdf]").forEach(button => {
-    button.classList.toggle("is-ready", ready);
-    button.querySelector("span:last-child").textContent = t(ready ? "shareReady" : "shareProforma");
-  });
+/* ── Sharing the proposal and agreement ───────────────────────────── */
+// The share panel prepares the PDF, uploads it for a 30-day link (so WhatsApp, Telegram and
+// email can carry it), and offers the file itself through the phone's share menu.
+const docShares = {};
+let openDocShare = null;
+
+const docShareSignature = kind => `${kind}|${state.lang}|${planSignature()}`;
+const docShareMessage = (kind, share) => ({
+  text: t(kind === "proforma" ? "shareMessageProposal" : "shareMessageAgreement"),
+  url: share?.link || "",
+  subject: share?.title || "Matrimony By Hanna"
+});
+
+function docSharePanel(kind) {
+  return document.querySelector(`[data-doc-share="${kind}"] .doc-share-panel`);
 }
 
-async function shareDocument(kind, button) {
-  const signature = `${kind}|${state.lang}|${planSignature()}`;
-  if (pendingShare?.signature === signature) {
-    const { file, title } = pendingShare;
-    setShareReady(false);
-    return openShareSheet(file, title).catch(error => { console.error("Share failed", error); showToast(t("pdfFailed")); });
-  }
-  setShareReady(false);
-  let needsTap = false;
-  await runPdfAction(kind, button, async ({ pdf, filename, title }) => {
-    const file = new File([pdf.output("blob")], filename, { type:"application/pdf" });
-    if (!navigator.canShare?.({ files:[file] })) {
-      // No file sharing in this browser (most desktops): save it so it can be attached anywhere.
-      pdf.save(filename);
-      showToast(t("shareFallback"));
-      return;
-    }
-    pendingShare = { file, title, signature };
-    needsTap = !await openShareSheet(file, title);
-  });
-  if (needsTap) {
-    setShareReady(true);
-    showToast(t("shareTapAgain"));
-  }
+function renderDocSharePanel(kind) {
+  const panel = docSharePanel(kind);
+  if (!panel || panel.hidden) return;
+  const share = docShares[kind] || {};
+  const proposal = kind === "proforma";
+  const statusKey = { building:"shareStatusBuilding", linking:"shareStatusLinking", ready:share.link ? "shareStatusReady" : "shareStatusNoLink", failed:"shareStatusFailed" }[share.status] || "shareStatusBuilding";
+  const busy = share.status === "building" || share.status === "linking";
+  const statusIcon = share.status === "failed"
+    ? `<button type="button" class="doc-share-retry" data-doc-retry>${escapeHtml(t("shareRetry"))}</button>`
+    : busy ? '<span class="doc-share-spinner" aria-hidden="true"></span>' : '<span class="doc-share-check" aria-hidden="true">✓</span>';
+  const message = docShareMessage(kind, share);
+  const linkTiles = ["whatsapp", "telegram", "email"].map(id => share.link
+    ? `<a class="share-channel share-channel-${id}" href="${escapeHtml(SHARE_CHANNELS[id].href(message))}"${id === "email" ? "" : ' target="_blank" rel="noopener"'}>${channelTile(id, SHARE_CHANNELS[id].labelKey ? t(SHARE_CHANNELS[id].labelKey) : SHARE_CHANNELS[id].label)}</a>`
+    : `<button type="button" class="share-channel share-channel-${id}" disabled>${channelTile(id, SHARE_CHANNELS[id].labelKey ? t(SHARE_CHANNELS[id].labelKey) : SHARE_CHANNELS[id].label)}</button>`).join("");
+  const more = `<button type="button" class="share-channel share-channel-more" data-doc-more ${share.file ? "" : "disabled"}>${channelTile("more", t("linkMore"))}</button>`;
+  panel.innerHTML = `<header class="doc-share-panel-head">
+      <div><h3 id="docShareHeading-${kind}">${escapeHtml(t(proposal ? "shareProforma" : "shareAgreement"))}</h3><p>${escapeHtml(t(proposal ? "sharePanelProposalHint" : "sharePanelAgreementHint"))}</p></div>
+      <button type="button" class="doc-share-close" data-doc-share-close aria-label="${escapeHtml(t("shareClose"))}"><svg class="ui-icon" aria-hidden="true"><use href="#icon-close"></use></svg></button>
+    </header>
+    <div class="doc-share-file${share.status === "failed" ? " is-failed" : ""}" aria-live="polite">
+      <span class="doc-share-file-icon" aria-hidden="true"><svg class="ui-icon"><use href="#icon-file-pdf"></use></svg><b>PDF</b></span>
+      <div><strong>${escapeHtml(share.filename || t(proposal ? "shareProforma" : "shareAgreement"))}</strong><small>${escapeHtml(t(statusKey))}</small></div>
+      ${statusIcon}
+    </div>
+    <span class="doc-share-label">${escapeHtml(t("shareSendWith"))}</span>
+    <div class="share-channels doc-share-channels">${linkTiles}${more}</div>
+    <div class="doc-share-list">
+      <button type="button" data-doc-copy-link ${share.link ? "" : "disabled"}><svg class="ui-icon" aria-hidden="true"><use href="#icon-link"></use></svg><span>${escapeHtml(t(proposal ? "shareCopyProposalLink" : "shareCopyAgreementLink"))}</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-copy"></use></svg></button>
+      <button type="button" data-doc-download ${share.pdf ? "" : "disabled"}><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg><span>${escapeHtml(t("shareDownload"))}</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-download"></use></svg></button>
+    </div>
+    <p class="doc-share-note">${escapeHtml(share.linkError || t("shareLinkNote"))}</p>`;
+  panel.setAttribute("aria-labelledby", `docShareHeading-${kind}`);
 }
+
+async function prepareDocShare(kind) {
+  const share = docShares[kind] = { signature:docShareSignature(kind), status:"building" };
+  renderDocSharePanel(kind);
+  exportingPdf = true;
+  try {
+    const { pdf, filename, title } = await buildPdf(kind);
+    Object.assign(share, { pdf, filename, title, file:new File([pdf.output("blob")], filename, { type:"application/pdf" }), status:"linking" });
+  } catch (error) {
+    console.error("PDF export failed", error);
+    share.status = "failed";
+  } finally {
+    exportingPdf = false;
+  }
+  if (docShares[kind] !== share) return;
+  renderDocSharePanel(kind);
+  if (share.status === "failed") return;
+  try {
+    const response = await fetch("/api/shares", { method:"POST", headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ kind, filename:share.filename, pdf:share.pdf.output("datauristring").split(",")[1] }) });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || t("shareStatusNoLink"));
+    share.link = result.url;
+  } catch (error) {
+    share.linkError = error.message;
+  }
+  share.status = "ready";
+  if (docShares[kind] === share) renderDocSharePanel(kind);
+}
+
+function toggleDocSharePanel(kind) {
+  if (openDocShare === kind) return closeDocSharePanel();
+  closeDocSharePanel();
+  if (exportingPdf || !(kind === "proforma" ? validateBeforeProforma() : validateBeforeAgreement())) return;
+  openDocShare = kind;
+  docSharePanel(kind).hidden = false;
+  document.querySelector(`[data-share-pdf="${kind}"]`).setAttribute("aria-expanded", "true");
+  const current = docShares[kind];
+  if (!current || current.signature !== docShareSignature(kind) || current.status === "failed") prepareDocShare(kind);
+  else renderDocSharePanel(kind);
+  requestAnimationFrame(() => docSharePanel(kind)?.querySelector("[data-doc-share-close]")?.focus());
+}
+
+function closeDocSharePanel() {
+  if (!openDocShare) return;
+  const kind = openDocShare;
+  openDocShare = null;
+  const panel = docSharePanel(kind);
+  if (panel) panel.hidden = true;
+  document.querySelector(`[data-share-pdf="${kind}"]`)?.setAttribute("aria-expanded", "false");
+}
+
+// Clicks inside an open share panel; returns true when handled.
+function handleDocShareClick(event) {
+  const kind = openDocShare;
+  if (!kind) return false;
+  const panel = docSharePanel(kind);
+  if (!panel.contains(event.target)) {
+    closeDocSharePanel();
+    // Its own Share button closes it rather than opening it again.
+    return Boolean(event.target.closest(`[data-share-pdf="${kind}"]`));
+  }
+  const share = docShares[kind] || {};
+  if (event.target.closest("[data-doc-share-close]")) { closeDocSharePanel(); return true; }
+  if (event.target.closest("[data-doc-retry]")) { prepareDocShare(kind); return true; }
+  if (event.target.closest("[data-doc-download]")) { share.pdf?.save(share.filename); showToast(t("pdfReady")); return true; }
+  if (event.target.closest("[data-doc-copy-link]")) {
+    navigator.clipboard.writeText(share.link).then(() => showToast(t("shareLinkCopied")), () => window.prompt(t("linkCopy"), share.link));
+    return true;
+  }
+  if (event.target.closest("[data-doc-more]")) {
+    const { text, url } = docShareMessage(kind, share);
+    // Phones get the PDF file itself; elsewhere the system share menu or the clipboard gets the link.
+    if (share.file && navigator.canShare?.({ files:[share.file] })) openShareSheet(share.file, share.title, text).catch(error => { console.error("Share failed", error); showToast(t("pdfFailed")); });
+    else if (navigator.share && url) navigator.share({ title:share.title, text, url }).catch(() => {});
+    else if (url) navigator.clipboard.writeText(`${text} ${url}`).then(() => showToast(t("shareMessageCopied")), () => window.prompt(t("linkCopy"), `${text} ${url}`));
+    else { share.pdf?.save(share.filename); showToast(t("pdfReady")); }
+    return true;
+  }
+  return true;
+}
+
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape" || !openDocShare) return;
+  const kind = openDocShare;
+  closeDocSharePanel();
+  document.querySelector(`[data-share-pdf="${kind}"]`)?.focus();
+});
 
 /* ── Blank documents ──────────────────────────────────────────────── */
 // Unfilled agreement and proposal on the letterhead, with write-in lines, in either language.
@@ -2941,6 +3061,8 @@ function bindWeddingSearch() {
 
 function bindEvents() {
   document.addEventListener("click", (event) => {
+    // The share panel works while its PDF is still being prepared.
+    if (handleDocShareClick(event)) return;
     if (exportingPdf) return;
     const download = event.target.closest("[data-download-pdf]");
     if (download) { downloadDocument(download.dataset.downloadPdf, download); return; }
@@ -3006,7 +3128,7 @@ function bindEvents() {
       return;
     }
     const share = event.target.closest("[data-share-pdf]");
-    if (share) { shareDocument(share.dataset.sharePdf, share); return; }
+    if (share) { toggleDocSharePanel(share.dataset.sharePdf); return; }
     const languageButton = event.target.closest("[data-language]");
     if (languageButton) {
       state.lang = languageButton.dataset.language === "am" ? "am" : "en";

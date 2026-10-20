@@ -1421,3 +1421,82 @@ html[lang="am"] .service-part-number { letter-spacing: 0.02em; }
 .link-dialog { max-height: calc(100dvh / var(--ui-zoom) - 32px); }
 .wp-dialog { max-height: calc(100dvh / var(--ui-zoom) - 48px); }
 .service-card.is-selected .service-options { display: grid; }
+
+/* ── Document share bar and panel (proposal and agreement) ─────────── */
+.doc-share-bar { position: sticky; bottom: 16px; z-index: 12; display: flex; align-items: center; gap: 18px; margin-top: 24px; padding: 14px 18px 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 18px 44px rgba(1, 1, 1, 0.12); }
+.doc-share-icon { display: grid; flex: 0 0 56px; place-items: center; width: 56px; height: 56px; border-radius: 12px; color: var(--ink); background: #f3f2ef; }
+.doc-share-icon .ui-icon { width: 26px; height: 26px; flex-basis: 26px; stroke-width: 1.5; }
+.doc-share-copy { display: grid; flex: 1 1 auto; gap: 3px; min-width: 0; }
+.doc-share-copy strong { font-family: var(--serif); font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
+.doc-share-copy small { color: var(--muted); font-size: 14px; }
+.doc-share-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 22px; }
+.doc-share-button { display: inline-flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 28px; border: 0; border-radius: 10px; color: #fff; background: var(--ink); font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 140ms ease; }
+.doc-share-button:hover, .doc-share-button[aria-expanded="true"] { background: #262626; }
+.doc-share-button .ui-icon { width: 22px; height: 22px; flex-basis: 22px; }
+.doc-share-divider { width: 1px; height: 36px; background: var(--line); }
+.doc-share-next { display: inline-flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 6px; border: 0; color: var(--ink); background: transparent; font: inherit; font-size: 16px; font-weight: 500; cursor: pointer; }
+.doc-share-next:hover span { text-decoration: underline; text-underline-offset: 4px; }
+.doc-share-next .ui-icon { width: 22px; height: 22px; flex-basis: 22px; }
+.doc-share-panel { position: absolute; right: 150px; bottom: calc(100% + 16px); z-index: 30; display: grid; gap: 16px; width: min(494px, calc(100vw - 32px)); padding: 26px 26px 22px; border: 1px solid #ebeae7; border-radius: 18px; background: #fff; box-shadow: 0 26px 70px rgba(1, 1, 1, 0.18); animation: search-dialog-in 140ms ease-out; }
+.doc-share-panel[hidden] { display: none; }
+/* Caret pointing at the Share button. */
+.doc-share-panel::after { content: ""; position: absolute; right: 64px; bottom: -9px; width: 16px; height: 16px; border-right: 1px solid #ebeae7; border-bottom: 1px solid #ebeae7; background: #fff; transform: rotate(45deg); }
+.doc-share-panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.doc-share-panel-head h3 { margin: 0 0 6px; font-family: var(--serif); font-size: 30px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; }
+.doc-share-panel-head p { margin: 0; color: var(--muted); font-size: 15px; }
+.doc-share-close { display: grid; flex: 0 0 auto; place-items: center; width: 38px; height: 38px; margin: -6px -8px 0 0; padding: 0; border: 0; border-radius: 10px; color: var(--ink); background: transparent; cursor: pointer; }
+.doc-share-close:hover { background: #f3f2ef; }
+.doc-share-close .ui-icon { width: 22px; height: 22px; flex-basis: 22px; stroke-width: 1.6; }
+.doc-share-file { display: flex; align-items: center; gap: 16px; padding: 14px 16px 14px 14px; border-radius: 12px; background: #f4f3f1; }
+.doc-share-file.is-failed { background: #fbeceb; }
+.doc-share-file-icon { position: relative; display: grid; flex: 0 0 52px; place-items: center; width: 52px; height: 52px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: #fff; }
+.doc-share-file-icon .ui-icon { width: 26px; height: 26px; flex-basis: 26px; stroke-width: 1.5; }
+.doc-share-file-icon b { position: absolute; right: 6px; bottom: 8px; padding: 1px 3px; border-radius: 3px; color: #fff; background: #d33a2f; font-size: 8px; letter-spacing: 0.02em; }
+.doc-share-file > div { display: grid; flex: 1 1 auto; gap: 3px; min-width: 0; }
+.doc-share-file strong { overflow: hidden; font-size: 16px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.doc-share-file small { color: var(--muted); font-size: 14px; }
+.doc-share-check { display: grid; flex: 0 0 28px; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: #fff; background: #1f8f4e; font-size: 15px; font-weight: 700; }
+.doc-share-spinner { flex: 0 0 24px; width: 24px; height: 24px; border: 3px solid #dcdcd9; border-top-color: var(--ink); border-radius: 50%; animation: auth-spin 800ms linear infinite; }
+.doc-share-retry { flex: 0 0 auto; padding: 8px 12px; border: 1px solid #d9b3ae; border-radius: 8px; color: #7d2d26; background: #fff; font: inherit; font-size: 13px; cursor: pointer; }
+.doc-share-label { margin-bottom: -6px; color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+html[lang="am"] .doc-share-label { letter-spacing: 0.02em; }
+.doc-share-channels { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.doc-share-channels .share-channel-icon { height: 96px; align-content: center; gap: 8px; }
+.doc-share-channels .share-channel { position: relative; }
+.doc-share-channels .share-channel-label { position: absolute; bottom: 14px; font-size: 14px; }
+.doc-share-channels .share-channel-icon svg { margin-top: -22px; }
+.doc-share-channels .share-channel:disabled { cursor: progress; opacity: 0.45; }
+.doc-share-list { display: grid; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.doc-share-list button { display: flex; align-items: center; gap: 16px; min-height: 56px; padding: 0 18px; border: 0; color: var(--ink); background: #fff; font: inherit; font-size: 16px; text-align: left; cursor: pointer; }
+.doc-share-list button + button { border-top: 1px solid var(--line); }
+.doc-share-list button:hover:not(:disabled) { background: #f8f8f6; }
+.doc-share-list button:disabled { cursor: progress; opacity: 0.5; }
+.doc-share-list button span { flex: 1 1 auto; }
+.doc-share-list .ui-icon { width: 22px; height: 22px; flex-basis: 22px; stroke-width: 1.6; }
+.doc-share-note { margin: -4px 0 0; color: var(--muted-2); font-size: 12px; }
+@media (max-width: 900px) {
+  .doc-share-panel { right: 0; }
+  .doc-share-panel::after { right: 120px; }
+}
+@media (max-width: 700px) {
+  .doc-share-bar { flex-wrap: wrap; gap: 12px 14px; padding: 14px; bottom: 10px; }
+  .doc-share-icon { flex-basis: 44px; width: 44px; height: 44px; }
+  .doc-share-copy { flex-basis: calc(100% - 58px); }
+  .doc-share-copy strong { font-size: 17px; }
+  .doc-share-copy small { font-size: 13px; }
+  .doc-share-actions { flex: 1 1 100%; gap: 10px; }
+  .doc-share-button { flex: 1 1 auto; justify-content: center; min-height: 48px; padding: 0 16px; }
+  .doc-share-divider { display: none; }
+  .doc-share-next { flex: 0 0 auto; font-size: 15px; }
+  /* The panel spans the screen just above the share bar (which stays pinned to the bottom). */
+  .doc-share-panel { position: absolute; right: 0; bottom: calc(100% + 10px); left: 0; width: auto; max-height: calc(100dvh - 200px); overflow-y: auto; padding: 20px 18px 18px; }
+  .doc-share-panel::after { display: none; }
+  .doc-share-panel-head h3 { font-size: 26px; }
+  .doc-share-channels { gap: 8px; }
+  .doc-share-channels .share-channel-icon { height: 80px; }
+  .doc-share-channels .share-channel-label { font-size: 12px; bottom: 10px; }
+}
+.doc-share-button, .doc-share-next { white-space: nowrap; }
+@media (max-width: 380px) {
+  .doc-share-next span { display: none; }
+}

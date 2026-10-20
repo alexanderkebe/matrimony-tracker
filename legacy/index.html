@@ -13,7 +13,7 @@
     <title>Matrimony By Hanna · Event Planner</title>
     <link rel="icon" type="image/png" href="./assets/matrimony-app-icon.png?v=3" />
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=3" />
-    <link rel="stylesheet" href="./styles.css?v=20261020-scale" />
+    <link rel="stylesheet" href="./styles.css?v=20261020-doc-share-2" />
     <link rel="stylesheet" href="./weddings.css?v=20261015" />
   </head>
   <body>
@@ -32,6 +32,7 @@
       <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" /></symbol>
       <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="8" y="4" width="11" height="14" rx="2" /><path d="M5 8v10a2 2 0 0 0 2 2h9" /></symbol>
       <symbol id="icon-inbox" viewBox="0 0 24 24"><path d="M3 13.5 5.4 6.6A2 2 0 0 1 7.3 5.3h9.4a2 2 0 0 1 1.9 1.3l2.4 6.9V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4.5Z" /><path d="M3 13.5h5l1.5 2.5h5l1.5-2.5h5" /></symbol>
+      <symbol id="icon-file-pdf" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" /><path d="M14 3v5h5M9 13h6M9 17h4" /></symbol>
       <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.7" /></symbol>
       <symbol id="icon-arrow-right" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" /></symbol>
       <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M20 12H5m6 6-6-6 6-6" /></symbol>
@@ -428,6 +429,16 @@
               </div>
             </div>
             <div id="agreementDocument" class="agreement-document"></div>
+            <div class="doc-share-bar no-print" data-doc-share="agreement">
+              <span class="doc-share-icon" aria-hidden="true"><svg class="ui-icon"><use href="#icon-file-pdf"></use></svg></span>
+              <div class="doc-share-copy"><strong data-i18n="shareReadyAgreement">Your agreement is ready</strong><small data-i18n="shareReadyAgreementHint">Share it with your couple to review and sign.</small></div>
+              <div class="doc-share-actions">
+                <button class="doc-share-button" type="button" data-share-pdf="agreement" aria-haspopup="dialog" aria-expanded="false"><svg class="ui-icon" aria-hidden="true"><use href="#icon-share"></use></svg><span data-i18n="shareAgreement">Share agreement</span></button>
+                <span class="doc-share-divider" aria-hidden="true"></span>
+                <button class="doc-share-next" type="button" id="agreementToPlan" data-step-target="5" data-continue-planning><span data-i18n="continuePlan">Continue to plan</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
+              </div>
+              <div class="doc-share-panel" role="dialog" aria-modal="false" hidden></div>
+            </div>
           </section>
           <section class="step-panel" id="step-proforma" data-step="3">
             <div class="agreement-toolbar no-print">
@@ -443,15 +454,15 @@
               </div>
             </div>
             <div id="proformaDocument" class="agreement-document"></div>
-            <div class="share-banner no-print">
-              <div class="share-banner-copy">
-                <svg class="ui-icon" aria-hidden="true"><use href="#icon-share"></use></svg>
-                <p data-i18n="shareHint">Send the PDF straight to the couple on WhatsApp, Telegram, Instagram or email.</p>
+            <div class="doc-share-bar no-print" data-doc-share="proforma">
+              <span class="doc-share-icon" aria-hidden="true"><svg class="ui-icon"><use href="#icon-file-pdf"></use></svg></span>
+              <div class="doc-share-copy"><strong data-i18n="shareReadyProposal">Your proposal is ready</strong><small data-i18n="shareReadyProposalHint">Share a PDF with your couple before the next step.</small></div>
+              <div class="doc-share-actions">
+                <button class="doc-share-button" type="button" data-share-pdf="proforma" aria-haspopup="dialog" aria-expanded="false"><svg class="ui-icon" aria-hidden="true"><use href="#icon-share"></use></svg><span data-i18n="shareProforma">Share proposal</span></button>
+                <span class="doc-share-divider" aria-hidden="true"></span>
+                <button class="doc-share-next" type="button" data-next-step="2"><span data-i18n="continueAgreement">Continue to agreement</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
               </div>
-              <div class="share-banner-actions">
-                <button class="button button-share" type="button" data-share-pdf="proforma"><svg class="ui-icon" aria-hidden="true"><use href="#icon-share"></use></svg><span data-i18n="shareProforma">Share proposal</span></button>
-                <button class="button button-primary" type="button" data-next-step="2"><span data-i18n="continueAgreement">Continue to agreement</span><svg class="ui-icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg></button>
-              </div>
+              <div class="doc-share-panel" role="dialog" aria-modal="false" hidden></div>
             </div>
           </section>
           <section class="step-panel portal-done" id="portalDone" data-step="7" aria-live="polite"></section>
@@ -602,8 +613,8 @@
     <div id="pickerPopover" class="picker-popover" role="dialog" hidden></div>
     <script src="./assets/vendor/html2canvas.min.js"></script>
     <script src="./assets/vendor/jspdf.umd.min.js"></script>
-    <script src="./app.js?v=20261020-scale"></script>
-    <script src="./pickers.js?v=20261020-scale"></script>
-    <script src="./weddings.js?v=20261020-scale"></script>
+    <script src="./app.js?v=20261020-doc-share-2"></script>
+    <script src="./pickers.js?v=20261020-doc-share-2"></script>
+    <script src="./weddings.js?v=20261020-doc-share-2"></script>
   </body>
 </html>

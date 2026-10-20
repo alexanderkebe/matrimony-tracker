@@ -80,6 +80,18 @@ const ACCOUNT_TABLES = [
 )`
 ];
 
+// Proposal and agreement PDFs shared by link (see lib/shares.ts).
+const SHARES_TABLE = `CREATE TABLE IF NOT EXISTS shared_documents (
+  id SERIAL PRIMARY KEY,
+  token_hash TEXT NOT NULL UNIQUE,
+  owner_user_id TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  filename TEXT NOT NULL,
+  pdf_base64 TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  expires_at TEXT NOT NULL
+)`;
+
 /* ── Neon Postgres ────────────────────────────────────────────────── */
 // Uses Neon's HTTP SQL endpoint, so serverless functions need no driver or pool.
 function neonDatabase(connectionString: string): Database {
@@ -99,7 +111,7 @@ function neonDatabase(connectionString: string): Database {
     return (await response.json()) as { rows?: Row[]; rowCount?: number };
   }
   let ready: Promise<unknown> | null = null;
-  const init = () => (ready ??= [RECORDS_TABLE, PORTAL_TABLE, ...OWNERSHIP, ...ACCOUNT_TABLES]
+  const init = () => (ready ??= [RECORDS_TABLE, PORTAL_TABLE, ...OWNERSHIP, ...ACCOUNT_TABLES, SHARES_TABLE]
     .reduce<Promise<unknown>>((previous, sql) => previous.then(() => run(sql)), Promise.resolve())
     .catch((error) => { ready = null; throw error; }));
   return {

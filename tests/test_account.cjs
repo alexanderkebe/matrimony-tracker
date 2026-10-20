@@ -38,7 +38,11 @@ async function create(role = 'admin', name = 'QA Planner') {
       const response = await context.request.post(`${base}/api/auth/signin`, {data:{email, password}, headers:{Origin:base}});
       if (!response.ok()) throw new Error(`Test sign-in failed: ${response.status()} ${await response.text()}`);
     },
-    remove: async () => { await sql("DELETE FROM records WHERE owner_user_id = ?", [`u${id}`]); await sql('DELETE FROM app_users WHERE id = ?', [id]); }
+    remove: async () => {
+      await sql("DELETE FROM records WHERE owner_user_id = ?", [`u${id}`]);
+      await sql("DELETE FROM shared_documents WHERE owner_user_id = ?", [`u${id}`]).catch(() => {});
+      await sql('DELETE FROM app_users WHERE id = ?', [id]);
+    }
   };
 }
 
@@ -48,6 +52,7 @@ async function removeTestAccounts() {
   if (owners.length) {
     await sql('DELETE FROM records WHERE owner_user_id = ANY(?)', [owners]);
     await sql('DELETE FROM portal_requests WHERE owner_user_id = ANY(?)', [owners]);
+    await sql('DELETE FROM shared_documents WHERE owner_user_id = ANY(?)', [owners]).catch(() => {});
     // Only weddings whose members are all test accounts; a real wedding is never touched.
     const weddings = (await sql(`SELECT DISTINCT m.wedding_id FROM wp_members m WHERE m.user_id = ANY(?)
       AND NOT EXISTS (SELECT 1 FROM wp_members other WHERE other.wedding_id = m.wedding_id AND NOT (other.user_id = ANY(?)))`, [owners, owners])).map(row => row.wedding_id);
